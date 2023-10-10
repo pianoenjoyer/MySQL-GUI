@@ -797,7 +797,8 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     {
         dropdown->GetLBText(selectedIndex, databaseName);
     }
-    this->SetWindowTextW(databaseName);
+    m_titleDatabaseName = databaseName;
+    this->SetWindowTextW(m_titleDatabaseName);
 
     sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
     if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
