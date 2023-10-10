@@ -332,7 +332,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
 
     // sql::SQLString query(CW2A(sqlText.GetString())); //old method 
     sql::SQLString query = CStringToSQLString(sqlText);
-    
+
     sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
     if (resultSet)
     {
@@ -342,7 +342,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
         SendMessageToConsole(errorString, RED);
     }
     FillListControl(resultSet);
-    //SendMessageToConsole();
+    delete resultSet;
 }
 
 CString BinaryDataToHexString(const CString& binaryData) {
@@ -477,7 +477,6 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         }
         populatedRows++;
     }
-
     SaveOriginalListState();
 
     return 0;
