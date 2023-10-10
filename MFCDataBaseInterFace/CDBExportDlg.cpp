@@ -1,16 +1,16 @@
-// CDBExport.cpp : implementation file
+// CDBExportDlg.cpp : implementation file
 //
 
 #include "pch.h"
-#include "MFCDataBaseInterFace.h"
+#include "CDBInterfaceApp.h"
 #include "afxdialogex.h"
-#include "CDBExport.h"
+#include "CDBExportDlg.h"
 #include <fstream>
 #include <atlstr.h>
 
-// CDBExport dialog
+// CDBExportDlg dialog
 
-IMPLEMENT_DYNAMIC(CDBExport, CDialogEx)
+IMPLEMENT_DYNAMIC(CDBExportDlg, CDialogEx)
 
 CString strCSVdescription("A simple file format for storing tabular data such as\r\n"
     "a spreadsheet or database. CSV files use a comma to\r\n"
@@ -35,34 +35,34 @@ CString strTextdescription("A plain text file contains only readable content wit
 
 
 
-CDBExport::CDBExport(CWnd* pParent /*=nullptr*/)
+CDBExportDlg::CDBExportDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_EXPORT, pParent)
 {
 
 }
 
-CDBExport::~CDBExport()
+CDBExportDlg::~CDBExportDlg()
 {
 }
 
-void CDBExport::DoDataExchange(CDataExchange* pDX)
+void CDBExportDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CDBExport, CDialogEx)
-    ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBExport::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_RAD_CSV, &CDBExport::OnBnClickedRadCsv)
-    ON_BN_CLICKED(IDC_RAD_XML, &CDBExport::OnBnClickedRadXml)
-    ON_BN_CLICKED(IDC_RAD_TSV, &CDBExport::OnBnClickedRadTsv)
-    ON_BN_CLICKED(IDC_RAD_TEXT, &CDBExport::OnBnClickedRadText)
-    ON_BN_CLICKED(IDC_RAD_HTML, &CDBExport::OnBnClickedRadHtml)
+BEGIN_MESSAGE_MAP(CDBExportDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBExportDlg::OnBnClickedBtnBrowse)
+    ON_BN_CLICKED(IDC_RAD_CSV, &CDBExportDlg::OnBnClickedRadCsv)
+    ON_BN_CLICKED(IDC_RAD_XML, &CDBExportDlg::OnBnClickedRadXml)
+    ON_BN_CLICKED(IDC_RAD_TSV, &CDBExportDlg::OnBnClickedRadTsv)
+    ON_BN_CLICKED(IDC_RAD_TEXT, &CDBExportDlg::OnBnClickedRadText)
+    ON_BN_CLICKED(IDC_RAD_HTML, &CDBExportDlg::OnBnClickedRadHtml)
 END_MESSAGE_MAP()
 
 
-// CDBExport message handlers
-BOOL CDBExport::OnInitDialog()
+// CDBExportDlg message handlers
+BOOL CDBExportDlg::OnInitDialog()
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -337,7 +337,7 @@ bool ExportListCtrlToTSV(CListCtrl& listCtrl, const CString& filePath) {
 }
 
 
-void CDBExport::OnBnClickedBtnBrowse()
+void CDBExportDlg::OnBnClickedBtnBrowse()
 {
     typedef bool (*ExportFunc)(CListCtrl&, const CString&);
 
@@ -406,31 +406,31 @@ void CDBExport::OnBnClickedBtnBrowse()
 
 
 
-void CDBExport::OnBnClickedRadCsv()
+void CDBExportDlg::OnBnClickedRadCsv()
 {
     GetDlgItem(IDC_EDIT_DESCRIPTION)->SetWindowTextW(strCSVdescription);
 }
 
 
-void CDBExport::OnBnClickedRadXml()
+void CDBExportDlg::OnBnClickedRadXml()
 {
     GetDlgItem(IDC_EDIT_DESCRIPTION)->SetWindowTextW(strXMLdescription);
 }
 
 
-void CDBExport::OnBnClickedRadTsv()
+void CDBExportDlg::OnBnClickedRadTsv()
 {
     GetDlgItem(IDC_EDIT_DESCRIPTION)->SetWindowTextW(strTSVdescription);
 }
 
 
-void CDBExport::OnBnClickedRadText()
+void CDBExportDlg::OnBnClickedRadText()
 {
     GetDlgItem(IDC_EDIT_DESCRIPTION)->SetWindowTextW(strTextdescription);
 }
 
 
-void CDBExport::OnBnClickedRadHtml()
+void CDBExportDlg::OnBnClickedRadHtml()
 {
     GetDlgItem(IDC_EDIT_DESCRIPTION)->SetWindowTextW(strHTMLdescription);
 }

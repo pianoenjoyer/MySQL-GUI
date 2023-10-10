@@ -1,10 +1,10 @@
 ﻿#include <fstream>
 #include "pch.h"
-#include "MFCDataBaseInterFace.h"
+#include "CDBInterfaceApp.h"
 #include "afxdialogex.h"
-#include "CDBMain.h"
+#include "CDBMainDlg.h"
 #include "framework.h"
-#include "MFCDataBaseInterFaceDlg.h"
+#include "CDBAuthDlg.h"
 #include <locale>
 #include <codecvt>
 #include <fstream>
@@ -25,22 +25,22 @@ CString MSG_EXPORT_OK("Export completed");
 CString MSG_EXPORT_ERR("Export error");
 CString MSG_EXPORT_CANCEL("Export canceled");
 
-// CDBMain dialog
+// CDBMainDlg dialog
 
-IMPLEMENT_DYNAMIC(CDBMain, CDialogEx)
+IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
-CDBMain::CDBMain(CWnd* pParent /*=nullptr*/)
+CDBMainDlg::CDBMainDlg(CWnd* pParent /*=nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CDBMain::~CDBMain() 
+CDBMainDlg::~CDBMainDlg() 
 {
 
 }
 
-//void CDBMain::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) {
+//void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) {
 //    sql::ResultSet* resultSet;
 //
 //    try {
@@ -71,7 +71,7 @@ CDBMain::~CDBMain()
 //    }
 //}
 
-void CDBMain::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) { 
+void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) { 
     if (treeCtrl.GetRootItem()) 
     {
         treeCtrl.DeleteAllItems();
@@ -138,13 +138,13 @@ void CDBMain::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) {
 }
 
 
-void CDBMain::DoDataExchange(CDataExchange* pDX)
+void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
  
 }
 
-BOOL CDBMain::OnInitDialog()
+BOOL CDBMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
     //set icon
@@ -188,28 +188,28 @@ BOOL CDBMain::OnInitDialog()
 
 
 
-BEGIN_MESSAGE_MAP(CDBMain, CDialogEx)
-    ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMain::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_BTN_GO, &CDBMain::OnBnClickedBtnGo)
-    ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMain::OnEnChangeEditQtext)
-    ON_BN_CLICKED(IDC_BTN_CLEAR, &CDBMain::OnBnClickedBtnClear)
-    ON_BN_CLICKED(IDC_BTN_DISCONNECT, &CDBMain::OnBnClickedBtnDisconnect)
-    ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMain::OnBnClickedBtnPrinttable)
-    ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMain::OnBnClickedBtnClroutput)
-    ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMain::OnBnClickedBtnUndo)
-    ON_BN_CLICKED(IDC_BTN_DELETETABLE, &CDBMain::OnBnClickedBtnDeletetable)
-    ON_BN_CLICKED(IDC_EXPORT, &CDBMain::OnBnClickedExport)
-    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CDBMain::OnBnClickedBtnCollapse)
-    ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMain::OnBnClickedBtnExpand)
-    ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMain::OnBnClickedBtnUpdate)
-    ON_EN_CHANGE(IDC_LIST_SEARCH, &CDBMain::OnEnChangeListSearch)
-    ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CDBMain::OnBnClickedBtnClearmsg)
+BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
+    ON_BN_CLICKED(IDC_BTN_GO, &CDBMainDlg::OnBnClickedBtnGo)
+    ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMainDlg::OnEnChangeEditQtext)
+    ON_BN_CLICKED(IDC_BTN_CLEAR, &CDBMainDlg::OnBnClickedBtnClear)
+    ON_BN_CLICKED(IDC_BTN_DISCONNECT, &CDBMainDlg::OnBnClickedBtnDisconnect)
+    ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
+    ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMainDlg::OnBnClickedBtnClroutput)
+    ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
+    ON_BN_CLICKED(IDC_BTN_DELETETABLE, &CDBMainDlg::OnBnClickedBtnDeletetable)
+    ON_BN_CLICKED(IDC_EXPORT, &CDBMainDlg::OnBnClickedExport)
+    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CDBMainDlg::OnBnClickedBtnCollapse)
+    ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMainDlg::OnBnClickedBtnExpand)
+    ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMainDlg::OnBnClickedBtnUpdate)
+    ON_EN_CHANGE(IDC_LIST_SEARCH, &CDBMainDlg::OnEnChangeListSearch)
+    ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CDBMainDlg::OnBnClickedBtnClearmsg)
 
-    ON_COMMAND(ID_MENU_OPEN, &CDBMain::OnMenuOpen)
+    ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
 END_MESSAGE_MAP()
 
 //open .sql file
-void CDBMain::OnBnClickedBtnBrowse()
+void CDBMainDlg::OnBnClickedBtnBrowse()
 {
     CFileDialog fileOpenDialog(TRUE,
         L"SQL files|sql",  // Добавляем поддержку .sql файлов
@@ -230,7 +230,7 @@ void CDBMain::OnBnClickedBtnBrowse()
 }
 
 
-CString CDBMain::ReadFileContent()
+CString CDBMainDlg::ReadFileContent()
 {
     CString fileContent;
     try
@@ -289,7 +289,7 @@ sql::SQLString CStringToSQLString(const CString& cstr)
 }
 
 
-void CDBMain::OnBnClickedBtnGo()
+void CDBMainDlg::OnBnClickedBtnGo()
 {
     CString sqlText;
     CString resultString;
@@ -321,7 +321,7 @@ CString BinaryDataToHexString(const CString& binaryData) {
 }
 
 
-//int CDBMain::FillListControl(sql::ResultSet* resultSet)
+//int CDBMainDlg::FillListControl(sql::ResultSet* resultSet)
 //{
 //    //get limit from drop down
 //    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
@@ -383,7 +383,7 @@ CString BinaryDataToHexString(const CString& binaryData) {
 //    return 0;
 //}
 
-int CDBMain::FillListControl(sql::ResultSet* resultSet) {
+int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     // Получение лимита из выпадающего списка
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
     int selectedIndex = dropdown->GetCurSel();
@@ -449,7 +449,7 @@ int CDBMain::FillListControl(sql::ResultSet* resultSet) {
 }
 
 //save changes to vector to redo and undo in future
-void CDBMain::OnEnChangeEditQtext()
+void CDBMainDlg::OnEnChangeEditQtext()
 {
     CString currentText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(currentText);
@@ -457,7 +457,7 @@ void CDBMain::OnEnChangeEditQtext()
 }
 
 
-void CDBMain::OnBnClickedBtnClear()
+void CDBMainDlg::OnBnClickedBtnClear()
 {
     CString emptyString = L"";
     GetDlgItem(IDC_EDT_FILENAME)->SetWindowTextW(emptyString);
@@ -466,13 +466,13 @@ void CDBMain::OnBnClickedBtnClear()
 }
 
 
-void CDBMain::OnBnClickedBtnDisconnect()
+void CDBMainDlg::OnBnClickedBtnDisconnect()
 {
     this->EndDialog(IDOK);
     db->Disconnect();
 }
 
-void CDBMain::OnBnClickedBtnPrinttable()
+void CDBMainDlg::OnBnClickedBtnPrinttable()
 {
     CString tableName;
     CString resultString;
@@ -519,7 +519,7 @@ void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF col
     ctrl.SetSel(saveCharRange);
 }
 
-void CDBMain::SendMessageToConsole(CString msg, COLORREF color)
+void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
 {
     CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
     CTime currentTime = CTime::GetCurrentTime();
@@ -535,7 +535,7 @@ void CDBMain::SendMessageToConsole(CString msg, COLORREF color)
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 
-void CDBMain::PopulateDropdown(const std::vector<std::string>& values)
+void CDBMainDlg::PopulateDropdown(const std::vector<std::string>& values)
 {
     CComboBox* pComboBox = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
     for (const std::string& value : values)
@@ -545,7 +545,7 @@ void CDBMain::PopulateDropdown(const std::vector<std::string>& values)
     }
 }
 
-void CDBMain::OnBnClickedBtnClroutput()
+void CDBMainDlg::OnBnClickedBtnClroutput()
 {
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     // Clear existing items from the list control
@@ -555,13 +555,13 @@ void CDBMain::OnBnClickedBtnClroutput()
 }
 
 
-void CDBMain::OnBnClickedBtnUndo()
+void CDBMainDlg::OnBnClickedBtnUndo()
 {
 
 }
 
 
-void CDBMain::OnBnClickedBtnDeletetable()
+void CDBMainDlg::OnBnClickedBtnDeletetable()
 {
     int nResult = ::MessageBox(this->m_hWnd, L"Are you sure you want to delete table?", 
         L"Delete table?", MB_YESNO);
@@ -576,7 +576,7 @@ void CDBMain::OnBnClickedBtnDeletetable()
     }
 }
 
-void CDBMain::OnBnClickedExport()
+void CDBMainDlg::OnBnClickedExport()
 {
     SendMessageToConsole(MSG_EXPORT_START, BLACK);
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
@@ -611,21 +611,21 @@ void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode) {
 }
 
 
-void CDBMain::OnBnClickedBtnCollapse()
+void CDBMainDlg::OnBnClickedBtnCollapse()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     ExpandAllItems(pTree, TVI_ROOT, TVE_COLLAPSE);
 }
 
 
-void CDBMain::OnBnClickedBtnExpand()
+void CDBMainDlg::OnBnClickedBtnExpand()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
 }
 
 
-void CDBMain::OnBnClickedBtnUpdate()
+void CDBMainDlg::OnBnClickedBtnUpdate()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
@@ -633,7 +633,7 @@ void CDBMain::OnBnClickedBtnUpdate()
 }
 
 
-//void CDBMain::OnEnChangeListSearch()
+//void CDBMainDlg::OnEnChangeListSearch()
 //{
 //    // Retrieve the text from the edit control
 //    CString searchText;
@@ -665,7 +665,7 @@ void CDBMain::OnBnClickedBtnUpdate()
 //    }
 //}
 
-void CDBMain::OnEnChangeListSearch()
+void CDBMainDlg::OnEnChangeListSearch()
 {
     // Retrieve the text from the edit control
     CString searchText;
@@ -707,7 +707,7 @@ void CDBMain::OnEnChangeListSearch()
     }
 }
 
-void CDBMain::SaveOriginalListState()
+void CDBMainDlg::SaveOriginalListState()
 {
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
 
@@ -730,7 +730,7 @@ void CDBMain::SaveOriginalListState()
 }
 
 
-void CDBMain::OnBnClickedBtnClearmsg()
+void CDBMainDlg::OnBnClickedBtnClearmsg()
 {
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
     if (pRichEdit)
@@ -742,7 +742,7 @@ void CDBMain::OnBnClickedBtnClearmsg()
 
 
 
-void CDBMain::OnMenuOpen()
+void CDBMainDlg::OnMenuOpen()
 {
     OnBnClickedBtnBrowse();
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include "afxdialogex.h"
 #include "CDBConnection.h"
-#include "CDBExport.h"
-// CDBMain dialog
+#include "CDBExportDlg.h"
+// CDBMainDlg dialog
 
-class CDBMain : public CDialogEx
+class CDBMainDlg : public CDialogEx
 {
 
 	struct ListItem {
@@ -12,7 +12,7 @@ class CDBMain : public CDialogEx
 		std::vector<CString> subItems;
 	};
 
-	DECLARE_DYNAMIC(CDBMain)
+	DECLARE_DYNAMIC(CDBMainDlg)
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MAIN };
@@ -24,7 +24,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	std::vector<ListItem> m_AllItems;
-	CDBExport exportWindow;
+	CDBExportDlg exportWindow;
 	HICON m_hIcon;
 	std::vector<CString> history;
 	std::shared_ptr<CDBConnection> db;
@@ -33,16 +33,16 @@ public:
 	CString m_SQLtextQuery;
 	CString m_titleDatabaseName;
 
-	CDBMain(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CDBMain();
+	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
-	void CDBMain::fillEditText();
-	void CDBMain::SaveOriginalListState();
-	void CDBMain::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
-	int CDBMain::FillListControl(sql::ResultSet* resultSet);
-	void CDBMain::PopulateDropdown(const std::vector<std::string>& values);
+	void CDBMainDlg::fillEditText();
+	void CDBMainDlg::SaveOriginalListState();
+	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
+	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet);
+	void CDBMainDlg::PopulateDropdown(const std::vector<std::string>& values);
 	CString ReadFileContent();
-	void CDBMain::SendMessageToConsole(CString msg, COLORREF color);
+	void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color);
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnBnClickedBtnGo();
 	afx_msg void OnEnChangeEditQtext();

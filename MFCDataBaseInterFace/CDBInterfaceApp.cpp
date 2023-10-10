@@ -4,24 +4,23 @@
 
 #include "pch.h"
 #include "framework.h"
-#include "MFCDataBaseInterFace.h"
-#include "MFCDataBaseInterFaceDlg.h"
+#include "CDBInterfaceApp.h"
+#include "CDBAuthDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+// CDBInterfaceApp
 
-// CMFCDataBaseInterFaceApp
-
-BEGIN_MESSAGE_MAP(CMFCDataBaseInterFaceApp, CWinApp)
+BEGIN_MESSAGE_MAP(CDBInterfaceApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CMFCDataBaseInterFaceApp construction
+// CDBInterfaceApp construction
 
-CMFCDataBaseInterFaceApp::CMFCDataBaseInterFaceApp()
+CDBInterfaceApp::CDBInterfaceApp()
 {
 	// support Restart Manager
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
@@ -31,14 +30,14 @@ CMFCDataBaseInterFaceApp::CMFCDataBaseInterFaceApp()
 }
 
 
-// The one and only CMFCDataBaseInterFaceApp object
+// The one and only CDBInterfaceApp object
 
-CMFCDataBaseInterFaceApp theApp;
+CDBInterfaceApp theApp;
 
 
-// CMFCDataBaseInterFaceApp initialization
+// CDBInterfaceApp initialization
 
-BOOL CMFCDataBaseInterFaceApp::InitInstance()
+BOOL CDBInterfaceApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -71,7 +70,7 @@ BOOL CMFCDataBaseInterFaceApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
-	CMFCDataBaseInterFaceDlg dlg;
+	CDBAuthDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)

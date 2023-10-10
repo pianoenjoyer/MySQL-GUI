@@ -1,5 +1,5 @@
 
-// MFCDataBaseInterFace.h : main header file for the PROJECT_NAME application
+// CDBInterfaceApp : main header file for the PROJECT_NAME application
 //
 
 #pragma once
@@ -11,14 +11,14 @@
 #include "resource.h"		// main symbols
 
 
-// CMFCDataBaseInterFaceApp:
+// CDBInterfaceApp:
 // See MFCDataBaseInterFace.cpp for the implementation of this class
 //
 
-class CMFCDataBaseInterFaceApp : public CWinApp
+class CDBInterfaceApp : public CWinApp
 {
 public:
-	CMFCDataBaseInterFaceApp();
+	CDBInterfaceApp();
 
 // Overrides
 public:
@@ -29,4 +29,4 @@ public:
 	DECLARE_MESSAGE_MAP()
 };
 
-extern CMFCDataBaseInterFaceApp theApp;
+extern CDBInterfaceApp theApp;

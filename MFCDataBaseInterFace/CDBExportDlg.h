@@ -2,16 +2,16 @@
 #include "afxdialogex.h"
 
 
-// CDBExport dialog
+// CDBExportDlg dialog
 
-class CDBExport : public CDialogEx
+class CDBExportDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CDBExport)
+	DECLARE_DYNAMIC(CDBExportDlg)
 
 public:
 	virtual BOOL OnInitDialog();
-	CDBExport(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CDBExport();
+	CDBExportDlg(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~CDBExportDlg();
 	HICON m_hIcon;
 	CListCtrl* m_pList;
 // Dialog Data

@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "jdbc.h"
 #include "vector"
-// change
+
 class CDBConnection
 {
 

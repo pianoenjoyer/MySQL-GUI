@@ -1,21 +1,21 @@
 
 #pragma once
 #include "CDBConnection.h"
-#include "CDBMain.h"
+#include "CDBMainDlg.h"
 #include <memory>
-// CMFCDataBaseInterFaceDlg dialog
-class CMFCDataBaseInterFaceDlg : public CDialogEx
+// CDBAuthDlg dialog
+class CDBAuthDlg : public CDialogEx
 {
 // Construction
 public:
-	CMFCDataBaseInterFaceDlg(CWnd* pParent = nullptr);	// standard constructor
+	CDBAuthDlg(CWnd* pParent = nullptr);	// standard constructor
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MFCDATABASEINTERFACE_DIALOG };
 #endif
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-
+	void CDBAuthDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 
 // Implementation
 protected:
@@ -29,7 +29,7 @@ public:
 	CWinThread* m_workerThread;
 	afx_msg void OnBnClickedBtnConnect();
 	std::shared_ptr<CDBConnection> db;
-	CDBMain mainWindow;
+	CDBMainDlg mainWindow;
 	CEdit m_editServerName;
 	CString m_serverPassword;
 

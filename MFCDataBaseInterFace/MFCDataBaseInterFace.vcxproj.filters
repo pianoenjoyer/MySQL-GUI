@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MFCDataBaseInterFace.h">
+    <ClInclude Include="CDBInterfaceApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MFCDataBaseInterFaceDlg.h">
+    <ClInclude Include="CDBAuthDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -36,7 +36,7 @@
     <ClInclude Include="CDBConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDBMain.h">
+    <ClInclude Include="CDBMainDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CLoginDataSave.h">
@@ -45,15 +45,15 @@
     <ClInclude Include="CTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDBExport.h">
+    <ClInclude Include="CDBExportDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MFCDataBaseInterFace.cpp">
+    <ClCompile Include="CDBInterfaceApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MFCDataBaseInterFaceDlg.cpp">
+    <ClCompile Include="CDBAuthDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -62,7 +62,7 @@
     <ClCompile Include="CDBConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CDBMain.cpp">
+    <ClCompile Include="CDBMainDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLoginDataSave.cpp">
@@ -71,7 +71,7 @@
     <ClCompile Include="CTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CDBExport.cpp">
+    <ClCompile Include="CDBExportDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

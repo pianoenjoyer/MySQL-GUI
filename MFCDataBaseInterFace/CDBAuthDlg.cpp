@@ -1,41 +1,51 @@
 #include "pch.h"
 #include "framework.h"
-#include "MFCDataBaseInterFace.h"
-#include "MFCDataBaseInterFaceDlg.h"
+#include "CDBInterfaceApp.h"
+#include "CDBAuthDlg.h"
 #include "CLoginDataSave.h"
 #include "afxdialogex.h"
 #include "CDBConnection.h"
-#include "CDBMain.h"
+#include "CDBMainDlg.h"
 #include <atlimage.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+void CDBAuthDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+	// Set the minimum window width and height
+
+	lpMMI->ptMinTrackSize.x = 10000;
+	lpMMI->ptMinTrackSize.y = 10000;
+	CDialog::OnGetMinMaxInfo(lpMMI);
+}
+
 //main dlg construct
-CMFCDataBaseInterFaceDlg::CMFCDataBaseInterFaceDlg(CWnd* pParent /*=nullptr*/)
+CDBAuthDlg::CDBAuthDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCDATABASEINTERFACE_DIALOG, pParent), db(std::make_shared<CDBConnection>())
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_serverPassword = _T(""); // Initialize the server password
 }
 
-void CMFCDataBaseInterFaceDlg::DoDataExchange(CDataExchange* pDX)
+void CDBAuthDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SERVER_NAME, m_editServerName);
 	DDX_Text(pDX, IDC_PASSWORD, m_serverPassword);
 }
 
-BEGIN_MESSAGE_MAP(CMFCDataBaseInterFaceDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CDBAuthDlg, CDialogEx)
+	ON_WM_GETMINMAXINFO()
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BTN_CONNECT, &CMFCDataBaseInterFaceDlg::OnBnClickedBtnConnect)
-	ON_BN_CLICKED(IDC_BTN_EXIT, &CMFCDataBaseInterFaceDlg::OnBnClickedBtnExit)
-	ON_BN_CLICKED(IDC_BTN_SHOW_PASSWORD, &CMFCDataBaseInterFaceDlg::OnBnClickedBtnShowPassword)
+	ON_BN_CLICKED(IDC_BTN_CONNECT, &CDBAuthDlg::OnBnClickedBtnConnect)
+	ON_BN_CLICKED(IDC_BTN_EXIT, &CDBAuthDlg::OnBnClickedBtnExit)
+	ON_BN_CLICKED(IDC_BTN_SHOW_PASSWORD, &CDBAuthDlg::OnBnClickedBtnShowPassword)
 END_MESSAGE_MAP()
 //ON INIT----------------------------------------------!!!
-BOOL CMFCDataBaseInterFaceDlg::OnInitDialog()
+BOOL CDBAuthDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	AfxInitRichEdit2();
@@ -76,12 +86,12 @@ BOOL CMFCDataBaseInterFaceDlg::OnInitDialog()
 	return TRUE;
 }
 
-void CMFCDataBaseInterFaceDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CDBAuthDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	CDialogEx::OnSysCommand(nID, lParam);
 }
 
-void CMFCDataBaseInterFaceDlg::OnPaint()
+void CDBAuthDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -106,12 +116,12 @@ void CMFCDataBaseInterFaceDlg::OnPaint()
 	}
 }
 
-HCURSOR CMFCDataBaseInterFaceDlg::OnQueryDragIcon()
+HCURSOR CDBAuthDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-void CMFCDataBaseInterFaceDlg::OnBnClickedBtnConnect()
+void CDBAuthDlg::OnBnClickedBtnConnect()
 {
 	CString server, user, password, database;
 	INT_PTR status = 0;
@@ -158,7 +168,7 @@ CString GetAppCurrentDirectory()
 	return CString(buffer);
 }
 
-void CMFCDataBaseInterFaceDlg::OnBnClickedBtnExit()
+void CDBAuthDlg::OnBnClickedBtnExit()
 {
 	CString cwd = GetAppCurrentDirectory();
 	AfxMessageBox(cwd);
@@ -167,7 +177,7 @@ void CMFCDataBaseInterFaceDlg::OnBnClickedBtnExit()
 
 
 //hide or show password button
-void CMFCDataBaseInterFaceDlg::OnBnClickedBtnShowPassword()
+void CDBAuthDlg::OnBnClickedBtnShowPassword()
 {	
 	CEdit* pEdit = (CEdit*)GetDlgItem(IDC_PASSWORD);
 	DWORD dwStyle = pEdit->GetStyle();
