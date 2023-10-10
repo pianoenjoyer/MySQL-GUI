@@ -61,4 +61,5 @@ public:
 	afx_msg void OnBnClickedBtnClearmsg();
 
 	afx_msg void OnMenuOpen();
+	afx_msg void OnConnectionDisconnect();
 };

@@ -16,7 +16,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	void CDBAuthDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI);
-
+	BOOL CDBAuthDlg::PreTranslateMessage(MSG* pMsg);
 // Implementation
 protected:
 	HICON m_hIcon;

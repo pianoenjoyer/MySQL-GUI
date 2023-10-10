@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "framework.h"
 #include "CDBInterfaceApp.h"
 #include "CDBAuthDlg.h"
@@ -11,14 +11,24 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-void CDBAuthDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
-{
-	// Set the minimum window width and height
 
-	lpMMI->ptMinTrackSize.x = 10000;
-	lpMMI->ptMinTrackSize.y = 10000;
-	CDialog::OnGetMinMaxInfo(lpMMI);
+//set key enter to connect button
+BOOL CDBAuthDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+	{
+		CWnd* pWnd = GetDlgItem(IDOK); // set your btn id
+		if (pWnd && pWnd->IsWindowEnabled())
+		{
+			pWnd->SetFocus();
+			pWnd->SendMessage(WM_LBUTTONDOWN);
+			pWnd->SendMessage(WM_LBUTTONUP);
+			return TRUE;
+		}
+	}
+	return CDialog::PreTranslateMessage(pMsg);
 }
+
 
 //main dlg construct
 CDBAuthDlg::CDBAuthDlg(CWnd* pParent /*=nullptr*/)
@@ -36,7 +46,6 @@ void CDBAuthDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDBAuthDlg, CDialogEx)
-	ON_WM_GETMINMAXINFO()
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()

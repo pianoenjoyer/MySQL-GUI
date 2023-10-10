@@ -206,6 +206,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CDBMainDlg::OnBnClickedBtnClearmsg)
 
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
+    ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -745,4 +746,11 @@ void CDBMainDlg::OnBnClickedBtnClearmsg()
 void CDBMainDlg::OnMenuOpen()
 {
     OnBnClickedBtnBrowse();
+}
+
+
+void CDBMainDlg::OnConnectionDisconnect()
+{
+    db->Disconnect();
+    this->EndDialog(IDOK);
 }
