@@ -36,15 +36,19 @@ public:
 	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
+	bool CDBMainDlg::FillTreeControl();
 	void CDBMainDlg::fillEditText();
 	void CDBMainDlg::SaveOriginalListState();
 	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
 	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet);
-	void CDBMainDlg::PopulateDropdown(const std::vector<std::string>& values);
+	void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
 	void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color);
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnBnClickedBtnGo();
+	bool CDBMainDlg::FillTableDropdown();
+	bool CDBMainDlg::FillLimitDropdown();
+	bool CDBMainDlg::FillDatabaseDropdown();
 	afx_msg void OnEnChangeEditQtext();
 	afx_msg void OnBnClickedBtnClear();
 	afx_msg void OnBnClickedBtnDisconnect();
@@ -62,4 +66,5 @@ public:
 
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();
+	afx_msg void OnCbnSelchangeCmbSelDb();
 };

@@ -70,22 +70,17 @@ BOOL CDBAuthDlg::OnInitDialog()
 		HBITMAP hBmp = image.Detach();
 		pPicCtrl->SetBitmap(hBmp);
 	}
-	if (SUCCEEDED(image.Load(L".\\mysql_logo.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
-	{
-		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_LOGO2);
-		HBITMAP hBmp = image.Detach();
-		pPicCtrl->SetBitmap(hBmp);
-	}
+
 	//default test data
 	m_cServer = "127.0.0.1:3306";
 	m_cUser = "root";
 	m_cPassword = "";
-	m_cDatabase = "safelighting";
+	//m_cDatabase = "safelighting";
 		
 	CLoginDataSave DataSaver(L"config.txt");
 	DataSaver.SaveLoginInfo(m_cUser, m_cPassword);
 	GetDlgItem(IDC_SERVER_NAME)->SetWindowTextW(m_cServer);
-	GetDlgItem(IDC_DATABASE_NAME)->SetWindowTextW(m_cDatabase);
+	//GetDlgItem(IDC_DATABASE_NAME)->SetWindowTextW(m_cDatabase);
 	GetDlgItem(IDC_USER_NAME2)->SetWindowTextW(m_cUser);
 	GetDlgItem(IDC_PASSWORD)->SetWindowTextW(m_cPassword);
 
@@ -144,7 +139,7 @@ void CDBAuthDlg::OnBnClickedBtnConnect()
 	sql::SQLString sqlPassword(CW2A(password.GetString()));
 	sql::SQLString sqlDatabase(CW2A(database.GetString()));
 
-		if (db->Connect(sqlServer, sqlUser, sqlPassword, sqlDatabase))
+		if (db->Connect(sqlServer, sqlUser, sqlPassword))
 		{
 			mainWindow.db = this->db;
 			this->ShowWindow(SW_HIDE);

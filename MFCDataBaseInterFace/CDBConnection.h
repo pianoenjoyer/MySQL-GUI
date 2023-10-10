@@ -13,13 +13,14 @@ public:
     bool Connect(sql::ConnectOptionsMap& settings);
     bool Connect(const sql::SQLString& server, const sql::SQLString& 
         username, const sql::SQLString& password, const sql::SQLString& database);
+    bool CDBConnection::ChangeCurrentDatabase(sql::SQLString& databaseName);
     sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString& error);
-
+    std::vector <sql::SQLString> CDBConnection::GetDatabases();
     bool CDBConnection::Connect(const sql::SQLString& server, const sql::SQLString& username,
         const sql::SQLString& password);
     void Disconnect();
     bool IsConnected() const;
-    std::vector<std::string> GetTables();
+    std::vector<sql::SQLString> CDBConnection::GetTables();
     CString GetResultString(sql::ResultSet* resultSet);
 private:
     sql::mysql::MySQL_Driver* m_driver;

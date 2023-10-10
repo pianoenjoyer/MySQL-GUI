@@ -30,9 +30,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{C25AF803-EB40-4081-AFB0-27BF2C478842}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
-    <RootNamespace>DBInterface</RootNamespace>
+    <RootNamespace>MySQL GUI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>DBInterface</ProjectName>
+    <ProjectName>MySQL GUI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -17,15 +17,19 @@
 #define BLACK RGB(0, 0, 0)
 
 //CONSOLE MESSEGES
-//Query messeges
-CString MSG_QUERY_OK("Query completed");
-//Export messeges
-CString MSG_EXPORT_START("Export started");
-CString MSG_EXPORT_OK("Export completed");
-CString MSG_EXPORT_ERR("Export error");
-CString MSG_EXPORT_CANCEL("Export canceled");
-
+//Query msgs
+const CString MSG_QUERY_OK("Query completed");
+//Export msgs
+const CString MSG_EXPORT_START("Export started");
+const CString MSG_EXPORT_OK("Export completed");
+const CString MSG_EXPORT_ERR("Export error");
+const CString MSG_EXPORT_CANCEL("Export canceled");
+//DB change msgs
+// 
 // CDBMainDlg dialog
+const CString MSG_DBCHANGE_OK("Databased changed");
+const CString MSG_DBCHANGE_ERR("Databased change error");
+
 
 IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
@@ -158,18 +162,50 @@ BOOL CDBMainDlg::OnInitDialog()
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
-    // fill drop down with table names of db
-    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_SEL_TABLE));
-    std::vector<std::string> tableNames;
-    tableNames = db->GetTables();
-    PopulateDropdown(tableNames);
-    pComboBox->SetCurSel(0);
-
+ 
     //set list ctrl to table style
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     pList->SetView(LV_VIEW_DETAILS);
-    //populate number of rows dropdown
-    pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_NMB_OF_ROWS));
+
+    FillDatabaseDropdown();
+    FillLimitDropdown();
+    return TRUE;
+}
+
+// fill drop down with table names of db
+
+bool CDBMainDlg::FillDatabaseDropdown() 
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
+    std::vector<sql::SQLString> databases;
+    databases = db->GetDatabases();
+    PopulateDropdown(pComboBox, databases);
+    //pComboBox->SetCurSel(0);
+    return true;
+}
+
+bool CDBMainDlg::FillTableDropdown()
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_SEL_TABLE));
+    std::vector<sql::SQLString> tableNames;
+    tableNames = db->GetTables();
+    PopulateDropdown(pComboBox, tableNames);
+    pComboBox->SetCurSel(0);
+    return true;
+}
+
+bool CDBMainDlg::FillTreeControl() 
+{
+    //Fill tree with db tables structure
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
+    FillTreeControlWithDBTables(*pTree);
+    //ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
+    return true;
+}
+
+bool CDBMainDlg::FillLimitDropdown() 
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_NMB_OF_ROWS));
     pComboBox->AddString(L"25");
     pComboBox->AddString(L"50");
     pComboBox->AddString(L"100");
@@ -177,14 +213,9 @@ BOOL CDBMainDlg::OnInitDialog()
     pComboBox->AddString(L"500");
     pComboBox->AddString(L"All");
     pComboBox->SetCurSel(3);
-
-    //Fill tree with db tables structure
-    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
-    FillTreeControlWithDBTables(*pTree); 
-    //ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
-
-    return TRUE;
+    return true;
 }
+
 
 
 
@@ -204,9 +235,9 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMainDlg::OnBnClickedBtnUpdate)
     ON_EN_CHANGE(IDC_LIST_SEARCH, &CDBMainDlg::OnEnChangeListSearch)
     ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CDBMainDlg::OnBnClickedBtnClearmsg)
-
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
+    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -536,9 +567,9 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 
-void CDBMainDlg::PopulateDropdown(const std::vector<std::string>& values)
+void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
 {
-    CComboBox* pComboBox = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+    pComboBox->ResetContent();
     for (const std::string& value : values)
     {
         CString item(value.c_str());
@@ -753,4 +784,29 @@ void CDBMainDlg::OnConnectionDisconnect()
 {
     db->Disconnect();
     this->EndDialog(IDOK);
+}
+
+
+void CDBMainDlg::OnCbnSelchangeCmbSelDb()
+{
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+    CString databaseName;
+    int selectedIndex = dropdown->GetCurSel();
+
+    if (selectedIndex != CB_ERR)
+    {
+        dropdown->GetLBText(selectedIndex, databaseName);
+    }
+    this->SetWindowTextW(databaseName);
+
+    sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
+    if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
+        FillTableDropdown();
+        FillTreeControl();
+    }
+    else
+    {
+        SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
+    }
+    SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
 }

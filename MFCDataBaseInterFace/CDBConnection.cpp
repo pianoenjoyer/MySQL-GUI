@@ -217,15 +217,15 @@ CString CDBConnection::GetResultString(sql::ResultSet* resultSet)
     return result;
 }
 
-std::vector<std::string> CDBConnection::GetTables()
+std::vector<sql::SQLString> CDBConnection::GetTables()
 {
-    std::vector<std::string> tables;
+    std::vector<sql::SQLString> tables;
     sql::Statement* statement = m_connection->createStatement();
     sql::ResultSet* resultSet = statement->executeQuery("SHOW TABLES");
 
     while (resultSet->next())
     {
-        std::string tableName = resultSet->getString(1).asStdString();
+        sql::SQLString tableName = resultSet->getString(1).asStdString();
         tables.push_back(tableName);
     }
 
@@ -233,6 +233,41 @@ std::vector<std::string> CDBConnection::GetTables()
     delete statement;
 
     return tables;
+}
+
+std::vector<sql::SQLString> CDBConnection::GetDatabases() 
+{
+    std::vector<sql::SQLString> databases;
+    sql::Statement* statement = m_connection->createStatement();
+    sql::ResultSet* resultSet = statement->executeQuery("SHOW DATABASES");
+
+    while (resultSet->next())
+    {
+        sql::SQLString tableName = resultSet->getString(1).asStdString();
+        databases.push_back(tableName);
+    }
+    delete resultSet;
+    delete statement;
+
+    return databases;
+}
+
+
+
+bool CDBConnection::ChangeCurrentDatabase(sql::SQLString& databaseName)
+{
+    try
+    {
+        m_connection->setSchema(databaseName);
+    }
+    catch (sql::SQLException& e)
+    {
+        CStringW wideErrorMessage(e.what());
+        AfxMessageBox(wideErrorMessage);
+        return false;
+    }
+
+    return true;
 }
 
 

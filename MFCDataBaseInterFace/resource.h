@@ -66,6 +66,8 @@
 #define IDC_RAD_TSV                     1045
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
+#define IDC_CMB_SEL_DB                  1050
+#define IDC_COMBO2                      1055
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -89,7 +91,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         32787
-#define _APS_NEXT_CONTROL_VALUE         1050
+#define _APS_NEXT_CONTROL_VALUE         1056
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
