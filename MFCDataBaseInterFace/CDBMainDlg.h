@@ -67,4 +67,6 @@ public:
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();
 	afx_msg void OnCbnSelchangeCmbSelDb();
+	afx_msg void OnBnClickedBtnSave();
+	afx_msg void OnBnClickedButtonSave();
 };

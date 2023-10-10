@@ -27,8 +27,8 @@ const CString MSG_EXPORT_CANCEL("Export canceled");
 //DB change msgs
 // 
 // CDBMainDlg dialog
-const CString MSG_DBCHANGE_OK("Databased changed");
-const CString MSG_DBCHANGE_ERR("Databased change error");
+const CString MSG_DBCHANGE_OK("Databased selected");
+const CString MSG_DBCHANGE_ERR("Databased select error");
 
 
 IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
@@ -238,6 +238,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
+    ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -262,21 +263,21 @@ void CDBMainDlg::OnBnClickedBtnBrowse()
 }
 
 
-CString CDBMainDlg::ReadFileContent()
+CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
 {
-    CString fileContent;
+    CStringW fileContent;
     try
     {
         CFile file;
         if (file.Open(m_pathToFile, CFile::modeRead))
         {
             ULONGLONG fileSize = file.GetLength();
-            char* buffer = new char[fileSize];
+            wchar_t* buffer = new wchar_t[fileSize / 2];
 
             file.Read(buffer, static_cast<UINT>(fileSize));
             file.Close();
 
-            fileContent = CString(buffer, static_cast<int>(fileSize));
+            fileContent = CStringW(buffer, static_cast<int>(fileSize / 2));
 
             delete[] buffer;
         }
@@ -288,6 +289,7 @@ CString CDBMainDlg::ReadFileContent()
     }
     return fileContent;
 }
+
 
 CString SQLStringToCString(const sql::SQLString& sqlStr)
 {
@@ -810,4 +812,44 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
         SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
     }
     SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
+}
+
+
+
+
+
+
+
+void CDBMainDlg::OnBnClickedButtonSave()
+{
+    // Open a file save dialog to select where to save the SQL file
+    CFileDialog fileSaveDialog(FALSE,  // FALSE means this is a "Save" dialog
+        L".sql",                 // Default extension
+        nullptr,
+        OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+        L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",
+        this);  // parent window
+
+    if (fileSaveDialog.DoModal() == IDOK)
+    {
+        m_pathToFile = fileSaveDialog.GetPathName();
+
+        // Get the text from the IDC_EDIT_QTEXT control
+        CString content;
+        GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(content);
+
+        // Save the content to the file
+        CFile file;
+        if (file.Open(m_pathToFile, CFile::modeCreate | CFile::modeWrite))
+        {
+            file.Write((const void*)content.GetString(), content.GetLength() * sizeof(TCHAR));
+            file.Close();
+
+            AfxMessageBox(L"File saved successfully!", MB_OK | MB_ICONINFORMATION);
+        }
+        else
+        {
+            AfxMessageBox(L"Error saving the file.", MB_OK | MB_ICONERROR);
+        }
+    }
 }
