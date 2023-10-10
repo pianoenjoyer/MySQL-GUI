@@ -170,8 +170,8 @@ CString GetAppCurrentDirectory()
 
 void CDBAuthDlg::OnBnClickedBtnExit()
 {
-	CString cwd = GetAppCurrentDirectory();
-	AfxMessageBox(cwd);
+	/*CString cwd = GetAppCurrentDirectory();
+	AfxMessageBox(cwd);*/
 	this->EndDialog(IDOK);
 }
 
