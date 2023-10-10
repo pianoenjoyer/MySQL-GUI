@@ -69,4 +69,5 @@ public:
 	afx_msg void OnCbnSelchangeCmbSelDb();
 	afx_msg void OnBnClickedBtnSave();
 	afx_msg void OnBnClickedButtonSave();
+	afx_msg void OnConnectionCheckconnection();
 };

@@ -92,7 +92,7 @@ void CDBConnection::Disconnect()
 
 bool CDBConnection::IsConnected() const
 {
-    return m_isConnected;
+    return m_connection;
 }
 
 sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query)
@@ -270,4 +270,7 @@ bool CDBConnection::ChangeCurrentDatabase(sql::SQLString& databaseName)
     return true;
 }
 
-
+bool CDBConnection::CheckConnection() 
+{
+    return (m_connection->isValid() && !m_connection->isClosed());
+}

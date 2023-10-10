@@ -16,6 +16,7 @@ public:
     bool CDBConnection::ChangeCurrentDatabase(sql::SQLString& databaseName);
     sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString& error);
     std::vector <sql::SQLString> CDBConnection::GetDatabases();
+    bool CDBConnection::CheckConnection();
     bool CDBConnection::Connect(const sql::SQLString& server, const sql::SQLString& username,
         const sql::SQLString& password);
     void Disconnect();

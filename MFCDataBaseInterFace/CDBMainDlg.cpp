@@ -239,6 +239,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
     ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
+    ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -851,5 +852,18 @@ void CDBMainDlg::OnBnClickedButtonSave()
         {
             AfxMessageBox(L"Error saving the file.", MB_OK | MB_ICONERROR);
         }
+    }
+}
+
+
+void CDBMainDlg::OnConnectionCheckconnection()
+{
+    if (db->CheckConnection())
+    {
+        AfxMessageBox(L"Connected");
+    }
+    else
+    {
+        AfxMessageBox(L"Disconnect");
     }
 }
