@@ -5,6 +5,7 @@
 #include "CDBMainDlg.h"
 #include "framework.h"
 #include "CDBAuthDlg.h"
+#include "CServerInfoDlg.h"
 #include <locale>
 #include <codecvt>
 #include <fstream>
@@ -136,7 +137,6 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) {
 
     }
     catch (sql::SQLException& e) {
-        // Handle exception: you might want to show a message box or log the error.
         AfxMessageBox(CA2T(e.what()));
     }
 }
@@ -157,7 +157,8 @@ BOOL CDBMainDlg::OnInitDialog()
     SetIcon(m_hIcon, FALSE);		// Set small icon
 
     //set title || Now show current db name
-    this->SetWindowTextW(m_titleDatabaseName);
+    this->SetWindowTextW(L"MySQL GUI");
+    //CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
@@ -240,6 +241,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
     ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
     ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
+    ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CDBMainDlg::OnNMClickSyslinkServerinfo)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -865,4 +867,14 @@ void CDBMainDlg::OnConnectionCheckconnection()
     {
         AfxMessageBox(L"Disconnect");
     }
+
+}
+
+
+
+void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    CServerInfoDlg serverinfoWindow;
+    auto status = serverinfoWindow.DoModal();
+    *pResult = 0;
 }

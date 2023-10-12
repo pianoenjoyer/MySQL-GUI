@@ -10,6 +10,7 @@
 #define IDD_MAIN                        130
 #define IDR_MENU_MAIN                   132
 #define IDD_EXPORT                      133
+#define IDD_SERVERINFO                  136
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -22,6 +23,7 @@
 #define IDC_SEL_TABLE                   1005
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
+#define IDC_TAB                         1006
 #define IDC_EDT_FILENAME                1007
 #define IDC_PIC_LOGO2                   1007
 #define IDC_BTN_BROWSE                  1008
@@ -34,9 +36,9 @@
 #define IDC_BUTTON5                     1012
 #define IDC_DATABASE_NAME               1012
 #define IDC_BTN_CLROUTPUT               1012
+#define IDC_BTN_ABOUT                   1012
 #define IDC_BTN_SELECT                  1013
 #define IDC_BTN_UNDO                    1013
-#define IDC_BTN_SAVE                    1013
 #define IDC_BTN_PRINTTABLE              1014
 #define IDC_BTN_SHOW_PASSWORD           1015
 #define IDC_BTN_REDO                    1015
@@ -68,8 +70,14 @@
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
 #define IDC_CMB_SEL_DB                  1050
-#define IDC_BUTTON4                     1058
 #define IDC_BUTTON_SAVE                 1058
+#define IDC_COMBO2                      1070
+#define IDC_RADIO1                      1071
+#define IDC_RADIO2                      1072
+#define IDC_SYSLINK_SERVERINFO          1073
+#define IDC_PIC_INFO                    1074
+#define IDC_BTN_SAVE                    1075
+#define IDC_BTN_CLOSE                   1077
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -86,14 +94,25 @@
 #define ID_EXPORTAS_32784               32784
 #define ID_EXPORTAS_32785               32785
 #define ID_EXPORTAS_32786               32786
+#define ID_EDIT_CUT32787                32787
+#define ID_EDIT_COPY32788               32788
+#define ID_PA                           32789
+#define ID_EDIT_SELECTALL               32790
+#define ID_HELP_MYSQLDOCUMENTATION      32791
+#define ID_HELP_SERVERINFO              32792
+#define ID_FILE_EXIT                    32793
+#define ID_EDIT_PASTE32794              32794
+#define ID_THEME                        32795
+#define ID_THEME_DARK                   32796
+#define ID_THEME_LIGHT                  32797
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        135
-#define _APS_NEXT_COMMAND_VALUE         32787
-#define _APS_NEXT_CONTROL_VALUE         1059
+#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_COMMAND_VALUE         32798
+#define _APS_NEXT_CONTROL_VALUE         1078
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

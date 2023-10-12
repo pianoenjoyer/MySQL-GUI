@@ -225,6 +225,7 @@
     <ClInclude Include="CDBExportDlg.h" />
     <ClInclude Include="CDBMainDlg.h" />
     <ClInclude Include="CLoginDataSave.h" />
+    <ClInclude Include="CServerInfoDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="CDBExportDlg.cpp" />
     <ClCompile Include="CDBMainDlg.cpp" />
     <ClCompile Include="CLoginDataSave.cpp" />
+    <ClCompile Include="CServerInfoDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CDBAuthDlg.cpp" />
@@ -255,7 +257,7 @@
     <None Include="res\MFCDataBaseInterFace.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_auth_icon.png" />
+    <Image Include="..\x64\Custom\mysql_logo.png" />
     <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico" />
     <Image Include="res\MFCDataBaseInterFace.ico" />
   </ItemGroup>

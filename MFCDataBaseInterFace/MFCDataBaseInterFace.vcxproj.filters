@@ -48,6 +48,9 @@
     <ClInclude Include="CDBExportDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CServerInfoDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDBInterfaceApp.cpp">
@@ -74,6 +77,9 @@
     <ClCompile Include="CDBExportDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CServerInfoDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCDataBaseInterFace.rc">
@@ -92,7 +98,7 @@
     <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_auth_icon.png">
+    <Image Include="..\x64\Custom\mysql_logo.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
