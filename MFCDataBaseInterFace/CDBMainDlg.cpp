@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 
 
 #define RED RGB(255, 0, 0)
@@ -242,6 +243,9 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
     ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CDBMainDlg::OnNMClickSyslinkServerinfo)
+    ON_COMMAND(ID_FILE_SAVEAS, &CDBMainDlg::OnFileSaveas)
+    ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
+    ON_BN_CLICKED(IDC_BTN_SCHEMA, &CDBMainDlg::OnBnClickedBtnSchema)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -294,56 +298,72 @@ CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
 }
 
 
-CString SQLStringToCString(const sql::SQLString& sqlStr)
+inline CString SQLStringToCString(const sql::SQLString& sqlStr)
 {
-    std::string utf8Str = sqlStr.asStdString();
-
-    // Calculate the required buffer size
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), (int)utf8Str.size(), NULL, 0);
+    // Directly use sqlStr's c_str() method
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), NULL, 0);
 
     CString utf16CString;
     wchar_t* buf = utf16CString.GetBufferSetLength(size_needed);
 
     // Convert the UTF-8 string to UTF-16
-    MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), (int)utf8Str.size(), buf, size_needed);
+    MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), buf, size_needed);
 
     utf16CString.ReleaseBuffer();
 
     return utf16CString;
 }
 
-sql::SQLString CStringToSQLString(const CString& cstr)
+inline sql::SQLString CStringToSQLString(const CString& cstr)
 {
-    // Calculate the required buffer size for the UTF-8 conversion
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), -1, NULL, 0, NULL, NULL);
+    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), NULL, 0, NULL, NULL);
 
     std::string utf8Str(size_needed, 0);
 
     // Convert the UTF-16 string (CString) to UTF-8
-    WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), -1, &utf8Str[0], size_needed, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), &utf8Str[0], size_needed, NULL, NULL);
 
     return sql::SQLString(utf8Str);
 }
 
 
+
 void CDBMainDlg::OnBnClickedBtnGo()
 {
-    CString sqlText;
-    CString resultString;
+    CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
 
-    // sql::SQLString query(CW2A(sqlText.GetString())); //old method 
+    //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
+
     sql::SQLString query = CStringToSQLString(sqlText);
 
+    auto start = std::chrono::high_resolution_clock::now();
     sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration<double>(end - start);
+    double timeTaken = duration.count();
+    CString timeTakenStr;
+    timeTakenStr.Format(_T("Query took: %.2f seconds"), timeTaken);
+
     if (resultSet)
     {
-        SendMessageToConsole(MSG_QUERY_OK, GREEN);
+        SendMessageToConsole(timeTakenStr, GREEN);
+
+        start = std::chrono::high_resolution_clock::now();
+        FillListControl(resultSet);
+        end = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration<double>(end - start);
+        timeTaken = duration.count();
+        timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
+        SendMessageToConsole(timeTakenStr, BLACK);
+
     }
-    else {
+    else 
+    {
         SendMessageToConsole(errorString, RED);
     }
-    FillListControl(resultSet);
+    
+
     delete resultSet;
 }
 
@@ -421,7 +441,7 @@ CString BinaryDataToHexString(const CString& binaryData) {
 //}
 
 int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
-    // Получение лимита из выпадающего списка
+    // get limit from dropdown
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
     int selectedIndex = dropdown->GetCurSel();
     CString dropdownText;
@@ -449,7 +469,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
 
     sql::ResultSetMetaData* metaData = resultSet->getMetaData();
     int columnCount = metaData->getColumnCount();
-    CString columnName(L""), firstColData(L""), colData(L"");
+    CStringW columnName(L""), firstColData(L""), colData(L"");
 
     // Заполнение столбцов
     for (int i = 1; i <= columnCount; i++) {
@@ -462,6 +482,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     // Заполнение строк с учетом лимита
     while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
         firstColData = SQLStringToCString(resultSet->getString(1));
+
         int nItemCount = pList->GetItemCount();
         int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, firstColData, 0, 0, 0, 0);
 
@@ -479,7 +500,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         }
         populatedRows++;
     }
-    SaveOriginalListState();
+    //SaveOriginalListState();
 
     return 0;
 }
@@ -494,7 +515,7 @@ void CDBMainDlg::OnEnChangeEditQtext()
 
 
 void CDBMainDlg::OnBnClickedBtnClear()
-{
+{   
     CString emptyString = L"";
     GetDlgItem(IDC_EDT_FILENAME)->SetWindowTextW(emptyString);
     GetDlgItem(IDC_EDT_FILENAME)->EnableWindow(TRUE);
@@ -528,6 +549,7 @@ void CDBMainDlg::OnBnClickedBtnPrinttable()
     sql::ResultSet* resultSet = db->ExecuteQuery(query);
     SendMessageToConsole(MSG_QUERY_OK, GREEN);
     FillListControl(resultSet);
+    delete resultSet;
 }
 
 //sent msg to output contol
@@ -559,15 +581,11 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
 {
     CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
     CTime currentTime = CTime::GetCurrentTime();
-
     // Format 
     CString timeStr = currentTime.Format(_T("%H:%M:%S"));
-
     // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
-
     // Append the text with a specific color
-
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 
@@ -877,4 +895,41 @@ void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
     CServerInfoDlg serverinfoWindow;
     auto status = serverinfoWindow.DoModal();
     *pResult = 0;
+}
+
+
+void CDBMainDlg::OnFileSaveas()
+{
+    OnBnClickedButtonSave();
+}
+
+
+void CDBMainDlg::OnFileExit()
+{
+    db->Disconnect();
+    this->EndDialog(IDCANCEL);
+}
+
+
+
+
+void CDBMainDlg::OnBnClickedBtnSchema()
+{
+    CString tableName;
+    CString resultString;
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
+    int selectedIndex = dropdown->GetCurSel();
+
+    if (selectedIndex != CB_ERR)
+    {
+        dropdown->GetLBText(selectedIndex, tableName);
+    }
+
+    CString Query = L"DESCRIBE " + tableName + ";";
+    sql::SQLString query(CW2A(Query.GetString()));
+    sql::ResultSet* resultSet = db->ExecuteQuery(query);
+    SendMessageToConsole(MSG_QUERY_OK, GREEN);
+    FillListControl(resultSet);
+    delete resultSet;
 }

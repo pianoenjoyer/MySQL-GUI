@@ -42,11 +42,15 @@
 #define IDC_BTN_PRINTTABLE              1014
 #define IDC_BTN_SHOW_PASSWORD           1015
 #define IDC_BTN_REDO                    1015
+#define IDC_BTN_PRINTTABLE5             1015
 #define IDC_SAVE_LOGIN                  1016
 #define IDC_BTN_DISCONNECT2             1016
+#define IDC_BTN_PRINTTABLE6             1016
+#define IDC_BTN_SCHEMA                  1016
 #define IDC_BTN_PRINTTABLE2             1017
 #define IDC_LIST_QUERY                  1018
 #define IDC_BTN_DISCONNECT3             1019
+#define IDC_BTN_PRINTTABLE4             1019
 #define IDC_EXPORT                      1020
 #define IDC_BTN_DELETETABLE             1021
 #define IDC_BTN_PRINTTABLE3             1022
@@ -105,13 +109,15 @@
 #define ID_THEME                        32795
 #define ID_THEME_DARK                   32796
 #define ID_THEME_LIGHT                  32797
+#define ID_FILE_OPENRECENT              32798
+#define ID_FILE_SAVEAS                  32799
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         32798
+#define _APS_NEXT_COMMAND_VALUE         32800
 #define _APS_NEXT_CONTROL_VALUE         1078
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

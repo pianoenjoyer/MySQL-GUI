@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CDBConnection.h"
 #include <codecvt>
 
@@ -129,7 +129,7 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query)
     }
 }
 
-sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString& error)
+sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CStringW& error)
 {
     sql::Statement* statement = nullptr;
     sql::ResultSet* resultSet = nullptr;
@@ -143,13 +143,13 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString
         return resultSet;
     }
     catch (sql::SQLException& e) {
-        CStringW wideErrorMessage(e.what());
+        /*CStringW wideErrorMessage(e.what());
         int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wideErrorMessage,
             -1, nullptr, 0, nullptr, nullptr);
         std::string errorMessage(bufferSize, '\0');
         WideCharToMultiByte(CP_UTF8, 0, wideErrorMessage, -1,
-            &errorMessage[0], bufferSize, nullptr, nullptr);
-        error = CString(errorMessage.c_str());
+            &errorMessage[0], bufferSize, nullptr, nullptr);*/
+        error = CStringW(e.what());
 
         if (resultSet) {
             delete resultSet;

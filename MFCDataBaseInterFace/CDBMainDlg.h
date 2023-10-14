@@ -71,4 +71,7 @@ public:
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnConnectionCheckconnection();
 	afx_msg void OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnFileSaveas();
+	afx_msg void OnFileExit();
+	afx_msg void OnBnClickedBtnSchema();
 };
