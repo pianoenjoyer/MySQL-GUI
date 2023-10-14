@@ -240,7 +240,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
-    ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
+    //ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
     ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CDBMainDlg::OnNMClickSyslinkServerinfo)
     ON_COMMAND(ID_FILE_SAVEAS, &CDBMainDlg::OnFileSaveas)
@@ -261,12 +261,9 @@ void CDBMainDlg::OnBnClickedBtnBrowse()
     if (fileOpenDialog.DoModal() == IDOK)
     {
         m_pathToFile = fileOpenDialog.GetPathName();
-        GetDlgItem(IDC_EDT_FILENAME)->SetWindowTextW(m_pathToFile);
-        GetDlgItem(IDC_EDT_FILENAME)->EnableWindow(FALSE);
+        m_SQLtextQuery = ReadFileContent();
+        GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(m_SQLtextQuery);
     }
-
-    m_SQLtextQuery = ReadFileContent();
-    GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(m_SQLtextQuery);
 }
 
 

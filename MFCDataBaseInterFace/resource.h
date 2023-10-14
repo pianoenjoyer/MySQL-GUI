@@ -39,13 +39,13 @@
 #define IDC_BTN_ABOUT                   1012
 #define IDC_BTN_SELECT                  1013
 #define IDC_BTN_UNDO                    1013
+#define IDC_BTN_CLEAR2                  1013
 #define IDC_BTN_PRINTTABLE              1014
 #define IDC_BTN_SHOW_PASSWORD           1015
 #define IDC_BTN_REDO                    1015
 #define IDC_BTN_PRINTTABLE5             1015
 #define IDC_SAVE_LOGIN                  1016
 #define IDC_BTN_DISCONNECT2             1016
-#define IDC_BTN_PRINTTABLE6             1016
 #define IDC_BTN_SCHEMA                  1016
 #define IDC_BTN_PRINTTABLE2             1017
 #define IDC_LIST_QUERY                  1018
@@ -54,7 +54,12 @@
 #define IDC_EXPORT                      1020
 #define IDC_BTN_DELETETABLE             1021
 #define IDC_BTN_PRINTTABLE3             1022
+#define IDC_BTN_GO2                     1023
+#define IDC_BTN_GO3                     1024
+#define IDC_BTN_GO4                     1025
+#define IDC_BTN_GO5                     1026
 #define IDC_COMBO_NMB_OF_ROWS           1027
+#define IDC_BTN_GO6                     1028
 #define IDC_LIST_SEARCH                 1029
 #define IDC_BUTTON1                     1030
 #define IDC_STATIC_FILTER               1032
@@ -74,14 +79,11 @@
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
 #define IDC_CMB_SEL_DB                  1050
-#define IDC_BUTTON_SAVE                 1058
-#define IDC_COMBO2                      1070
-#define IDC_RADIO1                      1071
-#define IDC_RADIO2                      1072
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
 #define IDC_BTN_SAVE                    1075
 #define IDC_BTN_CLOSE                   1077
+#define IDC_BUTTON2                     1078
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -118,7 +120,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        138
 #define _APS_NEXT_COMMAND_VALUE         32800
-#define _APS_NEXT_CONTROL_VALUE         1078
+#define _APS_NEXT_CONTROL_VALUE         1079
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
