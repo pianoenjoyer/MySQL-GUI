@@ -11,6 +11,9 @@
 #define IDR_MENU_MAIN                   132
 #define IDD_EXPORT                      133
 #define IDD_SERVERINFO                  136
+#define IDD_PROCEDURES                  138
+#define IDD_DIALOG2                     139
+#define IDD_FUNCTIONS                   139
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -88,7 +91,6 @@
 #define IDC_BTN_CLOSE                   1077
 #define IDC_BUTTON2                     1078
 #define IDC_COMBO2                      1079
-#define IDC_CHECK2                      1080
 #define IDC_CHECK_SHOWALL               1080
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
@@ -125,7 +127,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         1081
 #define _APS_NEXT_SYMED_VALUE           101

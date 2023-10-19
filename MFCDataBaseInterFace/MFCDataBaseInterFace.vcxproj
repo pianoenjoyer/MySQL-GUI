@@ -214,6 +214,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Custom|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\connector\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\connector\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
