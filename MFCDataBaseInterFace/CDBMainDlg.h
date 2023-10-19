@@ -77,4 +77,9 @@ public:
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
 	afx_msg void OnEditSelectall();
+	afx_msg void OnEnChangeEditCurrentpage();
+	afx_msg void OnBnClickedBtnFirstpage();
+	afx_msg void OnBnClickedBtnLastpage();
+	afx_msg void OnBnClickedBtnPrevpage();
+	afx_msg void OnBnClickedBtnNextpage();
 };

@@ -149,6 +149,19 @@ void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
  
 }
 
+
+void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
+{
+    CHARFORMAT2 cf;
+    ZeroMemory(&cf, sizeof(CHARFORMAT2));
+    cf.cbSize = sizeof(CHARFORMAT2);
+    cf.dwMask = CFM_SIZE; //change only size
+    pRichEdit->GetSelectionCharFormat(cf);
+    cf.yHeight = size;
+    pRichEdit->SetSelectionCharFormat(cf);
+}
+
+
 BOOL CDBMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
@@ -168,11 +181,21 @@ BOOL CDBMainDlg::OnInitDialog()
     //set list ctrl to table style
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     pList->SetView(LV_VIEW_DETAILS);
-
+    //current page = 1
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+    //set default db
     FillDatabaseDropdown();
     FillLimitDropdown();
+    //set font size of sql text rich edit
+    (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+
+    SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
+    SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
+    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
+    OnCbnSelchangeCmbSelDb();
     return TRUE;
 }
+
 
 // fill drop down with table names of db
 
@@ -253,6 +276,11 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
     ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
     ON_COMMAND(ID_EDIT_SELECTALL, &CDBMainDlg::OnEditSelectall)
+    ON_EN_CHANGE(IDC_EDIT_CURRENTPAGE, &CDBMainDlg::OnEnChangeEditCurrentpage)
+    ON_BN_CLICKED(IDC_BTN_FIRSTPAGE, &CDBMainDlg::OnBnClickedBtnFirstpage)
+    ON_BN_CLICKED(IDC_BTN_LASTPAGE, &CDBMainDlg::OnBnClickedBtnLastpage)
+    ON_BN_CLICKED(IDC_BTN_PREVPAGE, &CDBMainDlg::OnBnClickedBtnPrevpage)
+    ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CDBMainDlg::OnBnClickedBtnNextpage)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -467,6 +495,8 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         return 1;
     }
 
+
+
     // Очистка текущих элементов из CListCtrl
     pList->DeleteAllItems();
     while (pList->DeleteColumn(0)); // Удаление всех столбцов
@@ -504,7 +534,28 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         }
         populatedRows++;
     }
+
     SaveOriginalListState();
+    // Calculate the number of pages
+    CString strMaxPages;
+    CString str;
+    std::map<int, ListItem> pages;
+    auto rowsCount = resultSet->rowsCount();
+
+    if (limit == 0)
+    {
+        strMaxPages.Format(_T("%d"), 1);
+    }
+    else 
+    {
+        auto maxPages = rowsCount / limit;
+        if (rowsCount % limit != 0) {
+            maxPages++; 
+        }
+        strMaxPages.Format(_T("%d"), maxPages);
+        GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
+    }
+
 
     return 0;
 }
@@ -538,7 +589,7 @@ void CDBMainDlg::OnBnClickedBtnPrinttable()
     CString tableName;
     CString resultString;
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE); 
-
+ 
     int selectedIndex = dropdown->GetCurSel();
 
     if (selectedIndex != CB_ERR) 
@@ -590,7 +641,9 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
     // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
+    SetRichControlTextSize(p_richEdit, 250);
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
+  
 }
 
 void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
@@ -975,4 +1028,73 @@ void CDBMainDlg::OnEditPaste()
 void CDBMainDlg::OnEditSelectall()
 {
     ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
+}
+
+
+
+void CDBMainDlg::OnEnChangeEditCurrentpage()
+{
+    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    CStringW pageNumberStr;
+    pEdit->GetWindowTextW(pageNumberStr);
+    if (pageNumberStr == L"")
+    {
+        pEdit->SetWindowTextW(L"1");
+    }
+    std::wstring wstr(pageNumberStr);
+    int pageNumber = std::stoi(wstr);
+
+
+}
+
+
+void CDBMainDlg::OnBnClickedBtnFirstpage()
+{
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+}
+
+
+void CDBMainDlg::OnBnClickedBtnLastpage()
+{
+    CStringW title;
+    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(title);
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(title);
+}
+
+
+void CDBMainDlg::OnBnClickedBtnPrevpage()
+{
+    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    CStringW pageNumberStr;
+    pEdit->GetWindowTextW(pageNumberStr);
+    if (pageNumberStr == L"")
+    {
+        pEdit->SetWindowTextW(L"1");
+        return; // If it's already the first page, just return.
+    }
+    std::wstring wstr(pageNumberStr);
+    int pageNumber = std::stoi(wstr);
+    if (pageNumber > 1)  // Ensure we don't go to negative or zero page numbers
+    {
+        pageNumber--;
+        pageNumberStr.Format(_T("%d"), pageNumber);
+        pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
+    }
+}
+
+void CDBMainDlg::OnBnClickedBtnNextpage()
+{
+    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    CStringW pageNumberStr;
+    pEdit->GetWindowTextW(pageNumberStr);
+    if (pageNumberStr == L"")
+    {
+        pEdit->SetWindowTextW(L"1");
+        return; // If it's already the first page, just return.
+    }
+    std::wstring wstr(pageNumberStr);
+    int pageNumber = std::stoi(wstr);
+    pageNumber++;
+    pageNumberStr.Format(_T("%d"), pageNumber);
+    pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
 }

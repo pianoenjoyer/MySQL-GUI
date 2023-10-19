@@ -17,6 +17,7 @@
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
+#define IDC_EDIT_CURRENTPAGE            1000
 #define IDC_EDIT2                       1001
 #define IDC_EDIT_QTEXT                  1001
 #define IDC_BTN_CONNECT                 1002
@@ -65,7 +66,9 @@
 #define IDC_BTN_GO6                     1028
 #define IDC_LIST_SEARCH                 1029
 #define IDC_BUTTON1                     1030
+#define IDC_BTN_FIRSTPAGE               1030
 #define IDC_BUTTON3                     1031
+#define IDC_BTN_PREVPAGE                1031
 #define IDC_STATIC_FILTER               1032
 #define IDC_EDIT3                       1033
 #define IDC_TREE_STRUCTURE              1034
@@ -78,7 +81,9 @@
 #define IDC_RAD_XML                     1041
 #define IDC_RAD_TEXT                    1042
 #define IDC_BUTTON4                     1042
+#define IDC_BTN_LASTPAGE                1042
 #define IDC_BUTTON6                     1043
+#define IDC_BTN_NEXTPAGE                1043
 #define IDC_CHECK1                      1044
 #define IDC_RAD_HTML                    1044
 #define IDC_RAD_TSV                     1045
@@ -92,7 +97,7 @@
 #define IDC_BUTTON2                     1078
 #define IDC_COMBO2                      1079
 #define IDC_CHECK_SHOWALL               1080
-#define IDC_REDIT_QUERY                 1081
+#define IDC_STAT_MAXPAGE                1082
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -130,7 +135,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32801
-#define _APS_NEXT_CONTROL_VALUE         1082
+#define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
