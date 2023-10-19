@@ -182,15 +182,15 @@ BOOL CDBMainDlg::OnInitDialog()
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     pList->SetView(LV_VIEW_DETAILS);
     //current page = 1
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     //set default db
     FillDatabaseDropdown();
     FillLimitDropdown();
     //set font size of sql text rich edit
     (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
 
-    SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
-    SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
+    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
+    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
     ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     OnCbnSelchangeCmbSelDb();
     return TRUE;
@@ -237,7 +237,7 @@ bool CDBMainDlg::FillLimitDropdown()
     pComboBox->AddString(L"250");
     pComboBox->AddString(L"500");
     pComboBox->AddString(L"All");
-    pComboBox->SetCurSel(3);
+    pComboBox->SetCurSel(0);
     return true;
 }
 
@@ -281,6 +281,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_LASTPAGE, &CDBMainDlg::OnBnClickedBtnLastpage)
     ON_BN_CLICKED(IDC_BTN_PREVPAGE, &CDBMainDlg::OnBnClickedBtnPrevpage)
     ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CDBMainDlg::OnBnClickedBtnNextpage)
+    ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CDBMainDlg::OnCbnSelchangeSelTable)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -472,6 +473,7 @@ CString BinaryDataToHexString(const CString& binaryData) {
 //    return 0;
 //}
 
+
 int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     // get limit from dropdown
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
@@ -490,6 +492,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         limit = std::stoi(wstr);
     }
 
+    //get list
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     if (!resultSet || !pList) {
         return 1;
@@ -602,7 +605,7 @@ void CDBMainDlg::OnBnClickedBtnPrinttable()
     sql::SQLString query(CW2A(Query.GetString()));
 
     sql::ResultSet* resultSet = db->ExecuteQuery(query);
-    SendMessageToConsole(MSG_QUERY_OK, GREEN);
+    //SendMessageToConsole(MSG_QUERY_OK, GREEN);
     FillListControl(resultSet);
     delete resultSet;
 }
@@ -1030,7 +1033,7 @@ void CDBMainDlg::OnEditSelectall()
     ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
 }
 
-
+///////////////// PAGE SYSTEM FUNCS ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 void CDBMainDlg::OnEnChangeEditCurrentpage()
 {
@@ -1043,6 +1046,26 @@ void CDBMainDlg::OnEnChangeEditCurrentpage()
     }
     std::wstring wstr(pageNumberStr);
     int pageNumber = std::stoi(wstr);
+    
+    // get limit from dropdown
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
+    int selectedIndex = dropdown->GetCurSel();
+    CString dropdownText;
+    int limit;
+
+  /*  if (selectedIndex != CB_ERR) {
+        dropdown->GetLBText(selectedIndex, dropdownText);
+    }
+    if (dropdownText == L"All") {
+        limit = 0;
+    }
+    else {
+        std::wstring wstr(dropdownText);
+        limit = std::stoi(wstr);
+    }*/
+
+    int offset = limit * pageNumber;
+
 
 
 }
@@ -1097,4 +1120,10 @@ void CDBMainDlg::OnBnClickedBtnNextpage()
     pageNumber++;
     pageNumberStr.Format(_T("%d"), pageNumber);
     pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
+}
+
+
+void CDBMainDlg::OnCbnSelchangeSelTable()
+{
+    OnBnClickedBtnPrinttable();
 }
