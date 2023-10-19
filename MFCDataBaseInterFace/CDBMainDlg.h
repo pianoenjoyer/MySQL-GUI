@@ -71,4 +71,10 @@ public:
 	afx_msg void OnFileExit();
 	afx_msg void OnBnClickedBtnSchema();
 	afx_msg void OnFileExport();
+	afx_msg void OnEditUndo();
+	afx_msg void OnEditRedo();
+	afx_msg void OnEditCut();
+	afx_msg void OnEditCopy();
+	afx_msg void OnEditPaste();
+	afx_msg void OnEditSelectall();
 };

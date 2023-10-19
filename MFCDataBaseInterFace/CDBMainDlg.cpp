@@ -247,6 +247,12 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CDBMainDlg::OnBnClickedBtnSchema)
     ON_COMMAND(ID_FILE_EXPORT, &CDBMainDlg::OnFileExport)
+    ON_COMMAND(ID_EDIT_UNDO32772, &CDBMainDlg::OnEditUndo)
+    ON_COMMAND(ID_EDIT_REDO32773, &CDBMainDlg::OnEditRedo)
+    ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
+    ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
+    ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
+    ON_COMMAND(ID_EDIT_SELECTALL, &CDBMainDlg::OnEditSelectall)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -793,20 +799,6 @@ void CDBMainDlg::OnBnClickedBtnClearmsg()
 }
 
 
-
-void CDBMainDlg::OnMenuOpen()
-{
-    OnBnClickedBtnBrowse();
-}
-
-
-void CDBMainDlg::OnConnectionDisconnect()
-{
-    db->Disconnect();
-    this->EndDialog(IDOK);
-}
-
-
 void CDBMainDlg::OnCbnSelchangeCmbSelDb()
 {
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
@@ -896,21 +888,6 @@ void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
-void CDBMainDlg::OnFileSaveas()
-{
-    OnBnClickedButtonSave();
-}
-
-
-void CDBMainDlg::OnFileExit()
-{
-    db->Disconnect();
-    this->EndDialog(IDCANCEL);
-}
-
-
-
-
 void CDBMainDlg::OnBnClickedBtnSchema()
 {
     CString tableName;
@@ -932,8 +909,70 @@ void CDBMainDlg::OnBnClickedBtnSchema()
     delete resultSet;
 }
 
+// <--------------------------- MENU HANDLERS -------------------------------->
+void CDBMainDlg::OnFileSaveas()
+{
+    OnBnClickedButtonSave();
+}
+
+
+void CDBMainDlg::OnFileExit()
+{
+    db->Disconnect();
+    this->EndDialog(IDCANCEL);
+}
+
 
 void CDBMainDlg::OnFileExport()
 {
     OnBnClickedExport();
+}
+
+
+void CDBMainDlg::OnEditUndo()
+{
+   ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Undo();
+}
+
+
+void CDBMainDlg::OnEditRedo()
+{
+    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Redo();
+}
+
+
+void CDBMainDlg::OnMenuOpen()
+{
+    OnBnClickedBtnBrowse();
+}
+
+
+void CDBMainDlg::OnConnectionDisconnect()
+{
+    db->Disconnect();
+    this->EndDialog(IDOK);
+}
+
+void CDBMainDlg::OnEditCut()
+{
+    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Cut();
+}
+
+
+void CDBMainDlg::OnEditCopy()
+{
+    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Copy();
+}
+
+
+
+void CDBMainDlg::OnEditPaste()
+{
+    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Paste();
+}
+
+
+void CDBMainDlg::OnEditSelectall()
+{
+    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
 }
