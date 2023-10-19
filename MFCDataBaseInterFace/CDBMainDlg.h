@@ -37,7 +37,6 @@ public:
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
 	bool CDBMainDlg::FillTreeControl();
-	void CDBMainDlg::fillEditText();
 	void CDBMainDlg::SaveOriginalListState();
 	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
 	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet);
@@ -56,22 +55,20 @@ public:
 	afx_msg void OnBnClickedBtnClroutput();
 	afx_msg void OnBnClickedBtnUndo();
 	afx_msg void OnBnClickedBtnDeletetable();
-	afx_msg void OnBnClickedCheckShowAll();
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();
 	afx_msg void OnBnClickedBtnExpand();
 	afx_msg void OnBnClickedBtnUpdate();
 	afx_msg void OnEnChangeListSearch();
 	afx_msg void OnBnClickedBtnClearmsg();
-
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();
 	afx_msg void OnCbnSelchangeCmbSelDb();
-	afx_msg void OnBnClickedBtnSave();
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnConnectionCheckconnection();
 	afx_msg void OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnFileSaveas();
 	afx_msg void OnFileExit();
 	afx_msg void OnBnClickedBtnSchema();
+	afx_msg void OnFileExport();
 };

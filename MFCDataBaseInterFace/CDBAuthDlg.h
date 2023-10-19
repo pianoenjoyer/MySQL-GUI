@@ -31,8 +31,8 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	CDBMainDlg mainWindow;
 	CEdit m_editServerName;
-	CString m_serverPassword;
 
+	CString m_serverPassword;
 	CString m_cServer;
 	CString m_cUser;
 	CString m_cPassword;

@@ -1,9 +1,9 @@
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CDBConnection.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CDBConnection.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CDBExportDlg.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CDBExportDlg.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CDBMainDlg.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CDBMainDlg.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CLoginDataSave.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CLoginDataSave.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CServerInfoDlg.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CServerInfoDlg.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CTimer.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CTimer.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CDBInterfaceApp.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CDBInterfaceApp.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\CDBAuthDlg.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\CDBAuthDlg.obj
-G:\Repos VS\DBInterface\MFCDataBaseInterFace\pch.cpp;G:\Repos VS\DBInterface\MFCDataBaseInterFace\x64\Custom\pch.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CDBConnection.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CDBConnection.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CDBExportDlg.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CDBExportDlg.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CDBMainDlg.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CDBMainDlg.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CLoginDataSave.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CLoginDataSave.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CServerInfoDlg.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CServerInfoDlg.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CTimer.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CTimer.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CDBInterfaceApp.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CDBInterfaceApp.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\CDBAuthDlg.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\CDBAuthDlg.obj
+C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\pch.cpp;C:\Users\HP\source\repos\pianoenjoyer\MFCDataBaseInterFace\MFCDataBaseInterFace\x64\Custom\pch.obj

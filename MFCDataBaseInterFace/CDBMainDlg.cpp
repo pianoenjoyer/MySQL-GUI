@@ -246,6 +246,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_FILE_SAVEAS, &CDBMainDlg::OnFileSaveas)
     ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CDBMainDlg::OnBnClickedBtnSchema)
+    ON_COMMAND(ID_FILE_EXPORT, &CDBMainDlg::OnFileExport)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -497,7 +498,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
         }
         populatedRows++;
     }
-    //SaveOriginalListState();
+    SaveOriginalListState();
 
     return 0;
 }
@@ -929,4 +930,10 @@ void CDBMainDlg::OnBnClickedBtnSchema()
     SendMessageToConsole(MSG_QUERY_OK, GREEN);
     FillListControl(resultSet);
     delete resultSet;
+}
+
+
+void CDBMainDlg::OnFileExport()
+{
+    OnBnClickedExport();
 }

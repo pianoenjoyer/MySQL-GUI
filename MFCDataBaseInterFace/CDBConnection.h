@@ -5,7 +5,6 @@
 
 class CDBConnection
 {
-
 public:
     CDBConnection();
     ~CDBConnection();
