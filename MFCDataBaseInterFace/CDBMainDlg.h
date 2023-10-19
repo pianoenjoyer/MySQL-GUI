@@ -83,4 +83,5 @@ public:
 	afx_msg void OnBnClickedBtnPrevpage();
 	afx_msg void OnBnClickedBtnNextpage();
 	afx_msg void OnCbnSelchangeSelTable();
+	afx_msg void OnBnClickedCheckShowall();
 };

@@ -32,7 +32,14 @@ int CServerInfoDlg::OnInitDialog()
 	m_pTabControl = (CTabCtrl*)GetDlgItem(IDC_TAB);
 	m_pTabControl->InsertItem(1, _T("User"));
 	m_pTabControl->InsertItem(1, _T("Server"));
-
+	//set pic for sever info
+	CImage image;
+	if (SUCCEEDED(image.Load(L".\\serverIcon(45x45).png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+	{
+		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_SERVERICON);
+		HBITMAP hBmp = image.Detach();
+		pPicCtrl->SetBitmap(hBmp);
+	}
 	return true;
 }
 

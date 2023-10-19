@@ -177,6 +177,14 @@ BOOL CDBMainDlg::OnInitDialog()
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
+    //set pic for sever info
+    CImage image;
+    if (SUCCEEDED(image.Load(L".\\serverIcon(22x22).png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+    {
+        CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_INFO);
+        HBITMAP hBmp = image.Detach();
+        pPicCtrl->SetBitmap(hBmp);
+    }
  
     //set list ctrl to table style
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
@@ -282,6 +290,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_PREVPAGE, &CDBMainDlg::OnBnClickedBtnPrevpage)
     ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CDBMainDlg::OnBnClickedBtnNextpage)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CDBMainDlg::OnCbnSelchangeSelTable)
+    ON_BN_CLICKED(IDC_CHECK_SHOWALL, &CDBMainDlg::OnBnClickedCheckShowall)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -1127,3 +1136,20 @@ void CDBMainDlg::OnCbnSelchangeSelTable()
 {
     OnBnClickedBtnPrinttable();
 }
+
+
+void CDBMainDlg::OnBnClickedCheckShowall()
+{
+    if (AfxMessageBox(_T("Do you really want to see all of the rows? For a "
+        "big table this could a long time "),
+        MB_YESNO | MB_ICONQUESTION) == IDYES)
+    {
+
+
+    }
+    else
+    {
+
+    }
+}
+
