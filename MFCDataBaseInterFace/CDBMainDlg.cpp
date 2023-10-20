@@ -190,7 +190,7 @@ BOOL CDBMainDlg::OnInitDialog()
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     pList->SetView(LV_VIEW_DETAILS);
     //current page = 1
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+
     //set default db
     FillDatabaseDropdown();
     FillLimitDropdown();
@@ -201,6 +201,7 @@ BOOL CDBMainDlg::OnInitDialog()
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
     ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     OnCbnSelchangeCmbSelDb();
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     return TRUE;
 }
 
@@ -372,9 +373,13 @@ inline sql::SQLString CStringToSQLString(const CString& cstr)
 
 void CDBMainDlg::OnBnClickedBtnGo()
 {
+    if (m_resultSet != nullptr)
+    {
+        delete m_resultSet;
+    }
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
-
+    
     //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
 
     sql::SQLString query = CStringToSQLString(sqlText);
@@ -404,9 +409,8 @@ void CDBMainDlg::OnBnClickedBtnGo()
     {
         SendMessageToConsole(errorString, RED);
     }
-    
-
-    delete resultSet;
+    m_resultSet = resultSet;
+    //delete resultSet;
 }
 
 CString BinaryDataToHexString(const CString& binaryData) {
@@ -572,6 +576,95 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     return 0;
 }
 
+
+int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
+    // get limit from dropdown
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
+    int selectedIndex = dropdown->GetCurSel();
+    CString dropdownText;
+    int limit;
+
+    if (selectedIndex != CB_ERR) {
+        dropdown->GetLBText(selectedIndex, dropdownText);
+    }
+    if (dropdownText == L"All") {
+        limit = 0;
+    }
+    else {
+        std::wstring wstr(dropdownText);
+        limit = std::stoi(wstr);
+    }
+
+    //get list
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
+    if (!resultSet || !pList) {
+        return 1;
+    }
+
+
+
+    // Очистка текущих элементов из CListCtrl
+    pList->DeleteAllItems();
+    while (pList->DeleteColumn(0)); // Удаление всех столбцов
+
+    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
+    int columnCount = metaData->getColumnCount();
+    CStringW columnName(L""), firstColData(L""), colData(L"");
+    
+    // Заполнение столбцов
+    for (int i = 1; i <= columnCount; i++) {
+        columnName = metaData->getColumnName(i).c_str();
+        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100);
+    }
+
+    int populatedRows = 0;
+    resultSet->absolute(offset + 1);
+    // Заполнение строк с учетом лимита
+    while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
+        firstColData = SQLStringToCString(resultSet->getString(1));
+
+        int nItemCount = pList->GetItemCount();
+        int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, firstColData, 0, 0, 0, 0);
+
+        for (int i = 1; i <= columnCount; i++) {
+            // Проверка типа столбца: является ли он бинарным
+            if (metaData->getColumnType(i) == sql::DataType::BINARY ||
+                metaData->getColumnType(i) == sql::DataType::VARBINARY ||
+                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
+                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
+            }
+            else {
+                colData = SQLStringToCString(resultSet->getString(i));
+            }
+            pList->SetItemText(nIndex, i - 1, colData);
+        }
+        populatedRows++;
+    }
+
+    SaveOriginalListState();
+    // Calculate the number of pages
+    CString strMaxPages;
+    CString str;
+    std::map<int, ListItem> pages;
+    auto rowsCount = resultSet->rowsCount();
+
+    if (limit == 0)
+    {
+        strMaxPages.Format(_T("%d"), 1);
+    }
+    else
+    {
+        auto maxPages = rowsCount / limit;
+        if (rowsCount % limit != 0) {
+            maxPages++;
+        }
+        strMaxPages.Format(_T("%d"), maxPages);
+        GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
+    }
+
+
+    return 0;
+}
 //save changes to vector to redo and undo in future
 void CDBMainDlg::OnEnChangeEditQtext()
 {
@@ -653,7 +746,6 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
     // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
-    SetRichControlTextSize(p_richEdit, 250);
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
   
 }
@@ -1052,17 +1144,25 @@ void CDBMainDlg::OnEnChangeEditCurrentpage()
     if (pageNumberStr == L"")
     {
         pEdit->SetWindowTextW(L"1");
+        return; // Return here after setting the page to 1 to avoid further calculations in this call.
     }
     std::wstring wstr(pageNumberStr);
     int pageNumber = std::stoi(wstr);
-    
-    // get limit from dropdown
+
+    // Ensure pageNumber is at least 1
+    if (pageNumber < 1)
+    {
+        pageNumber = 1;
+        pEdit->SetWindowTextW(L"1");
+    }
+
+    // Get limit from dropdown
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
     int selectedIndex = dropdown->GetCurSel();
     CString dropdownText;
     int limit;
 
-  /*  if (selectedIndex != CB_ERR) {
+    if (selectedIndex != CB_ERR) {
         dropdown->GetLBText(selectedIndex, dropdownText);
     }
     if (dropdownText == L"All") {
@@ -1071,13 +1171,12 @@ void CDBMainDlg::OnEnChangeEditCurrentpage()
     else {
         std::wstring wstr(dropdownText);
         limit = std::stoi(wstr);
-    }*/
+    }
 
-    int offset = limit * pageNumber;
-
-
-
+    int offset = (pageNumber - 1) * limit; // Fixed offset calculation
+    FillListControl(m_resultSet, offset);
 }
+
 
 
 void CDBMainDlg::OnBnClickedBtnFirstpage()
@@ -1116,20 +1215,40 @@ void CDBMainDlg::OnBnClickedBtnPrevpage()
 
 void CDBMainDlg::OnBnClickedBtnNextpage()
 {
-    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE); // Cast to CEdit* for clarity
+
     CStringW pageNumberStr;
     pEdit->GetWindowTextW(pageNumberStr);
-    if (pageNumberStr == L"")
+
+    // If the current page number string is empty, default it to "1" and return.
+    if (pageNumberStr.IsEmpty())  // Use IsEmpty() method instead of == L""
     {
         pEdit->SetWindowTextW(L"1");
-        return; // If it's already the first page, just return.
+        return;
     }
-    std::wstring wstr(pageNumberStr);
-    int pageNumber = std::stoi(wstr);
-    pageNumber++;
-    pageNumberStr.Format(_T("%d"), pageNumber);
-    pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
+
+    // Get the maximum page number from the IDC_STAT_MAXPAGE control
+    CStringW maxPageCStr;
+    auto pMaxPageCtrl = (CStatic*)GetDlgItem(IDC_STAT_MAXPAGE); // Cast to CStatic* for clarity
+    pMaxPageCtrl->GetWindowTextW(maxPageCStr);
+
+    // Convert page numbers from CStringW to integers
+    int currentPage = _wtoi(pageNumberStr);  // Use _wtoi for a simpler string to int conversion
+    int maxPage = _wtoi(maxPageCStr);
+
+    // Check if we're already on the last page
+    if (currentPage >= maxPage)
+    {
+        // Optionally: notify the user or handle this case differently
+        return;
+    }
+
+    // Increment the page number and update the control
+    currentPage++;
+    pageNumberStr.Format(_T("%d"), currentPage);
+    pEdit->SetWindowTextW(pageNumberStr);
 }
+
 
 
 void CDBMainDlg::OnCbnSelchangeSelTable()

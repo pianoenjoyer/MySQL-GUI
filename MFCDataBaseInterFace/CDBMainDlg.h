@@ -33,6 +33,8 @@ public:
 	CString m_SQLtextQuery;
 	CString m_titleDatabaseName;
 
+	sql::ResultSet* m_resultSet;
+
 	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
@@ -40,6 +42,7 @@ public:
 	void CDBMainDlg::SaveOriginalListState();
 	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
 	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet);
+	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset);
 	void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
 	void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color);
