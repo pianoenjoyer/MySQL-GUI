@@ -292,6 +292,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CDBMainDlg::OnBnClickedBtnNextpage)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CDBMainDlg::OnCbnSelchangeSelTable)
     ON_BN_CLICKED(IDC_CHECK_SHOWALL, &CDBMainDlg::OnBnClickedCheckShowall)
+    ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -377,6 +378,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
     {
         delete m_resultSet;
     }
+
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
     
@@ -410,6 +412,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
         SendMessageToConsole(errorString, RED);
     }
     m_resultSet = resultSet;
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     //delete resultSet;
 }
 
@@ -691,6 +694,10 @@ void CDBMainDlg::OnBnClickedBtnDisconnect()
 
 void CDBMainDlg::OnBnClickedBtnPrinttable()
 {
+    if (m_resultSet != nullptr)
+    {
+        delete m_resultSet;
+    }
     CString tableName;
     CString resultString;
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE); 
@@ -705,11 +712,11 @@ void CDBMainDlg::OnBnClickedBtnPrinttable()
     CString Query = L"SELECT * FROM ";
     Query += tableName;
     sql::SQLString query(CW2A(Query.GetString()));
-
     sql::ResultSet* resultSet = db->ExecuteQuery(query);
+    m_resultSet = resultSet;
     //SendMessageToConsole(MSG_QUERY_OK, GREEN);
     FillListControl(resultSet);
-    delete resultSet;
+    //delete resultSet;
 }
 
 //sent msg to output contol
@@ -1079,6 +1086,11 @@ void CDBMainDlg::OnFileExit()
     this->EndDialog(IDCANCEL);
 }
 
+void CDBMainDlg::OnHelpMysqldocumentation()
+{
+    ShellExecute(0, 0, L"https://dev.mysql.com/doc/refman/8.1/en/", 0, 0, SW_SHOW);
+
+}
 
 void CDBMainDlg::OnFileExport()
 {
@@ -1271,4 +1283,6 @@ void CDBMainDlg::OnBnClickedCheckShowall()
 
     }
 }
+
+
 

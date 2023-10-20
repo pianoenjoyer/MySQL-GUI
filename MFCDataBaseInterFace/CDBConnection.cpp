@@ -254,7 +254,7 @@ std::vector<sql::SQLString> CDBConnection::GetDatabases()
 
 
 
-bool CDBConnection::ChangeCurrentDatabase(sql::SQLString& databaseName)
+bool CDBConnection::ChangeCurrentDatabase(const sql::SQLString& databaseName)
 {
     try
     {
