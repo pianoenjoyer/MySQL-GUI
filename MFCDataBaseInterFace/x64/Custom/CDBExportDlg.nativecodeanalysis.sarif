@@ -1,0 +1,143 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'CDBExportDlg::m_hIcon' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MFCDataBaseInterFace/MFCDataBaseInterFace/CDBExportDlg.cpp"
+                },
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 15
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "CDBExportDlg::{ctor}",
+                  "decoratedName": "??0CDBExportDlg@@QEAA@PEAVCWnd@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CDBExportDlg::m_hIcon"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'CDBExportDlg::m_pList' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MFCDataBaseInterFace/MFCDataBaseInterFace/CDBExportDlg.cpp"
+                },
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 15
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "CDBExportDlg::{ctor}",
+                  "decoratedName": "??0CDBExportDlg@@QEAA@PEAVCWnd@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CDBExportDlg::m_pList"
+          }
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.37.32822.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MFCDataBaseInterFace/MFCDataBaseInterFace/CDBExportDlg.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "6d44ce4ce0fae4d972fbe90f5cae65da7df323894cdcb3d91678941c2cb54fd7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/pch.h"
+          },
+          "hashes": {
+            "sha-256": "c2d8c468b0dd828eaa49a609c5e54ebca95ea4d2de3cd390e968e01c5d7f79ed"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/framework.h"
+          },
+          "hashes": {
+            "sha-256": "3fbdf2536ce3b71811d81172bb1ccc2d58b44b569326433f3ca10477e724c4a4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/targetver.h"
+          },
+          "hashes": {
+            "sha-256": "a2761fdbd4c8925741ddea678ee8398de930207e447666bc6a76d5f72684c04f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbinterfaceapp.h"
+          },
+          "hashes": {
+            "sha-256": "d421cb85cb68a6f6e18dde9315c2ba6ebf6a65f41aea01b9dc52706b3fb5a822"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/resource.h"
+          },
+          "hashes": {
+            "sha-256": "efae4f96c0fa4c50c7fe687b4085a4a560a9c76d157cbfd489d8626680a60d78"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbexportdlg.h"
+          },
+          "hashes": {
+            "sha-256": "e165c43d63563ff74f64abd875c1aff31d1f66290ed4e3931709dd1317a930da"
+          }
+        }
+      ]
+    }
+  ]
+}

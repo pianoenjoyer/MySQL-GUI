@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\mikhail\source\repos\pianoenjoyer\MFCDataBaseInterFace\connector\include\jdbc\cppconn\</FILEPATH>
+      <FILENAME>variant.h</FILENAME>
+      <LINE>298</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'sql::Variant::variant' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>sql::Variant::{ctor}</FUNCTION>
+    <DECORATED>??0Variant@sql@@QEAA@AEBV01@@Z</DECORATED>
+    <FUNCLINE>298</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>sql::Variant::variant</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

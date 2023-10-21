@@ -240,11 +240,12 @@ bool CDBMainDlg::FillTreeControl()
 bool CDBMainDlg::FillLimitDropdown() 
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_NMB_OF_ROWS));
-    pComboBox->AddString(L"25");
+    pComboBox->AddString(L"30");
     pComboBox->AddString(L"50");
     pComboBox->AddString(L"100");
     pComboBox->AddString(L"250");
     pComboBox->AddString(L"500");
+    pComboBox->AddString(L"1000");
     pComboBox->AddString(L"All");
     pComboBox->SetCurSel(0);
     return true;
@@ -293,6 +294,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CDBMainDlg::OnCbnSelchangeSelTable)
     ON_BN_CLICKED(IDC_CHECK_SHOWALL, &CDBMainDlg::OnBnClickedCheckShowall)
     ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
+    ON_CBN_SELCHANGE(IDC_COMBO_NMB_OF_ROWS, &CDBMainDlg::OnCbnSelchangeComboNmbOfRows)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -1286,3 +1288,9 @@ void CDBMainDlg::OnBnClickedCheckShowall()
 
 
 
+
+
+void CDBMainDlg::OnCbnSelchangeComboNmbOfRows()
+{
+    OnEnChangeEditCurrentpage();
+}

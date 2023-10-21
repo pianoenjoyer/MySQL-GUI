@@ -88,4 +88,5 @@ public:
 	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnBnClickedCheckShowall();
 	afx_msg void OnHelpMysqldocumentation();
+	afx_msg void OnCbnSelchangeComboNmbOfRows();
 };

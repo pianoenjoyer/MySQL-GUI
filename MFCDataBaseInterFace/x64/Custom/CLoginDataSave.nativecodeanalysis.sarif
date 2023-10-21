@@ -1,0 +1,67 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.37.32822.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/clogindatasave.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "63b5b4bcf3dc058ba09387a81b6b7dd9151d9da1bba1bb9b9ea5382c9f754d84"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/pch.h"
+          },
+          "hashes": {
+            "sha-256": "c2d8c468b0dd828eaa49a609c5e54ebca95ea4d2de3cd390e968e01c5d7f79ed"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/framework.h"
+          },
+          "hashes": {
+            "sha-256": "3fbdf2536ce3b71811d81172bb1ccc2d58b44b569326433f3ca10477e724c4a4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/targetver.h"
+          },
+          "hashes": {
+            "sha-256": "a2761fdbd4c8925741ddea678ee8398de930207e447666bc6a76d5f72684c04f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/clogindatasave.h"
+          },
+          "hashes": {
+            "sha-256": "6de507be5949519150071c00d5629e7fa2c4c9f77d0216bc63770698a74525e0"
+          }
+        }
+      ]
+    }
+  ]
+}
