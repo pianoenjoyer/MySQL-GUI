@@ -201,7 +201,8 @@ BOOL CDBMainDlg::OnInitDialog()
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
     ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     OnCbnSelchangeCmbSelDb();
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
     return TRUE;
 }
 
@@ -584,6 +585,10 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
 
 int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
     // get limit from dropdown
+    if (resultSet == nullptr)
+    {
+        return 0;
+    }
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
     int selectedIndex = dropdown->GetCurSel();
     CString dropdownText;
@@ -605,7 +610,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
     if (!resultSet || !pList) {
         return 1;
     }
-
+    
 
 
     // Очистка текущих элементов из CListCtrl
@@ -775,7 +780,11 @@ void CDBMainDlg::OnBnClickedBtnClroutput()
     // Clear existing items from the list control
     pList->DeleteAllItems();
     while (pList->DeleteColumn(0)); // Remove all columns
+    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE);
 
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    //delete m_resultSet;
 }
 
 
@@ -889,6 +898,7 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 //    }
 //}
 
+
 void CDBMainDlg::OnEnChangeListSearch()
 {
     // Retrieve the text from the edit control
@@ -930,6 +940,7 @@ void CDBMainDlg::OnEnChangeListSearch()
         }
     }
 }
+
 
 void CDBMainDlg::SaveOriginalListState()
 {
@@ -989,11 +1000,6 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     }
     SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
 }
-
-
-
-
-
 
 
 void CDBMainDlg::OnBnClickedButtonSave()
@@ -1088,11 +1094,12 @@ void CDBMainDlg::OnFileExit()
     this->EndDialog(IDCANCEL);
 }
 
+
 void CDBMainDlg::OnHelpMysqldocumentation()
 {
     ShellExecute(0, 0, L"https://dev.mysql.com/doc/refman/8.1/en/", 0, 0, SW_SHOW);
-
 }
+
 
 void CDBMainDlg::OnFileExport()
 {
@@ -1124,6 +1131,7 @@ void CDBMainDlg::OnConnectionDisconnect()
     this->EndDialog(IDOK);
 }
 
+
 void CDBMainDlg::OnEditCut()
 {
     ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Cut();
@@ -1153,6 +1161,12 @@ void CDBMainDlg::OnEditSelectall()
 void CDBMainDlg::OnEnChangeEditCurrentpage()
 {
     auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    if (m_resultSet == nullptr)
+    {
+        //pEdit->SetWindowTextW(L"0");
+        return;
+    }
+    
     CStringW pageNumberStr;
     pEdit->GetWindowTextW(pageNumberStr);
     if (pageNumberStr == L"")
@@ -1285,9 +1299,6 @@ void CDBMainDlg::OnBnClickedCheckShowall()
 
     }
 }
-
-
-
 
 
 void CDBMainDlg::OnCbnSelchangeComboNmbOfRows()

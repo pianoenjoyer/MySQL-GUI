@@ -1,7 +1,7 @@
 #pragma once
 #include "afxdialogex.h"
-
-
+#include "CDBMainDlg.h"
+#include "CDBExportDlg.h"
 // CServerInfoDlg dialog
 
 class CServerInfoDlg : public CDialogEx
@@ -11,6 +11,9 @@ class CServerInfoDlg : public CDialogEx
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_SERVERINFO };
 #endif
+	CTabCtrl m_TabControl;
+	CDBMainDlg m_FirstDlg;
+	CDBExportDlg m_SecondDlg;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
