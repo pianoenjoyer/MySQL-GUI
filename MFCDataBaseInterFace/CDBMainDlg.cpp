@@ -260,7 +260,6 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_GO, &CDBMainDlg::OnBnClickedBtnGo)
     ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMainDlg::OnEnChangeEditQtext)
     ON_BN_CLICKED(IDC_BTN_CLEAR, &CDBMainDlg::OnBnClickedBtnClear)
-    ON_BN_CLICKED(IDC_BTN_DISCONNECT, &CDBMainDlg::OnBnClickedBtnDisconnect)
     ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
     ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMainDlg::OnBnClickedBtnClroutput)
     ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
@@ -296,6 +295,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_CHECK_SHOWALL, &CDBMainDlg::OnBnClickedCheckShowall)
     ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
     ON_CBN_SELCHANGE(IDC_COMBO_NMB_OF_ROWS, &CDBMainDlg::OnCbnSelchangeComboNmbOfRows)
+    ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CDBMainDlg::OnAboutVersionandcredits)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -693,11 +693,7 @@ void CDBMainDlg::OnBnClickedBtnClear()
 }
 
 
-void CDBMainDlg::OnBnClickedBtnDisconnect()
-{
-    this->EndDialog(IDOK);
-    db->Disconnect();
-}
+
 
 void CDBMainDlg::OnBnClickedBtnPrinttable()
 {
@@ -782,8 +778,8 @@ void CDBMainDlg::OnBnClickedBtnClroutput()
     while (pList->DeleteColumn(0)); // Remove all columns
     auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE);
 
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+     //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
     //delete m_resultSet;
 }
 
@@ -1127,6 +1123,9 @@ void CDBMainDlg::OnMenuOpen()
 
 void CDBMainDlg::OnConnectionDisconnect()
 {
+    //delete m_resultSet;
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
+    pList->DeleteAllItems();
     db->Disconnect();
     this->EndDialog(IDOK);
 }
@@ -1304,4 +1303,11 @@ void CDBMainDlg::OnBnClickedCheckShowall()
 void CDBMainDlg::OnCbnSelchangeComboNmbOfRows()
 {
     OnEnChangeEditCurrentpage();
+}
+
+
+void CDBMainDlg::OnAboutVersionandcredits()
+{
+    CAboutDlg about;
+    about.DoModal();
 }

@@ -222,6 +222,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAboutDlg.h" />
     <ClInclude Include="CDBConnection.h" />
     <ClInclude Include="CDBExportDlg.h" />
     <ClInclude Include="CDBMainDlg.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAboutDlg.cpp" />
     <ClCompile Include="CDBConnection.cpp" />
     <ClCompile Include="CDBExportDlg.cpp" />
     <ClCompile Include="CDBMainDlg.cpp" />

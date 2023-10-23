@@ -53,7 +53,6 @@ public:
 	bool CDBMainDlg::FillDatabaseDropdown();
 	afx_msg void OnEnChangeEditQtext();
 	afx_msg void OnBnClickedBtnClear();
-	afx_msg void OnBnClickedBtnDisconnect();
 	afx_msg void OnBnClickedBtnPrinttable();
 	afx_msg void OnBnClickedBtnClroutput();
 	afx_msg void OnBnClickedBtnUndo();
@@ -89,4 +88,5 @@ public:
 	afx_msg void OnBnClickedCheckShowall();
 	afx_msg void OnHelpMysqldocumentation();
 	afx_msg void OnCbnSelchangeComboNmbOfRows();
+	afx_msg void OnAboutVersionandcredits();
 };

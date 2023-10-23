@@ -14,6 +14,8 @@
 #define IDD_PROCEDURES                  138
 #define IDD_DIALOG2                     139
 #define IDD_FUNCTIONS                   139
+#define IDD_DIALOG1                     142
+#define IDD_ABOUT                       142
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -137,7 +139,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        142
+#define _APS_NEXT_RESOURCE_VALUE        144
 #define _APS_NEXT_COMMAND_VALUE         32803
 #define _APS_NEXT_CONTROL_VALUE         1084
 #define _APS_NEXT_SYMED_VALUE           101
