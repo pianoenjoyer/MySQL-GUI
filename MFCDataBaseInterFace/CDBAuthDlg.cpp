@@ -12,6 +12,14 @@
 #define new DEBUG_NEW
 #endif
 
+
+CString GetAppCurrentDirectory()
+{
+	TCHAR buffer[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, buffer);
+	return CString(buffer);
+}
+
 //set key enter to connect button
 BOOL CDBAuthDlg::PreTranslateMessage(MSG* pMsg)
 {
@@ -56,6 +64,7 @@ END_MESSAGE_MAP()
 //ON INIT----------------------------------------------!!!
 BOOL CDBAuthDlg::OnInitDialog()
 {
+
 	CDialogEx::OnInitDialog();
 	AfxInitRichEdit2();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -64,7 +73,7 @@ BOOL CDBAuthDlg::OnInitDialog()
 	this->SetWindowTextW(_T("Authentication")); 
 	//set image
 	CImage image;
-	if (SUCCEEDED(image.Load(L".\\mysql_logo.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_LOGO);
 		HBITMAP hBmp = image.Detach();
@@ -127,6 +136,7 @@ HCURSOR CDBAuthDlg::OnQueryDragIcon()
 
 void CDBAuthDlg::OnBnClickedBtnConnect()
 {
+
 	CString server, user, password, database;
 	INT_PTR status = 0;
 	GetDlgItemText(IDC_SERVER_NAME, server);
@@ -165,12 +175,7 @@ void CDBAuthDlg::OnBnClickedBtnConnect()
 		
 }
 
-CString GetAppCurrentDirectory()
-{
-	TCHAR buffer[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, buffer);
-	return CString(buffer);
-}
+
 
 void CDBAuthDlg::OnBnClickedBtnExit()
 {

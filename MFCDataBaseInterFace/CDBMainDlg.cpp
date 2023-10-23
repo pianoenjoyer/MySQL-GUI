@@ -179,7 +179,7 @@ BOOL CDBMainDlg::OnInitDialog()
 
     //set pic for sever info
     CImage image;
-    if (SUCCEEDED(image.Load(L".\\serverIcon(22x22).png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+    if (SUCCEEDED(image.Load(L".\\Pictures\\serverIcon(22x22).png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
     {
         CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_INFO);
         HBITMAP hBmp = image.Detach();

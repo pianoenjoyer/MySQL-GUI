@@ -9,7 +9,7 @@ class CLoginDataSave {
 private:
 	CString m_strFileName;
 public:
-	CLoginDataSave(const CString& strFileName) : m_strFileName(strFileName) {};
+	CLoginDataSave(const CString& strFileName);
 	bool SaveLoginInfo(CString& usernameCtrl, CString& passwordCtrl);
 
 };

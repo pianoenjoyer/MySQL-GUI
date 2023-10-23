@@ -1,11 +1,15 @@
 #include "pch.h"
 #include "CLoginDataSave.h"
 
+CLoginDataSave::CLoginDataSave(const CString& strFileName)  : m_strFileName(strFileName)
+{
+
+}
 
 bool CLoginDataSave::SaveLoginInfo(CString& usernameCtrl, CString& passwordCtrl) 
 {
     std::ifstream loginData;
-    loginData.open("your_file.txt", std::ios::in | std::ios::out | std::ios::app);
+    loginData.open(m_strFileName, std::ios::in | std::ios::out | std::ios::app);
 
     if (!loginData.is_open())
     {
