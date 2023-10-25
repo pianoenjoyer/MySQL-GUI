@@ -1,5 +1,4 @@
 #pragma once
-
 #include "afxdialogex.h"
 #include "CDBMainDlg.h"
 #include "CDBExportDlg.h"

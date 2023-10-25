@@ -2,8 +2,8 @@
 #include "resource.h"
 #include "CDBConnection.h"
 #include "CDBMainDlg.h"
-#include "CLoginDataSave.h"
-
+#include <memory>
+#include "CAboutDlg.h"
 // CDBAuthDlg dialog
 class CDBAuthDlg : public CDialogEx
 {

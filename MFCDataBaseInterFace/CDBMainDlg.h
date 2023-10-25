@@ -2,18 +2,6 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 #include "CDBExportDlg.h"
-#include <locale>
-#include <codecvt>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <chrono>
-#include "pch.h"
-#include "CDBInterfaceApp.h"
-#include "framework.h"
-#include "CDBAuthDlg.h"
-#include "CServerInfoDlg.h"
-#include "CAboutDlg.h"
 // CDBMainDlg dialog
 
 class CDBMainDlg : public CDialogEx
