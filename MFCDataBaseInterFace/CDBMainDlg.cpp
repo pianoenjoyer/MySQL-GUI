@@ -1,17 +1,6 @@
-﻿#include <fstream>
-#include "pch.h"
-#include "CDBInterfaceApp.h"
-#include "afxdialogex.h"
+﻿
 #include "CDBMainDlg.h"
-#include "framework.h"
-#include "CDBAuthDlg.h"
-#include "CServerInfoDlg.h"
-#include <locale>
-#include <codecvt>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <chrono>
+
 
 
 #define RED RGB(255, 0, 0)
