@@ -93,4 +93,5 @@ public:
 	afx_msg void OnBnClickedBtnFormat();
 	afx_msg void OnBnClickedBtnRefactor();
 	afx_msg void OnBnClickedBtnSelect();
+	afx_msg void OnHelpServerinfo();
 };

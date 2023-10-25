@@ -295,6 +295,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_SELECTALL, &CDBMainDlg::OnBnClickedBtnSelectall)
     ON_BN_CLICKED(IDC_BTN_REFACTOR, &CDBMainDlg::OnBnClickedBtnRefactor)
     ON_BN_CLICKED(IDC_BTN_SELECT, &CDBMainDlg::OnBnClickedBtnSelect)
+    ON_COMMAND(ID_HELP_SERVERINFO, &CDBMainDlg::OnHelpServerinfo)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -1414,4 +1415,10 @@ void CDBMainDlg::OnBnClickedBtnSelect()
     }
     columnList.TrimRight(',');
     queryText->SetWindowTextW(L"SELECT " + columnList + "FROM " + database + "." + table + " " + "WHERE 1");
+}
+
+
+void CDBMainDlg::OnHelpServerinfo()
+{
+    
 }
