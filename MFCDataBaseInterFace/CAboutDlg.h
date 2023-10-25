@@ -1,4 +1,13 @@
 #pragma once
+#include "pch.h"
+#include "framework.h"
+#include "CDBInterfaceApp.h"
+#include "CDBAuthDlg.h"
+#include "CLoginDataSave.h"
+#include "afxdialogex.h"
+#include "CDBConnection.h"
+#include "CDBMainDlg.h"
+#include <atlimage.h>
 #include "afxdialogex.h"
 #include "resource.h"
 

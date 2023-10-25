@@ -1,4 +1,5 @@
 #pragma once
+#include "resource.h"
 #include "CDBConnection.h"
 #include "CDBMainDlg.h"
 #include <memory>
@@ -18,6 +19,7 @@ public:
 #endif
 
 protected:
+    //CLoginDataSave dataSaver;
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 

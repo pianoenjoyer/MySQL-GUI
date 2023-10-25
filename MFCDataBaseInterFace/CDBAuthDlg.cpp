@@ -1,13 +1,6 @@
-﻿#include "pch.h"
-#include "framework.h"
-#include "CDBInterfaceApp.h"
+﻿
 #include "CDBAuthDlg.h"
-#include "CLoginDataSave.h"
-#include "afxdialogex.h"
-#include "CDBConnection.h"
-#include "CDBMainDlg.h"
-#include <atlimage.h>
-#define N  M,  24;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -81,20 +74,26 @@ BOOL CDBAuthDlg::OnInitDialog()
 		pPicCtrl->SetBitmap(hBmp);
 	}
 
-	//default test data
-	m_cServer = "127.0.0.1:3306";
-	m_cUser = "root";
-	m_cPassword = "";
-	//m_cDatabase = "safelighting";
-		
-	CLoginDataSave DataSaver(L"config.txt");
-	DataSaver.SaveLoginInfo(m_cUser, m_cPassword);
-	GetDlgItem(IDC_SERVER_NAME)->SetWindowTextW(m_cServer);
-	//GetDlgItem(IDC_DATABASE_NAME)->SetWindowTextW(m_cDatabase);
-	GetDlgItem(IDC_USER_NAME2)->SetWindowTextW(m_cUser);
-	GetDlgItem(IDC_PASSWORD)->SetWindowTextW(m_cPassword);
+	CLoginDataSave dataSaver;
 
-	
+	if (dataSaver.ShouldRemember())
+	{
+		CString serverIP, username, password;
+		bool rememberMe;
+
+		// Load the saved data
+		if (dataSaver.LoadData(serverIP, username, password, rememberMe))
+		{
+			// Assuming you have member variables m_editServerIP, m_editUsername, m_editPassword, and m_chkRememberMe
+			// linked to the respective controls using DDX_Control in DoDataExchange
+			GetDlgItem(IDC_SERVER_NAME)->SetWindowTextW(serverIP);
+			GetDlgItem(IDC_USER_NAME2)->SetWindowTextW(username);
+			GetDlgItem(IDC_PASSWORD)->SetWindowTextW(password);
+			((CButton*)GetDlgItem(IDC_SAVE_LOGIN))->SetCheck(rememberMe ? BST_CHECKED : BST_UNCHECKED);
+		}
+	}
+
+
 
 	//OnBnClickedBtnConnect(); // REMOVE AFTER COMPLETE DEBUGGING
 	return TRUE;
@@ -137,24 +136,37 @@ HCURSOR CDBAuthDlg::OnQueryDragIcon()
 
 void CDBAuthDlg::OnBnClickedBtnConnect()
 {
+	CLoginDataSave dataSaver;
 
-	CString server, user, password, database;
+	CString server, user, password;
+	GetDlgItem(IDC_SERVER_NAME)->GetWindowTextW(server);
+	GetDlgItem(IDC_USER_NAME2)->GetWindowTextW(user);
+	GetDlgItem(IDC_PASSWORD)->GetWindowTextW(password);
+	bool rememberMe = (((CButton*)GetDlgItem(IDC_SAVE_LOGIN))->GetCheck() == BST_CHECKED);
+
+	// If "Remember Me" is checked, save the data
+	if (rememberMe)
+	{
+		dataSaver.SaveData(server, user, password, true);
+	}
+	else
+	{	//if not clear data from regisry
+		dataSaver.ClearData();
+	}
+
 	INT_PTR status = 0;
 	GetDlgItemText(IDC_SERVER_NAME, server);
 	GetDlgItemText(IDC_USER_NAME2, user);
 	GetDlgItemText(IDC_PASSWORD, password);
-	GetDlgItemText(IDC_DATABASE_NAME, database);
 
 	sql::SQLString sqlServer(CW2A(server.GetString()));
 	sql::SQLString sqlUser(CW2A(user.GetString()));
 	sql::SQLString sqlPassword(CW2A(password.GetString()));
-	sql::SQLString sqlDatabase(CW2A(database.GetString()));
 
 		if (db->Connect(sqlServer, sqlUser, sqlPassword))
 		{
 			mainWindow.db = this->db;
 			this->ShowWindow(SW_HIDE);
-			mainWindow.m_titleDatabaseName = database;
 			status = mainWindow.DoModal();
 		}
 		//check dialog exit status
@@ -172,7 +184,6 @@ void CDBAuthDlg::OnBnClickedBtnConnect()
 		default:
 			break;
 		}
-		
 		
 }
 
