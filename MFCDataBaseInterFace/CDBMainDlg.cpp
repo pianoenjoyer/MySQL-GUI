@@ -391,7 +391,7 @@ bool CDBMainDlg::FillLimitDropdown()
     pComboBox->AddString(L"500");
     pComboBox->AddString(L"1000");
     pComboBox->AddString(L"All");
-    pComboBox->SetCurSel(0);
+    pComboBox->SetCurSel(1);
     return true;
 }
 
@@ -1136,9 +1136,9 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     }
     else
     {
-        SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
+        //SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
     }
-    SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
+   // SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
 }
 
 
@@ -1196,7 +1196,7 @@ void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
     CServerInfoDlg serverinfoWindow;
     auto status = serverinfoWindow.DoModal();
-    *pResult = 0;
+    //*pResult = 0;
 }
 
 
