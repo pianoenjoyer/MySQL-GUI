@@ -93,7 +93,9 @@ BOOL CDBAuthDlg::OnInitDialog()
 		}
 	}
 
-
+	auto pCombo = (CComboBox*)GetDlgItem(IDC_COMBO_LANGUAGE);
+	pCombo->AddString(L"en");
+	pCombo->SetCurSel(0);
 
 	//OnBnClickedBtnConnect(); // REMOVE AFTER COMPLETE DEBUGGING
 	return TRUE;

@@ -2,7 +2,6 @@
 #include "CLoginDataSave.h"
 
 
-
 CLoginDataSave::CLoginDataSave()
 {
     // Constructor logic, if needed
@@ -21,7 +20,6 @@ void CLoginDataSave::SaveData(const CString& serverIP, const CString& username, 
         key.SetStringValue(_T("ServerIP"), EncryptData(serverIP));
         key.SetStringValue(_T("Username"), EncryptData(username));
         key.SetStringValue(_T("Password"), EncryptData(password));
-
         key.SetDWORDValue(_T("RememberMe"), rememberMe ? 1 : 0);
     }
 }
