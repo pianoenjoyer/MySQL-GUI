@@ -301,10 +301,10 @@ END_MESSAGE_MAP()
 void CDBMainDlg::OnBnClickedBtnBrowse()
 {
     CFileDialog fileOpenDialog(TRUE,
-        L"SQL files|sql",  // Добавляем поддержку .sql файлов
+        L"SQL files|sql",  // .sql
         NULL,
         OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-        L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",  // Изменяем фильтр файлов
+        L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",  // filter
         nullptr);
 
     if (fileOpenDialog.DoModal() == IDOK)
@@ -1076,7 +1076,7 @@ void CDBMainDlg::OnBnClickedBtnSchema()
     CString Query = L"DESCRIBE " + tableName + ";";
     sql::SQLString query(CW2A(Query.GetString()));
     sql::ResultSet* resultSet = db->ExecuteQuery(query);
-    SendMessageToConsole(MSG_QUERY_OK, GREEN);
+    //SendMessageToConsole(MSG_QUERY_OK, GREEN);
     FillListControl(resultSet);
     delete resultSet;
 }
@@ -1329,9 +1329,14 @@ void CDBMainDlg::OnBnClickedBtnSelectall()
     CString table;
     CString database;
 
+    if (dbDropdown->GetCount() == 0 || tablesDropdown->GetCount() == 0)
+    {
+        return;
+    }
+
     dbDropdown->GetLBText(selectedDBNumber, database); 
     tablesDropdown->GetLBText(selectedTableNumber, table); 
-
+    
 
     queryText->SetWindowTextW(L"SELECT * FROM " + database + "." + table + " " + "WHERE 1");
 }
