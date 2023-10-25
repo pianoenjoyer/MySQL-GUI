@@ -745,6 +745,8 @@ void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF col
 
     // Restore the previous selection
     ctrl.SetSel(saveCharRange);
+    // Scroll to the end so the latest text is visible //awesome
+    ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
 }
 
 void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
