@@ -14,8 +14,8 @@
 #define IDD_PROCEDURES                  138
 #define IDD_DIALOG2                     139
 #define IDD_FUNCTIONS                   139
-#define IDD_DIALOG1                     142
 #define IDD_ABOUT                       142
+#define IDD_NEWDB                       144
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -62,11 +62,15 @@
 #define IDC_BTN_DELETETABLE             1021
 #define IDC_BTN_PRINTTABLE3             1022
 #define IDC_BTN_GO2                     1023
+#define IDC_BTN_SELECTALL               1023
 #define IDC_BTN_GO3                     1024
 #define IDC_BTN_GO4                     1025
+#define IDC_BTN_INSERT                  1025
 #define IDC_BTN_GO5                     1026
+#define IDC_BTN_UPDATERECORD            1026
 #define IDC_COMBO_NMB_OF_ROWS           1027
 #define IDC_BTN_GO6                     1028
+#define IDC_BTN_DELETERECORD            1028
 #define IDC_LIST_SEARCH                 1029
 #define IDC_BUTTON1                     1030
 #define IDC_BTN_FIRSTPAGE               1030
@@ -102,6 +106,8 @@
 #define IDC_CHECK_SHOWALL               1080
 #define IDC_STAT_MAXPAGE                1082
 #define IDC_INFO_PIC                    1083
+#define IDC_BTN_REFACTOR                1086
+#define IDC_BUTTON9                     1087
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -139,9 +145,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        146
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1084
+#define _APS_NEXT_CONTROL_VALUE         1088
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

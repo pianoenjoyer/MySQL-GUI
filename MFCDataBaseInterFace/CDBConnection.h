@@ -24,6 +24,7 @@ public:
     sql::ResultSet* ExecuteQuery(const sql::SQLString& query, CString& error);
     std::vector<sql::SQLString> GetDatabases();
     std::vector<sql::SQLString> GetTables();
+    std::vector<sql::SQLString> GetTableColumns(const sql::SQLString& tableName);
 
     // Utility methods
     CString GetResultString(sql::ResultSet* resultSet);

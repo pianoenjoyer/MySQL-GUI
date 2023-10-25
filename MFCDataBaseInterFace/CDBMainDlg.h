@@ -89,4 +89,8 @@ public:
 	afx_msg void OnHelpMysqldocumentation();
 	afx_msg void OnCbnSelchangeComboNmbOfRows();
 	afx_msg void OnAboutVersionandcredits();
+	afx_msg void OnBnClickedBtnSelectall();
+	afx_msg void OnBnClickedBtnFormat();
+	afx_msg void OnBnClickedBtnRefactor();
+	afx_msg void OnBnClickedBtnSelect();
 };

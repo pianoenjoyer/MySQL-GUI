@@ -280,11 +280,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CDBMainDlg::OnBnClickedBtnSchema)
     ON_COMMAND(ID_FILE_EXPORT, &CDBMainDlg::OnFileExport)
-    ON_COMMAND(ID_EDIT_UNDO32772, &CDBMainDlg::OnEditUndo)
-    ON_COMMAND(ID_EDIT_REDO32773, &CDBMainDlg::OnEditRedo)
-    ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
-    ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
-    ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
+
     ON_COMMAND(ID_EDIT_SELECTALL, &CDBMainDlg::OnEditSelectall)
     ON_EN_CHANGE(IDC_EDIT_CURRENTPAGE, &CDBMainDlg::OnEnChangeEditCurrentpage)
     ON_BN_CLICKED(IDC_BTN_FIRSTPAGE, &CDBMainDlg::OnBnClickedBtnFirstpage)
@@ -296,6 +292,9 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
     ON_CBN_SELCHANGE(IDC_COMBO_NMB_OF_ROWS, &CDBMainDlg::OnCbnSelchangeComboNmbOfRows)
     ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CDBMainDlg::OnAboutVersionandcredits)
+    ON_BN_CLICKED(IDC_BTN_SELECTALL, &CDBMainDlg::OnBnClickedBtnSelectall)
+    ON_BN_CLICKED(IDC_BTN_REFACTOR, &CDBMainDlg::OnBnClickedBtnRefactor)
+    ON_BN_CLICKED(IDC_BTN_SELECT, &CDBMainDlg::OnBnClickedBtnSelect)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -686,10 +685,8 @@ void CDBMainDlg::OnEnChangeEditQtext()
 
 void CDBMainDlg::OnBnClickedBtnClear()
 {   
-    CString emptyString = L"";
-    GetDlgItem(IDC_EDT_FILENAME)->SetWindowTextW(emptyString);
-    GetDlgItem(IDC_EDT_FILENAME)->EnableWindow(TRUE);
-    GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(emptyString);
+    CRichEditCtrl* pEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    pEdit->SetWindowTextW(L"");
 }
 
 
@@ -767,7 +764,7 @@ void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::S
     pComboBox->ResetContent();
     if (values.empty())
     {
-        pComboBox->AddString(L"No elements found");
+        //pComboBox->AddString(L"No elements found");
         SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
@@ -1287,7 +1284,7 @@ void CDBMainDlg::OnBnClickedBtnNextpage()
 
 void CDBMainDlg::OnCbnSelchangeSelTable()
 {
-    OnBnClickedBtnPrinttable();
+    //OnBnClickedBtnPrinttable();
 }
 
 
@@ -1317,4 +1314,99 @@ void CDBMainDlg::OnAboutVersionandcredits()
 {
     CAboutDlg about;
     about.DoModal();
+}
+
+
+void CDBMainDlg::OnBnClickedBtnSelectall()
+{
+    OnBnClickedBtnClear();
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
+    int selectedDBNumber = dbDropdown->GetCurSel();
+    int selectedTableNumber = tablesDropdown->GetCurSel();
+    CString table;
+    CString database;
+
+    dbDropdown->GetLBText(selectedDBNumber, database); 
+    tablesDropdown->GetLBText(selectedTableNumber, table); 
+
+
+    queryText->SetWindowTextW(L"SELECT * FROM " + database + "." + table + " " + "WHERE 1");
+}
+
+CString FormatSQLQuery(const CString& query)
+{
+    CString formattedQuery;
+
+    // Splitting by space for simplicity.
+    int startPos = 0;
+    while (startPos >= 0)
+    {
+        CString token = query.Tokenize(L" ", startPos);
+        if (token.IsEmpty()) break;
+
+        // Add a newline and indent for specific keywords.
+        if (token.CompareNoCase(L"SELECT") == 0)
+        {
+            formattedQuery += token + L"\r\n";
+        }
+        else if (token.CompareNoCase(L"FROM") == 0 ||
+            token.CompareNoCase(L"WHERE") == 0 ||
+            token.CompareNoCase(L"JOIN") == 0 ||
+            token.CompareNoCase(L"ON") == 0)
+        {
+            formattedQuery.TrimRight();  // Trim any trailing spaces or commas
+            formattedQuery += L"\r\n" + token + L"\r\n";
+        }
+        else
+        {
+            formattedQuery += L"\t" + token + L"\r\n";
+        }
+    }
+
+    // Trim any extra newlines or whitespace at the end
+    formattedQuery.TrimRight();
+
+    return formattedQuery;
+}
+
+
+void CDBMainDlg::OnBnClickedBtnRefactor()
+{
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+
+    CString currentQuery;
+    queryText->GetWindowTextW(currentQuery);
+
+    CString formattedQuery = FormatSQLQuery(currentQuery);
+    queryText->SetWindowTextW(formattedQuery);
+}
+
+
+void CDBMainDlg::OnBnClickedBtnSelect()
+{
+    OnBnClickedBtnClear();
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
+    int selectedDBNumber = dbDropdown->GetCurSel();
+    int selectedTableNumber = tablesDropdown->GetCurSel();
+    CString table;
+    CString database;
+    CString columnList;
+
+    dbDropdown->GetLBText(selectedDBNumber, database);
+    tablesDropdown->GetLBText(selectedTableNumber, table);
+    std::vector<sql::SQLString> tableColumns = db->GetTableColumns(CStringToSQLString(table));
+
+    for (const auto& columns : tableColumns)
+    {
+        columnList += SQLStringToCString(columns);
+        columnList += ",";
+    }
+    columnList.TrimRight(',');
+    queryText->SetWindowTextW(L"SELECT " + columnList + "FROM " + database + "." + table + " " + "WHERE 1");
 }

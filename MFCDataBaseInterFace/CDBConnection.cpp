@@ -235,6 +235,27 @@ std::vector<sql::SQLString> CDBConnection::GetTables()
     return tables;
 }
 
+std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString& tableName)
+{
+    std::vector<sql::SQLString> columns;
+
+    sql::Statement* statement = m_connection->createStatement();
+    sql::ResultSet* resultSet = statement->executeQuery("DESCRIBE " + tableName);
+
+    while (resultSet->next())
+    {
+        sql::SQLString columnName = resultSet->getString("Field").asStdString();
+        columns.push_back(columnName);
+    }
+
+    delete resultSet;
+    delete statement;
+
+    return columns;
+}
+
+
+
 std::vector<sql::SQLString> CDBConnection::GetDatabases() 
 {
     std::vector<sql::SQLString> databases;
