@@ -102,6 +102,7 @@
 #define IDC_BTN_SAVE                    1075
 #define IDC_BTN_CLOSE                   1077
 #define IDC_BUTTON2                     1078
+#define IDC_BTN_FORWARD                 1078
 #define IDC_COMBO2                      1079
 #define IDC_CHECK_SHOWALL               1080
 #define IDC_STAT_MAXPAGE                1082

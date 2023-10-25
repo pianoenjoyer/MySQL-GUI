@@ -299,6 +299,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_INSERT, &CDBMainDlg::OnBnClickedBtnInsert)
     ON_BN_CLICKED(IDC_BTN_UPDATERECORD, &CDBMainDlg::OnBnClickedBtnUpdaterecord)
     ON_BN_CLICKED(IDC_BTN_DELETERECORD, &CDBMainDlg::OnBnClickedBtnDeleterecord)
+    ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -384,6 +385,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
     {
         delete m_resultSet;
     }
+    
 
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
@@ -394,23 +396,26 @@ void CDBMainDlg::OnBnClickedBtnGo()
 
     auto start = std::chrono::high_resolution_clock::now();
     sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
+    
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double>(end - start);
     double timeTaken = duration.count();
     CString timeTakenStr;
-    timeTakenStr.Format(_T("Query took: %.2f seconds"), timeTaken);
+    
 
     if (resultSet)
     {
-        SendMessageToConsole(timeTakenStr, GREEN);
+        int rowsCount = resultSet->rowsCount();
+        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
+        SendMessageToConsole(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
         FillListControl(resultSet);
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
-        timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        SendMessageToConsole(timeTakenStr, BLACK);
+        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
+        //SendMessageToConsole(timeTakenStr, BLACK);
 
     }
     else 
@@ -1499,4 +1504,22 @@ void CDBMainDlg::OnBnClickedBtnDeleterecord()
     dbDropdown->GetLBText(selectedDBNumber, database);
     tablesDropdown->GetLBText(selectedTableNumber, table);
     queryText->SetWindowTextW(L"DELETE FROM " + database + "." + table + " WHERE 0");
+}
+
+
+void CDBMainDlg::OnBnClickedBtnForward()
+{
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    HTREEITEM hSelectedItem = pTree->GetSelectedItem();
+
+    if (hSelectedItem)
+    {
+        CString itemText = pTree->GetItemText(hSelectedItem);
+        pRichEdit->ReplaceSel(itemText, TRUE);
+    }
+    else
+    {
+        AfxMessageBox(_T("No item selected!"));
+    }
 }

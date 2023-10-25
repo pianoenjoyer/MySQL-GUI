@@ -97,4 +97,5 @@ public:
 	afx_msg void OnBnClickedBtnInsert();
 	afx_msg void OnBnClickedBtnUpdaterecord();
 	afx_msg void OnBnClickedBtnDeleterecord();
+	afx_msg void OnBnClickedBtnForward();
 };
