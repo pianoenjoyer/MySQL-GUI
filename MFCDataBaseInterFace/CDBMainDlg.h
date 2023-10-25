@@ -92,6 +92,9 @@ public:
 	afx_msg void OnBnClickedBtnSelectall();
 	afx_msg void OnBnClickedBtnFormat();
 	afx_msg void OnBnClickedBtnRefactor();
-	afx_msg void OnBnClickedBtnSelect();
 	afx_msg void OnHelpServerinfo();
+	afx_msg void OnBnClickedBtnnSelect();
+	afx_msg void OnBnClickedBtnInsert();
+	afx_msg void OnBnClickedBtnUpdaterecord();
+	afx_msg void OnBnClickedBtnDeleterecord();
 };

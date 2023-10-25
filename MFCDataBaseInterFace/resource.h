@@ -107,7 +107,7 @@
 #define IDC_STAT_MAXPAGE                1082
 #define IDC_INFO_PIC                    1083
 #define IDC_BTN_REFACTOR                1086
-#define IDC_BUTTON9                     1087
+#define IDC_BTNN_SELECT                 1088
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -147,7 +147,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        146
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1088
+#define _APS_NEXT_CONTROL_VALUE         1089
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
