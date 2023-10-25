@@ -216,7 +216,17 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
             HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[TABLES]"), databaseItem);
             HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[PROCEDURES]"), databaseItem);
             HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[FUNCTIONS]"), databaseItem);
-
+            HTREEITEM viewsRoot = treeCtrl.InsertItem(_T("[VIEWS]"), databaseItem);
+            sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
+            if (viewsResultSet)
+            {
+                while (viewsResultSet->next())
+                {
+                    std::string viewName = viewsResultSet->getString(1);
+                    treeCtrl.InsertItem(CA2T(viewName.c_str()), viewsRoot);
+                }
+                delete viewsResultSet;
+            }
             // Fetch tables for the current database
             sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
             if (tableResultSet)
@@ -240,10 +250,12 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
                 }
                 delete tableResultSet;
             }
-
+       
+            
             // Fetch procedures for the current database
             CString query;
-            query.Format(CString("SHOW PROCEDURE STATUS WHERE Db = '%s'"), databaseName.c_str());
+            CString database(CA2T(databaseName.c_str()));
+            query.Format(CStringW(L"SHOW PROCEDURE STATUS WHERE Db = '%s'"), database);
             sql::ResultSet* procResultSet = db->ExecuteQuery(CStringToSQLString(query));
             if (procResultSet)
             {
@@ -256,7 +268,7 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
             }
 
             // Fetch functions for the current database
-            query.Format(CString("SHOW FUNCTION STATUS WHERE Db = '%s'"), databaseName.c_str());
+            query.Format(CStringW("SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
             sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
             if (funcResultSet)
             {
