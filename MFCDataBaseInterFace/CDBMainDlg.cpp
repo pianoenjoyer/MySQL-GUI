@@ -199,7 +199,7 @@ BOOL CDBMainDlg::OnInitDialog()
 
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
-    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
+    //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     OnCbnSelchangeCmbSelDb();
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
@@ -215,7 +215,7 @@ bool CDBMainDlg::FillDatabaseDropdown()
     std::vector<sql::SQLString> databases;
     databases = db->GetDatabases();
     PopulateDropdown(pComboBox, databases);
-    //pComboBox->SetCurSel(0);
+    pComboBox->SetCurSel(0);
     return true;
 }
 
@@ -763,6 +763,11 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
 void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
 {
     pComboBox->ResetContent();
+    if (values.empty())
+    {
+        pComboBox->AddString(L"No elements found");
+        SendMessageToConsole(L"No elements found", RED);
+    }
     for (const std::string& value : values)
     {
         CString item(value.c_str());

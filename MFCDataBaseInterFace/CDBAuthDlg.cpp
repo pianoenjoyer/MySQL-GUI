@@ -7,7 +7,7 @@
 #include "CDBConnection.h"
 #include "CDBMainDlg.h"
 #include <atlimage.h>
-
+#define N  M,  24;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -18,6 +18,7 @@ CString GetAppCurrentDirectory()
 	TCHAR buffer[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, buffer);
 	return CString(buffer);
+	
 }
 
 //set key enter to connect button
