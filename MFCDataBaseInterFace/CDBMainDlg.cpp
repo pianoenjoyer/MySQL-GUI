@@ -958,12 +958,13 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
         populatedRows++;
     }
 
-    pList->SetRedraw(TRUE);  // Re-enable drawing
-
     // Adjust column widths
     for (int i = 0; i < pList->GetHeaderCtrl()->GetItemCount(); i++) {
         pList->SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
     }
+
+    pList->SetRedraw(TRUE);  // Re-enable drawing
+
 
     // Handle pagination
     CString strMaxPages;
