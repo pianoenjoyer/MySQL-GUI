@@ -298,6 +298,8 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
         treeCtrl.DeleteAllItems();
     }
 
+    //add new node 
+    HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("New"), treeCtrl.GetRootItem());
     // Fetch databases
     sql::ResultSet* databaseResultSet = db->ExecuteQuery("SHOW DATABASES");
     if (databaseResultSet)
@@ -306,6 +308,8 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
         {
             std::string databaseName = databaseResultSet->getString(1);
             HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
+            //insert create new db element
+
 
             // Fetch tables for the current database
             sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
