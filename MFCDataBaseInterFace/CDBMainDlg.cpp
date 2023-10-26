@@ -315,7 +315,19 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
                 while (tableResultSet->next())
                 {
                     std::string tableName = tableResultSet->getString(1);
-                    treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
+                    HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
+
+                    // Fetch columns for the current table
+                    sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
+                    if (columnResultSet)
+                    {
+                        while (columnResultSet->next())
+                        {
+                            std::string columnName = columnResultSet->getString(1);
+                            treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
+                        }
+                        delete columnResultSet;
+                    }
                 }
                 delete tableResultSet;
             }
@@ -366,6 +378,7 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
         delete databaseResultSet;
     }
 }
+
 
 
 void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
