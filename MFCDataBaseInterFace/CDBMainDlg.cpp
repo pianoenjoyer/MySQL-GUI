@@ -2005,16 +2005,15 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (hItem)
     {
-        // Check if we clicked on an item (and not on the state icon)
-        if (flags & TVHT_ONITEM && !(flags & TVHT_ONITEMSTATEICON))
+            // Check if we clicked on an item (and not on the state icon)
+        if (pTree->GetItemText(hItem) == _T("New") && hItem == pTree->GetNextItem(NULL, TVGN_ROOT))
         {
-            if (pTree->GetItemText(hItem) == _T("New") && hItem != pTree->GetRootItem())
-            {
-                CNewDBDlg dlg;
-                dlg.DoModal();
-                *pResult = 0;
-                return;
-            }
+            CNewDBDlg dlg;
+            dlg.DoModal();
+            *pResult = 0;
+            return;
+        }
+            
             HTREEITEM parentItem = pTree->GetParentItem(hItem);
             if (parentItem && pTree->GetItemText(parentItem) == _T("[TABLES]"))
             {
@@ -2032,7 +2031,7 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
                 else
                     pTree->Expand(hItem, TVE_EXPAND);
             }
-        }
+        
     }
 
     *pResult = 0;
