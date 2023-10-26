@@ -445,6 +445,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_DELETERECORD, &CDBMainDlg::OnBnClickedBtnDeleterecord)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
     ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CDBMainDlg::OnTvnSelchangedTreeStructure)
+    ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CDBMainDlg::OnNMClickTreeStructure)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -1823,6 +1824,7 @@ void CDBMainDlg::OnBnClickedBtnForward()
 
 void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
+    //single click exa
     LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     CComboBox* pComboDatabases = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
@@ -1831,15 +1833,24 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     HTREEITEM hItem = pNMTreeView->itemNew.hItem;
     if (!hItem) return;
 
-    // Проверьте, является ли выбранный элемент базой данных или таблицей
+    // Handle expanding or collapsing the node on single click
+   /* if (pTree->ItemHasChildren(hItem))
+    {
+        UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
+        if (state & TVIS_EXPANDED)
+            pTree->Expand(hItem, TVE_COLLAPSE);
+        else
+            pTree->Expand(hItem, TVE_EXPAND);
+    }*/
+
+    // Check if the selected item is a database or a table
     HTREEITEM parentItem = pTree->GetParentItem(hItem);
 
-    if (!parentItem) // Это верхний уровень, так что, возможно, это база данных
+    if (!parentItem) // Top level, possibly a database
     {
         CString databaseName = pTree->GetItemText(hItem);
-        // Найдите и выберите databaseName в комбо боксе для баз данных
         int index = pComboDatabases->FindStringExact(0, databaseName);
-        if (index != CB_ERR) // Если найдено совпадение
+        if (index != CB_ERR)
         {
             pComboDatabases->SetCurSel(index);
             OnCbnSelchangeCmbSelDb();
@@ -1847,8 +1858,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     }
     else if (pTree->GetItemText(parentItem) == _T("[TABLES]"))
     {
-   
-        HTREEITEM grandParentItem = pTree->GetParentItem(parentItem); // Этот элемент должен быть базой данных
+        HTREEITEM grandParentItem = pTree->GetParentItem(parentItem); // This item should be a database
         if (grandParentItem)
         {
             CString databaseName = pTree->GetItemText(grandParentItem);
@@ -1861,12 +1871,52 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         }
 
         CString tableName = pTree->GetItemText(hItem);
-        // Найдите и выберите tableName в комбо боксе для таблиц
         int index = pComboTables->FindStringExact(0, tableName);
-        if (index != CB_ERR) // Если найдено совпадение
+        if (index != CB_ERR)
         {
             pComboTables->SetCurSel(index);
- 
+        }
+    }
+
+    *pResult = 0;
+}
+
+// single click expand selected element
+void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    UINT flags;
+    CPoint point;
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
+
+    // Get the current mouse position and convert it to client coordinates
+    GetCursorPos(&point);
+    pTree->ScreenToClient(&point);
+
+    // Get the tree item at the point
+    HTREEITEM hItem = pTree->HitTest(point, &flags);
+
+    if (hItem)
+    {
+        // Check if we clicked on an item (and not on the state icon)
+        if (flags & TVHT_ONITEM && !(flags & TVHT_ONITEMSTATEICON))
+        {
+            HTREEITEM parentItem = pTree->GetParentItem(hItem);
+            if (parentItem && pTree->GetItemText(parentItem) == _T("[TABLES]"))
+            {
+                // Если элемент является потомком узла [TABLES], ничего не делайте
+                *pResult = 0;
+                return;
+            }
+
+            if (pTree->ItemHasChildren(hItem))
+            {
+                // Expand or collapse the item
+                UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
+                if (state & TVIS_EXPANDED)
+                    pTree->Expand(hItem, TVE_COLLAPSE);
+                else
+                    pTree->Expand(hItem, TVE_EXPAND);
+            }
         }
     }
 

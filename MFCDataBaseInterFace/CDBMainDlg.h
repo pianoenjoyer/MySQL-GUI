@@ -99,4 +99,5 @@ public:
 	afx_msg void OnBnClickedBtnDeleterecord();
 	afx_msg void OnBnClickedBtnForward();
 	afx_msg void OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 };
