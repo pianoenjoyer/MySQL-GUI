@@ -196,6 +196,101 @@ CDBMainDlg::~CDBMainDlg()
 //    }
 //}
 
+//void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
+//{
+//    if (treeCtrl.GetRootItem())
+//    {
+//        treeCtrl.DeleteAllItems();
+//    }
+//
+//    // Fetch databases
+//    sql::ResultSet* databaseResultSet = db->ExecuteQuery("SHOW DATABASES");
+//    if (databaseResultSet)
+//    {
+//        while (databaseResultSet->next())
+//        {
+//            std::string databaseName = databaseResultSet->getString(1);
+//            HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
+//
+//            // Внутри каждой базы данных создаем узлы для таблиц, процедур и функций
+//            HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[TABLES]"), databaseItem);
+//            HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[PROCEDURES]"), databaseItem);
+//            HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[FUNCTIONS]"), databaseItem);
+//            HTREEITEM viewsRoot = treeCtrl.InsertItem(_T("[VIEWS]"), databaseItem);
+//
+//
+//
+//
+//
+//
+//
+//            sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
+//            if (viewsResultSet)
+//            {
+//                while (viewsResultSet->next())
+//                {
+//                    std::string viewName = viewsResultSet->getString(1);
+//                    treeCtrl.InsertItem(CA2T(viewName.c_str()), viewsRoot);
+//                }
+//                delete viewsResultSet;
+//            }
+//            // Fetch tables for the current database
+//            sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
+//            if (tableResultSet)
+//            {
+//                while (tableResultSet->next())
+//                {
+//                    std::string tableName = tableResultSet->getString(1);
+//                    HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
+//
+//                    // Fetch columns for each table
+//                    sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
+//                    if (columnResultSet)
+//                    {
+//                        while (columnResultSet->next())
+//                        {
+//                            std::string columnName = columnResultSet->getString(1);
+//                            treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
+//                        }
+//                        delete columnResultSet;
+//                    }
+//                }
+//                delete tableResultSet;
+//            }
+//       
+//            
+//            // Fetch procedures for the current database
+//            CString query;
+//            CString database(CA2T(databaseName.c_str()));
+//            query.Format(CStringW(L"SHOW PROCEDURE STATUS WHERE Db = '%s'"), database);
+//            sql::ResultSet* procResultSet = db->ExecuteQuery(CStringToSQLString(query));
+//            if (procResultSet)
+//            {
+//                while (procResultSet->next())
+//                {
+//                    std::string procedureName = procResultSet->getString("Name");
+//                    treeCtrl.InsertItem(CA2T(procedureName.c_str()), proceduresRoot);
+//                }
+//                delete procResultSet;
+//            }
+//
+//            // Fetch functions for the current database
+//            query.Format(CStringW("SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
+//            sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
+//            if (funcResultSet)
+//            {
+//                while (funcResultSet->next())
+//                {
+//                    std::string functionName = funcResultSet->getString("Name");
+//                    treeCtrl.InsertItem(CA2T(functionName.c_str()), functionsRoot);
+//                }
+//                delete funcResultSet;
+//            }
+//        }
+//        delete databaseResultSet;
+//    }
+//}
+
 void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
 {
     if (treeCtrl.GetRootItem())
@@ -212,53 +307,27 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
             std::string databaseName = databaseResultSet->getString(1);
             HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
 
-            // Внутри каждой базы данных создаем узлы для таблиц, процедур и функций
-            HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[TABLES]"), databaseItem);
-            HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[PROCEDURES]"), databaseItem);
-            HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[FUNCTIONS]"), databaseItem);
-            HTREEITEM viewsRoot = treeCtrl.InsertItem(_T("[VIEWS]"), databaseItem);
-            sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
-            if (viewsResultSet)
-            {
-                while (viewsResultSet->next())
-                {
-                    std::string viewName = viewsResultSet->getString(1);
-                    treeCtrl.InsertItem(CA2T(viewName.c_str()), viewsRoot);
-                }
-                delete viewsResultSet;
-            }
             // Fetch tables for the current database
             sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
-            if (tableResultSet)
+            if (tableResultSet && tableResultSet->rowsCount() > 0)
             {
+                HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[TABLES]"), databaseItem);
                 while (tableResultSet->next())
                 {
                     std::string tableName = tableResultSet->getString(1);
-                    HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
-
-                    // Fetch columns for each table
-                    sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
-                    if (columnResultSet)
-                    {
-                        while (columnResultSet->next())
-                        {
-                            std::string columnName = columnResultSet->getString(1);
-                            treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
-                        }
-                        delete columnResultSet;
-                    }
+                    treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
                 }
                 delete tableResultSet;
             }
-       
-            
-            // Fetch procedures for the current database
+
+            // Fetch procedures
             CString query;
             CString database(CA2T(databaseName.c_str()));
             query.Format(CStringW(L"SHOW PROCEDURE STATUS WHERE Db = '%s'"), database);
             sql::ResultSet* procResultSet = db->ExecuteQuery(CStringToSQLString(query));
-            if (procResultSet)
+            if (procResultSet && procResultSet->rowsCount() > 0)
             {
+                HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[PROCEDURES]"), databaseItem);
                 while (procResultSet->next())
                 {
                     std::string procedureName = procResultSet->getString("Name");
@@ -267,17 +336,31 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
                 delete procResultSet;
             }
 
-            // Fetch functions for the current database
-            query.Format(CStringW("SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
+            // Fetch functions
+            query.Format(CStringW(L"SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
             sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
-            if (funcResultSet)
+            if (funcResultSet && funcResultSet->rowsCount() > 0)
             {
+                HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[FUNCTIONS]"), databaseItem);
                 while (funcResultSet->next())
                 {
                     std::string functionName = funcResultSet->getString("Name");
                     treeCtrl.InsertItem(CA2T(functionName.c_str()), functionsRoot);
                 }
                 delete funcResultSet;
+            }
+
+            // Fetch views
+            sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
+            if (viewsResultSet && viewsResultSet->rowsCount() > 0)
+            {
+                HTREEITEM viewsRoot = treeCtrl.InsertItem(_T("[VIEWS]"), databaseItem);
+                while (viewsResultSet->next())
+                {
+                    std::string viewName = viewsResultSet->getString(1);
+                    treeCtrl.InsertItem(CA2T(viewName.c_str()), viewsRoot);
+                }
+                delete viewsResultSet;
             }
         }
         delete databaseResultSet;
