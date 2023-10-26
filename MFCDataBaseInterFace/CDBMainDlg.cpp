@@ -443,6 +443,8 @@ BOOL CDBMainDlg::OnInitDialog()
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
     OnBnClickedBtnUpdate();
+
+
     return TRUE;
 }
 
@@ -1158,8 +1160,7 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
     // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
-    AppendTextToRichEdit(*p_richEdit, fullMsg, color);
-  
+    AppendTextToRichEdit(*p_richEdit, fullMsg, color); 
 }
 
 void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
