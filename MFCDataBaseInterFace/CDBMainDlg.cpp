@@ -890,7 +890,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     }
     else
     {
-        auto maxPages = rowsCount / limit + (rowsCount % limit != 0);
+        int maxPages = rowsCount / limit + (rowsCount % limit != 0);
         strMaxPages.Format(_T("%d"), maxPages);
         GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
     }
@@ -1035,7 +1035,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
 
     // Populate rows
     int populatedRows = 0;
-    resultSet->absolute(offset + 1);
+    resultSet->absolute(offset);
 
     pList->SetRedraw(FALSE);  // Prevent redraw during data insertion
 
@@ -2009,6 +2009,7 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         if (pTree->GetItemText(hItem) == _T("New") && hItem == pTree->GetNextItem(NULL, TVGN_ROOT))
         {
             CNewDBDlg dlg;
+            dlg.db = this->db;
             dlg.DoModal();
             *pResult = 0;
             return;

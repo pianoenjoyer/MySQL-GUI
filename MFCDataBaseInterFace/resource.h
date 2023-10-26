@@ -20,6 +20,7 @@
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
 #define IDC_EDIT_CURRENTPAGE            1000
+#define IDC_EDIT_DBNAME                 1000
 #define IDC_EDIT2                       1001
 #define IDC_EDIT_QTEXT                  1001
 #define IDC_BTN_CONNECT                 1002
@@ -27,6 +28,8 @@
 #define IDC_LIST1                       1004
 #define IDC_COMBO1                      1005
 #define IDC_SEL_TABLE                   1005
+#define IDC_COMBO_DBNAME                1005
+#define IDC_COMBO_CHARSET               1005
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
 #define IDC_TAB                         1006
@@ -74,6 +77,7 @@
 #define IDC_LIST_SEARCH                 1029
 #define IDC_BUTTON1                     1030
 #define IDC_BTN_FIRSTPAGE               1030
+#define IDC_BTN_CREATEDB                1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_STATIC_FILTER               1032
@@ -110,7 +114,6 @@
 #define IDC_BTN_REFACTOR                1086
 #define IDC_BTNN_SELECT                 1088
 #define IDC_COMBO_LANGUAGE              1089
-#define IDC_BUTTON7                     1090
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773

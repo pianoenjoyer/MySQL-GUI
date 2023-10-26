@@ -25,6 +25,12 @@ void CNewDBDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
+BOOL CNewDBDlg::OnInitDialog()
+{
+	this->SetWindowTextW(L"Create new database...");
+
+	return TRUE;
+};
 
 BEGIN_MESSAGE_MAP(CNewDBDlg, CDialogEx)
 END_MESSAGE_MAP()
