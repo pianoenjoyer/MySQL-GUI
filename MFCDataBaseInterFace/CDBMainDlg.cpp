@@ -12,7 +12,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
-
+#include "CNewDBDlg.h"
 
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
@@ -1765,10 +1765,16 @@ CString FormatSQLQuery(const CString& query)
         {
             formattedQuery += token + L"\r\n";
         }
-        else if (token.CompareNoCase(L"FROM") == 0 ||
+        else if 
+           (token.CompareNoCase(L"FROM") == 0 ||
             token.CompareNoCase(L"WHERE") == 0 ||
             token.CompareNoCase(L"JOIN") == 0 ||
-            token.CompareNoCase(L"ON") == 0)
+            token.CompareNoCase(L"INSERT") == 0 ||
+            token.CompareNoCase(L"INTO") == 0 ||
+            token.CompareNoCase(L"ON") == 0  ||
+            token.CompareNoCase(L"UPDATE") == 0 ||
+            token.CompareNoCase(L"DELETE FROM") == 0 ||
+            token.CompareNoCase(L"VALUES") == 0)
         {
             formattedQuery.TrimRight();  // Trim any trailing spaces or commas
             formattedQuery += L"\r\n" + token + L"\r\n";
@@ -2002,6 +2008,13 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         // Check if we clicked on an item (and not on the state icon)
         if (flags & TVHT_ONITEM && !(flags & TVHT_ONITEMSTATEICON))
         {
+            if (pTree->GetItemText(hItem) == _T("New") && hItem != pTree->GetRootItem())
+            {
+                CNewDBDlg dlg;
+                dlg.DoModal();
+                *pResult = 0;
+                return;
+            }
             HTREEITEM parentItem = pTree->GetParentItem(hItem);
             if (parentItem && pTree->GetItemText(parentItem) == _T("[TABLES]"))
             {

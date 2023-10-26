@@ -227,6 +227,7 @@
     <ClInclude Include="CDBExportDlg.h" />
     <ClInclude Include="CDBMainDlg.h" />
     <ClInclude Include="CLoginDataSave.h" />
+    <ClInclude Include="CNewDBDlg.h" />
     <ClInclude Include="CServerInfoDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="framework.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="CDBExportDlg.cpp" />
     <ClCompile Include="CDBMainDlg.cpp" />
     <ClCompile Include="CLoginDataSave.cpp" />
+    <ClCompile Include="CNewDBDlg.cpp" />
     <ClCompile Include="CServerInfoDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
