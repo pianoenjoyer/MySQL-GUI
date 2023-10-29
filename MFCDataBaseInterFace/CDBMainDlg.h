@@ -101,3 +101,5 @@ public:
 	afx_msg void OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 };
+
+inline sql::SQLString CStringToSQLString(const CString& cstr);

@@ -5,7 +5,7 @@
 #include "afxdialogex.h"
 #include "CNewDBDlg.h"
 #include "resource.h"
-
+#include "CDBMainDlg.h"
 // CNewDBDlg dialog
 
 IMPLEMENT_DYNAMIC(CNewDBDlg, CDialogEx)
@@ -28,12 +28,62 @@ void CNewDBDlg::DoDataExchange(CDataExchange* pDX)
 BOOL CNewDBDlg::OnInitDialog()
 {
 	this->SetWindowTextW(L"Create new database...");
+    PopulateCharacterSetDropdown();
 
 	return TRUE;
 };
 
 BEGIN_MESSAGE_MAP(CNewDBDlg, CDialogEx)
+	ON_BN_CLICKED(IDC_BTN_CREATEDB, &CNewDBDlg::OnBnClickedBtnCreatedb)
 END_MESSAGE_MAP()
 
+void CNewDBDlg::PopulateCharacterSetDropdown()
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_CHARSET));
+    if (!pComboBox || !db)
+        return;
 
-// CNewDBDlg message handlers
+    auto resultSet = db->ExecuteQuery("SHOW CHARACTER SET;");
+    if (resultSet)
+    {
+        while (resultSet->next())
+        {
+            std::string charsetName = resultSet->getString("Charset"); // Get the character set name
+            pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
+        }
+        delete resultSet;  // Clean up
+    }
+}
+
+void CNewDBDlg::OnBnClickedBtnCreatedb()
+{
+    CString databaseName, charsetName;
+
+    CComboBox* pComboBox = (CComboBox*)(GetDlgItem(IDC_COMBO_CHARSET));
+    int selIndex = pComboBox->GetCurSel();
+    if (selIndex != CB_ERR)
+    {
+        pComboBox->GetLBText(selIndex, charsetName);
+    }
+
+    GetDlgItem(IDC_EDIT_DBNAME)->GetWindowTextW(databaseName);
+
+    if (!databaseName.IsEmpty() && !charsetName.IsEmpty())
+    {
+        CString query;
+        query.Format(_T("CREATE DATABASE `%s` CHARACTER SET %s;"), databaseName, charsetName);
+
+        if (db->ExecuteQuery(CStringToSQLString(query), query))
+        {
+            AfxMessageBox(L"Database created");
+        }
+        else
+        {
+            AfxMessageBox(L"Error");
+        }
+    }
+    else
+    {
+        AfxMessageBox(L"Error");
+    }
+}

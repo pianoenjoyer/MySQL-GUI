@@ -28,7 +28,6 @@
 #define IDC_LIST1                       1004
 #define IDC_COMBO1                      1005
 #define IDC_SEL_TABLE                   1005
-#define IDC_COMBO_DBNAME                1005
 #define IDC_COMBO_CHARSET               1005
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
