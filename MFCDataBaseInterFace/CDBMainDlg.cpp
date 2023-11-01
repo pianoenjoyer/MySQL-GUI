@@ -1,4 +1,5 @@
-﻿#include <fstream>
+﻿#pragma once
+#include <fstream>
 #include "pch.h"
 #include "CDBInterfaceApp.h"
 #include "afxdialogex.h"
@@ -185,7 +186,7 @@ BOOL CDBMainDlg::OnInitDialog()
     //set title || Now show current db name
     this->SetWindowTextW(L"MySQL GUI");
     //CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
-
+    m_resultSet = nullptr;
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
@@ -269,11 +270,10 @@ bool CDBMainDlg::FillDatabaseDropdown()
 
 bool CDBMainDlg::FillTableDropdown()
 {
-    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_SEL_TABLE));
     std::vector<sql::SQLString> tableNames;
     tableNames = db->GetTables();
-    PopulateDropdown(pComboBox, tableNames);
-    pComboBox->SetCurSel(0);
+    PopulateDropdown(&m_queryTab.m_comboTables, tableNames);
+    m_queryTab.m_comboTables.SetCurSel(0);
     return true;
 }
 
@@ -304,7 +304,6 @@ bool CDBMainDlg::FillLimitDropdown()
 
 BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_BTN_GO, &CDBMainDlg::OnBnClickedBtnGo)
     ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMainDlg::OnEnChangeEditQtext)
     ON_BN_CLICKED(IDC_BTN_CLEAR, &CDBMainDlg::OnBnClickedBtnClear)
     ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
@@ -931,31 +930,6 @@ void CDBMainDlg::OnBnClickedBtnPrinttable()
 }
 
 //sent msg to output contol
-void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color)
-{
-    // Save the current selection
-    CHARRANGE saveCharRange;
-    ctrl.GetSel(saveCharRange);
-
-    // Move the caret to the end of text
-    long lTextLength = ctrl.GetTextLength();
-    ctrl.SetSel(lTextLength, lTextLength);
-
-    // Set the color
-    CHARFORMAT cf = { 0 };
-    cf.cbSize = sizeof(CHARFORMAT);
-    cf.dwMask = CFM_COLOR;
-    cf.crTextColor = color;
-    ctrl.SetSelectionCharFormat(cf);
-
-    // Append the text
-    ctrl.ReplaceSel(text);
-
-    // Restore the previous selection
-    ctrl.SetSel(saveCharRange);
-    // Scroll to the end so the latest text is visible //awesome
-    ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
-}
 
 void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
 {
@@ -966,7 +940,6 @@ void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
     // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
-    AppendTextToRichEdit(*p_richEdit, fullMsg, color); 
 }
 
 void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
@@ -1788,10 +1761,10 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         }
 
         CString tableName = pTree->GetItemText(hItem);
-        int index = pComboTables->FindStringExact(0, tableName);
+        int index =  m_queryTab.m_comboTables.FindStringExact(0, tableName);
         if (index != CB_ERR)
         {
-            pComboTables->SetCurSel(index);
+            m_queryTab.m_comboTables.SetCurSel(index);
         }
     }
 

@@ -1,6 +1,6 @@
 // CResultTab.cpp : implementation file
 //
-
+#pragma once
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CResultTab.h"

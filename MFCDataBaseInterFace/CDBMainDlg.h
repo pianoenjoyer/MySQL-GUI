@@ -38,7 +38,10 @@ public:
 	CString m_titleDatabaseName;
 
 	sql::ResultSet* m_resultSet;
-	sql::ResultSet* GetResultSet() { return m_resultSet; }
+
+	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
+	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
+
 	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
@@ -53,7 +56,6 @@ public:
 	CString ReadFileContent();
 	void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color);
 	afx_msg void OnBnClickedBtnBrowse();
-	afx_msg void OnBnClickedBtnGo();
 	bool CDBMainDlg::FillTableDropdown();
 	bool CDBMainDlg::FillLimitDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();

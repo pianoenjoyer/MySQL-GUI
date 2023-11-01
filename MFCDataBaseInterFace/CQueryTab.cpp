@@ -8,6 +8,23 @@
 #include <chrono>
 #include "CDBMainDlg.h"
 // CQueryTab dialog
+#define RED RGB(255, 0, 0)
+#define GREEN RGB(0, 128, 0)
+#define BLACK RGB(0, 0, 0)
+
+//CONSOLE MESSEGES
+//Query msgs
+const CString MSG_QUERY_OK("Query completed");
+//Export msgs
+const CString MSG_EXPORT_START("Export started");
+const CString MSG_EXPORT_OK("Export completed");
+const CString MSG_EXPORT_ERR("Export error");
+const CString MSG_EXPORT_CANCEL("Export canceled");
+//DB change msgs
+// 
+// CDBMainDlg dialog
+const CString MSG_DBCHANGE_OK("Databased selected");
+const CString MSG_DBCHANGE_ERR("Databased select error");
 
 IMPLEMENT_DYNAMIC(CQueryTab, CDialogEx)
 
@@ -31,6 +48,46 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_GO, &CQueryTab::OnBnClickedBtnGo)
 END_MESSAGE_MAP()
+
+
+//sent msg to output
+void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color)
+{
+    // Save the current selection
+    CHARRANGE saveCharRange;
+    ctrl.GetSel(saveCharRange);
+
+    // Move the caret to the end of text
+    long lTextLength = ctrl.GetTextLength();
+    ctrl.SetSel(lTextLength, lTextLength);
+
+    // Set the color
+    CHARFORMAT cf = { 0 };
+    cf.cbSize = sizeof(CHARFORMAT);
+    cf.dwMask = CFM_COLOR;
+    cf.crTextColor = color;
+    ctrl.SetSelectionCharFormat(cf);
+
+    // Append the text
+    ctrl.ReplaceSel(text);
+
+    // Restore the previous selection
+    ctrl.SetSel(saveCharRange);
+    // Scroll to the end so the latest text is visible //awesome
+    ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
+}
+
+void CQueryTab::SendMessageToConsole(CString msg, COLORREF color)
+{
+    CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
+    CTime currentTime = CTime::GetCurrentTime();
+    // Format 
+    CString timeStr = currentTime.Format(_T("%H:%M:%S"));
+    // Adding timestamp
+    CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
+    // Append the text with a specific color
+    AppendTextToRichEdit(*p_richEdit, fullMsg, color);
+}
 
 inline sql::SQLString CStringToSQLString(const CString& cstr)
 {
@@ -61,15 +118,27 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
     return utf16CString;
 }
 
-void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText)
-{
-    sql::ResultSet* m_resultSet = ((CDBMainDlg*)GetParent())->GetResultSet();
 
-    if (m_resultSet != nullptr)
-    {
-        delete m_resultSet;
+void CQueryTab::ExecuteQueryMainDlg()
+{
+    sql::ResultSet* m_resultSet;
+
+    CDBMainDlg* pParent = dynamic_cast<CDBMainDlg*>(GetParent());
+    if (pParent) {
+        m_resultSet = pParent->GetResultSet();
+        if (m_resultSet != nullptr)
+        {
+            //delete pParent->m_resultSet;
+        }
+    }
+    else {
+        // Handle the case where the parent is not valid.
     }
 
+
+    
+
+    CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
 
     //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
@@ -92,20 +161,20 @@ void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText)
 
         SendMessageToConsole(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
-        FillListControl(resultSet);
+        //FillListControl(resultSet);
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
         //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        //SendMessageToConsole(timeTakenStr, BLACK);
-
+        SendMessageToConsole(timeTakenStr, BLACK);
+        pParent->SetResultSet(resultSet);
     }
     else
     {
         SendMessageToConsole(errorString, RED);
     }
-    m_resultSet = resultSet;
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+  
+    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     //delete resultSet;
 }
 
