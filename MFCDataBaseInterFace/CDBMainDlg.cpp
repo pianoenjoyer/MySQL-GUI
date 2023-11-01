@@ -7,14 +7,10 @@
 #include "framework.h"
 #include "CDBAuthDlg.h"
 #include "CServerInfoDlg.h"
-#include <locale>
-#include <codecvt>
 #include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <chrono>
 #include "CNewDBDlg.h"
 #include "Convertions.h"
+
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
 #define BLACK RGB(0, 0, 0)
@@ -35,18 +31,6 @@ const CString MSG_DBCHANGE_ERR("Databased select error");
 
 
 IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
-
-inline sql::SQLString CStringToSQLString(const CString& cstr)
-{
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), NULL, 0, NULL, NULL);
-
-    std::string utf8Str(size_needed, 0);
-
-    // Convert the UTF-16 string (CString) to UTF-8
-    WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), &utf8Str[0], size_needed, NULL, NULL);
-
-    return sql::SQLString(utf8Str);
-}
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 
@@ -256,7 +240,6 @@ BOOL CDBMainDlg::OnInitDialog()
 
 
 // fill drop down with table names of db
-
 bool CDBMainDlg::FillDatabaseDropdown() 
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
@@ -288,7 +271,6 @@ bool CDBMainDlg::FillTreeControl()
 
 BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
     ON_BN_CLICKED(IDC_EXPORT, &CDBMainDlg::OnBnClickedExport)
     ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CDBMainDlg::OnBnClickedBtnCollapse)
     ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMainDlg::OnBnClickedBtnExpand)
@@ -373,12 +355,6 @@ void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::S
 }
 
 
-void CDBMainDlg::OnBnClickedBtnUndo()
-{
-
-}
-
-
 void CDBMainDlg::OnBnClickedExport()
 {
     m_queryTab.SendMessageToConsole(MSG_EXPORT_START, BLACK);
@@ -431,7 +407,6 @@ void CDBMainDlg::OnBnClickedBtnExpand()
         pTree->Expand(hItem, TVE_EXPAND);
         hItem = pTree->GetNextSiblingItem(hItem);
     }
-    /*ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);*/
 }
 
 
@@ -459,13 +434,11 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
     if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
         FillTableDropdown();
-        //FillTreeControl(); //no need no more
     }
     else
     {
         m_queryTab.SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
     }
-   // SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
 }
 
 
@@ -514,9 +487,7 @@ void CDBMainDlg::OnConnectionCheckconnection()
     {
         AfxMessageBox(L"Disconnect");
     }
-
 }
-
 
 
 void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
@@ -555,13 +526,13 @@ void CDBMainDlg::OnFileExport()
 
 void CDBMainDlg::OnEditUndo()
 {
-   ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Undo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Undo();
 }
 
 
 void CDBMainDlg::OnEditRedo()
 {
-    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Redo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Redo();
 }
 
 
@@ -583,31 +554,26 @@ void CDBMainDlg::OnConnectionDisconnect()
 
 void CDBMainDlg::OnEditCut()
 {
-    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Cut();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Cut();
 }
 
 
 void CDBMainDlg::OnEditCopy()
 {
-    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Copy();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Copy();
 }
 
 
 
 void CDBMainDlg::OnEditPaste()
 {
-    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->Paste();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
 }
 
 
 void CDBMainDlg::OnEditSelectall()
 {
-    ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
-}
-
-void CDBMainDlg::OnCbnSelchangeSelTable()
-{
-    //OnBnClickedBtnPrinttable();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
 }
 
 
@@ -774,4 +740,3 @@ void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
         m_resultTab.ShowWindow(SW_SHOW);
     }
 }
-

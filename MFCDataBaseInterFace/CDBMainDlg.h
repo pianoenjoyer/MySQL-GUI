@@ -52,7 +52,6 @@ public:
 	afx_msg void OnBnClickedBtnBrowse();
 	bool CDBMainDlg::FillTableDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();
-	afx_msg void OnBnClickedBtnUndo();
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();
 	afx_msg void OnBnClickedBtnExpand();
@@ -72,7 +71,6 @@ public:
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
 	afx_msg void OnEditSelectall();
-	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnHelpMysqldocumentation();
 	afx_msg void OnAboutVersionandcredits();
 	afx_msg void OnHelpServerinfo();
