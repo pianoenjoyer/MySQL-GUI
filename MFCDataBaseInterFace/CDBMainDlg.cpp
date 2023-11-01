@@ -473,10 +473,10 @@ BOOL CDBMainDlg::OnInitDialog()
     pTabCtrl->GetItemRect(0, &rcItem1);
     m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
-    // Get the item rect for m_resultTab
+    // Get the item rect for m_resultTab and use rcItem1 rect
     CRect rcItem2;
     pTabCtrl->GetItemRect(1, &rcItem2);
-    m_resultTab.SetWindowPos(NULL, rcItem2.left, rcItem2.bottom - 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom - 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     // Show the initial tab (you should decide which one to show initially)
     m_queryTab.ShowWindow(SW_SHOW);
