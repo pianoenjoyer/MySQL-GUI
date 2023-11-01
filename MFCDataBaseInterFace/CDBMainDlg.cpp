@@ -48,6 +48,7 @@ inline sql::SQLString CStringToSQLString(const CString& cstr)
 }
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
+
 CDBMainDlg::CDBMainDlg(CWnd* pParent /*=nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
@@ -59,237 +60,6 @@ CDBMainDlg::~CDBMainDlg()
 
 }
 
-
-//void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl) { 
-//    if (treeCtrl.GetRootItem()) 
-//    {
-//        treeCtrl.DeleteAllItems();
-//    }
-//
-//    HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[Tables]"));
-//    HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[Procedures]"));
-//    HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[Functions]"));
-//    sql::ResultSet* resultSet;
-//
-//    CStringW queryBase = L"SHOW %s STATUS WHERE Db = '" + m_titleDatabaseName + L"'";
-//    CStringA query;
-//
-//    try {
-//        // Fetch all tables
-//        resultSet = db->ExecuteQuery("SHOW TABLES");
-//        if (resultSet) {
-//            while (resultSet->next()) {
-//                std::string tableName = resultSet->getString(1);
-//                HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
-//
-//                // For each table, fetch its columns
-//                sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + tableName);
-//                if (columnResultSet) {
-//                    while (columnResultSet->next()) {
-//                        std::string columnName = columnResultSet->getString(1);
-//                        treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
-//                    }
-//                    delete columnResultSet;
-//                }
-//            }
-//            delete resultSet;
-//        }
-//
-//        // Fetch all procedures
-//        query.Format(CStringA(queryBase), "PROCEDURE");
-//        std::string queryProcedure(query.GetBuffer());
-//        resultSet = db->ExecuteQuery(queryProcedure);
-//        if (resultSet) {
-//            while (resultSet->next()) {
-//                std::string procedureName = resultSet->getString("Name");
-//                treeCtrl.InsertItem(CA2T(procedureName.c_str()), proceduresRoot);
-//            }
-//            delete resultSet;
-//        }
-//
-//        // Fetch all functions
-//        query.Format(CStringA(queryBase), "FUNCTION");
-//        std::string queryFunction(query.GetBuffer());
-//        resultSet = db->ExecuteQuery(queryFunction);
-//        if (resultSet) {
-//            while (resultSet->next()) {
-//                std::string functionName = resultSet->getString("Name");
-//                treeCtrl.InsertItem(CA2T(functionName.c_str()), functionsRoot);
-//            }
-//            delete resultSet;
-//        }
-//
-//    }
-//    catch (sql::SQLException& e) {
-//        AfxMessageBox(CA2T(e.what()));
-//    }
-//}
-
-//void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
-//{
-//    if (treeCtrl.GetRootItem())
-//    {
-//        treeCtrl.DeleteAllItems();
-//    }
-//
-//    // Fetch databases
-//    sql::ResultSet* databaseResultSet = db->ExecuteQuery("SHOW DATABASES");
-//    if (databaseResultSet)
-//    {
-//        while (databaseResultSet->next())
-//        {
-//            std::string databaseName = databaseResultSet->getString(1);
-//            HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
-//
-//            // For each database, fetch its tables
-//            sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
-//            if (tableResultSet)
-//            {
-//                while (tableResultSet->next())
-//                {
-//                    std::string tableName = tableResultSet->getString(1);
-//                    HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), databaseItem);
-//
-//                    // For each table, fetch its columns
-//                    sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
-//                    if (columnResultSet)
-//                    {
-//                        while (columnResultSet->next())
-//                        {
-//                            std::string columnName = columnResultSet->getString(1);
-//                            treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
-//                        }
-//                        delete columnResultSet;
-//                    }
-//                }
-//                delete tableResultSet;
-//            }
-//
-//            // Fetch procedures for the database (similar to the previous example)
-//            CString query;
-//            query.Format(CString("SHOW PROCEDURE STATUS WHERE Db = '%s'"), databaseName.c_str());
-//            sql::ResultSet* procResultSet = db->ExecuteQuery(CStringToSQLString(query));
-//            if (procResultSet)
-//            {
-//                while (procResultSet->next())
-//                {
-//                    std::string procedureName = procResultSet->getString("Name");
-//                    treeCtrl.InsertItem(CA2T(procedureName.c_str()), databaseItem);  // attach procedures directly to the database
-//                }
-//                delete procResultSet;
-//            }
-//
-//            // Fetch functions for the database (similar to the procedures)
-//            query.Format(CString("SHOW FUNCTION STATUS WHERE Db = '%s'"), databaseName.c_str());
-//            sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
-//            if (funcResultSet)
-//            {
-//                while (funcResultSet->next())
-//                {
-//                    std::string functionName = funcResultSet->getString("Name");
-//                    treeCtrl.InsertItem(CA2T(functionName.c_str()), databaseItem);  // attach functions directly to the database
-//                }
-//                delete funcResultSet;
-//            }
-//        }
-//        delete databaseResultSet;
-//    }
-//}
-
-//void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
-//{
-//    if (treeCtrl.GetRootItem())
-//    {
-//        treeCtrl.DeleteAllItems();
-//    }
-//
-//    // Fetch databases
-//    sql::ResultSet* databaseResultSet = db->ExecuteQuery("SHOW DATABASES");
-//    if (databaseResultSet)
-//    {
-//        while (databaseResultSet->next())
-//        {
-//            std::string databaseName = databaseResultSet->getString(1);
-//            HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
-//
-//            // Внутри каждой базы данных создаем узлы для таблиц, процедур и функций
-//            HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("[TABLES]"), databaseItem);
-//            HTREEITEM proceduresRoot = treeCtrl.InsertItem(_T("[PROCEDURES]"), databaseItem);
-//            HTREEITEM functionsRoot = treeCtrl.InsertItem(_T("[FUNCTIONS]"), databaseItem);
-//            HTREEITEM viewsRoot = treeCtrl.InsertItem(_T("[VIEWS]"), databaseItem);
-//
-//
-//
-//
-//
-//
-//
-//            sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
-//            if (viewsResultSet)
-//            {
-//                while (viewsResultSet->next())
-//                {
-//                    std::string viewName = viewsResultSet->getString(1);
-//                    treeCtrl.InsertItem(CA2T(viewName.c_str()), viewsRoot);
-//                }
-//                delete viewsResultSet;
-//            }
-//            // Fetch tables for the current database
-//            sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
-//            if (tableResultSet)
-//            {
-//                while (tableResultSet->next())
-//                {
-//                    std::string tableName = tableResultSet->getString(1);
-//                    HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
-//
-//                    // Fetch columns for each table
-//                    sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
-//                    if (columnResultSet)
-//                    {
-//                        while (columnResultSet->next())
-//                        {
-//                            std::string columnName = columnResultSet->getString(1);
-//                            treeCtrl.InsertItem(CA2T(columnName.c_str()), tableItem);
-//                        }
-//                        delete columnResultSet;
-//                    }
-//                }
-//                delete tableResultSet;
-//            }
-//       
-//            
-//            // Fetch procedures for the current database
-//            CString query;
-//            CString database(CA2T(databaseName.c_str()));
-//            query.Format(CStringW(L"SHOW PROCEDURE STATUS WHERE Db = '%s'"), database);
-//            sql::ResultSet* procResultSet = db->ExecuteQuery(CStringToSQLString(query));
-//            if (procResultSet)
-//            {
-//                while (procResultSet->next())
-//                {
-//                    std::string procedureName = procResultSet->getString("Name");
-//                    treeCtrl.InsertItem(CA2T(procedureName.c_str()), proceduresRoot);
-//                }
-//                delete procResultSet;
-//            }
-//
-//            // Fetch functions for the current database
-//            query.Format(CStringW("SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
-//            sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
-//            if (funcResultSet)
-//            {
-//                while (funcResultSet->next())
-//                {
-//                    std::string functionName = funcResultSet->getString("Name");
-//                    treeCtrl.InsertItem(CA2T(functionName.c_str()), functionsRoot);
-//                }
-//                delete funcResultSet;
-//            }
-//        }
-//        delete databaseResultSet;
-//    }
-//}
 
 void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
 {
@@ -384,7 +154,6 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
 }
 
 
-
 void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
@@ -428,27 +197,7 @@ BOOL CDBMainDlg::OnInitDialog()
         HBITMAP hBmp = image.Detach();
         pPicCtrl->SetBitmap(hBmp);
     }
-    
-    //set list ctrl to table style
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    //pList->SetView(LV_VIEW_DETAILS);
-
-    //current page = 1
-
-    ///set default db
-    //FillDatabaseDropdown();
-    //FillLimitDropdown();
-    //set font size of sql text rich edit
-    //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-
-    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
-    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
-    //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
-    //OnCbnSelchangeCmbSelDb();
-    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
-    //OnBnClickedBtnUpdate();
-
+   
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
 
@@ -481,6 +230,28 @@ BOOL CDBMainDlg::OnInitDialog()
     // Show the initial tab (you should decide which one to show initially)
     m_queryTab.ShowWindow(SW_SHOW);
     m_resultTab.ShowWindow(SW_HIDE);
+
+    //set list ctrl to table style
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
+    pList->SetView(LV_VIEW_DETAILS);
+
+    //current page = 1
+
+    ///set default db
+    //FillDatabaseDropdown();
+    //FillLimitDropdown();
+    //set font size of sql text rich edit
+    //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+
+    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
+    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
+    //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
+    //OnCbnSelchangeCmbSelDb();
+    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    //OnBnClickedBtnUpdate();
+
+
 
     return TRUE;
 }
