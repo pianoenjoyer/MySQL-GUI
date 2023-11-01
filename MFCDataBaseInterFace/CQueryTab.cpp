@@ -55,6 +55,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CLEAR, &CQueryTab::OnBnClickedBtnClear)
     ON_BN_CLICKED(IDC_BTN_REFACTOR, &CQueryTab::OnBnClickedBtnRefactor)
     ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CQueryTab::OnBnClickedBtnClearmsg)
+    ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CQueryTab::OnCbnSelchangeSelTable)
 END_MESSAGE_MAP()
 
 
@@ -432,4 +433,9 @@ void CQueryTab::OnBnClickedBtnClearmsg()
         pRichEdit->SetWindowTextW(L"");
     }
     UpdateData(FALSE);
+}
+
+void CQueryTab::OnCbnSelchangeSelTable()
+{
+    // TODO: Add your control notification handler code here
 }

@@ -38,4 +38,5 @@ public:
 	afx_msg void OnBnClickedBtnClear();
 	afx_msg void OnBnClickedBtnRefactor();
 	afx_msg void OnBnClickedBtnClearmsg();
+	afx_msg void OnCbnSelchangeSelTable();
 };
