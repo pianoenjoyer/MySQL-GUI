@@ -205,6 +205,7 @@ BOOL CDBMainDlg::OnInitDialog()
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
 
+
     // Insert tab items
     TCITEM item1, item2;
     item1.mask = TCIF_TEXT | TCIF_PARAM;
@@ -220,38 +221,35 @@ BOOL CDBMainDlg::OnInitDialog()
     // Get the item rect for m_queryTab
     CRect rcItem1;
     pTabCtrl->GetItemRect(0, &rcItem1);
-    m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     // Get the item rect for m_resultTab and use rcItem1 rect
     CRect rcItem2;
     pTabCtrl->GetItemRect(1, &rcItem2);
-    m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom - 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    //give db object
+    m_queryTab.db = this->db;
+    m_resultTab.db = this->db;
     // Show the initial tab (you should decide which one to show initially)
     m_queryTab.ShowWindow(SW_SHOW);
     m_resultTab.ShowWindow(SW_HIDE);
 
-    //set list ctrl to table style
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    pList->SetView(LV_VIEW_DETAILS);
 
-    //current page = 1
+    FillDatabaseDropdown();
+    FillLimitDropdown();
 
-    ///set default db
-    //FillDatabaseDropdown();
-    //FillLimitDropdown();
     //set font size of sql text rich edit
     //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
+    
     //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     //OnCbnSelchangeCmbSelDb();
+
     //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
-    //OnBnClickedBtnUpdate();
-
-
+    OnBnClickedBtnUpdate();
 
     return TRUE;
 }
@@ -290,15 +288,14 @@ bool CDBMainDlg::FillTreeControl()
 
 bool CDBMainDlg::FillLimitDropdown() 
 {
-    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_NMB_OF_ROWS));
-    pComboBox->AddString(L"30");
-    pComboBox->AddString(L"50");
-    pComboBox->AddString(L"100");
-    pComboBox->AddString(L"250");
-    pComboBox->AddString(L"500");
-    pComboBox->AddString(L"1000");
-    pComboBox->AddString(L"All");
-    pComboBox->SetCurSel(1);
+    m_resultTab.m_comboLimit.AddString(L"30");
+    m_resultTab.m_comboLimit.AddString(L"50");
+    m_resultTab.m_comboLimit.AddString(L"100");
+    m_resultTab.m_comboLimit.AddString(L"250");
+    m_resultTab.m_comboLimit.AddString(L"500");
+    m_resultTab.m_comboLimit.AddString(L"1000");
+    m_resultTab.m_comboLimit.AddString(L"All");
+    m_resultTab.m_comboLimit.SetCurSel(1);
     return true;
 }
 
@@ -465,61 +462,6 @@ void CDBMainDlg::ExecuteQueryMainDlg()
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     //delete resultSet;
 }
-
-
-//if query text taken from other source
-void CDBMainDlg::ExecuteQueryMainDlg(CStringW sqlText)
-{
-    if (m_resultSet != nullptr)
-    {
-        delete m_resultSet;
-    }
-
-    GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
-
-    //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
-
-    sql::SQLString query = CStringToSQLString(sqlText);
-
-    auto start = std::chrono::high_resolution_clock::now();
-    sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration<double>(end - start);
-    double timeTaken = duration.count();
-    CString timeTakenStr;
-
-
-    if (resultSet)
-    {
-        int rowsCount = resultSet->rowsCount();
-        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
-
-        SendMessageToConsole(timeTakenStr, GREEN);
-        start = std::chrono::high_resolution_clock::now();
-        FillListControl(resultSet);
-        end = std::chrono::high_resolution_clock::now();
-        duration = std::chrono::duration<double>(end - start);
-        timeTaken = duration.count();
-        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        //SendMessageToConsole(timeTakenStr, BLACK);
-
-    }
-    else
-    {
-        SendMessageToConsole(errorString, RED);
-    }
-    m_resultSet = resultSet;
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
-    //delete resultSet;
-}
-
-
-void CDBMainDlg::OnBnClickedBtnGo()
-{
-    ExecuteQueryMainDlg();
-}
-
 
 
 CString BinaryDataToHexString(const CString& binaryData) {

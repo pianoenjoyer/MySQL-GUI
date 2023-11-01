@@ -21,4 +21,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	std::shared_ptr<CDBConnection> db;
+	CListCtrl m_resultList;
+	CComboBox m_comboLimit;
 };

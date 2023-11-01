@@ -38,7 +38,7 @@ public:
 	CString m_titleDatabaseName;
 
 	sql::ResultSet* m_resultSet;
-
+	sql::ResultSet* GetResultSet() { return m_resultSet; }
 	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
