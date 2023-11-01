@@ -167,18 +167,60 @@ void CResultTab::OnBnClickedBtnClroutput()
 
 void CResultTab::OnBnClickedCheckShowall()
 {
-	// TODO: Add your control notification handler code here
+    if (AfxMessageBox(_T("Do you really want to see all of the rows? For a "
+        "big table this could a long time "),
+        MB_YESNO | MB_ICONQUESTION) == IDYES)
+    {
+
+
+    }
+    else
+    {
+
+    }
 }
 
 
 void CResultTab::OnEnChangeListSearch()
 {
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialogEx::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
+    // Retrieve the text from the edit control
+    CString searchText;
+    GetDlgItem(IDC_LIST_SEARCH)->GetWindowText(searchText);
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
 
-	// TODO:  Add your control notification handler code here
+    // First, restore the list from m_AllItems
+    pList->DeleteAllItems();
+    for (const auto& listItem : m_AllItems) {
+        int index = pList->InsertItem(0, listItem.mainItem);
+        for (size_t i = 0; i < listItem.subItems.size(); ++i) {
+            pList->SetItemText(index, i + 1, listItem.subItems[i]);
+        }
+    }
+
+    // Now, apply the search on the restored list
+    int columnCount = pList->GetHeaderCtrl()->GetItemCount();
+
+    // Loop through the items in the list control
+    for (int i = pList->GetItemCount() - 1; i >= 0; --i) {
+
+        bool matchFound = false;
+
+        // Iterate through each column for the current row
+        for (int j = 0; j < columnCount; ++j) {
+            CString itemText = pList->GetItemText(i, j);
+
+            // If the item contains the search text, flag it as a match and break the loop
+            if (itemText.Find(searchText) != -1) {
+                matchFound = true;
+                break;
+            }
+        }
+
+        // If no match is found in any column for the current item, remove it
+        if (!matchFound) {
+            pList->DeleteItem(i);
+        }
+    }
 }
 
 

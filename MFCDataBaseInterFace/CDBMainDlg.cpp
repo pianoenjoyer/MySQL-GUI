@@ -286,41 +286,22 @@ bool CDBMainDlg::FillTreeControl()
 }
 
 
-
-
-
 BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
-    ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMainDlg::OnBnClickedBtnClroutput)
     ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
-    ON_BN_CLICKED(IDC_BTN_DELETETABLE, &CDBMainDlg::OnBnClickedBtnDeletetable)
     ON_BN_CLICKED(IDC_EXPORT, &CDBMainDlg::OnBnClickedExport)
     ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CDBMainDlg::OnBnClickedBtnCollapse)
     ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMainDlg::OnBnClickedBtnExpand)
     ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMainDlg::OnBnClickedBtnUpdate)
-    ON_EN_CHANGE(IDC_LIST_SEARCH, &CDBMainDlg::OnEnChangeListSearch)
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
-    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
-    //ON_BN_CLICKED(IDC_BUTTON_SAVE, &CDBMainDlg::OnBnClickedButtonSave)
     ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CDBMainDlg::OnNMClickSyslinkServerinfo)
     ON_COMMAND(ID_FILE_SAVEAS, &CDBMainDlg::OnFileSaveas)
     ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
-    ON_BN_CLICKED(IDC_BTN_SCHEMA, &CDBMainDlg::OnBnClickedBtnSchema)
     ON_COMMAND(ID_FILE_EXPORT, &CDBMainDlg::OnFileExport)
-
     ON_COMMAND(ID_EDIT_SELECTALL, &CDBMainDlg::OnEditSelectall)
-    ON_EN_CHANGE(IDC_EDIT_CURRENTPAGE, &CDBMainDlg::OnEnChangeEditCurrentpage)
-    ON_BN_CLICKED(IDC_BTN_FIRSTPAGE, &CDBMainDlg::OnBnClickedBtnFirstpage)
-    ON_BN_CLICKED(IDC_BTN_LASTPAGE, &CDBMainDlg::OnBnClickedBtnLastpage)
-    ON_BN_CLICKED(IDC_BTN_PREVPAGE, &CDBMainDlg::OnBnClickedBtnPrevpage)
-    ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CDBMainDlg::OnBnClickedBtnNextpage)
-    ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CDBMainDlg::OnCbnSelchangeSelTable)
-    ON_BN_CLICKED(IDC_CHECK_SHOWALL, &CDBMainDlg::OnBnClickedCheckShowall)
     ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
-    ON_CBN_SELCHANGE(IDC_COMBO_NMB_OF_ROWS, &CDBMainDlg::OnCbnSelchangeComboNmbOfRows)
     ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CDBMainDlg::OnAboutVersionandcredits)
     ON_COMMAND(ID_HELP_SERVERINFO, &CDBMainDlg::OnHelpServerinfo)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
@@ -376,224 +357,19 @@ CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
 }
 
 
-int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
-    if (!resultSet) return 1;
-
-    // Get controls
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-
-    // Get the limit
-    int selectedIndex = dropdown->GetCurSel();
-    CString dropdownText;
-    int limit;
-
-    dropdown->GetLBText(selectedIndex, dropdownText);
-    limit = (dropdownText == L"All") ? 0 : _ttoi(dropdownText);
-
-    // Clear current CListCtrl
-    pList->DeleteAllItems();
-    while (pList->DeleteColumn(0));
-
-    // Fetch columns and fill them in the CListCtrl
-    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
-    int columnCount = metaData->getColumnCount();
-    for (int i = 1; i <= columnCount; i++) {
-        CStringW columnName(metaData->getColumnName(i).c_str());
-        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT);
-        pList->SetColumnWidth(i - 1, LVSCW_AUTOSIZE);
-    }
-
-    int populatedRows = 0;
-    while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
-        int nItemCount = pList->GetItemCount();
-        int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, SQLStringToCString(resultSet->getString(1)), 0, 0, 0, 0);
-
-        for (int i = 1; i <= columnCount; i++) {
-            CString colData;
-            if (metaData->getColumnType(i) == sql::DataType::BINARY ||
-                metaData->getColumnType(i) == sql::DataType::VARBINARY ||
-                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
-                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
-            }
-            else {
-                colData = SQLStringToCString(resultSet->getString(i));
-            }
-            pList->SetItemText(nIndex, i - 1, colData);
-        }
-
-        populatedRows++;
-    }
-
-    SaveOriginalListState();
-
-    // Calculate the number of pages
-    CString strMaxPages;
-    auto rowsCount = resultSet->rowsCount();
-
-    if (limit == 0)
-    {
-        strMaxPages.Format(_T("%d"), 1);
-    }
-    else
-    {
-        int maxPages = rowsCount / limit + (rowsCount % limit != 0);
-        strMaxPages.Format(_T("%d"), maxPages);
-        GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
-    }
-
-    return 0;
-}
-
-
-int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
-    // Ensure resultSet is valid
-    if (resultSet == nullptr) return 0;
-
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-    int selectedIndex = dropdown->GetCurSel();
-    CString dropdownText;
-    int limit;
-
-    if (selectedIndex != CB_ERR) {
-        dropdown->GetLBText(selectedIndex, dropdownText);
-    }
-
-    limit = (dropdownText == L"All") ? 0 : _wtoi(dropdownText);
-
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    if (!pList) return 1;
-
-    pList->DeleteAllItems();
-    while (pList->DeleteColumn(0));
-
-    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
-    int columnCount = metaData->getColumnCount();
-    CStringW columnName;
-
-    // Insert columns
-    for (int i = 1; i <= columnCount; i++) {
-        columnName = metaData->getColumnName(i).c_str();
-        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100);
-    }
-
-    // Populate rows
-    int populatedRows = 0;
-    resultSet->absolute(offset);
-
-    pList->SetRedraw(FALSE);  // Prevent redraw during data insertion
-
-    while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
-        CString rowData = SQLStringToCString(resultSet->getString(1));
-
-        int nIndex = pList->InsertItem(populatedRows, rowData);
-
-        for (int i = 2; i <= columnCount; i++) {
-            CString colData;
-            if (metaData->getColumnType(i) == sql::DataType::BINARY ||
-                metaData->getColumnType(i) == sql::DataType::VARBINARY ||
-                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
-                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
-            }
-            else {
-                colData = SQLStringToCString(resultSet->getString(i));
-            }
-            pList->SetItemText(nIndex, i - 1, colData);
-        }
-
-        populatedRows++;
-    }
-
-    // Adjust column widths
-    for (int i = 0; i < pList->GetHeaderCtrl()->GetItemCount(); i++) {
-        pList->SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-    }
-
-    pList->SetRedraw(TRUE);  // Re-enable drawing
-
-
-    // Handle pagination
-    CString strMaxPages;
-    auto rowsCount = resultSet->rowsCount();
-    if (limit == 0) {
-        strMaxPages.Format(_T("%d"), 1);
-    }
-    else {
-        auto maxPages = (rowsCount + limit - 1) / limit;  // Efficient way to compute ceiling of rowsCount/limit
-        strMaxPages.Format(_T("%d"), maxPages);
-    }
-    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
-
-    return 0;
-}
-
-
-void CDBMainDlg::OnBnClickedBtnPrinttable()
-{
-    if (m_resultSet != nullptr)
-    {
-        delete m_resultSet;
-    }
-    CString tableName;
-    CString resultString;
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE); 
- 
-    int selectedIndex = dropdown->GetCurSel();
-
-    if (selectedIndex != CB_ERR) 
-    {
-        dropdown->GetLBText(selectedIndex, tableName);
-    }
-
-    CString Query = L"SELECT * FROM ";
-    Query += tableName;
-    sql::SQLString query(CW2A(Query.GetString()));
-    sql::ResultSet* resultSet = db->ExecuteQuery(query);
-    m_resultSet = resultSet;
-    //SendMessageToConsole(MSG_QUERY_OK, GREEN);
-    FillListControl(resultSet);
-    //delete resultSet;
-}
-
-//sent msg to output contol
-
-void CDBMainDlg::SendMessageToConsole(CString msg, COLORREF color)
-{
-    CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
-    CTime currentTime = CTime::GetCurrentTime();
-    // Format 
-    CString timeStr = currentTime.Format(_T("%H:%M:%S"));
-    // Adding timestamp
-    CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
-    // Append the text with a specific color
-}
-
 void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
 {
     pComboBox->ResetContent();
     if (values.empty())
     {
         //pComboBox->AddString(L"No elements found");
-        SendMessageToConsole(L"No elements found", RED);
+        m_queryTab.SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
     {
         CString item(value.c_str());
         pComboBox->AddString(item);
     }
-}
-
-void CDBMainDlg::OnBnClickedBtnClroutput()
-{
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    // Clear existing items from the list control
-    pList->DeleteAllItems();
-    while (pList->DeleteColumn(0)); // Remove all columns
-    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE);
-
-    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-     //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
-    //delete m_resultSet;
 }
 
 
@@ -603,37 +379,22 @@ void CDBMainDlg::OnBnClickedBtnUndo()
 }
 
 
-void CDBMainDlg::OnBnClickedBtnDeletetable()
-{
-    int nResult = ::MessageBox(this->m_hWnd, L"Are you sure you want to delete table?", 
-        L"Delete table?", MB_YESNO);
-
-    if (nResult == IDYES)
-    {
-        // User clicked "Yes"
-    }
-    else if (nResult == IDNO)
-    {
-        // User clicked "No"
-    }
-}
-
 void CDBMainDlg::OnBnClickedExport()
 {
-    SendMessageToConsole(MSG_EXPORT_START, BLACK);
+    m_queryTab.SendMessageToConsole(MSG_EXPORT_START, BLACK);
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
     exportWindow.m_pList = pList;
     
     switch (exportWindow.DoModal())
     {
     case(IDOK):
-        SendMessageToConsole(MSG_EXPORT_OK, GREEN);
+        m_queryTab.SendMessageToConsole(MSG_EXPORT_OK, GREEN);
         break;
     case IDABORT:
-        SendMessageToConsole(MSG_EXPORT_ERR, RED);
+        m_queryTab.SendMessageToConsole(MSG_EXPORT_ERR, RED);
         break;
     case IDCANCEL:
-        SendMessageToConsole(MSG_EXPORT_CANCEL,RED);
+        m_queryTab.SendMessageToConsole(MSG_EXPORT_CANCEL,RED);
         break;
     default:
         break;
@@ -679,105 +440,6 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
     FillTreeControlWithDBTables(*pTree);
-}
-
-
-//void CDBMainDlg::OnEnChangeListSearch()
-//{
-//    // Retrieve the text from the edit control
-//    CString searchText;
-//    GetDlgItem(IDC_LIST_SEARCH)->GetWindowText(searchText);
-//    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-//
-//    int columnCount = pList->GetHeaderCtrl()->GetItemCount();
-//
-//    // Loop through the items in the list control
-//    for (int i = pList->GetItemCount() - 1; i >= 0; --i) {
-//
-//        bool matchFound = false;
-//
-//        // Iterate through each column for the current row
-//        for (int j = 0; j < columnCount; ++j) {
-//            CString itemText = pList->GetItemText(i, j);
-//
-//            // If the item contains the search text, flag it as a match and break the loop
-//            if (itemText.Find(searchText) != -1) {
-//                matchFound = true;
-//                break;
-//            }
-//        }
-//
-//        // If no match is found in any column for the current item, remove it
-//        if (!matchFound) {
-//            pList->DeleteItem(i);
-//        }
-//    }
-//}
-
-
-void CDBMainDlg::OnEnChangeListSearch()
-{
-    // Retrieve the text from the edit control
-    CString searchText;
-    GetDlgItem(IDC_LIST_SEARCH)->GetWindowText(searchText);
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-
-    // First, restore the list from m_AllItems
-    pList->DeleteAllItems();
-    for (const auto& listItem : m_AllItems) {
-        int index = pList->InsertItem(0, listItem.mainItem);
-        for (size_t i = 0; i < listItem.subItems.size(); ++i) {
-            pList->SetItemText(index, i + 1, listItem.subItems[i]);
-        }
-    }
-
-    // Now, apply the search on the restored list
-    int columnCount = pList->GetHeaderCtrl()->GetItemCount();
-
-    // Loop through the items in the list control
-    for (int i = pList->GetItemCount() - 1; i >= 0; --i) {
-
-        bool matchFound = false;
-
-        // Iterate through each column for the current row
-        for (int j = 0; j < columnCount; ++j) {
-            CString itemText = pList->GetItemText(i, j);
-
-            // If the item contains the search text, flag it as a match and break the loop
-            if (itemText.Find(searchText) != -1) {
-                matchFound = true;
-                break;
-            }
-        }
-
-        // If no match is found in any column for the current item, remove it
-        if (!matchFound) {
-            pList->DeleteItem(i);
-        }
-    }
-}
-
-
-void CDBMainDlg::SaveOriginalListState()
-{
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-
-    m_AllItems.clear();  // Clear the existing state
-
-    int columnCount = pList->GetHeaderCtrl()->GetItemCount();
-
-    // Loop through all items in the CListCtrl
-    for (int i = 0; i < pList->GetItemCount(); ++i) {
-        ListItem item;
-        item.mainItem = pList->GetItemText(i, 0);
-
-        // Save subitems (columns) for the current item
-        for (int j = 1; j < columnCount; ++j) {
-            item.subItems.push_back(pList->GetItemText(i, j));
-        }
-
-        m_AllItems.push_back(item);
-    }
 }
 
 
@@ -865,27 +527,6 @@ void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
-void CDBMainDlg::OnBnClickedBtnSchema()
-{
-    CString tableName;
-    CString resultString;
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedIndex = dropdown->GetCurSel();
-
-    if (selectedIndex != CB_ERR)
-    {
-        dropdown->GetLBText(selectedIndex, tableName);
-    }
-
-    CString Query = L"DESCRIBE " + tableName + ";";
-    sql::SQLString query(CW2A(Query.GetString()));
-    sql::ResultSet* resultSet = db->ExecuteQuery(query);
-    //SendMessageToConsole(MSG_QUERY_OK, GREEN);
-    FillListControl(resultSet);
-    delete resultSet;
-}
-
 // <--------------------------- MENU HANDLERS -------------------------------->
 void CDBMainDlg::OnFileSaveas()
 {
@@ -964,154 +605,9 @@ void CDBMainDlg::OnEditSelectall()
     ((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
 }
 
-///////////////// PAGE SYSTEM FUNCS ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-void CDBMainDlg::OnEnChangeEditCurrentpage()
-{
-    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
-    if (m_resultSet == nullptr)
-    {
-        //pEdit->SetWindowTextW(L"0");
-        return;
-    }
-    
-    CStringW pageNumberStr;
-    pEdit->GetWindowTextW(pageNumberStr);
-    if (pageNumberStr == L"")
-    {
-        pEdit->SetWindowTextW(L"1");
-        return; // Return here after setting the page to 1 to avoid further calculations in this call.
-    }
-    std::wstring wstr(pageNumberStr);
-    int pageNumber = std::stoi(wstr);
-
-    // Ensure pageNumber is at least 1
-    if (pageNumber < 1)
-    {
-        pageNumber = 1;
-        pEdit->SetWindowTextW(L"1");
-    }
-
-    // Get limit from dropdown
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-    int selectedIndex = dropdown->GetCurSel();
-    CString dropdownText;
-    int limit;
-
-    if (selectedIndex != CB_ERR) {
-        dropdown->GetLBText(selectedIndex, dropdownText);
-    }
-    if (dropdownText == L"All") {
-        limit = 0;
-    }
-    else {
-        std::wstring wstr(dropdownText);
-        limit = std::stoi(wstr);
-    }
-
-    int offset = (pageNumber - 1) * limit; // Fixed offset calculation
-    FillListControl(m_resultSet, offset);
-}
-
-
-
-void CDBMainDlg::OnBnClickedBtnFirstpage()
-{
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
-}
-
-
-void CDBMainDlg::OnBnClickedBtnLastpage()
-{
-    CStringW title;
-    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(title);
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(title);
-}
-
-
-void CDBMainDlg::OnBnClickedBtnPrevpage()
-{
-    auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
-    CStringW pageNumberStr;
-    pEdit->GetWindowTextW(pageNumberStr);
-    if (pageNumberStr == L"")
-    {
-        pEdit->SetWindowTextW(L"1");
-        return; // If it's already the first page, just return.
-    }
-    std::wstring wstr(pageNumberStr);
-    int pageNumber = std::stoi(wstr);
-    if (pageNumber > 1)  // Ensure we don't go to negative or zero page numbers
-    {
-        pageNumber--;
-        pageNumberStr.Format(_T("%d"), pageNumber);
-        pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
-    }
-}
-
-void CDBMainDlg::OnBnClickedBtnNextpage()
-{
-    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE); // Cast to CEdit* for clarity
-
-    CStringW pageNumberStr;
-    pEdit->GetWindowTextW(pageNumberStr);
-
-    // If the current page number string is empty, default it to "1" and return.
-    if (pageNumberStr.IsEmpty())  // Use IsEmpty() method instead of == L""
-    {
-        pEdit->SetWindowTextW(L"1");
-        return;
-    }
-
-    // Get the maximum page number from the IDC_STAT_MAXPAGE control
-    CStringW maxPageCStr;
-    auto pMaxPageCtrl = (CStatic*)GetDlgItem(IDC_STAT_MAXPAGE); // Cast to CStatic* for clarity
-    pMaxPageCtrl->GetWindowTextW(maxPageCStr);
-
-    // Convert page numbers from CStringW to integers
-    int currentPage = _wtoi(pageNumberStr);  // Use _wtoi for a simpler string to int conversion
-    int maxPage = _wtoi(maxPageCStr);
-
-    // Check if we're already on the last page
-    if (currentPage >= maxPage)
-    {
-        // Optionally: notify the user or handle this case differently
-        return;
-    }
-
-    // Increment the page number and update the control
-    currentPage++;
-    pageNumberStr.Format(_T("%d"), currentPage);
-    pEdit->SetWindowTextW(pageNumberStr);
-}
-
-
-
 void CDBMainDlg::OnCbnSelchangeSelTable()
 {
     //OnBnClickedBtnPrinttable();
-}
-
-
-void CDBMainDlg::OnBnClickedCheckShowall()
-{
-    if (AfxMessageBox(_T("Do you really want to see all of the rows? For a "
-        "big table this could a long time "),
-        MB_YESNO | MB_ICONQUESTION) == IDYES)
-    {
-
-
-    }
-    else
-    {
-
-    }
-}
-
-
-void CDBMainDlg::OnCbnSelchangeComboNmbOfRows()
-{
-    OnEnChangeEditCurrentpage();
 }
 
 
