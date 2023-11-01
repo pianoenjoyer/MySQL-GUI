@@ -26,4 +26,13 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	CListCtrl m_resultList;
 	CComboBox m_comboLimit;
+	afx_msg void OnBnClickedBtnClroutput();
+	afx_msg void OnBnClickedCheckShowall();
+	afx_msg void OnEnChangeListSearch();
+	afx_msg void OnCbnSelchangeComboNmbOfRows();
+	afx_msg void OnBnClickedBtnFirstpage();
+	afx_msg void OnBnClickedBtnPrevpage();
+	afx_msg void OnEnChangeEditCurrentpage();
+	afx_msg void OnBnClickedBtnNextpage();
+	afx_msg void OnBnClickedBtnLastpage();
 };

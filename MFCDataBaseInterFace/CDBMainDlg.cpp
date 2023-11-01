@@ -245,11 +245,10 @@ BOOL CDBMainDlg::OnInitDialog()
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
     
-    //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
-    //OnCbnSelchangeCmbSelDb();
-
-    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
+    OnCbnSelchangeCmbSelDb();
+    m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    m_resultTab.GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -1168,11 +1167,11 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
     if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
         FillTableDropdown();
-        //FillTreeControl();
+        //FillTreeControl(); //no need no more
     }
     else
     {
-        //SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
+        m_queryTab.SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
     }
    // SendMessageToConsole(MSG_DBCHANGE_OK, GREEN);
 }
