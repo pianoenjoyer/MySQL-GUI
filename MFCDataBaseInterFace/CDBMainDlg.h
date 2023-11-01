@@ -2,6 +2,8 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 #include "CDBExportDlg.h"
+#include "CResultTab.h"
+#include "CQueryTab.h"
 // CDBMainDlg dialog
 
 class CDBMainDlg : public CDialogEx
@@ -23,6 +25,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CResultTab m_resultTab;
+	CQueryTab m_queryTab;
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
 	HICON m_hIcon;
@@ -102,6 +106,8 @@ public:
 	afx_msg void OnBnClickedBtnForward();
 	afx_msg void OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult);
+	CTabCtrl m_mainTabCtrl;
 };
 
 inline sql::SQLString CStringToSQLString(const CString& cstr);

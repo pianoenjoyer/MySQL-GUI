@@ -388,7 +388,8 @@ void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
 void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
- 
+
+    DDX_Control(pDX, IDC_MAINTAB, m_mainTabCtrl);
 }
 
 
@@ -427,27 +428,59 @@ BOOL CDBMainDlg::OnInitDialog()
         HBITMAP hBmp = image.Detach();
         pPicCtrl->SetBitmap(hBmp);
     }
- 
+    
     //set list ctrl to table style
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-    pList->SetView(LV_VIEW_DETAILS);
+    //pList->SetView(LV_VIEW_DETAILS);
 
     //current page = 1
 
-    //set default db
-    FillDatabaseDropdown();
-    FillLimitDropdown();
+    ///set default db
+    //FillDatabaseDropdown();
+    //FillLimitDropdown();
     //set font size of sql text rich edit
-    (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
 
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
     //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
     //((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
-    OnCbnSelchangeCmbSelDb();
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
-    OnBnClickedBtnUpdate();
+    //OnCbnSelchangeCmbSelDb();
+    //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    //GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    //OnBnClickedBtnUpdate();
 
+
+    CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+
+    // Create the two tabbed dialogs
+    m_queryTab.Create(IDD_QUERY, pTabCtrl);
+    m_resultTab.Create(IDD_RESULT, pTabCtrl);
+
+    // Insert tab items
+    TCITEM item1, item2;
+    item1.mask = TCIF_TEXT | TCIF_PARAM;
+    item1.lParam = (LPARAM)&m_queryTab;
+    item1.pszText = _T("Query");
+    pTabCtrl->InsertItem(0, &item1);
+
+    item2.mask = TCIF_TEXT | TCIF_PARAM;
+    item2.lParam = (LPARAM)&m_resultTab;
+    item2.pszText = _T("Result");
+    pTabCtrl->InsertItem(1, &item2);
+
+    // Get the item rect for m_queryTab
+    CRect rcItem1;
+    pTabCtrl->GetItemRect(0, &rcItem1);
+    m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    // Get the item rect for m_resultTab
+    CRect rcItem2;
+    pTabCtrl->GetItemRect(1, &rcItem2);
+    m_resultTab.SetWindowPos(NULL, rcItem2.left, rcItem2.bottom - 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    // Show the initial tab (you should decide which one to show initially)
+    m_queryTab.ShowWindow(SW_SHOW);
+    m_resultTab.ShowWindow(SW_HIDE);
 
     return TRUE;
 }
@@ -548,6 +581,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
     ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CDBMainDlg::OnTvnSelchangedTreeStructure)
     ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CDBMainDlg::OnNMClickTreeStructure)
+    ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CDBMainDlg::OnTcnSelchangeMaintab)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -2101,5 +2135,27 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     *pResult = 0;
+}
+
+
+
+void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    *pResult = 0;
+    auto p = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+
+    int iSel = p->GetCurSel();
+
+    // Show the appropriate tabbed dialog and hide the other one
+    if (iSel == 0)
+    {
+        m_queryTab.ShowWindow(SW_SHOW);
+        m_resultTab.ShowWindow(SW_HIDE);
+    }
+    else if (iSel == 1)
+    {
+        m_queryTab.ShowWindow(SW_HIDE);
+        m_resultTab.ShowWindow(SW_SHOW);
+    }
 }
 

@@ -16,8 +16,10 @@
 #define IDD_FUNCTIONS                   139
 #define IDD_ABOUT                       142
 #define IDD_NEWDB                       144
-#define IDD_DIALOG1                     146
 #define IDD_TABLES                      146
+#define IDD_QUERY                       148
+#define IDD_DIALOG3                     149
+#define IDD_RESULT                      149
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -34,6 +36,7 @@
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
 #define IDC_TAB                         1006
+#define IDC_MAINTAB                     1006
 #define IDC_EDT_FILENAME                1007
 #define IDC_PIC_LOGO2                   1007
 #define IDC_PIC_SERVERICON              1007
@@ -156,7 +159,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        152
 #define _APS_NEXT_COMMAND_VALUE         32803
 #define _APS_NEXT_CONTROL_VALUE         1097
 #define _APS_NEXT_SYMED_VALUE           101

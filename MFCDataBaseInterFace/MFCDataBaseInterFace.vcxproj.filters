@@ -60,6 +60,12 @@
     <ClInclude Include="CTableCreationDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CQueryTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CResultTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDBInterfaceApp.cpp">
@@ -96,6 +102,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CTableCreationDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CQueryTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CResultTab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
