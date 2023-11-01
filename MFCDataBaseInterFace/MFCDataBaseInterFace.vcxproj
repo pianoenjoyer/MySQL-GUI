@@ -229,6 +229,7 @@
     <ClInclude Include="CLoginDataSave.h" />
     <ClInclude Include="CNewDBDlg.h" />
     <ClInclude Include="CServerInfoDlg.h" />
+    <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="CLoginDataSave.cpp" />
     <ClCompile Include="CNewDBDlg.cpp" />
     <ClCompile Include="CServerInfoDlg.cpp" />
+    <ClCompile Include="CTableCreationDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CDBAuthDlg.cpp" />

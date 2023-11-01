@@ -38,8 +38,10 @@ public:
 	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CDBMainDlg();
 	virtual BOOL OnInitDialog();
+	void CDBMainDlg::ExecuteQueryMainDlg(CStringW sqlText);
 	bool CDBMainDlg::FillTreeControl();
 	void CDBMainDlg::SaveOriginalListState();
+	void CDBMainDlg::ExecuteQueryMainDlg();
 	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
 	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet);
 	int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset);

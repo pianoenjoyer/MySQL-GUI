@@ -613,30 +613,29 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
     return utf16CString;
 }
 
-
-void CDBMainDlg::OnBnClickedBtnGo()
+//if query text taken from main query rich control
+void CDBMainDlg::ExecuteQueryMainDlg() 
 {
     if (m_resultSet != nullptr)
     {
         delete m_resultSet;
     }
-    
 
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
-    
+
     //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
 
     sql::SQLString query = CStringToSQLString(sqlText);
 
     auto start = std::chrono::high_resolution_clock::now();
     sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double>(end - start);
     double timeTaken = duration.count();
     CString timeTakenStr;
-    
+
 
     if (resultSet)
     {
@@ -653,7 +652,7 @@ void CDBMainDlg::OnBnClickedBtnGo()
         //SendMessageToConsole(timeTakenStr, BLACK);
 
     }
-    else 
+    else
     {
         SendMessageToConsole(errorString, RED);
     }
@@ -661,6 +660,62 @@ void CDBMainDlg::OnBnClickedBtnGo()
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     //delete resultSet;
 }
+
+
+//if query text taken from other source
+void CDBMainDlg::ExecuteQueryMainDlg(CStringW sqlText)
+{
+    if (m_resultSet != nullptr)
+    {
+        delete m_resultSet;
+    }
+
+    GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
+
+    //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
+
+    sql::SQLString query = CStringToSQLString(sqlText);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration<double>(end - start);
+    double timeTaken = duration.count();
+    CString timeTakenStr;
+
+
+    if (resultSet)
+    {
+        int rowsCount = resultSet->rowsCount();
+        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
+
+        SendMessageToConsole(timeTakenStr, GREEN);
+        start = std::chrono::high_resolution_clock::now();
+        FillListControl(resultSet);
+        end = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration<double>(end - start);
+        timeTaken = duration.count();
+        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
+        //SendMessageToConsole(timeTakenStr, BLACK);
+
+    }
+    else
+    {
+        SendMessageToConsole(errorString, RED);
+    }
+    m_resultSet = resultSet;
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+    //delete resultSet;
+}
+
+
+void CDBMainDlg::OnBnClickedBtnGo()
+{
+    ExecuteQueryMainDlg();
+}
+
+
 
 CString BinaryDataToHexString(const CString& binaryData) {
     std::ostringstream oss;
@@ -1262,7 +1317,14 @@ void CDBMainDlg::OnBnClickedBtnCollapse()
 void CDBMainDlg::OnBnClickedBtnExpand()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
-    ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
+    HTREEITEM hItem = pTree->GetChildItem(TVI_ROOT);
+
+    while (hItem != NULL)
+    {
+        pTree->Expand(hItem, TVE_EXPAND);
+        hItem = pTree->GetNextSiblingItem(hItem);
+    }
+    /*ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);*/
 }
 
 
@@ -2010,7 +2072,11 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         {
             CNewDBDlg dlg;
             dlg.db = this->db;
-            dlg.DoModal();
+            auto status = dlg.DoModal();
+            if (status == IDOK)
+            {
+                OnBnClickedBtnUpdate();
+            }
             *pResult = 0;
             return;
         }
@@ -2018,7 +2084,6 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             HTREEITEM parentItem = pTree->GetParentItem(hItem);
             if (parentItem && pTree->GetItemText(parentItem) == _T("[TABLES]"))
             {
-                // Если элемент является потомком узла [TABLES], ничего не делайте
                 *pResult = 0;
                 return;
             }

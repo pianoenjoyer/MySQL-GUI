@@ -55,6 +55,10 @@ void CNewDBDlg::PopulateCharacterSetDropdown()
     }
 }
 
+
+
+
+// if ok i need to end dlg with IDOK
 void CNewDBDlg::OnBnClickedBtnCreatedb()
 {
     CString databaseName, charsetName;
@@ -72,18 +76,13 @@ void CNewDBDlg::OnBnClickedBtnCreatedb()
     {
         CString query;
         query.Format(_T("CREATE DATABASE `%s` CHARACTER SET %s;"), databaseName, charsetName);
+        db->ExecuteQuery(CStringToSQLString(query), query);
+        AfxMessageBox(query);
+        this->EndDialog(IDOK);
 
-        if (db->ExecuteQuery(CStringToSQLString(query), query))
-        {
-            AfxMessageBox(L"Database created");
-        }
-        else
-        {
-            AfxMessageBox(L"Error");
-        }
     }
     else
     {
-        AfxMessageBox(L"Error");
+        AfxMessageBox(L"Fields are empty");
     }
 }

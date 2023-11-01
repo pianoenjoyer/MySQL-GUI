@@ -16,6 +16,8 @@
 #define IDD_FUNCTIONS                   139
 #define IDD_ABOUT                       142
 #define IDD_NEWDB                       144
+#define IDD_DIALOG1                     146
+#define IDD_TABLES                      146
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -113,6 +115,10 @@
 #define IDC_BTN_REFACTOR                1086
 #define IDC_BTNN_SELECT                 1088
 #define IDC_COMBO_LANGUAGE              1089
+#define IDC_LIST_TABLECREATE            1092
+#define IDC_RICHEDIT22                  1094
+#define IDC_RICHEDIT23                  1095
+#define IDC_RICHEDIT24                  1096
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -150,9 +156,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        146
+#define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_CONTROL_VALUE         1097
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
