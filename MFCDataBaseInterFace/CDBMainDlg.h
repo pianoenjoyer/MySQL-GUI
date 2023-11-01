@@ -59,7 +59,6 @@ public:
 	bool CDBMainDlg::FillTableDropdown();
 	bool CDBMainDlg::FillLimitDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();
-	afx_msg void OnEnChangeEditQtext();
 	afx_msg void OnBnClickedBtnPrinttable();
 	afx_msg void OnBnClickedBtnClroutput();
 	afx_msg void OnBnClickedBtnUndo();

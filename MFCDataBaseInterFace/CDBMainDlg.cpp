@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <chrono>
 #include "CNewDBDlg.h"
-
+#include "Convertions.h"
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
 #define BLACK RGB(0, 0, 0)
@@ -238,7 +238,7 @@ BOOL CDBMainDlg::OnInitDialog()
 
 
     FillDatabaseDropdown();
-    FillLimitDropdown();
+    m_resultTab.FillLimitDropdown();
 
     //set font size of sql text rich edit
     //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
@@ -285,25 +285,12 @@ bool CDBMainDlg::FillTreeControl()
     return true;
 }
 
-bool CDBMainDlg::FillLimitDropdown() 
-{
-    m_resultTab.m_comboLimit.AddString(L"30");
-    m_resultTab.m_comboLimit.AddString(L"50");
-    m_resultTab.m_comboLimit.AddString(L"100");
-    m_resultTab.m_comboLimit.AddString(L"250");
-    m_resultTab.m_comboLimit.AddString(L"500");
-    m_resultTab.m_comboLimit.AddString(L"1000");
-    m_resultTab.m_comboLimit.AddString(L"All");
-    m_resultTab.m_comboLimit.SetCurSel(1);
-    return true;
-}
 
 
 
 
 BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
-    ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMainDlg::OnEnChangeEditQtext)
     ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
     ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMainDlg::OnBnClickedBtnClroutput)
     ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
@@ -313,7 +300,6 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMainDlg::OnBnClickedBtnExpand)
     ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMainDlg::OnBnClickedBtnUpdate)
     ON_EN_CHANGE(IDC_LIST_SEARCH, &CDBMainDlg::OnEnChangeListSearch)
-    ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CDBMainDlg::OnBnClickedBtnClearmsg)
     ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
     ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
@@ -357,7 +343,7 @@ void CDBMainDlg::OnBnClickedBtnBrowse()
     {
         m_pathToFile = fileOpenDialog.GetPathName();
         m_SQLtextQuery = ReadFileContent();
-        GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(m_SQLtextQuery);
+        m_queryTab.GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(m_SQLtextQuery);
     }
 }
 
@@ -389,238 +375,6 @@ CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
     return fileContent;
 }
 
-
-inline CString SQLStringToCString(const sql::SQLString& sqlStr)
-{
-    // Directly use sqlStr's c_str() method
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), NULL, 0);
-
-    CString utf16CString;
-    wchar_t* buf = utf16CString.GetBufferSetLength(size_needed);
-
-    // Convert the UTF-8 string to UTF-16
-    MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), buf, size_needed);
-
-    utf16CString.ReleaseBuffer();
-
-    return utf16CString;
-}
-
-//if query text taken from main query rich control
-void CDBMainDlg::ExecuteQueryMainDlg() 
-{
-    if (m_resultSet != nullptr)
-    {
-        delete m_resultSet;
-    }
-
-    CStringW sqlText;
-    GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
-
-    //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
-
-    sql::SQLString query = CStringToSQLString(sqlText);
-
-    auto start = std::chrono::high_resolution_clock::now();
-    sql::ResultSet* resultSet = db->ExecuteQuery(query, errorString);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration<double>(end - start);
-    double timeTaken = duration.count();
-    CString timeTakenStr;
-
-
-    if (resultSet)
-    {
-        int rowsCount = resultSet->rowsCount();
-        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
-
-        SendMessageToConsole(timeTakenStr, GREEN);
-        start = std::chrono::high_resolution_clock::now();
-        FillListControl(resultSet);
-        end = std::chrono::high_resolution_clock::now();
-        duration = std::chrono::duration<double>(end - start);
-        timeTaken = duration.count();
-        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        //SendMessageToConsole(timeTakenStr, BLACK);
-
-    }
-    else
-    {
-        SendMessageToConsole(errorString, RED);
-    }
-    m_resultSet = resultSet;
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
-    //delete resultSet;
-}
-
-
-CString BinaryDataToHexString(const CString& binaryData) {
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0');
-    for (int i = 0; i < binaryData.GetLength(); i++) {
-        char c = binaryData[i];
-        oss << std::setw(2) << static_cast<int>(static_cast<unsigned char>(c));
-    }
-    return CString(oss.str().c_str());
-}
-
-
-//int CDBMainDlg::FillListControl(sql::ResultSet* resultSet)
-//{
-//    //get limit from drop down
-//    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-//    int selectedIndex = dropdown->GetCurSel();
-//    CString dropdownText;
-//    int limit;
-//
-//    if (selectedIndex != CB_ERR)
-//    {
-//        dropdown->GetLBText(selectedIndex, dropdownText);
-//    }
-//    if (dropdownText == L"All")
-//    {
-//        limit = 0;
-//    }
-//    else
-//    {
-//        std::wstring wstr(dropdownText);
-//        limit = std::stoi(wstr);
-//    }
-//
-//    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-//    if (!resultSet || !pList)
-//        return 1;
-//
-//    // Clear existing items from the list control
-//    pList->DeleteAllItems();
-//    while (pList->DeleteColumn(0)); // Remove all columns
-//
-//    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
-//    int columnCount = metaData->getColumnCount();
-//    CString columnName(L""), firstColData(L""), colData(L"");
-//
-//    // Populate the columns
-//    for (int i = 1; i <= columnCount; i++)
-//    {
-//        columnName = metaData->getColumnName(i).c_str();
-//        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100); 
-//    }
-//
-//    int populatedRows = 0;
-//
-//       
-//    // Populate the rows with limit
-//    while (resultSet->next() && (limit == 0 || populatedRows < limit))
-//    {
-//        firstColData = SQLStringToCString(resultSet->getString(1));
-//        int nItemCount = pList->GetItemCount();  // Получаем текущее количество элементов
-//        int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, firstColData, 0, 0, 0, 0);  // Вставляем новый элемент после последнего
-//
-//        for (int i = 1; i <= columnCount; i++)
-//        {
-//            colData = SQLStringToCString(resultSet->getString(i));
-//            pList->SetItemText(nIndex, i - 1, colData);
-//        }
-//        populatedRows++;
-//    }
-//    SaveOriginalListState();
-//    return 0;
-//}
-
-// LAST WORKING METHOD
-//int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
-//    // get limit from dropdown
-//    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-//    int selectedIndex = dropdown->GetCurSel();
-//    CString dropdownText;
-//    int limit;
-//
-//    if (selectedIndex != CB_ERR) {
-//        dropdown->GetLBText(selectedIndex, dropdownText);
-//    }
-//    if (dropdownText == L"All") {
-//        limit = 0;
-//    }
-//    else {
-//        std::wstring wstr(dropdownText);
-//        limit = std::stoi(wstr);
-//    }
-//
-//    //get list
-//    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-//    if (!resultSet || !pList) {
-//        return 1;
-//    }
-//
-//
-//
-//    // Очистка текущих элементов из CListCtrl
-//    pList->DeleteAllItems();
-//    while (pList->DeleteColumn(0)); // Удаление всех столбцов
-//
-//    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
-//    int columnCount = metaData->getColumnCount();
-//    CStringW columnName(L""), firstColData(L""), colData(L"");
-//
-//    // Заполнение столбцов
-//    for (int i = 1; i <= columnCount; i++) {
-//        columnName = metaData->getColumnName(i).c_str();
-//        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100);
-//    }
-//
-//    int populatedRows = 0;
-//
-//    // Заполнение строк с учетом лимита
-//    while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
-//        firstColData = SQLStringToCString(resultSet->getString(1));
-//
-//        int nItemCount = pList->GetItemCount();
-//        int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, firstColData, 0, 0, 0, 0);
-//
-//        for (int i = 1; i <= columnCount; i++) {
-//            // Проверка типа столбца: является ли он бинарным
-//            if (metaData->getColumnType(i) == sql::DataType::BINARY ||
-//                metaData->getColumnType(i) == sql::DataType::VARBINARY ||
-//                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
-//                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
-//            }
-//            else {
-//                colData = SQLStringToCString(resultSet->getString(i));
-//            }
-//            pList->SetItemText(nIndex, i - 1, colData);
-//        }
-//        populatedRows++;
-//    }
-//
-//    SaveOriginalListState();
-//    // Calculate the number of pages
-//    CString strMaxPages;
-//    CString str;
-//    std::map<int, ListItem> pages;
-//    auto rowsCount = resultSet->rowsCount();
-//
-//    if (limit == 0)
-//    {
-//        strMaxPages.Format(_T("%d"), 1);
-//    }
-//    else 
-//    {
-//        auto maxPages = rowsCount / limit;
-//        if (rowsCount % limit != 0) {
-//            maxPages++; 
-//        }
-//        strMaxPages.Format(_T("%d"), maxPages);
-//        GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
-//    }
-//
-//    for (int i = 0; i < pList->GetHeaderCtrl()->GetItemCount(); ++i)
-//    {
-//        pList->SetColumnWidth(i, LVSCW_AUTOSIZE);
-//    }
-//
-//    return 0;
-//}
 
 int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
     if (!resultSet) return 1;
@@ -690,110 +444,7 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet) {
 
     return 0;
 }
-//latest list cntrl
-//
-//int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
-//    // get limit from dropdown
-//    if (resultSet == nullptr)
-//    {
-//        return 0;
-//    }
-//    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
-//    int selectedIndex = dropdown->GetCurSel();
-//    CString dropdownText;
-//    int limit;
-//
-//    if (selectedIndex != CB_ERR) 
-//    {
-//        dropdown->GetLBText(selectedIndex, dropdownText);
-//    }
-//    if (dropdownText == L"All") 
-//    {
-//        limit = 0;
-//    }
-//    else {
-//        std::wstring wstr(dropdownText);
-//        limit = std::stoi(wstr);
-//    }
-//
-//    //get list
-//    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-//    if (!resultSet || !pList) 
-//    {
-//        return 1;
-//    }
-//    
-//    // Очистка текущих элементов из CListCtrl
-//    pList->DeleteAllItems();
-//    while (pList->DeleteColumn(0)); // Удаление всех столбцов
-//
-//    sql::ResultSetMetaData* metaData = resultSet->getMetaData();
-//    int columnCount = metaData->getColumnCount();
-//    CStringW columnName(L""), firstColData(L""), colData(L"");
-//    
-//    // Заполнение столбцов
-//    for (int i = 1; i <= columnCount; i++) {
-//        columnName = metaData->getColumnName(i).c_str();
-//        pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100);
-//    }
-//
-//    int populatedRows = 0;
-//    resultSet->absolute(offset + 1);
-//    // Заполнение строк с учетом лимита
-//    while (resultSet->next() && (limit == 0 || populatedRows < limit)) 
-//    {
-//        firstColData = SQLStringToCString(resultSet->getString(1));
-//
-//        int nItemCount = pList->GetItemCount();
-//        int nIndex = pList->InsertItem(LVIF_TEXT, nItemCount, firstColData, 0, 0, 0, 0);
-//
-//        for (int i = 1; i <= columnCount; i++) 
-//        {
-//            // Проверка типа столбца: является ли он бинарным
-//            if (metaData->getColumnType(i) == sql::DataType::BINARY ||
-//                metaData->getColumnType(i) == sql::DataType::VARBINARY ||
-//                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
-//                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
-//            }
-//            else {
-//                colData = SQLStringToCString(resultSet->getString(i));
-//            }
-//            pList->SetItemText(nIndex, i - 1, colData);
-//        }
-//        populatedRows++;
-//    }
-//
-//    SaveOriginalListState();
-//    // Calculate the number of pages
-//    CString strMaxPages;
-//    CString str;
-//    std::map<int, ListItem> pages;
-//    auto rowsCount = resultSet->rowsCount();
-//
-//    if (limit == 0)
-//    {
-//        strMaxPages.Format(_T("%d"), 1);
-//    }
-//    else
-//    {
-//        auto maxPages = rowsCount / limit;
-//        if (rowsCount % limit != 0) {
-//            maxPages++;
-//        }
-//        strMaxPages.Format(_T("%d"), maxPages);
-//        GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
-//    }
-//
-//    for (int i = 0; i < pList->GetHeaderCtrl()->GetItemCount(); ++i)
-//    {
-//        pList->SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-//    }
-//
-//    return 0;
-//}
 
-
-//save changes to vector to redo and undo in future
 
 int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
     // Ensure resultSet is valid
@@ -875,16 +526,6 @@ int CDBMainDlg::FillListControl(sql::ResultSet* resultSet, int offset) {
 
     return 0;
 }
-
-
-void CDBMainDlg::OnEnChangeEditQtext()
-{
-    CString currentText;
-    GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(currentText);
-    history.push_back(currentText);
-}
-
-
 
 
 void CDBMainDlg::OnBnClickedBtnPrinttable()
@@ -1137,17 +778,6 @@ void CDBMainDlg::SaveOriginalListState()
 
         m_AllItems.push_back(item);
     }
-}
-
-
-void CDBMainDlg::OnBnClickedBtnClearmsg()
-{
-    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
-    if (pRichEdit)
-    {
-        pRichEdit->SetWindowTextW(L"");
-    }
-    UpdateData(FALSE);
 }
 
 

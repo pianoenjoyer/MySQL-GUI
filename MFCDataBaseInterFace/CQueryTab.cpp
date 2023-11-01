@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_DELETERECORD, &CQueryTab::OnBnClickedBtnDeleterecord)
     ON_BN_CLICKED(IDC_BTN_CLEAR, &CQueryTab::OnBnClickedBtnClear)
     ON_BN_CLICKED(IDC_BTN_REFACTOR, &CQueryTab::OnBnClickedBtnRefactor)
+    ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CQueryTab::OnBnClickedBtnClearmsg)
 END_MESSAGE_MAP()
 
 
@@ -125,27 +126,22 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
     return utf16CString;
 }
 
-
 void CQueryTab::ExecuteQueryMainDlg()
 {
     sql::ResultSet* m_resultSet;
     CDBMainDlg* pParentDialog;
-    CWnd* pTabCtrl = GetParent(); 
+    CWnd* pTabCtrl = GetParent();
     if (pTabCtrl) {
-        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent(); 
+        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
         if (pParentDialog) {
-
+            m_resultSet = pParentDialog->GetResultSet();
         }
     }
 
-    m_resultSet = pParentDialog->m_resultSet;
-
     if (m_resultSet != nullptr)
     {
-        delete pParentDialog->m_resultSet;
+        delete m_resultSet;
     }
-
-
 
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
@@ -170,20 +166,21 @@ void CQueryTab::ExecuteQueryMainDlg()
 
         SendMessageToConsole(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
-        //FillListControl(resultSet);
+        pParentDialog->m_resultTab.FillListControl(resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
         //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        SendMessageToConsole(timeTakenStr, BLACK);
-        pParentDialog->SetResultSet(resultSet);
+        //SendMessageToConsole(timeTakenStr, BLACK);
+
     }
     else
     {
         SendMessageToConsole(errorString, RED);
     }
-  
+    m_resultSet = resultSet;
     //GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+    pParentDialog->SetResultSet(resultSet);
     //delete resultSet;
 }
 
@@ -412,6 +409,7 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
             dbDropdown = (CComboBox*)pParentDialog->GetDlgItem(IDC_CMB_SEL_DB);
         }
     }
+
     CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
@@ -423,4 +421,15 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
     dbDropdown->GetLBText(selectedDBNumber, database);
     tablesDropdown->GetLBText(selectedTableNumber, table);
     queryText->SetWindowTextW(L"DELETE FROM " + database + "." + table + " WHERE 0");
+}
+
+
+void CQueryTab::OnBnClickedBtnClearmsg()
+{
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
+    if (pRichEdit)
+    {
+        pRichEdit->SetWindowTextW(L"");
+    }
+    UpdateData(FALSE);
 }

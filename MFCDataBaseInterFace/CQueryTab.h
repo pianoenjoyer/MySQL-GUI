@@ -37,4 +37,5 @@ public:
 	afx_msg void OnBnClickedBtnDeleterecord();
 	afx_msg void OnBnClickedBtnClear();
 	afx_msg void OnBnClickedBtnRefactor();
+	afx_msg void OnBnClickedBtnClearmsg();
 };

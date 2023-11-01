@@ -66,6 +66,9 @@
     <ClInclude Include="CResultTab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Convertions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDBInterfaceApp.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CResultTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Convertions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

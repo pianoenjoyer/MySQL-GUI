@@ -238,6 +238,7 @@
     <ClInclude Include="CDBAuthDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Convertions.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +261,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Convertions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCDataBaseInterFace.rc" />
