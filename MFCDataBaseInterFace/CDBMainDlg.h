@@ -60,7 +60,6 @@ public:
 	bool CDBMainDlg::FillLimitDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();
 	afx_msg void OnEnChangeEditQtext();
-	afx_msg void OnBnClickedBtnClear();
 	afx_msg void OnBnClickedBtnPrinttable();
 	afx_msg void OnBnClickedBtnClroutput();
 	afx_msg void OnBnClickedBtnUndo();
@@ -97,14 +96,7 @@ public:
 	afx_msg void OnHelpMysqldocumentation();
 	afx_msg void OnCbnSelchangeComboNmbOfRows();
 	afx_msg void OnAboutVersionandcredits();
-	afx_msg void OnBnClickedBtnSelectall();
-	afx_msg void OnBnClickedBtnFormat();
-	afx_msg void OnBnClickedBtnRefactor();
 	afx_msg void OnHelpServerinfo();
-	afx_msg void OnBnClickedBtnnSelect();
-	afx_msg void OnBnClickedBtnInsert();
-	afx_msg void OnBnClickedBtnUpdaterecord();
-	afx_msg void OnBnClickedBtnDeleterecord();
 	afx_msg void OnBnClickedBtnForward();
 	afx_msg void OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);

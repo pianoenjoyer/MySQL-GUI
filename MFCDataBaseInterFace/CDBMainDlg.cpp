@@ -305,7 +305,6 @@ bool CDBMainDlg::FillLimitDropdown()
 BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
     ON_EN_CHANGE(IDC_EDIT_QTEXT, &CDBMainDlg::OnEnChangeEditQtext)
-    ON_BN_CLICKED(IDC_BTN_CLEAR, &CDBMainDlg::OnBnClickedBtnClear)
     ON_BN_CLICKED(IDC_BTN_PRINTTABLE, &CDBMainDlg::OnBnClickedBtnPrinttable)
     ON_BN_CLICKED(IDC_BTN_CLROUTPUT, &CDBMainDlg::OnBnClickedBtnClroutput)
     ON_BN_CLICKED(IDC_BTN_UNDO, &CDBMainDlg::OnBnClickedBtnUndo)
@@ -338,13 +337,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
     ON_CBN_SELCHANGE(IDC_COMBO_NMB_OF_ROWS, &CDBMainDlg::OnCbnSelchangeComboNmbOfRows)
     ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CDBMainDlg::OnAboutVersionandcredits)
-    ON_BN_CLICKED(IDC_BTN_SELECTALL, &CDBMainDlg::OnBnClickedBtnSelectall)
-    ON_BN_CLICKED(IDC_BTN_REFACTOR, &CDBMainDlg::OnBnClickedBtnRefactor)
     ON_COMMAND(ID_HELP_SERVERINFO, &CDBMainDlg::OnHelpServerinfo)
-    ON_BN_CLICKED(IDC_BTNN_SELECT, &CDBMainDlg::OnBnClickedBtnnSelect)
-    ON_BN_CLICKED(IDC_BTN_INSERT, &CDBMainDlg::OnBnClickedBtnInsert)
-    ON_BN_CLICKED(IDC_BTN_UPDATERECORD, &CDBMainDlg::OnBnClickedBtnUpdaterecord)
-    ON_BN_CLICKED(IDC_BTN_DELETERECORD, &CDBMainDlg::OnBnClickedBtnDeleterecord)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
     ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CDBMainDlg::OnTvnSelchangedTreeStructure)
     ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CDBMainDlg::OnNMClickTreeStructure)
@@ -890,13 +883,6 @@ void CDBMainDlg::OnEnChangeEditQtext()
     CString currentText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(currentText);
     history.push_back(currentText);
-}
-
-
-void CDBMainDlg::OnBnClickedBtnClear()
-{   
-    CRichEditCtrl* pEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    pEdit->SetWindowTextW(L"");
 }
 
 
@@ -1507,190 +1493,9 @@ void CDBMainDlg::OnAboutVersionandcredits()
 }
 
 
-void CDBMainDlg::OnBnClickedBtnSelectall()
-{
-    OnBnClickedBtnClear();
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedDBNumber = dbDropdown->GetCurSel();
-    int selectedTableNumber = tablesDropdown->GetCurSel();
-    CString table;
-    CString database;
-
-    if (dbDropdown->GetCount() == 0 || tablesDropdown->GetCount() == 0)
-    {
-        return;
-    }
-
-    dbDropdown->GetLBText(selectedDBNumber, database); 
-    tablesDropdown->GetLBText(selectedTableNumber, table); 
-    
-
-    queryText->SetWindowTextW(L"SELECT * FROM " + database + "." + table + " " + "WHERE 1");
-}
-
-CString FormatSQLQuery(const CString& query)
-{
-    CString formattedQuery;
-
-    // Splitting by space for simplicity.
-    int startPos = 0;
-    while (startPos >= 0)
-    {
-        CString token = query.Tokenize(L" ", startPos);
-        if (token.IsEmpty()) break;
-
-        // Add a newline and indent for specific keywords.
-        if (token.CompareNoCase(L"SELECT") == 0)
-        {
-            formattedQuery += token + L"\r\n";
-        }
-        else if 
-           (token.CompareNoCase(L"FROM") == 0 ||
-            token.CompareNoCase(L"WHERE") == 0 ||
-            token.CompareNoCase(L"JOIN") == 0 ||
-            token.CompareNoCase(L"INSERT") == 0 ||
-            token.CompareNoCase(L"INTO") == 0 ||
-            token.CompareNoCase(L"ON") == 0  ||
-            token.CompareNoCase(L"UPDATE") == 0 ||
-            token.CompareNoCase(L"DELETE FROM") == 0 ||
-            token.CompareNoCase(L"VALUES") == 0)
-        {
-            formattedQuery.TrimRight();  // Trim any trailing spaces or commas
-            formattedQuery += L"\r\n" + token + L"\r\n";
-        }
-        else
-        {
-            formattedQuery += L"\t" + token + L"\r\n";
-        }
-    }
-
-    // Trim any extra newlines or whitespace at the end
-    formattedQuery.TrimRight();
-
-    return formattedQuery;
-}
-
-
-void CDBMainDlg::OnBnClickedBtnRefactor()
-{
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-
-    CString currentQuery;
-    queryText->GetWindowTextW(currentQuery);
-
-    CString formattedQuery = FormatSQLQuery(currentQuery);
-    queryText->SetWindowTextW(formattedQuery);
-}
-
 void CDBMainDlg::OnHelpServerinfo()
 {
     OnNMClickSyslinkServerinfo(NULL, NULL);
-}
-
-
-void CDBMainDlg::OnBnClickedBtnnSelect()
-{
-    OnBnClickedBtnClear();
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedDBNumber = dbDropdown->GetCurSel();
-    int selectedTableNumber = tablesDropdown->GetCurSel();
-    CString table;
-    CString database;
-    CString columnList;
-
-    dbDropdown->GetLBText(selectedDBNumber, database);
-    tablesDropdown->GetLBText(selectedTableNumber, table);
-    std::vector<sql::SQLString> tableColumns = db->GetTableColumns(CStringToSQLString(table));
-
-    for (const auto& columns : tableColumns)
-    {
-        columnList += SQLStringToCString(columns);
-        columnList += ",";
-    }
-    columnList.TrimRight(',');
-    queryText->SetWindowTextW(L"SELECT " + columnList + " FROM " + database + "." + table + " " + "WHERE 1");
-}
-
-
-void CDBMainDlg::OnBnClickedBtnInsert()
-{
-    OnBnClickedBtnClear();
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedDBNumber = dbDropdown->GetCurSel();
-    int selectedTableNumber = tablesDropdown->GetCurSel();
-    CString table;
-    CString database;
-    CString columnList;
-
-    dbDropdown->GetLBText(selectedDBNumber, database);
-    tablesDropdown->GetLBText(selectedTableNumber, table);
-    std::vector<sql::SQLString> tableColumns = db->GetTableColumns(CStringToSQLString(table));
-    CString valuesList;
-    for (const auto& columns : tableColumns)
-    {
-        columnList += SQLStringToCString(columns);
-        columnList += ",";
-        valuesList += "'VALUE',";
-    }
-    valuesList.TrimRight(',');
-    columnList.TrimRight(',');
-    queryText->SetWindowTextW(L"INSERT INTO " + database + "." + table +" ("+ columnList +
-        ")" + " VALUES " + "(" + valuesList + ")");
-}
-
-
-void CDBMainDlg::OnBnClickedBtnUpdaterecord()
-{
-    OnBnClickedBtnClear();
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedDBNumber = dbDropdown->GetCurSel();
-    int selectedTableNumber = tablesDropdown->GetCurSel();
-    CString table;
-    CString database;
-    CString columnList;
-
-    dbDropdown->GetLBText(selectedDBNumber, database);
-    tablesDropdown->GetLBText(selectedTableNumber, table);
-    std::vector<sql::SQLString> tableColumns = db->GetTableColumns(CStringToSQLString(table));
-    CString valuesList;
-    for (const auto& columns : tableColumns)
-    {
-        columnList += SQLStringToCString(columns);
-        columnList += "= 'VALUE',";
-    }
-    valuesList.TrimRight(',');
-    columnList.TrimRight(',');
-    queryText->SetWindowTextW(L"UPDATE " + database + "." + table + " SET " + columnList + " WHERE 1");
-}
-
-
-void CDBMainDlg::OnBnClickedBtnDeleterecord()
-{
-    OnBnClickedBtnClear();
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    CComboBox* dbDropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
-
-    int selectedDBNumber = dbDropdown->GetCurSel();
-    int selectedTableNumber = tablesDropdown->GetCurSel();
-    CString table;
-    CString database;
-
-    dbDropdown->GetLBText(selectedDBNumber, database);
-    tablesDropdown->GetLBText(selectedTableNumber, table);
-    queryText->SetWindowTextW(L"DELETE FROM " + database + "." + table + " WHERE 0");
 }
 
 

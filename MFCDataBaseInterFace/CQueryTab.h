@@ -30,4 +30,11 @@ public:
 	CString errorString;
 
 	afx_msg void OnBnClickedBtnGo();
+	afx_msg void OnBnClickedBtnSelectall();
+	afx_msg void OnBnClickedBtnnSelect();
+	afx_msg void OnBnClickedBtnInsert();
+	afx_msg void OnBnClickedBtnUpdaterecord();
+	afx_msg void OnBnClickedBtnDeleterecord();
+	afx_msg void OnBnClickedBtnClear();
+	afx_msg void OnBnClickedBtnRefactor();
 };
