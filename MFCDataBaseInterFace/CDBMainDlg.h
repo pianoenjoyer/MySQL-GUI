@@ -66,11 +66,7 @@ public:
 	afx_msg void OnFileSaveas();
 	afx_msg void OnFileExit();
 	afx_msg void OnFileExport();
-	afx_msg void OnEditUndo();
-	afx_msg void OnEditRedo();
-	afx_msg void OnEditCut();
-	afx_msg void OnEditCopy();
-	afx_msg void OnEditPaste();
+
 	afx_msg void OnEditSelectall();
 	afx_msg void OnHelpMysqldocumentation();
 	afx_msg void OnAboutVersionandcredits();
@@ -80,6 +76,11 @@ public:
 	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult);
 	CTabCtrl m_mainTabCtrl;
+	afx_msg void OnEditUndo();
+	afx_msg void OnEditRedo();
+	afx_msg void OnEditCut();
+	afx_msg void OnEditCopy();
+	afx_msg void OnEditPaste();
 };
 
 inline sql::SQLString CStringToSQLString(const CString& cstr);

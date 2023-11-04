@@ -296,6 +296,11 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CDBMainDlg::OnTvnSelchangedTreeStructure)
     ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CDBMainDlg::OnNMClickTreeStructure)
     ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CDBMainDlg::OnTcnSelchangeMaintab)
+    ON_COMMAND(ID_EDIT_UNDO32772, &CDBMainDlg::OnEditUndo)
+    ON_COMMAND(ID_EDIT_REDO32773, &CDBMainDlg::OnEditRedo)
+    ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
+    ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
+    ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -465,7 +470,7 @@ void CDBMainDlg::OnBnClickedButtonSave()
 
         // Get the text from the IDC_EDIT_QTEXT control
         CString content;
-        GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(content);
+        m_queryTab.GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(content);
 
         // Save the content to the file
         CFile file;
@@ -531,16 +536,7 @@ void CDBMainDlg::OnFileExport()
 }
 
 
-void CDBMainDlg::OnEditUndo()
-{
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Undo();
-}
 
-
-void CDBMainDlg::OnEditRedo()
-{
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Redo();
-}
 
 
 void CDBMainDlg::OnMenuOpen()
@@ -551,31 +547,19 @@ void CDBMainDlg::OnMenuOpen()
 
 void CDBMainDlg::OnConnectionDisconnect()
 {
-    //delete m_resultSet;
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
+    CListCtrl* pList = (CListCtrl*)m_resultTab.GetDlgItem(IDC_LIST_QUERY);
+    if (m_queryTab.m_resultSet)
+    {
+        delete m_queryTab.m_resultSet;
+        m_queryTab.m_resultSet = nullptr;
+    }
     pList->DeleteAllItems();
     db->Disconnect();
     this->EndDialog(IDOK);
 }
 
 
-void CDBMainDlg::OnEditCut()
-{
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Cut();
-}
 
-
-void CDBMainDlg::OnEditCopy()
-{
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Copy();
-}
-
-
-
-void CDBMainDlg::OnEditPaste()
-{
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
-}
 
 
 void CDBMainDlg::OnEditSelectall()
@@ -747,4 +731,33 @@ void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
         m_queryTab.ShowWindow(SW_HIDE);
         m_resultTab.ShowWindow(SW_SHOW);
     }
+}
+
+void CDBMainDlg::OnEditUndo()
+{
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Undo();
+}
+
+
+void CDBMainDlg::OnEditRedo()
+{
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Redo();
+}
+
+
+void CDBMainDlg::OnEditCut()
+{
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Cut();
+}
+
+
+void CDBMainDlg::OnEditCopy()
+{
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Copy();
+}
+
+
+void CDBMainDlg::OnEditPaste()
+{
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
 }
