@@ -246,21 +246,42 @@ std::vector<sql::SQLString> CDBConnection::GetTables()
 std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString& tableName)
 {
     std::vector<sql::SQLString> columns;
-
-    sql::Statement* statement = m_connection->createStatement();
-    sql::ResultSet* resultSet = statement->executeQuery("DESCRIBE " + tableName);
-
-    while (resultSet->next())
+    if (tableName == "")
     {
-        sql::SQLString columnName = resultSet->getString("Field").asStdString();
-        columns.push_back(columnName);
+        AfxMessageBox(L"No tables in database");
+        return columns;
     }
+    try {
+        sql::Statement* statement = m_connection->createStatement();
+        sql::ResultSet* resultSet = statement->executeQuery("DESCRIBE " + tableName);
 
-    delete resultSet;
-    delete statement;
+        while (resultSet->next())
+        {
+            sql::SQLString columnName = resultSet->getString("Field").asStdString();
+            columns.push_back(columnName);
+        }
+
+        delete resultSet;
+        delete statement;
+    }
+    catch (const sql::SQLException& e) {
+        // Handle the database exception and display an error message using AfxMessageBox.
+        CString errorMessage = CString(e.what());
+        AfxMessageBox(errorMessage);
+
+        // Optionally, re-throw the exception or return an empty vector if needed.
+    }
+    catch (const std::exception& e) {
+        // Handle other standard exceptions if necessary.
+        CString errorMessage = CString(e.what());
+        AfxMessageBox(errorMessage);
+
+        // Optionally, re-throw the exception or return an empty vector if needed.
+    }
 
     return columns;
 }
+
 
 
 

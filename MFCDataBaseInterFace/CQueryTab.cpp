@@ -341,14 +341,23 @@ void CQueryTab::OnBnClickedBtnSelectall()
 
     CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
     int selectedDBNumber = dbDropdown->GetCurSel();
     int selectedTableNumber = tablesDropdown->GetCurSel();
+
+    if (selectedDBNumber == CB_ERR || selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
+
     CString table;
     CString database;
     CString columnList;
 
     dbDropdown->GetLBText(selectedDBNumber, database);
     tablesDropdown->GetLBText(selectedTableNumber, table);
+    
     std::vector<sql::SQLString> tableColumns = db->GetTableColumns(CStringToSQLString(table));
 
     for (const auto& columns : tableColumns)
@@ -378,6 +387,11 @@ void CQueryTab::OnBnClickedBtnnSelect()
 
     int selectedDBNumber = dbDropdown->GetCurSel();
     int selectedTableNumber = tablesDropdown->GetCurSel();
+    if (selectedDBNumber == CB_ERR || selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
     CString table;
     CString database;
     CString columnList;
@@ -413,6 +427,11 @@ void CQueryTab::OnBnClickedBtnInsert()
 
     int selectedDBNumber = dbDropdown->GetCurSel();
     int selectedTableNumber = tablesDropdown->GetCurSel();
+    if (selectedDBNumber == CB_ERR || selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
     CString table;
     CString database;
     CString columnList;
@@ -451,6 +470,11 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
 
     int selectedDBNumber = dbDropdown->GetCurSel();
     int selectedTableNumber = tablesDropdown->GetCurSel();
+    if (selectedDBNumber == CB_ERR || selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
     CString table;
     CString database;
     CString columnList;
@@ -488,6 +512,11 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
 
     int selectedDBNumber = dbDropdown->GetCurSel();
     int selectedTableNumber = tablesDropdown->GetCurSel();
+    if (selectedDBNumber == CB_ERR || selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
     CString table;
     CString database;
 

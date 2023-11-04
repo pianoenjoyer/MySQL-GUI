@@ -660,7 +660,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             {
                 pComboDatabases->SetCurSel(dbIndex);
                 OnCbnSelchangeCmbSelDb();
-                
+
             }
         }
 
@@ -669,6 +669,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         if (index != CB_ERR)
         {
             m_queryTab.m_comboTables.SetCurSel(index);
+            m_queryTab.PopulateColumnsList();
         }
     }
 
