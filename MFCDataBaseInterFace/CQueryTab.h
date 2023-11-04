@@ -27,9 +27,12 @@ public:
 	void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText);
 	void CQueryTab::SendMessageToConsole(CString msg, COLORREF color);
 	void CQueryTab::ExecuteQueryMainDlg();
+	void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString errorString;
-
+	void CQueryTab::PopulateColumnsList();
+	BOOL CQueryTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnGo();
+	bool CQueryTab::FillTableDropdown();
 	afx_msg void OnBnClickedBtnSelectall();
 	afx_msg void OnBnClickedBtnnSelect();
 	afx_msg void OnBnClickedBtnInsert();
@@ -39,4 +42,5 @@ public:
 	afx_msg void OnBnClickedBtnRefactor();
 	afx_msg void OnBnClickedBtnClearmsg();
 	afx_msg void OnCbnSelchangeSelTable();
+	afx_msg void OnBnClickedBtnForward();
 };

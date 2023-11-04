@@ -49,6 +49,7 @@ public:
 	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
 	void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
+	void CDBMainDlg::SetCurDataBase();
 	afx_msg void OnBnClickedBtnBrowse();
 	bool CDBMainDlg::FillTableDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();

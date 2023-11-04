@@ -185,11 +185,21 @@ BOOL CDBMainDlg::OnInitDialog()
    
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+    //give pointer to db object
+    m_queryTab.db = this->db;
+    m_resultTab.db = this->db;
 
+    //fill db and tables
+    
     // Create the two tabbed dialogs
+    FillDatabaseDropdown();
+    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
+    SetCurDataBase();
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
 
+    //OnCbnSelchangeCmbSelDb();
+    
 
     // Insert tab items
     TCITEM item1, item2;
@@ -213,31 +223,36 @@ BOOL CDBMainDlg::OnInitDialog()
     pTabCtrl->GetItemRect(1, &rcItem2);
     m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
-    //give db object
-    m_queryTab.db = this->db;
-    m_resultTab.db = this->db;
+
     // Show the initial tab (you should decide which one to show initially)
     m_queryTab.ShowWindow(SW_SHOW);
     m_resultTab.ShowWindow(SW_HIDE);
-
-
-    FillDatabaseDropdown();
-    m_resultTab.FillLimitDropdown();
-
-    //set font size of sql text rich edit
-    //(CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
-    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT), 250 );
-    //SetRichControlTextSize((CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS), 250);
-    
-    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
-    OnCbnSelchangeCmbSelDb();
-    m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    m_resultTab.GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
     OnBnClickedBtnUpdate();
 
     return TRUE;
 }
 
+CString GetComboBoxSelectedValue(CComboBox* pComboBox)
+{
+    int index = pComboBox->GetCurSel(); // Get the index of the selected item.
+
+    if (index != CB_ERR) {
+        CString selectedValue;
+        pComboBox->GetLBText(index, selectedValue); // Get the text of the selected item.
+        return selectedValue;
+    }
+
+    // Return an empty string or handle the case where no item is selected.
+    return L"";
+}
+
+
+void CDBMainDlg::SetCurDataBase()
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
+    CString database = GetComboBoxSelectedValue(pComboBox);
+    db->ChangeCurrentDatabase(CStringToSQLString(database));
+}
 
 // fill drop down with table names of db
 bool CDBMainDlg::FillDatabaseDropdown() 
@@ -247,15 +262,6 @@ bool CDBMainDlg::FillDatabaseDropdown()
     databases = db->GetDatabases();
     PopulateDropdown(pComboBox, databases);
     pComboBox->SetCurSel(0);
-    return true;
-}
-
-bool CDBMainDlg::FillTableDropdown()
-{
-    std::vector<sql::SQLString> tableNames;
-    tableNames = db->GetTables();
-    PopulateDropdown(&m_queryTab.m_comboTables, tableNames);
-    m_queryTab.m_comboTables.SetCurSel(0);
     return true;
 }
 
@@ -433,7 +439,8 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
 
     sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
     if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
-        FillTableDropdown();
+        m_queryTab.FillTableDropdown();
+        m_queryTab.PopulateColumnsList();
     }
     else
     {
@@ -653,6 +660,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             {
                 pComboDatabases->SetCurSel(dbIndex);
                 OnCbnSelchangeCmbSelDb();
+                
             }
         }
 
@@ -719,8 +727,7 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-
-
+//main tab control switch logic
 void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 {
     *pResult = 0;

@@ -220,20 +220,28 @@ CString CDBConnection::GetResultString(sql::ResultSet* resultSet)
 std::vector<sql::SQLString> CDBConnection::GetTables()
 {
     std::vector<sql::SQLString> tables;
-    sql::Statement* statement = m_connection->createStatement();
-    sql::ResultSet* resultSet = statement->executeQuery("SHOW TABLES");
 
-    while (resultSet->next())
-    {
-        sql::SQLString tableName = resultSet->getString(1).asStdString();
-        tables.push_back(tableName);
+    try {
+        sql::Statement* statement = m_connection->createStatement();
+        sql::ResultSet* resultSet = statement->executeQuery("SHOW TABLES");
+
+        while (resultSet->next())
+        {
+            sql::SQLString tableName = resultSet->getString(1).asStdString();
+            tables.push_back(tableName);
+        }
+
+        delete resultSet;
+        delete statement;
     }
-
-    delete resultSet;
-    delete statement;
+    catch (const sql::SQLException& e) {
+        CString errorMessage = CString(e.what());
+        AfxMessageBox(errorMessage);
+    }
 
     return tables;
 }
+
 
 std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString& tableName)
 {

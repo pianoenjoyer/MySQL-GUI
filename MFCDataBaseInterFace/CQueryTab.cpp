@@ -7,6 +7,7 @@
 #include "resource.h"
 #include <chrono>
 #include "CDBMainDlg.h"
+#include "Convertions.h"
 // CQueryTab dialog
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
@@ -44,6 +45,76 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SEL_TABLE, m_comboTables);
 }
 
+BOOL CQueryTab::OnInitDialog() 
+{
+    CDialogEx::OnInitDialog();
+    FillTableDropdown();
+    PopulateColumnsList();
+    return TRUE;
+}
+
+CString GetCurValDropdown(CComboBox* pCombo) 
+{
+    if (pCombo == nullptr)
+    {
+        return L"";
+    }
+    int curSel = pCombo->GetCurSel();
+    if (curSel != CB_ERR)
+    {
+        CString curText;
+        pCombo->GetLBText(curSel, curText);
+        return curText;
+    }
+    return L"";
+}
+
+void CQueryTab::PopulateColumnsList()
+{
+
+    CString tableName = GetCurValDropdown(((CComboBox*)GetDlgItem(IDC_SEL_TABLE)));
+    auto columns = db->GetTableColumns(CStringToSQLString(tableName));
+    auto pList = (CListCtrl*)GetDlgItem(IDC_LIST_COLUMNS);
+    if (!pList) {
+        AfxMessageBox(L"List doesnt exists");
+        return;
+    }
+
+    pList->DeleteAllItems();
+    int index = 0;
+    for (auto& value : columns)
+    {
+        pList->InsertItem(index, SQLStringToCString(value));
+        index++;
+    }
+}
+
+void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
+{
+    pComboBox->ResetContent();
+    if (values.empty())
+    {
+        //pComboBox->AddString(L"No elements found");
+        SendMessageToConsole(L"No elements found", RED);
+    }
+    for (const std::string& value : values)
+    {
+        CString item(value.c_str());
+        pComboBox->AddString(item);
+    }
+}
+
+bool CQueryTab::FillTableDropdown()
+{
+    std::vector<sql::SQLString> tableNames;
+    CTabCtrl* pMainTab = ((CTabCtrl*)this->GetParent());
+    CDBMainDlg* pMainDlg = (CDBMainDlg*)pMainTab->GetParent();
+
+    tableNames = pMainDlg->db->GetTables();
+    PopulateDropdown(&m_comboTables, tableNames);
+    m_comboTables.SetCurSel(0);
+    return true;
+}
 
 BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_GO, &CQueryTab::OnBnClickedBtnGo)
@@ -56,6 +127,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_REFACTOR, &CQueryTab::OnBnClickedBtnRefactor)
     ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CQueryTab::OnBnClickedBtnClearmsg)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CQueryTab::OnCbnSelchangeSelTable)
+    ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
 END_MESSAGE_MAP()
 
 
@@ -437,5 +509,25 @@ void CQueryTab::OnBnClickedBtnClearmsg()
 
 void CQueryTab::OnCbnSelchangeSelTable()
 {
-    // TODO: Add your control notification handler code here
+    PopulateColumnsList();
 }
+
+
+void CQueryTab::OnBnClickedBtnForward()
+{
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_COLUMNS);  // Replace with your List Control's ID
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+
+    int nSelectedItem = pList->GetNextItem(-1, LVNI_SELECTED);
+
+    if (nSelectedItem != -1)
+    {
+        CString itemText = pList->GetItemText(nSelectedItem, 0); // Assuming you want the text from the first column.
+        pRichEdit->ReplaceSel(itemText, TRUE);
+    }
+    else
+    {
+        AfxMessageBox(_T("No item selected!"));
+    }
+}
+

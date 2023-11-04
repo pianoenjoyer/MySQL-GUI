@@ -11,6 +11,8 @@
 
 IMPLEMENT_DYNAMIC(CResultTab, CDialogEx)
 
+
+
 CResultTab::CResultTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_RESULT, pParent)
 {
@@ -157,6 +159,15 @@ bool CResultTab::FillLimitDropdown()
 	m_comboLimit.AddString(L"All");
 	m_comboLimit.SetCurSel(1);
 	return true;
+}
+
+BOOL CResultTab::OnInitDialog()
+{
+    CDialogEx::OnInitDialog();
+    FillLimitDropdown();
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+    GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
+    return TRUE;
 }
 
 void CResultTab::OnBnClickedBtnClroutput()

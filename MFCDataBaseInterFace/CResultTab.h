@@ -31,6 +31,8 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	CListCtrl m_resultList;
 	CComboBox m_comboLimit;
+
+	BOOL CResultTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnClroutput();
 	afx_msg void OnBnClickedCheckShowall();
 	afx_msg void OnEnChangeListSearch();
