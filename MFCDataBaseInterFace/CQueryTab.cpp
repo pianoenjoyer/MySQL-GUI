@@ -258,9 +258,32 @@ void CQueryTab::ExecuteQueryMainDlg()
 }
 
 
+void SwitchTabByName(CTabCtrl* pTabCtrl, const CString& tabName) 
+{
+    int tabCount = pTabCtrl->GetItemCount();
+
+    for (int i = 0; i < tabCount; i++) {
+        CString currentTabName;
+        TCITEM tabItem;
+        tabItem.mask = TCIF_TEXT;
+        tabItem.pszText = currentTabName.GetBuffer(MAX_PATH);
+        tabItem.cchTextMax = MAX_PATH;
+
+        if (pTabCtrl->GetItem(i, &tabItem)) {
+            currentTabName.ReleaseBuffer();
+            if (currentTabName == tabName) {
+                pTabCtrl->SetCurSel(i); // Activate the tab with the matching name
+                break;
+            }
+        }
+    }
+}
+
+
 void CQueryTab::OnBnClickedBtnGo()
 {
-	ExecuteQueryMainDlg();
+    ExecuteQueryMainDlg();
+    //SwitchTabByName((CTabCtrl*)this->GetParent(), L"Result");
 }
 
 

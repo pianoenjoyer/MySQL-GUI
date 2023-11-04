@@ -248,7 +248,6 @@ std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString&
     std::vector<sql::SQLString> columns;
     if (tableName == "")
     {
-        AfxMessageBox(L"No tables in database");
         return columns;
     }
     try {
