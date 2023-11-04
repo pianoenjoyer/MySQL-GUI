@@ -697,7 +697,7 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 //main tab control switch logic
 void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    *pResult = 0;
+    //*pResult = 0;
     auto p = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
 
     int iSel = p->GetCurSel();

@@ -200,6 +200,7 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
     return utf16CString;
 }
 
+//if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
 {
     CDBMainDlg* pParentDialog = nullptr;
@@ -254,7 +255,8 @@ void CQueryTab::ExecuteQueryMainDlg()
         {
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
         }
-        //pParentDialog->SetResultSet(resultSet);
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
     }
     else
     {
@@ -263,6 +265,7 @@ void CQueryTab::ExecuteQueryMainDlg()
     //delete resultSet;
 }
 
+//if query from string
 void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
 {
     CDBMainDlg* pParentDialog = nullptr;
@@ -312,6 +315,8 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
         }
         //pParentDialog->SetResultSet(resultSet);
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
     }
     else
     {
@@ -326,8 +331,6 @@ void CQueryTab::OnBnClickedBtnGo()
     //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(75);
     ExecuteQueryMainDlg();
     //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(100);
-    ((CDBMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
-    ((CDBMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab();
     //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(0);
 }
 
