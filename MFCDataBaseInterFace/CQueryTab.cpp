@@ -614,13 +614,19 @@ void CQueryTab::OnBnClickedBtnSchema()
 {
     CString tableName;
     CString resultString;
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+    CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
-    int selectedIndex = dropdown->GetCurSel();
+    int selectedTableNumber = tablesDropdown->GetCurSel();
+    if (selectedTableNumber == CB_ERR)
+    {
+        SendMessageToConsole(L"Select table first!", RED);
+        return;
+    }
+    int selectedIndex = tablesDropdown->GetCurSel();
 
     if (selectedIndex != CB_ERR)
     {
-        dropdown->GetLBText(selectedIndex, tableName);
+        tablesDropdown->GetLBText(selectedIndex, tableName);
     }
 
     CString Query = L"DESCRIBE " + tableName + ";";
