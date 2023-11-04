@@ -300,6 +300,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_EDIT_REDO32773, &CDBMainDlg::OnEditRedo)
     ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
     ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
+    ON_WM_SIZE()
     ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
 END_MESSAGE_MAP()
@@ -764,5 +765,29 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     else
     {
         m_queryTab.SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
+    }
+}
+
+void CDBMainDlg::OnSize(UINT nType, int cx, int cy)
+{
+    CDialogEx::OnSize(nType, cx, cy);
+
+    // Only proceed if the child dialogs have been created
+    if (m_queryTab.GetSafeHwnd() && m_resultTab.GetSafeHwnd()) {
+        CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+        CRect mainRect;
+        GetClientRect(&mainRect);
+
+        // Adjust the size and position of the child dialogs based on the new size of the main dialog
+        CRect rcTab;
+        pTabCtrl->GetClientRect(&rcTab);
+
+        CRect rcItem1, rcItem2;
+        pTabCtrl->GetItemRect(0, &rcItem1);
+        pTabCtrl->GetItemRect(1, &rcItem2);
+
+        // Adjust the position and size of the child dialogs
+        m_queryTab.MoveWindow(rcTab.left, rcTab.top + rcItem1.Height(), rcTab.Width(), rcTab.Height() - rcItem1.Height());
+        m_resultTab.MoveWindow(rcTab.left, rcTab.top + rcItem2.Height(), rcTab.Width(), rcTab.Height() - rcItem2.Height());
     }
 }

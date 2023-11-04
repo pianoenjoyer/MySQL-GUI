@@ -172,7 +172,13 @@ BOOL CResultTab::OnInitDialog()
 
 void CResultTab::OnBnClickedBtnClroutput()
 {
-	// TODO: Add your control notification handler code here
+    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
+    pList->DeleteAllItems();
+    int numCols = pList->GetHeaderCtrl()->GetItemCount();
+    for (int col = numCols - 1; col >= 0; col--) {
+        pList->DeleteColumn(col);
+    }
+
 }
 
 

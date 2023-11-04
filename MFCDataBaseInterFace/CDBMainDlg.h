@@ -36,7 +36,7 @@ public:
 	CString m_pathToFile;
 	CString m_SQLtextQuery;
 	CString m_titleDatabaseName;
-
+	void CDBMainDlg::OnSize(UINT nType, int cx, int cy);
 	sql::ResultSet* m_resultSet;
 
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }

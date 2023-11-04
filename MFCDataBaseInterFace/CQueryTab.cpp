@@ -584,7 +584,7 @@ void CQueryTab::OnBnClickedBtnForward()
     }
     else
     {
-        AfxMessageBox(_T("No item selected!"));
+        SendMessageToConsole(L"No item selected!", RED);
     }
 }
 
