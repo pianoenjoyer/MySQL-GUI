@@ -244,13 +244,13 @@ void CResultTab::OnCbnSelchangeComboNmbOfRows()
 void CResultTab::OnEnChangeEditCurrentpage()
 {
     auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
-    sql::ResultSet* m_resultSet;
+    sql::ResultSet* m_resultSet = nullptr;
     CDBMainDlg* pParentDialog;
     CWnd* pTabCtrl = GetParent();
     if (pTabCtrl) {
         pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
         if (pParentDialog) {
-            m_resultSet = pParentDialog->GetResultSet();
+            m_resultSet = pParentDialog->m_queryTab.m_resultSet;
         }
     }
     if (m_resultSet == nullptr)
