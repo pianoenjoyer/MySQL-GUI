@@ -301,6 +301,7 @@ BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
     ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
     ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
     ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
+    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
 END_MESSAGE_MAP()
 
 //open .sql file
@@ -429,29 +430,7 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 }
 
 
-void CDBMainDlg::OnCbnSelchangeCmbSelDb()
-{
-    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
-    CString databaseName;
-    int selectedIndex = dropdown->GetCurSel();
 
-    if (selectedIndex != CB_ERR)
-    {
-        dropdown->GetLBText(selectedIndex, databaseName);
-    }
-    m_titleDatabaseName = databaseName;
-    this->SetWindowTextW(m_titleDatabaseName);
-
-    sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
-    if (db->ChangeCurrentDatabase(sqlDatabaseName)) {
-        m_queryTab.FillTableDropdown();
-        m_queryTab.PopulateColumnsList();
-    }
-    else
-    {
-        m_queryTab.SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
-    }
-}
 
 
 void CDBMainDlg::OnBnClickedButtonSave()
@@ -760,4 +739,30 @@ void CDBMainDlg::OnEditCopy()
 void CDBMainDlg::OnEditPaste()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
+}
+
+
+void CDBMainDlg::OnCbnSelchangeCmbSelDb()
+{
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+    CString databaseName;
+    int selectedIndex = dropdown->GetCurSel();
+
+    if (selectedIndex != CB_ERR)
+    {
+        dropdown->GetLBText(selectedIndex, databaseName);
+    }
+    m_titleDatabaseName = databaseName;
+    this->SetWindowTextW(m_titleDatabaseName);
+
+    sql::SQLString sqlDatabaseName(CW2A(databaseName.GetString()));
+    if (db->ChangeCurrentDatabase(sqlDatabaseName))
+    {
+        m_queryTab.FillTableDropdown();
+        m_queryTab.PopulateColumnsList();
+    }
+    else
+    {
+        m_queryTab.SendMessageToConsole(MSG_DBCHANGE_ERR, RED);
+    }
 }

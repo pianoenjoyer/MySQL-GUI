@@ -59,7 +59,6 @@ public:
 	afx_msg void OnBnClickedBtnUpdate();
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();
-	afx_msg void OnCbnSelchangeCmbSelDb();
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnConnectionCheckconnection();
 	afx_msg void OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult);
@@ -81,6 +80,7 @@ public:
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
+	afx_msg void OnCbnSelchangeCmbSelDb();
 };
 
 inline sql::SQLString CStringToSQLString(const CString& cstr);

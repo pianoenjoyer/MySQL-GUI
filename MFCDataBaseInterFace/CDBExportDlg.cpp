@@ -7,7 +7,7 @@
 #include "CDBExportDlg.h"
 #include <fstream>
 #include <atlstr.h>
-
+#include "CDBMainDlg.h"
 // CDBExportDlg dialog
 
 IMPLEMENT_DYNAMIC(CDBExportDlg, CDialogEx)
@@ -43,6 +43,7 @@ CDBExportDlg::CDBExportDlg(CWnd* pParent /*=nullptr*/)
 
 CDBExportDlg::~CDBExportDlg()
 {
+
 }
 
 void CDBExportDlg::DoDataExchange(CDataExchange* pDX)
@@ -344,7 +345,9 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
     CString filter;
     CString defaultExt;  // Store the default extension for the file dialog
     ExportFunc exportFunc = nullptr;
-
+    //new list link
+    CDBMainDlg* pParent = (CDBMainDlg*)this->GetParent();
+    m_pList = (CListCtrl*)pParent->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
     if (((CButton*)GetDlgItem(IDC_RAD_CSV))->GetCheck() == BST_CHECKED)
     {
         filter = L"CSV files (*.csv)|*.csv|All files (*.*)|*.*||";

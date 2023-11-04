@@ -301,6 +301,12 @@ void CResultTab::OnEnChangeEditCurrentpage()
 
 void CResultTab::OnBnClickedBtnFirstpage()
 {
+    CStringW title;
+    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(title);
+    if (title == L"0")
+    {
+        return;
+    }
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
 }
 
