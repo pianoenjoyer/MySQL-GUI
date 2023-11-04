@@ -128,6 +128,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CLEARMSG, &CQueryTab::OnBnClickedBtnClearmsg)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CQueryTab::OnCbnSelchangeSelTable)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
+    ON_BN_CLICKED(IDC_BTN_SCHEMA, &CQueryTab::OnBnClickedBtnSchema)
 END_MESSAGE_MAP()
 
 
@@ -262,6 +263,62 @@ void CQueryTab::ExecuteQueryMainDlg()
     //delete resultSet;
 }
 
+void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
+{
+    CDBMainDlg* pParentDialog = nullptr;
+    CWnd* pTabCtrl = GetParent();
+    if (pTabCtrl) {
+        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
+        if (!pParentDialog) {
+            return;
+        }
+    }
+
+    if (m_resultSet)
+    {
+        delete m_resultSet;
+        m_resultSet = nullptr;
+    }
+
+
+    auto start = std::chrono::high_resolution_clock::now();
+    m_resultSet = db->ExecuteQuery(queryText, errorString);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration<double>(end - start);
+    double timeTaken = duration.count();
+    CString timeTakenStr;
+
+
+    if (m_resultSet)
+    {
+        int rowsCount = m_resultSet->rowsCount();
+        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
+
+        SendMessageToConsole(timeTakenStr, GREEN);
+        start = std::chrono::high_resolution_clock::now();
+        pParentDialog->m_resultTab.FillListControl(m_resultSet, 0);
+        end = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration<double>(end - start);
+        timeTaken = duration.count();
+        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
+        //SendMessageToConsole(timeTakenStr, BLACK);
+        if (rowsCount == 0)
+        {
+            pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+        }
+        else
+        {
+            pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+        }
+        //pParentDialog->SetResultSet(resultSet);
+    }
+    else
+    {
+        SendMessageToConsole(errorString, RED);
+    }
+    //delete resultSet;
+}
 
 void SwitchTabByName(CTabCtrl* pTabCtrl, const CString& tabName) 
 {
@@ -588,3 +645,23 @@ void CQueryTab::OnBnClickedBtnForward()
     }
 }
 
+
+
+void CQueryTab::OnBnClickedBtnSchema()
+{
+    CString tableName;
+    CString resultString;
+    CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
+    int selectedIndex = dropdown->GetCurSel();
+
+    if (selectedIndex != CB_ERR)
+    {
+        dropdown->GetLBText(selectedIndex, tableName);
+    }
+
+    CString Query = L"DESCRIBE " + tableName + ";";
+    sql::SQLString query(CW2A(Query.GetString()));
+
+    ExecuteQueryMainDlg(query);
+}

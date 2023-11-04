@@ -41,7 +41,9 @@ public:
 	afx_msg void OnBnClickedBtnDeleterecord();
 	afx_msg void OnBnClickedBtnClear();
 	afx_msg void OnBnClickedBtnRefactor();
+	void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText);
 	afx_msg void OnBnClickedBtnClearmsg();
 	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnBnClickedBtnForward();
+	afx_msg void OnBnClickedBtnSchema();
 };
