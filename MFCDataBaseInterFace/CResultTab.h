@@ -34,6 +34,7 @@ public:
 
 	BOOL CResultTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnClroutput();
+	void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color);
 	afx_msg void OnBnClickedCheckShowall();
 	afx_msg void OnEnChangeListSearch();
 	afx_msg void OnCbnSelchangeComboNmbOfRows();

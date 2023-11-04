@@ -8,6 +8,7 @@
 #include <chrono>
 #include "CDBMainDlg.h"
 #include "Convertions.h"
+#include "SharedFunctions.h"
 // CQueryTab dialog
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
@@ -132,33 +133,6 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
 END_MESSAGE_MAP()
 
 
-//sent msg to output
-void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color)
-{
-    // Save the current selection
-    CHARRANGE saveCharRange;
-    ctrl.GetSel(saveCharRange);
-
-    // Move the caret to the end of text
-    long lTextLength = ctrl.GetTextLength();
-    ctrl.SetSel(lTextLength, lTextLength);
-
-    // Set the color
-    CHARFORMAT cf = { 0 };
-    cf.cbSize = sizeof(CHARFORMAT);
-    cf.dwMask = CFM_COLOR;
-    cf.crTextColor = color;
-    ctrl.SetSelectionCharFormat(cf);
-
-    // Append the text
-    ctrl.ReplaceSel(text);
-
-    // Restore the previous selection
-    ctrl.SetSel(saveCharRange);
-    // Scroll to the end so the latest text is visible //awesome
-    ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
-}
-
 void CQueryTab::SendMessageToConsole(CString msg, COLORREF color)
 {
     CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
@@ -240,6 +214,8 @@ void CQueryTab::ExecuteQueryMainDlg()
         timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
         SendMessageToConsole(timeTakenStr, GREEN);
+        //send exac same msg to resultTab edit
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
         pParentDialog->m_resultTab.FillListControl(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
@@ -299,6 +275,7 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
         timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
         SendMessageToConsole(timeTakenStr, GREEN);
+        ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
         pParentDialog->m_resultTab.FillListControl(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();

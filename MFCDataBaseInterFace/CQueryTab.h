@@ -26,6 +26,7 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText);
 	void CQueryTab::SendMessageToConsole(CString msg, COLORREF color);
+
 	void CQueryTab::ExecuteQueryMainDlg();
 	void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString errorString;

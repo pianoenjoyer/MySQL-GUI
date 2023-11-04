@@ -125,6 +125,8 @@
 #define IDC_RICHEDIT23                  1095
 #define IDC_RICHEDIT24                  1096
 #define IDC_LIST_COLUMNS                1097
+#define IDC_RICHEDIT21                  1098
+#define IDC_RICH_QUERYINFO              1098
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -164,7 +166,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        152
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1098
+#define _APS_NEXT_CONTROL_VALUE         1099
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

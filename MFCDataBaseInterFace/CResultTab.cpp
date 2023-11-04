@@ -7,6 +7,7 @@
 #include "resource.h"
 #include "Convertions.h"
 #include "CDBMainDlg.h"
+#include "SharedFunctions.h"
 // CResultTab dialog
 
 IMPLEMENT_DYNAMIC(CResultTab, CDialogEx)
@@ -387,4 +388,18 @@ void CResultTab::OnBnClickedBtnNextpage()
     currentPage++;
     pageNumberStr.Format(_T("%d"), currentPage);
     pEdit->SetWindowTextW(pageNumberStr);
+}
+
+
+void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color)
+{
+    CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_QUERYINFO);
+    p_richEdit->SetWindowTextW(L"");
+    CTime currentTime = CTime::GetCurrentTime();
+    // Format 
+    CString timeStr = currentTime.Format(_T("%H:%M:%S"));
+    // Adding timestamp
+    CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
+    // Append the text with a specific color
+    AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
