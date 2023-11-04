@@ -244,7 +244,7 @@ void CResultTab::OnEnChangeListSearch()
 
 void CResultTab::OnCbnSelchangeComboNmbOfRows()
 {
-	// TODO: Add your control notification handler code here
+    OnEnChangeEditCurrentpage();
 }
 
 
