@@ -344,8 +344,11 @@ void SwitchTabByName(CTabCtrl* pTabCtrl, const CString& tabName)
 
 void CQueryTab::OnBnClickedBtnGo()
 {
+    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(75);
     ExecuteQueryMainDlg();
+    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(100);
     //SwitchTabByName((CTabCtrl*)this->GetParent(), L"Result");
+    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(0);
 }
 
 

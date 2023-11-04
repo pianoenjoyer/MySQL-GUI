@@ -162,6 +162,8 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
 BOOL CDBMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+    ((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetRange(0, 100);
+
     //set icon
     //m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
     SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -790,4 +792,10 @@ void CDBMainDlg::OnSize(UINT nType, int cx, int cy)
         m_queryTab.MoveWindow(rcTab.left, rcTab.top + rcItem1.Height(), rcTab.Width(), rcTab.Height() - rcItem1.Height());
         m_resultTab.MoveWindow(rcTab.left, rcTab.top + rcItem2.Height(), rcTab.Width(), rcTab.Height() - rcItem2.Height());
     }
+}
+
+
+void CDBMainDlg::SetProgressBarPosition(int position)
+{
+    ((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetPos(position);
 }

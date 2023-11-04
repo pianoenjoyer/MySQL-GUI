@@ -307,9 +307,11 @@ void CResultTab::OnEnChangeEditCurrentpage()
 
 void CResultTab::OnBnClickedBtnFirstpage()
 {
-    CStringW title;
-    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(title);
-    if (title == L"0")
+    CStringW maxpage;
+    CStringW curpage;
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->GetWindowTextW(curpage);
+    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(maxpage);
+    if (maxpage == L"0" || curpage == L"0" || curpage == L"1")
     {
         return;
     }
@@ -319,9 +321,15 @@ void CResultTab::OnBnClickedBtnFirstpage()
 
 void CResultTab::OnBnClickedBtnLastpage()
 {
-    CStringW title;
-    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(title);
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(title);
+    CStringW maxpage;
+    CStringW curpage;
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->GetWindowTextW(curpage);
+    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(maxpage);
+    if (maxpage == curpage)
+    {
+        return;
+    }
+    GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(maxpage);
 }
 
 

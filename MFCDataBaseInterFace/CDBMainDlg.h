@@ -38,7 +38,7 @@ public:
 	CString m_titleDatabaseName;
 	void CDBMainDlg::OnSize(UINT nType, int cx, int cy);
 	sql::ResultSet* m_resultSet;
-
+	void CDBMainDlg::SetProgressBarPosition(int position);
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
 	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
 

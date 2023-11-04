@@ -104,6 +104,7 @@
 #define IDC_RAD_TSV                     1045
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
+#define IDC_EXECPROGRESS                1049
 #define IDC_CMB_SEL_DB                  1050
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
