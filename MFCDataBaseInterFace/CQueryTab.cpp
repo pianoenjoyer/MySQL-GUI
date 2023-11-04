@@ -70,25 +70,25 @@ CString GetCurValDropdown(CComboBox* pCombo)
     return L"";
 }
 
-void CQueryTab::PopulateColumnsList()
+void CQueryTab::PopulateColumnsList() 
 {
-
     CString tableName = GetCurValDropdown(((CComboBox*)GetDlgItem(IDC_SEL_TABLE)));
     auto columns = db->GetTableColumns(CStringToSQLString(tableName));
-    auto pList = (CListCtrl*)GetDlgItem(IDC_LIST_COLUMNS);
-    if (!pList) {
-        AfxMessageBox(L"List doesnt exists");
+    auto pListBox = (CListBox*)GetDlgItem(IDC_LIST_COLUMNS);
+
+    if (!pListBox) {
+        AfxMessageBox(L"List box doesn't exist");
         return;
     }
 
-    pList->DeleteAllItems();
-    int index = 0;
-    for (auto& value : columns)
-    {
-        pList->InsertItem(index, SQLStringToCString(value));
-        index++;
+    pListBox->ResetContent(); // Clear the existing items
+
+    for (const auto& value : columns) {
+        pListBox->AddString(SQLStringToCString(value)); // Add items to the list box
     }
 }
+
+
 
 void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
 {
@@ -592,14 +592,15 @@ void CQueryTab::OnCbnSelchangeSelTable()
 
 void CQueryTab::OnBnClickedBtnForward()
 {
-    CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_COLUMNS);  // Replace with your List Control's ID
+    CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST_COLUMNS);  // Replace with your ListBox's ID
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
 
-    int nSelectedItem = pList->GetNextItem(-1, LVNI_SELECTED);
+    int nSelectedItem = pListBox->GetCurSel();
 
-    if (nSelectedItem != -1)
+    if (nSelectedItem != LB_ERR)
     {
-        CString itemText = pList->GetItemText(nSelectedItem, 0); // Assuming you want the text from the first column.
+        CString itemText;
+        pListBox->GetText(nSelectedItem, itemText);
         pRichEdit->ReplaceSel(itemText, TRUE);
     }
     else
@@ -607,6 +608,7 @@ void CQueryTab::OnBnClickedBtnForward()
         SendMessageToConsole(L"No item selected!", RED);
     }
 }
+
 
 
 
