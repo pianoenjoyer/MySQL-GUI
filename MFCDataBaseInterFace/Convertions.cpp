@@ -15,34 +15,36 @@
 #include <chrono>
 #include "CNewDBDlg.h"
 
+
 inline sql::SQLString CStringToSQLString(const CString& cstr)
 {
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), NULL, 0, NULL, NULL);
+    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr, -1, NULL, 0, NULL, NULL);
 
-    std::string utf8Str(size_needed, 0);
+    std::string utf8Str;
+    utf8Str.resize(size_needed);
 
     // Convert the UTF-16 string (CString) to UTF-8
-    WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), &utf8Str[0], size_needed, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, cstr, -1, &utf8Str[0], size_needed, NULL, NULL);
 
-    return sql::SQLString(utf8Str);
+    return sql::SQLString(utf8Str.c_str());
 }
 
-// CQueryTab message handlers
+
 inline CString SQLStringToCString(const sql::SQLString& sqlStr)
 {
-    // Directly use sqlStr's c_str() method
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), NULL, 0);
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), -1, NULL, 0);
 
     CString utf16CString;
-    wchar_t* buf = utf16CString.GetBufferSetLength(size_needed);
+    utf16CString.GetBufferSetLength(size_needed);
 
     // Convert the UTF-8 string to UTF-16
-    MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), buf, size_needed);
+    MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), -1, utf16CString.GetBuffer(), size_needed);
 
     utf16CString.ReleaseBuffer();
 
     return utf16CString;
 }
+
 
 CString BinaryDataToHexString(const CString& binaryData) {
     std::ostringstream oss;

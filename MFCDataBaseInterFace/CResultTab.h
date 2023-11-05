@@ -41,6 +41,7 @@ public:
 	afx_msg void OnBnClickedBtnFirstpage();
 	afx_msg void OnBnClickedBtnPrevpage();
 	bool CResultTab::FillLimitDropdown();
+	void CResultTab::BeginPageState();
 	int CResultTab::FillListControl(sql::ResultSet* resultSet, int offset);
 	int CResultTab::FillListControl(sql::ResultSet* resultSet);
 	void CResultTab::SaveOriginalListState();

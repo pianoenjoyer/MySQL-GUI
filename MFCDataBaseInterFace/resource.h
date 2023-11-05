@@ -127,7 +127,6 @@
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
-#define IDC_LIST4                       1102
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773

@@ -632,13 +632,19 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
         CString tableName = pTree->GetItemText(hItem);
         int index =  m_queryTab.m_comboTables.FindStringExact(0, tableName);
-        if (m_mainTabCtrl.GetCurSel() == 1) //if result tab is active
-        {
+        
+        if (m_mainTabCtrl.GetCurSel() == 1) //if result tab is active 
+        {   //see table content on tree element click
+            if (m_queryTab.m_resultSet)
+            {
+                delete m_queryTab.m_resultSet;
+                m_queryTab.m_resultSet = nullptr;
+            }
             CString query(L"SELECT * FROM ");
             query += tableName;
             auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
             m_resultTab.FillListControl(resultSet, 0);
-            delete resultSet;
+            m_queryTab.m_resultSet = resultSet;
         }
         if (index != CB_ERR)
         {
