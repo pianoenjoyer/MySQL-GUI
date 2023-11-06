@@ -164,7 +164,7 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
 BOOL CDBMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    ((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetRange(0, 100);
+    //((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetRange(0, 100);
 
     //set icon
     //m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
