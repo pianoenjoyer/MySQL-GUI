@@ -1,9 +1,10 @@
 #pragma once
-#include "afxdialogex.h"
+
 #include "CDBConnection.h"
 #include "CDBExportDlg.h"
 #include "CResultTab.h"
 #include "CQueryTab.h"
+
 // CDBMainDlg dialog
 
 class CDBMainDlg : public CDialogEx

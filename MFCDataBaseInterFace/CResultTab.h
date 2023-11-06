@@ -1,8 +1,7 @@
 #pragma once
-#include "afxdialogex.h"
-#include <memory>
 #include "CDBConnection.h"
 
+#include <memory>
 // CResultTab dialog
 
 class CResultTab : public CDialogEx

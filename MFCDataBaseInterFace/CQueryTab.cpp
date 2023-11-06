@@ -1,14 +1,15 @@
 // CQueryTab.cpp : implementation file
 //
-
 #include "pch.h"
 #include "afxdialogex.h"
+#include "CDBInterfaceApp.h"
+
 #include "CQueryTab.h"
-#include "resource.h"
-#include <chrono>
 #include "CDBMainDlg.h"
 #include "Convertions.h"
 #include "SharedFunctions.h"
+
+#include <chrono>
 // CQueryTab dialog
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
