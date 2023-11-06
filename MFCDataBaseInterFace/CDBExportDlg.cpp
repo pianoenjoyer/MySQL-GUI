@@ -12,26 +12,26 @@
 
 IMPLEMENT_DYNAMIC(CDBExportDlg, CDialogEx)
 
-CString strCSVdescription("A simple file format for storing tabular data such as\r\n"
-    "a spreadsheet or database. CSV files use a comma to\r\n"
-    "separate values. Each line in the file corresponds\r\n"
-    "to a row in the table.");
+CString strCSVdescription("A simple file format for storing tabular data such as"
+    " a spreadsheet or database. CSV files use a comma to"
+    " separate values. Each line in the file corresponds"
+    " to a row in the table.");
 
-CString strXMLdescription("A markup language defining rules for encoding documents\r\n"
-    "in a format that's human-readable and machine-readable.\r\n"
-    "Primarily used for data sharing across systems.");
+CString strXMLdescription("A markup language defining rules for encoding documents"
+    " in a format that's human-readable and machine-readable."
+    " Primarily used for data sharing across systems.");
 
-CString strHTMLdescription("The standard markup language for web browser display.\r\n"
-    "HTML describes web page structure and pairs with \r\n"
-    "technologies like CSS and JavaScript for interactive content.");
+CString strHTMLdescription("The standard markup language for web browser display."
+    " HTML describes web page structure and pairs with"
+    " technologies like CSS and JavaScript for interactive content.");
 
-CString strTSVdescription("Similar to CSV, TSV stores tabular data. Instead of commas,\r\n"
-    "TSV files use tabs to separate values. Each line represents\r\n"
-    "a table row.");
+CString strTSVdescription("Similar to CSV, TSV stores tabular data. Instead of commas,"
+    " TSV files use tabs to separate values. Each line represents"
+    " a table row.");
 
-CString strTextdescription("A plain text file contains only readable content without\r\n"
-    "formatting. It can be opened by any text editor. Often used\r\n"
-    "for config files or simple note-taking.");
+CString strTextdescription("A plain text file contains only readable content without"
+    " formatting. It can be opened by any text editor. Often used"
+    " for config files or simple note-taking.");
 
 
 
@@ -346,8 +346,9 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
     CString defaultExt;  // Store the default extension for the file dialog
     ExportFunc exportFunc = nullptr;
     //new list link
-    CDBMainDlg* pParent = (CDBMainDlg*)this->GetParent();
-    m_pList = (CListCtrl*)pParent->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
+    auto pTab = this->GetParent();
+    CDBMainDlg* mainDlg = (CDBMainDlg*)pTab->GetParent();
+    m_pList = (CListCtrl*)mainDlg->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
     if (((CButton*)GetDlgItem(IDC_RAD_CSV))->GetCheck() == BST_CHECKED)
     {
         filter = L"CSV files (*.csv)|*.csv|All files (*.*)|*.*||";
@@ -397,12 +398,10 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
         if (m_pList && (*exportFunc)(*m_pList, exportFilePath))
         {
             AfxMessageBox(L"Exported successfully");
-            this->EndDialog(IDOK);
         }
         else
         {
             AfxMessageBox(L"Something went wrong");
-            this->EndDialog(IDABORT);
         }
     }
 }
