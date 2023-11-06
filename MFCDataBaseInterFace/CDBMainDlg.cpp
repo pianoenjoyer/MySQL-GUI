@@ -1,5 +1,15 @@
 ﻿#pragma once
+#include <fstream>
+#include "pch.h"
+#include "CDBInterfaceApp.h"
+#include "afxdialogex.h"
 #include "CDBMainDlg.h"
+#include "framework.h"
+#include "CDBAuthDlg.h"
+#include "CServerInfoDlg.h"
+#include <fstream>
+#include "CNewDBDlg.h"
+#include "Convertions.h"
 
 #define RED RGB(255, 0, 0)
 #define GREEN RGB(0, 128, 0)
@@ -419,7 +429,6 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
-    FillDatabaseDropdown();
     FillTreeControlWithDBTables(*pTree);
 }
 

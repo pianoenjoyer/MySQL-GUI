@@ -1,15 +1,7 @@
 #pragma once
-#include "pch.h"
 #include "afxdialogex.h"
-#include "resource.h"
-
-#include "CQueryTab.h"
-#include <chrono>
-#include "CDBMainDlg.h"
+#include "memory"
 #include "CDBConnection.h"
-#include "Convertions.h"
-#include "SharedFunctions.h"
-
 // CQueryTab dialog
 
 class CQueryTab : public CDialogEx
@@ -32,7 +24,9 @@ protected:
 public:
 	CComboBox m_comboTables;
 	std::shared_ptr<CDBConnection> db;
+	void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText);
 	void CQueryTab::SendMessageToConsole(CString msg, COLORREF color);
+
 	void CQueryTab::ExecuteQueryMainDlg();
 	void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString errorString;

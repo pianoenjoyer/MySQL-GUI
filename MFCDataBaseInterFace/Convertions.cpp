@@ -1,21 +1,20 @@
 #include "Convertions.h"
+#include <fstream>
+#include "pch.h"
+#include "CDBInterfaceApp.h"
+#include "afxdialogex.h"
+#include "CDBMainDlg.h"
+#include "framework.h"
+#include "CDBAuthDlg.h"
+#include "CServerInfoDlg.h"
+#include <locale>
+#include <codecvt>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <chrono>
+#include "CNewDBDlg.h"
 
-
-std::string CStringToUTF8String(const CString& cstr) 
-{
-    int length = cstr.GetLength();
-    int utf8Length = WideCharToMultiByte(CP_UTF8, 0, cstr, length, NULL, 0, NULL, NULL);
-
-    if (utf8Length == 0) {
-        // Handle the conversion error
-        return std::string();  // Return an empty string or handle the error as needed
-    }
-
-    std::string utf8Str(utf8Length, '\0');
-    WideCharToMultiByte(CP_UTF8, 0, cstr, length, &utf8Str[0], utf8Length, NULL, NULL);
-
-    return utf8Str;
-}
 
 inline sql::SQLString CStringToSQLString(const CString& cstr)
 {

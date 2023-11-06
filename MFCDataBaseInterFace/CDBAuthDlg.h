@@ -3,7 +3,7 @@
 #include "CDBConnection.h"
 #include "CDBMainDlg.h"
 #include <memory>
-
+#include "CAboutDlg.h"
 // CDBAuthDlg dialog
 class CDBAuthDlg : public CDialogEx
 {
