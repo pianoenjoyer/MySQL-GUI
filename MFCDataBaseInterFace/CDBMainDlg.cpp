@@ -5,9 +5,12 @@
 #include "CDBInterfaceApp.h"
 #include "CDBMainDlg.h"
 #include "CDBAuthDlg.h"
+#include "CDBAuthDlg.h"
 #include "CServerInfoDlg.h"
 #include "CNewDBDlg.h"
+#include "CAboutDlg.h"
 #include "Convertions.h"
+
 #include <fstream>
 
 #define RED RGB(255, 0, 0)

@@ -1,10 +1,18 @@
 // CAboutDlg.cpp : implementation file
 //
-
 #include "pch.h"
 #include "afxdialogex.h"
+#include "CDBInterfaceApp.h"
 #include "CAboutDlg.h"
 
+#include "CDBAuthDlg.h"
+#include "CLoginDataSave.h"
+#include "afxdialogex.h"
+#include "CDBConnection.h"
+#include "CDBMainDlg.h"
+#include "resource.h"
+
+#include <atlimage.h>
 
 // CAboutDlg dialog
 

@@ -46,4 +46,5 @@ public:
 	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnBnClickedBtnForward();
 	afx_msg void OnBnClickedBtnSchema();
+	afx_msg void OnLbnDblclkListColumns();
 };

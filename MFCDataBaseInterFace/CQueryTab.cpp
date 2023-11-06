@@ -131,6 +131,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_CBN_SELCHANGE(IDC_SEL_TABLE, &CQueryTab::OnCbnSelchangeSelTable)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CQueryTab::OnBnClickedBtnSchema)
+    ON_LBN_DBLCLK(IDC_LIST_COLUMNS, &CQueryTab::OnLbnDblclkListColumns)
 END_MESSAGE_MAP()
 
 
@@ -636,4 +637,10 @@ void CQueryTab::OnBnClickedBtnSchema()
     sql::SQLString query(CW2A(Query.GetString()));
 
     ExecuteQueryMainDlg(query);
+}
+
+
+void CQueryTab::OnLbnDblclkListColumns()
+{
+    OnBnClickedBtnForward();
 }

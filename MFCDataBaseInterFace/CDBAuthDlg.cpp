@@ -1,6 +1,15 @@
 ﻿
-#include "CDBAuthDlg.h"
+#include "pch.h"
+#include "afxdialogex.h"
+#include "CDBInterfaceApp.h"
 
+#include "CDBAuthDlg.h"
+#include "CLoginDataSave.h"
+#include "CDBConnection.h"
+#include "CDBMainDlg.h"
+#include "CAboutDlg.h"
+
+#include <memory>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif

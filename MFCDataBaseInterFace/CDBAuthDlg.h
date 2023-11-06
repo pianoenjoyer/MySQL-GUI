@@ -1,9 +1,8 @@
 #pragma once
-#include "resource.h"
+#include <memory>
 #include "CDBConnection.h"
 #include "CDBMainDlg.h"
-#include <memory>
-#include "CAboutDlg.h"
+
 // CDBAuthDlg dialog
 class CDBAuthDlg : public CDialogEx
 {
