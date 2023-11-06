@@ -1,9 +1,18 @@
 #pragma once
+#include "pch.h"
 #include "afxdialogex.h"
+#include "CAboutDlg.h"
+#include "CServerInfoDlg.h"
 #include "CDBConnection.h"
 #include "CDBExportDlg.h"
 #include "CResultTab.h"
 #include "CQueryTab.h"
+#include "Convertions.h"
+#include "CNewDBDlg.h"
+
+#include <fstream>
+
+
 // CDBMainDlg dialog
 
 class CDBMainDlg : public CDialogEx
@@ -83,5 +92,3 @@ public:
 	afx_msg void OnEditPaste();
 	afx_msg void OnCbnSelchangeCmbSelDb();
 };
-
-inline sql::SQLString CStringToSQLString(const CString& cstr);

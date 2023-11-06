@@ -6,6 +6,7 @@
 #include "CNewDBDlg.h"
 #include "resource.h"
 #include "CDBMainDlg.h"
+#include "Convertions.h"
 // CNewDBDlg dialog
 
 IMPLEMENT_DYNAMIC(CNewDBDlg, CDialogEx)
