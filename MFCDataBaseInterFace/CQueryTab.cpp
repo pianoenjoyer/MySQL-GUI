@@ -97,7 +97,7 @@ void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQ
     if (values.empty())
     {
         //pComboBox->AddString(L"No elements found");
-        SendMessageToConsole(L"No elements found", RED);
+        //SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
     {

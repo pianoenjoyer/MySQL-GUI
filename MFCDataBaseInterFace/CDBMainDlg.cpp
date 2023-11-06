@@ -359,7 +359,7 @@ void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::S
     if (values.empty())
     {
         //pComboBox->AddString(L"No elements found");
-        m_queryTab.SendMessageToConsole(L"No elements found", RED);
+        //m_queryTab.SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
     {
@@ -428,8 +428,9 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
-    FillDatabaseDropdown();
     FillTreeControlWithDBTables(*pTree);
+    FillDatabaseDropdown();
+    OnCbnSelchangeCmbSelDb();
 }
 
 
