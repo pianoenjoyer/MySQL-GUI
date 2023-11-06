@@ -28,6 +28,7 @@ protected:
 public:
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
+	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
 	HICON m_hIcon;
@@ -53,7 +54,6 @@ public:
 	CString ReadFileContent();
 	void CDBMainDlg::SetCurDataBase();
 	afx_msg void OnBnClickedBtnBrowse();
-	bool CDBMainDlg::FillTableDropdown();
 	bool CDBMainDlg::FillDatabaseDropdown();
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();

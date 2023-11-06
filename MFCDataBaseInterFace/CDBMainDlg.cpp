@@ -199,14 +199,15 @@ BOOL CDBMainDlg::OnInitDialog()
     FillDatabaseDropdown();
     ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
     SetCurDataBase();
+
+
+    //init dlgs
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
+    m_exportTab.Create(IDD_EXPORT, pTabCtrl);
 
-    //OnCbnSelchangeCmbSelDb();
-    
-
-    // Insert tab items
-    TCITEM item1, item2;
+    //insert into tab control
+    TCITEM item1, item2, item3;
     item1.mask = TCIF_TEXT | TCIF_PARAM;
     item1.lParam = (LPARAM)&m_queryTab;
     item1.pszText = _T("Query");
@@ -217,20 +218,28 @@ BOOL CDBMainDlg::OnInitDialog()
     item2.pszText = _T("Result");
     pTabCtrl->InsertItem(1, &item2);
 
-    // Get the item rect for m_queryTab
+    item3.mask = TCIF_TEXT | TCIF_PARAM;
+    item3.lParam = (LPARAM)&m_exportTab;
+    item3.pszText = _T("Export");
+    pTabCtrl->InsertItem(2, &item3);
+
+    //set pos
     CRect rcItem1;
     pTabCtrl->GetItemRect(0, &rcItem1);
     m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
-    // Get the item rect for m_resultTab and use rcItem1 rect
     CRect rcItem2;
     pTabCtrl->GetItemRect(1, &rcItem2);
     m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    CRect rcItem3;
+    pTabCtrl->GetItemRect(2, &rcItem3);
+    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem3.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
-    // Show the initial tab (you should decide which one to show initially)
+    //initial show and hide
     m_queryTab.ShowWindow(SW_SHOW);
     m_resultTab.ShowWindow(SW_HIDE);
+    m_exportTab.ShowWindow(SW_HIDE);
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -725,11 +734,19 @@ void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     {
         m_queryTab.ShowWindow(SW_SHOW);
         m_resultTab.ShowWindow(SW_HIDE);
+        m_exportTab.ShowWindow(SW_HIDE);
     }
     else if (iSel == 1)
     {
         m_queryTab.ShowWindow(SW_HIDE);
         m_resultTab.ShowWindow(SW_SHOW);
+        m_exportTab.ShowWindow(SW_HIDE);
+    }
+    else if (iSel == 2)
+    {
+        m_exportTab.ShowWindow(SW_SHOW);
+        m_queryTab.ShowWindow(SW_HIDE);
+        m_resultTab.ShowWindow(SW_HIDE);
     }
 }
 
