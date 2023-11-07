@@ -1,14 +1,14 @@
 ﻿
 #include "pch.h"
 #include "afxdialogex.h"
-
+#include "CResultTab.h"
 #include "CDBInterfaceApp.h"
 #include "CDBMainDlg.h"
-#include "CDBAuthDlg.h"
 #include "CDBAuthDlg.h"
 #include "CServerInfoDlg.h"
 #include "CNewDBDlg.h"
 #include "CAboutDlg.h"
+
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
 #include <fstream>

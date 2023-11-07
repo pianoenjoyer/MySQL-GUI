@@ -1,8 +1,9 @@
 #pragma once
 #include "CDBConnection.h"
-#include "CDBMainDlg.h"
 #include <memory>
+#include "CDBMainDlg.h"
 // CResultTab dialog
+class CDBMainDlg;
 
 class CResultTab : public CDialogEx
 {

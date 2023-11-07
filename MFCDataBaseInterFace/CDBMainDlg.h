@@ -1,11 +1,12 @@
 #pragma once
 
+#include "CResultTab.h"
 #include "CDBConnection.h"
 #include "CDBExportDlg.h"
-#include "CResultTab.h"
 #include "CQueryTab.h"
 
 // CDBMainDlg dialog
+class CResultTab;
 
 class CDBMainDlg : public CDialogEx
 {
