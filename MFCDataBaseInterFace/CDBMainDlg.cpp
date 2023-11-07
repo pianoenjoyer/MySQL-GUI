@@ -10,26 +10,8 @@
 #include "CNewDBDlg.h"
 #include "CAboutDlg.h"
 #include "Convertions.h"
-
+#include "SendMessagesUtils.h"
 #include <fstream>
-
-#define RED RGB(255, 0, 0)
-#define GREEN RGB(0, 128, 0)
-#define BLACK RGB(0, 0, 0)
-
-//CONSOLE MESSEGES
-//Query msgs
-const CString MSG_QUERY_OK("Query completed");
-//Export msgs
-const CString MSG_EXPORT_START("Export started");
-const CString MSG_EXPORT_OK("Export completed");
-const CString MSG_EXPORT_ERR("Export error");
-const CString MSG_EXPORT_CANCEL("Export canceled");
-//DB change msgs
-// 
-// CDBMainDlg dialog
-const CString MSG_DBCHANGE_OK("Databased selected");
-const CString MSG_DBCHANGE_ERR("Databased select error");
 
 
 IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
@@ -39,6 +21,7 @@ void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 CDBMainDlg::CDBMainDlg(CWnd* pParent /*=nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
+    m_resultSet = nullptr;
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -48,7 +31,7 @@ CDBMainDlg::~CDBMainDlg()
 }
 
 
-void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl)
+void CDBMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
 {
     if (treeCtrl.GetRootItem())
     {
@@ -282,7 +265,7 @@ bool CDBMainDlg::FillTreeControl()
 {
     //Fill tree with db tables structure
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
-    FillTreeControlWithDBTables(*pTree);
+    BuildDatabaseTree(*pTree);
     //ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
     return true;
 }
@@ -440,7 +423,7 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
-    FillTreeControlWithDBTables(*pTree);
+    BuildDatabaseTree(*pTree);
     FillDatabaseDropdown();
     OnCbnSelchangeCmbSelDb();
 }
@@ -656,7 +639,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             CString query(L"SELECT * FROM ");
             query += tableName;
             auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
-            m_resultTab.FillListControl(resultSet, 0);
+            m_resultTab.BuildResultList(resultSet, 0);
             m_queryTab.m_resultSet = resultSet;
         }
         if (index != CB_ERR)
@@ -672,7 +655,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 // single click expand selected element
 void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    UINT flags;
+    UINT flags = 0;
     CPoint point;
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
 

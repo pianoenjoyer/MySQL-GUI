@@ -10,7 +10,8 @@
 class CDBMainDlg : public CDialogEx
 {
 
-	struct ListItem {
+	struct ListItem 
+	{
 		CString mainItem;
 		std::vector<CString> subItems;
 	};
@@ -49,7 +50,7 @@ public:
 	virtual BOOL OnInitDialog();
 	bool CDBMainDlg::FillTreeControl();
 	void CDBMainDlg::SwitchTabByName(const CString& tabName);
-	void CDBMainDlg::FillTreeControlWithDBTables(CTreeCtrl& treeCtrl);
+	void CDBMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl);
 	void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
 	void CDBMainDlg::SetCurDataBase();

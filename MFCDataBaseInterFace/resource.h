@@ -102,6 +102,7 @@
 #define IDC_CHECK1                      1044
 #define IDC_RAD_HTML                    1044
 #define IDC_AUTOSWITCH                  1044
+#define IDC_CHECK_SHOWBINARY            1044
 #define IDC_RAD_TSV                     1045
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
