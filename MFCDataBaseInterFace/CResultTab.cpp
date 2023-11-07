@@ -63,12 +63,13 @@ BEGIN_MESSAGE_MAP(CResultTab, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_CURRENTPAGE, &CResultTab::OnEnChangeEditCurrentpage)
 	ON_BN_CLICKED(IDC_BTN_NEXTPAGE, &CResultTab::OnBnClickedBtnNextpage)
 	ON_BN_CLICKED(IDC_BTN_LASTPAGE, &CResultTab::OnBnClickedBtnLastpage)
+    ON_BN_CLICKED(IDC_CHECK_SHOWBINARY, &CResultTab::OnBnClickedCheckShowbinary)
 END_MESSAGE_MAP()
 
 
 // CResultTab message handlers
 
-int CResultTab::FillListControl(sql::ResultSet* resultSet, int offset) {
+int CResultTab::BuildResultList(sql::ResultSet* resultSet, int offset) {
     // Ensure resultSet is valid
     if (resultSet == nullptr) return 0;
     
@@ -114,8 +115,16 @@ int CResultTab::FillListControl(sql::ResultSet* resultSet, int offset) {
             CString colData;
             if (metaData->getColumnType(i) == sql::DataType::BINARY ||
                 metaData->getColumnType(i) == sql::DataType::VARBINARY ||
-                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) {
-                colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
+                metaData->getColumnType(i) == sql::DataType::LONGVARBINARY) 
+            {
+                if (((CButton*)GetDlgItem(IDC_CHECK_SHOWBINARY))->GetCheck() == BST_CHECKED)
+                {
+                    colData = BinaryDataToHexString(SQLStringToCString(resultSet->getString(i)));
+                }
+                else 
+                {
+                    colData = L"<binary data>";
+                }
             }
             else {
                 colData = SQLStringToCString(resultSet->getString(i));
@@ -149,6 +158,16 @@ int CResultTab::FillListControl(sql::ResultSet* resultSet, int offset) {
     return 0;
 }
 
+int CResultTab::RebuildResultList() 
+{
+    auto resultSet = m_pMainDlg->m_queryTab.m_resultSet;
+    if (resultSet)
+    {
+        BuildResultList(resultSet, 0);
+        return 0;
+    }
+    return 1;
+}
 bool CResultTab::FillLimitDropdown()
 {
 	m_comboLimit.AddString(L"30");
@@ -165,6 +184,8 @@ bool CResultTab::FillLimitDropdown()
 BOOL CResultTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+    auto pMainTab = (CTabCtrl*)this->GetParent();
+    m_pMainDlg = (CDBMainDlg*)pMainTab->GetParent();
     FillLimitDropdown();
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
@@ -301,7 +322,7 @@ void CResultTab::OnEnChangeEditCurrentpage()
     }
 
     int offset = (pageNumber - 1) * limit; // Fixed offset calculation
-    FillListControl(m_resultSet, offset);
+    BuildResultList(m_resultSet, offset);
 }
 
 
@@ -417,4 +438,9 @@ void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color)
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
+}
+
+void CResultTab::OnBnClickedCheckShowbinary()
+{
+    RebuildResultList();
 }

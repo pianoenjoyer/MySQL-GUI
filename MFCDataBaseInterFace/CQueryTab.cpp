@@ -219,7 +219,7 @@ void CQueryTab::ExecuteQueryMainDlg()
         //send exac same msg to resultTab edit
         ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
-        pParentDialog->m_resultTab.FillListControl(m_resultSet, 0);
+        pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
@@ -279,7 +279,7 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
         SendMessageToConsole(timeTakenStr, GREEN);
         ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
-        pParentDialog->m_resultTab.FillListControl(m_resultSet, 0);
+        pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
