@@ -4,8 +4,8 @@
 #include "CDBConnection.h"
 #include "CExportDlg.h"
 #include "CQueryTab.h"
-
-// CMainDlg dialog
+#include "CTableCreationDlg.h"
+#include "CProceduresDlg.h"
 
 
 class CMainDlg : public CDialogEx
@@ -30,6 +30,8 @@ protected:
 public:
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
+	CTableCreationDlg m_tableTab;
+	CProceduresDlg m_proceduresTab;
 
 	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;

@@ -129,7 +129,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
 void CMainDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
-
     DDX_Control(pDX, IDC_MAINTAB, m_mainTabCtrl);
 }
 
@@ -156,9 +155,6 @@ BOOL CMainDlg::OnInitDialog()
     SetIcon(m_hIcon, TRUE);			// Set big icon
     SetIcon(m_hIcon, FALSE);		// Set small icon
 
-    //set title || Now show current db name
-    this->SetWindowTextW(L"MySQL GUI");
-    //CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
     m_resultSet = nullptr;
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
@@ -190,10 +186,11 @@ BOOL CMainDlg::OnInitDialog()
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
     m_exportTab.Create(IDD_EXPORT, pTabCtrl);
-
+    m_proceduresTab.Create(IDD_PROCEDURES, pTabCtrl);
+    m_tableTab.Create(IDD_TABLES, pTabCtrl);
 
     //insert into tab control
-    TCITEM item1, item2, item3;
+    TCITEM item1, item2, item3, item4, item5;
     item1.mask = TCIF_TEXT | TCIF_PARAM;
     item1.lParam = (LPARAM)&m_queryTab;
     item1.pszText = _T("Query");
@@ -209,6 +206,16 @@ BOOL CMainDlg::OnInitDialog()
     item3.pszText = _T("Export");
     pTabCtrl->InsertItem(2, &item3);
 
+    item4.mask = TCIF_TEXT | TCIF_PARAM;
+    item4.lParam = (LPARAM)&m_proceduresTab;
+    item4.pszText = _T("Procedures/Functions");
+    pTabCtrl->InsertItem(3, &item4);
+
+    item5.mask = TCIF_TEXT | TCIF_PARAM;
+    item5.lParam = (LPARAM)&m_tableTab;
+    item5.pszText = _T("Tables");
+    pTabCtrl->InsertItem(4, &item5);
+
     //set pos
     CRect rcItem1;
     pTabCtrl->GetItemRect(0, &rcItem1);
@@ -222,10 +229,21 @@ BOOL CMainDlg::OnInitDialog()
     pTabCtrl->GetItemRect(2, &rcItem3);
     m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem3.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    CRect rcItem4;
+    pTabCtrl->GetItemRect(3, &rcItem4);
+    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    CRect rcItem5;
+    pTabCtrl->GetItemRect(4, &rcItem5);
+    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem5.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
     //initial show and hide
     m_queryTab.ShowWindow(SW_SHOW);
     m_resultTab.ShowWindow(SW_HIDE);
     m_exportTab.ShowWindow(SW_HIDE);
+    m_proceduresTab.ShowWindow(SW_HIDE);
+    m_tableTab.ShowWindow(SW_HIDE);
+
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -715,26 +733,34 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 
     int iSel = p->GetCurSel();
 
-    // Show the appropriate tabbed dialog and hide the other one
-    if (iSel == 0)
+    // Hide all tabs
+    m_queryTab.ShowWindow(SW_HIDE);
+    m_resultTab.ShowWindow(SW_HIDE);
+    m_exportTab.ShowWindow(SW_HIDE);
+    m_proceduresTab.ShowWindow(SW_HIDE);
+    m_tableTab.ShowWindow(SW_HIDE);
+
+    // Show the appropriate tabbed dialog based on the selected tab
+    switch (iSel)
     {
+    case 0:
         m_queryTab.ShowWindow(SW_SHOW);
-        m_resultTab.ShowWindow(SW_HIDE);
-        m_exportTab.ShowWindow(SW_HIDE);
-    }
-    else if (iSel == 1)
-    {
-        m_queryTab.ShowWindow(SW_HIDE);
+        break;
+    case 1:
         m_resultTab.ShowWindow(SW_SHOW);
-        m_exportTab.ShowWindow(SW_HIDE);
-    }
-    else if (iSel == 2)
-    {
+        break;
+    case 2:
         m_exportTab.ShowWindow(SW_SHOW);
-        m_queryTab.ShowWindow(SW_HIDE);
-        m_resultTab.ShowWindow(SW_HIDE);
+        break;
+    case 3:
+        m_proceduresTab.ShowWindow(SW_SHOW);
+        break;
+    case 4:
+        m_tableTab.ShowWindow(SW_SHOW);
+        break;
     }
 }
+
 
 void CMainDlg::OnEditUndo()
 {
