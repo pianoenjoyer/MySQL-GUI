@@ -5,7 +5,7 @@
 #include "afxdialogex.h"
 #include "CNewDBDlg.h"
 #include "resource.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 // CNewDBDlg dialog
 
 IMPLEMENT_DYNAMIC(CNewDBDlg, CDialogEx)

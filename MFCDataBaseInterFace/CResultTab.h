@@ -1,9 +1,9 @@
 #pragma once
 #include "CDBConnection.h"
 #include <memory>
-#include "CDBMainDlg.h"
+
 // CResultTab dialog
-class CDBMainDlg;
+class CMainDlg;
 
 class CResultTab : public CDialogEx
 {
@@ -40,7 +40,7 @@ public:
 	afx_msg void OnCbnSelchangeComboNmbOfRows();
 	afx_msg void OnBnClickedBtnFirstpage();
 	afx_msg void OnBnClickedBtnPrevpage();
-	CDBMainDlg* m_pMainDlg;
+	CMainDlg* m_pMainDlg;
 	bool CResultTab::FillLimitDropdown();
 	void CResultTab::BeginPageState();
 	int CResultTab::BuildResultList(sql::ResultSet* resultSet, int offset);

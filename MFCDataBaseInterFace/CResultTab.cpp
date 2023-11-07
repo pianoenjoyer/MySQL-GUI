@@ -6,7 +6,7 @@
 #include "CResultTab.h"
 #include "resource.h"
 #include "Convertions.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 #include "SharedFunctions.h"
 // CResultTab dialog
 
@@ -185,7 +185,7 @@ BOOL CResultTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
     auto pMainTab = (CTabCtrl*)this->GetParent();
-    m_pMainDlg = (CDBMainDlg*)pMainTab->GetParent();
+    m_pMainDlg = (CMainDlg*)pMainTab->GetParent();
     FillLimitDropdown();
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");
@@ -273,10 +273,10 @@ void CResultTab::OnEnChangeEditCurrentpage()
 {
     auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
     sql::ResultSet* m_resultSet = nullptr;
-    CDBMainDlg* pParentDialog;
+    CMainDlg* pParentDialog;
     CWnd* pTabCtrl = GetParent();
     if (pTabCtrl) {
-        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
+        pParentDialog = (CMainDlg*)pTabCtrl->GetParent();
         if (pParentDialog) {
             m_resultSet = pParentDialog->m_queryTab.m_resultSet;
         }

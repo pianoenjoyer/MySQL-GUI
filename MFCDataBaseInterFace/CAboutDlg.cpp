@@ -5,11 +5,11 @@
 #include "CDBInterfaceApp.h"
 #include "CAboutDlg.h"
 
-#include "CDBAuthDlg.h"
+#include "CAuthDlg.h"
 #include "CLoginDataSave.h"
 #include "afxdialogex.h"
 #include "CDBConnection.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 #include "resource.h"
 
 #include <atlimage.h>

@@ -5,7 +5,7 @@
 #include "CDBInterfaceApp.h"
 
 #include "CQueryTab.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 #include "Convertions.h"
 #include "SharedFunctions.h"
 
@@ -25,7 +25,7 @@ const CString MSG_EXPORT_ERR("Export error");
 const CString MSG_EXPORT_CANCEL("Export canceled");
 //DB change msgs
 // 
-// CDBMainDlg dialog
+// CMainDlg dialog
 const CString MSG_DBCHANGE_OK("Databased selected");
 const CString MSG_DBCHANGE_ERR("Databased select error");
 
@@ -110,7 +110,7 @@ bool CQueryTab::FillTableDropdown()
 {
     std::vector<sql::SQLString> tableNames;
     CTabCtrl* pMainTab = ((CTabCtrl*)this->GetParent());
-    CDBMainDlg* pMainDlg = (CDBMainDlg*)pMainTab->GetParent();
+    CMainDlg* pMainDlg = (CMainDlg*)pMainTab->GetParent();
 
     tableNames = pMainDlg->db->GetTables();
     PopulateDropdown(&m_comboTables, tableNames);
@@ -179,10 +179,10 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
 //if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
 {
-    CDBMainDlg* pParentDialog = nullptr;
+    CMainDlg* pParentDialog = nullptr;
     CWnd* pTabCtrl = GetParent();
     if (pTabCtrl) {
-        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
+        pParentDialog = (CMainDlg*)pTabCtrl->GetParent();
         if (!pParentDialog) {
             return;
         }
@@ -217,7 +217,7 @@ void CQueryTab::ExecuteQueryMainDlg()
 
         SendMessageToConsole(timeTakenStr, GREEN);
         //send exac same msg to resultTab edit
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
+        ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
         pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
@@ -233,8 +233,8 @@ void CQueryTab::ExecuteQueryMainDlg()
         {
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
         }
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
+        ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+        ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
     }
     else
     {
@@ -246,10 +246,10 @@ void CQueryTab::ExecuteQueryMainDlg()
 //if query from string
 void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
 {
-    CDBMainDlg* pParentDialog = nullptr;
+    CMainDlg* pParentDialog = nullptr;
     CWnd* pTabCtrl = GetParent();
     if (pTabCtrl) {
-        pParentDialog = (CDBMainDlg*)pTabCtrl->GetParent();
+        pParentDialog = (CMainDlg*)pTabCtrl->GetParent();
         if (!pParentDialog) {
             return;
         }
@@ -277,7 +277,7 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
         timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
         SendMessageToConsole(timeTakenStr, GREEN);
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
+        ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
         start = std::chrono::high_resolution_clock::now();
         pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
         end = std::chrono::high_resolution_clock::now();
@@ -294,8 +294,8 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
         }
         //pParentDialog->SetResultSet(resultSet);
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
-        ((CDBMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
+        ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+        ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
     }
     else
     {
@@ -307,10 +307,10 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
 
 void CQueryTab::OnBnClickedBtnGo()
 {
-    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(75);
+    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(75);
     ExecuteQueryMainDlg();
-    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(100);
-    //((CDBMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(0);
+    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(100);
+    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(0);
 }
 
 

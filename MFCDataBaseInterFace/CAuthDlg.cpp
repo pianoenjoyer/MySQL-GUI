@@ -3,10 +3,10 @@
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
 
-#include "CDBAuthDlg.h"
+#include "CAuthDlg.h"
 #include "CLoginDataSave.h"
 #include "CDBConnection.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 #include "CAboutDlg.h"
 
 #include <memory>
@@ -24,7 +24,7 @@ CString GetAppCurrentDirectory()
 }
 
 //set key enter to connect button
-BOOL CDBAuthDlg::PreTranslateMessage(MSG* pMsg)
+BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 {
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
 	{
@@ -42,30 +42,30 @@ BOOL CDBAuthDlg::PreTranslateMessage(MSG* pMsg)
 
 
 //main dlg construct
-CDBAuthDlg::CDBAuthDlg(CWnd* pParent /*=nullptr*/)
+CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCDATABASEINTERFACE_DIALOG, pParent), db(std::make_shared<CDBConnection>())
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_serverPassword = _T(""); // Initialize the server password
 }
 
-void CDBAuthDlg::DoDataExchange(CDataExchange* pDX)
+void CAuthDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SERVER_NAME, m_editServerName);
 	DDX_Text(pDX, IDC_PASSWORD, m_serverPassword);
 }
 
-BEGIN_MESSAGE_MAP(CDBAuthDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CAuthDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BTN_CONNECT, &CDBAuthDlg::OnBnClickedBtnConnect)
-	ON_BN_CLICKED(IDC_BTN_EXIT, &CDBAuthDlg::OnBnClickedBtnExit)
-	ON_BN_CLICKED(IDC_BTN_SHOW_PASSWORD, &CDBAuthDlg::OnBnClickedBtnShowPassword)
+	ON_BN_CLICKED(IDC_BTN_CONNECT, &CAuthDlg::OnBnClickedBtnConnect)
+	ON_BN_CLICKED(IDC_BTN_EXIT, &CAuthDlg::OnBnClickedBtnExit)
+	ON_BN_CLICKED(IDC_BTN_SHOW_PASSWORD, &CAuthDlg::OnBnClickedBtnShowPassword)
 END_MESSAGE_MAP()
 //ON INIT----------------------------------------------!!!
-BOOL CDBAuthDlg::OnInitDialog()
+BOOL CAuthDlg::OnInitDialog()
 {
 
 	CDialogEx::OnInitDialog();
@@ -110,12 +110,12 @@ BOOL CDBAuthDlg::OnInitDialog()
 	return TRUE;
 }
 
-void CDBAuthDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CAuthDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	CDialogEx::OnSysCommand(nID, lParam);
 }
 
-void CDBAuthDlg::OnPaint()
+void CAuthDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -140,12 +140,12 @@ void CDBAuthDlg::OnPaint()
 	}
 }
 
-HCURSOR CDBAuthDlg::OnQueryDragIcon()
+HCURSOR CAuthDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-void CDBAuthDlg::OnBnClickedBtnConnect()
+void CAuthDlg::OnBnClickedBtnConnect()
 {
 	CLoginDataSave dataSaver;
 
@@ -200,7 +200,7 @@ void CDBAuthDlg::OnBnClickedBtnConnect()
 
 
 
-void CDBAuthDlg::OnBnClickedBtnExit()
+void CAuthDlg::OnBnClickedBtnExit()
 {
 	/*CString cwd = GetAppCurrentDirectory();
 	AfxMessageBox(cwd);*/
@@ -209,7 +209,7 @@ void CDBAuthDlg::OnBnClickedBtnExit()
 
 
 //hide or show password button
-void CDBAuthDlg::OnBnClickedBtnShowPassword()
+void CAuthDlg::OnBnClickedBtnShowPassword()
 {	
 	CEdit* pEdit = (CEdit*)GetDlgItem(IDC_PASSWORD);
 	DWORD dwStyle = pEdit->GetStyle();

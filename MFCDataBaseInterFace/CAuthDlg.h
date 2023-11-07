@@ -1,13 +1,13 @@
 #pragma once
 #include <memory>
 #include "CDBConnection.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 
-// CDBAuthDlg dialog
-class CDBAuthDlg : public CDialogEx
+// CAuthDlg dialog
+class CAuthDlg : public CDialogEx
 {
 public:
-    CDBAuthDlg(CWnd* pParent = nullptr);    // standard constructor
+    CAuthDlg(CWnd* pParent = nullptr);    // standard constructor
 
     afx_msg void OnBnClickedBtnConnect();
     afx_msg void OnBnClickedBtnExit();
@@ -34,7 +34,7 @@ private:
     HICON m_hIcon;
     CWinThread* m_workerThread;
     std::shared_ptr<CDBConnection> db;
-    CDBMainDlg mainWindow;
+    CMainDlg mainWindow;
 
     CEdit m_editServerName;
     CString m_serverPassword;

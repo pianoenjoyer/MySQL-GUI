@@ -1,7 +1,7 @@
 #pragma once
 #include "afxdialogex.h"
-#include "CDBMainDlg.h"
-#include "CDBExportDlg.h"
+#include "CMainDlg.h"
+#include "CExportDlg.h"
 // CServerInfoDlg dialog
 
 class CServerInfoDlg : public CDialogEx
@@ -12,7 +12,7 @@ class CServerInfoDlg : public CDialogEx
 	enum { IDD = IDD_SERVERINFO };
 #endif
 	CTabCtrl m_TabControl;
-	CDBMainDlg m_FirstDlg;
+	CMainDlg m_FirstDlg;
 	CDBExportDlg m_SecondDlg;
 
 protected:

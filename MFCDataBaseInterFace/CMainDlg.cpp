@@ -3,35 +3,37 @@
 #include "afxdialogex.h"
 #include "CResultTab.h"
 #include "CDBInterfaceApp.h"
-#include "CDBMainDlg.h"
-#include "CDBAuthDlg.h"
+#include "CMainDlg.h"
+#include "CAuthDlg.h"
+
 #include "CServerInfoDlg.h"
 #include "CNewDBDlg.h"
 #include "CAboutDlg.h"
+
 
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
 #include <fstream>
 
 
-IMPLEMENT_DYNAMIC(CDBMainDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 
-CDBMainDlg::CDBMainDlg(CWnd* pParent /*=nullptr*/)
+CMainDlg::CMainDlg(CWnd* pParent /*=nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
     m_resultSet = nullptr;
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CDBMainDlg::~CDBMainDlg() 
+CMainDlg::~CMainDlg() 
 {
 
 }
 
 
-void CDBMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
+void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
 {
     if (treeCtrl.GetRootItem())
     {
@@ -124,7 +126,7 @@ void CDBMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
 }
 
 
-void CDBMainDlg::DoDataExchange(CDataExchange* pDX)
+void CMainDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
 
@@ -144,7 +146,7 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
 }
 
 
-BOOL CDBMainDlg::OnInitDialog()
+BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
     //((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetRange(0, 100);
@@ -188,6 +190,7 @@ BOOL CDBMainDlg::OnInitDialog()
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
     m_exportTab.Create(IDD_EXPORT, pTabCtrl);
+
 
     //insert into tab control
     TCITEM item1, item2, item3;
@@ -243,7 +246,7 @@ CString GetComboBoxSelectedValue(CComboBox* pComboBox)
 }
 
 
-void CDBMainDlg::SetCurDataBase()
+void CMainDlg::SetCurDataBase()
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
     CString database = GetComboBoxSelectedValue(pComboBox);
@@ -251,7 +254,7 @@ void CDBMainDlg::SetCurDataBase()
 }
 
 // fill drop down with table names of db
-bool CDBMainDlg::FillDatabaseDropdown() 
+bool CMainDlg::FillDatabaseDropdown() 
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
     std::vector<sql::SQLString> databases;
@@ -261,7 +264,7 @@ bool CDBMainDlg::FillDatabaseDropdown()
     return true;
 }
 
-bool CDBMainDlg::FillTreeControl() 
+bool CMainDlg::FillTreeControl() 
 {
     //Fill tree with db tables structure
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
@@ -271,38 +274,38 @@ bool CDBMainDlg::FillTreeControl()
 }
 
 
-BEGIN_MESSAGE_MAP(CDBMainDlg, CDialogEx)
-    ON_BN_CLICKED(IDC_BTN_BROWSE, &CDBMainDlg::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_EXPORT, &CDBMainDlg::OnBnClickedExport)
-    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CDBMainDlg::OnBnClickedBtnCollapse)
-    ON_BN_CLICKED(IDC_BTN_EXPAND, &CDBMainDlg::OnBnClickedBtnExpand)
-    ON_BN_CLICKED(IDC_BTN_UPDATE, &CDBMainDlg::OnBnClickedBtnUpdate)
-    ON_COMMAND(ID_MENU_OPEN, &CDBMainDlg::OnMenuOpen)
-    ON_COMMAND(ID_CONNECTION_DISCONNECT, &CDBMainDlg::OnConnectionDisconnect)
-    ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CDBMainDlg::OnConnectionCheckconnection)
-    ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CDBMainDlg::OnNMClickSyslinkServerinfo)
-    ON_COMMAND(ID_FILE_SAVEAS, &CDBMainDlg::OnFileSaveas)
-    ON_COMMAND(ID_FILE_EXIT, &CDBMainDlg::OnFileExit)
-    ON_COMMAND(ID_FILE_EXPORT, &CDBMainDlg::OnFileExport)
-    ON_COMMAND(ID_EDIT_SELECTALL, &CDBMainDlg::OnEditSelectall)
-    ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CDBMainDlg::OnHelpMysqldocumentation)
-    ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CDBMainDlg::OnAboutVersionandcredits)
-    ON_COMMAND(ID_HELP_SERVERINFO, &CDBMainDlg::OnHelpServerinfo)
-    ON_BN_CLICKED(IDC_BTN_FORWARD, &CDBMainDlg::OnBnClickedBtnForward)
-    ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CDBMainDlg::OnTvnSelchangedTreeStructure)
-    ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CDBMainDlg::OnNMClickTreeStructure)
-    ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CDBMainDlg::OnTcnSelchangeMaintab)
-    ON_COMMAND(ID_EDIT_UNDO32772, &CDBMainDlg::OnEditUndo)
-    ON_COMMAND(ID_EDIT_REDO32773, &CDBMainDlg::OnEditRedo)
-    ON_COMMAND(ID_EDIT_CUT32787, &CDBMainDlg::OnEditCut)
-    ON_COMMAND(ID_EDIT_COPY32788, &CDBMainDlg::OnEditCopy)
+BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_BTN_BROWSE, &CMainDlg::OnBnClickedBtnBrowse)
+    ON_BN_CLICKED(IDC_EXPORT, &CMainDlg::OnBnClickedExport)
+    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CMainDlg::OnBnClickedBtnCollapse)
+    ON_BN_CLICKED(IDC_BTN_EXPAND, &CMainDlg::OnBnClickedBtnExpand)
+    ON_BN_CLICKED(IDC_BTN_UPDATE, &CMainDlg::OnBnClickedBtnUpdate)
+    ON_COMMAND(ID_MENU_OPEN, &CMainDlg::OnMenuOpen)
+    ON_COMMAND(ID_CONNECTION_DISCONNECT, &CMainDlg::OnConnectionDisconnect)
+    ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CMainDlg::OnConnectionCheckconnection)
+    ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CMainDlg::OnNMClickSyslinkServerinfo)
+    ON_COMMAND(ID_FILE_SAVEAS, &CMainDlg::OnFileSaveas)
+    ON_COMMAND(ID_FILE_EXIT, &CMainDlg::OnFileExit)
+    ON_COMMAND(ID_FILE_EXPORT, &CMainDlg::OnFileExport)
+    ON_COMMAND(ID_EDIT_SELECTALL, &CMainDlg::OnEditSelectall)
+    ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CMainDlg::OnHelpMysqldocumentation)
+    ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CMainDlg::OnAboutVersionandcredits)
+    ON_COMMAND(ID_HELP_SERVERINFO, &CMainDlg::OnHelpServerinfo)
+    ON_BN_CLICKED(IDC_BTN_FORWARD, &CMainDlg::OnBnClickedBtnForward)
+    ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CMainDlg::OnTvnSelchangedTreeStructure)
+    ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CMainDlg::OnNMClickTreeStructure)
+    ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CMainDlg::OnTcnSelchangeMaintab)
+    ON_COMMAND(ID_EDIT_UNDO32772, &CMainDlg::OnEditUndo)
+    ON_COMMAND(ID_EDIT_REDO32773, &CMainDlg::OnEditRedo)
+    ON_COMMAND(ID_EDIT_CUT32787, &CMainDlg::OnEditCut)
+    ON_COMMAND(ID_EDIT_COPY32788, &CMainDlg::OnEditCopy)
     ON_WM_SIZE()
-    ON_COMMAND(ID_EDIT_PASTE32794, &CDBMainDlg::OnEditPaste)
-    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CDBMainDlg::OnCbnSelchangeCmbSelDb)
+    ON_COMMAND(ID_EDIT_PASTE32794, &CMainDlg::OnEditPaste)
+    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CMainDlg::OnCbnSelchangeCmbSelDb)
 END_MESSAGE_MAP()
 
 //open .sql file
-void CDBMainDlg::OnBnClickedBtnBrowse()
+void CMainDlg::OnBnClickedBtnBrowse()
 {
     CFileDialog fileOpenDialog(TRUE,
         L"SQL files|sql",  // .sql
@@ -320,7 +323,7 @@ void CDBMainDlg::OnBnClickedBtnBrowse()
 }
 
 
-CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
+CStringW CMainDlg::ReadFileContent() // Notice the CStringW here
 {
     CStringW fileContent;
     try
@@ -348,7 +351,7 @@ CStringW CDBMainDlg::ReadFileContent() // Notice the CStringW here
 }
 
 
-void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
+void CMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values)
 {
     pComboBox->ResetContent();
     if (values.empty())
@@ -364,7 +367,7 @@ void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::S
 }
 
 
-void CDBMainDlg::OnBnClickedExport()
+void CMainDlg::OnBnClickedExport()
 {
     m_queryTab.SendMessageToConsole(MSG_EXPORT_START, BLACK);
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
@@ -399,14 +402,14 @@ void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode) {
 }
 
 
-void CDBMainDlg::OnBnClickedBtnCollapse()
+void CMainDlg::OnBnClickedBtnCollapse()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     ExpandAllItems(pTree, TVI_ROOT, TVE_COLLAPSE);
 }
 
 
-void CDBMainDlg::OnBnClickedBtnExpand()
+void CMainDlg::OnBnClickedBtnExpand()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     HTREEITEM hItem = pTree->GetChildItem(TVI_ROOT);
@@ -419,7 +422,7 @@ void CDBMainDlg::OnBnClickedBtnExpand()
 }
 
 
-void CDBMainDlg::OnBnClickedBtnUpdate()
+void CMainDlg::OnBnClickedBtnUpdate()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
@@ -432,7 +435,7 @@ void CDBMainDlg::OnBnClickedBtnUpdate()
 
 
 
-void CDBMainDlg::OnBnClickedButtonSave()
+void CMainDlg::OnBnClickedButtonSave()
 {
     // Open a file save dialog to select where to save the SQL file
     CFileDialog fileSaveDialog(FALSE,  // FALSE means this is a "Save" dialog
@@ -467,7 +470,7 @@ void CDBMainDlg::OnBnClickedButtonSave()
 }
 
 
-void CDBMainDlg::OnConnectionCheckconnection()
+void CMainDlg::OnConnectionCheckconnection()
 {
     if (db->CheckConnection())
     {
@@ -480,7 +483,7 @@ void CDBMainDlg::OnConnectionCheckconnection()
 }
 
 
-void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
+void CMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
     CServerInfoDlg serverinfoWindow;
     auto status = serverinfoWindow.DoModal();
@@ -489,26 +492,26 @@ void CDBMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 
 // <--------------------------- MENU HANDLERS -------------------------------->
-void CDBMainDlg::OnFileSaveas()
+void CMainDlg::OnFileSaveas()
 {
     OnBnClickedButtonSave();
 }
 
 
-void CDBMainDlg::OnFileExit()
+void CMainDlg::OnFileExit()
 {
     db->Disconnect();
     this->EndDialog(IDCANCEL);
 }
 
 
-void CDBMainDlg::OnHelpMysqldocumentation()
+void CMainDlg::OnHelpMysqldocumentation()
 {
     ShellExecute(0, 0, L"https://dev.mysql.com/doc/refman/8.1/en/", 0, 0, SW_SHOW);
 }
 
 
-void CDBMainDlg::OnFileExport()
+void CMainDlg::OnFileExport()
 {
     OnBnClickedExport();
 }
@@ -517,13 +520,13 @@ void CDBMainDlg::OnFileExport()
 
 
 
-void CDBMainDlg::OnMenuOpen()
+void CMainDlg::OnMenuOpen()
 {
     OnBnClickedBtnBrowse();
 }
 
 
-void CDBMainDlg::OnConnectionDisconnect()
+void CMainDlg::OnConnectionDisconnect()
 {
     CListCtrl* pList = (CListCtrl*)m_resultTab.GetDlgItem(IDC_LIST_QUERY);
     if (m_queryTab.m_resultSet)
@@ -540,26 +543,26 @@ void CDBMainDlg::OnConnectionDisconnect()
 
 
 
-void CDBMainDlg::OnEditSelectall()
+void CMainDlg::OnEditSelectall()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
 }
 
 
-void CDBMainDlg::OnAboutVersionandcredits()
+void CMainDlg::OnAboutVersionandcredits()
 {
     CAboutDlg about;
     about.DoModal();
 }
 
 
-void CDBMainDlg::OnHelpServerinfo()
+void CMainDlg::OnHelpServerinfo()
 {
     OnNMClickSyslinkServerinfo(NULL, NULL);
 }
 
 
-void CDBMainDlg::OnBnClickedBtnForward()
+void CMainDlg::OnBnClickedBtnForward()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
@@ -577,7 +580,7 @@ void CDBMainDlg::OnBnClickedBtnForward()
 }
 
 
-void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
+void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //single click exa
     LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -653,7 +656,7 @@ void CDBMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 // single click expand selected element
-void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
+void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
     UINT flags = 0;
     CPoint point;
@@ -705,7 +708,7 @@ void CDBMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 //main tab control switch logic
-void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
+void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //*pResult = 0;
     auto p = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
@@ -733,37 +736,37 @@ void CDBMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-void CDBMainDlg::OnEditUndo()
+void CMainDlg::OnEditUndo()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Undo();
 }
 
 
-void CDBMainDlg::OnEditRedo()
+void CMainDlg::OnEditRedo()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Redo();
 }
 
 
-void CDBMainDlg::OnEditCut()
+void CMainDlg::OnEditCut()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Cut();
 }
 
 
-void CDBMainDlg::OnEditCopy()
+void CMainDlg::OnEditCopy()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Copy();
 }
 
 
-void CDBMainDlg::OnEditPaste()
+void CMainDlg::OnEditPaste()
 {
     ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
 }
 
 
-void CDBMainDlg::OnCbnSelchangeCmbSelDb()
+void CMainDlg::OnCbnSelchangeCmbSelDb()
 {
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
     CString databaseName;
@@ -788,7 +791,7 @@ void CDBMainDlg::OnCbnSelchangeCmbSelDb()
     }
 }
 
-void CDBMainDlg::OnSize(UINT nType, int cx, int cy)
+void CMainDlg::OnSize(UINT nType, int cx, int cy)
 {
     CDialogEx::OnSize(nType, cx, cy);
 
@@ -813,12 +816,12 @@ void CDBMainDlg::OnSize(UINT nType, int cx, int cy)
 }
 
 
-void CDBMainDlg::SetProgressBarPosition(int position)
+void CMainDlg::SetProgressBarPosition(int position)
 {
     ((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetPos(position);
 }
 
-void CDBMainDlg::SwitchTabByName(const CString& tabName) {
+void CMainDlg::SwitchTabByName(const CString& tabName) {
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
     int tabCount = pTabCtrl->GetItemCount();

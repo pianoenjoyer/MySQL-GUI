@@ -2,13 +2,13 @@
 
 #include "CResultTab.h"
 #include "CDBConnection.h"
-#include "CDBExportDlg.h"
+#include "CExportDlg.h"
 #include "CQueryTab.h"
 
-// CDBMainDlg dialog
-class CResultTab;
+// CMainDlg dialog
 
-class CDBMainDlg : public CDialogEx
+
+class CMainDlg : public CDialogEx
 {
 
 	struct ListItem 
@@ -17,7 +17,7 @@ class CDBMainDlg : public CDialogEx
 		std::vector<CString> subItems;
 	};
 
-	DECLARE_DYNAMIC(CDBMainDlg)
+	DECLARE_DYNAMIC(CMainDlg)
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MAIN };
@@ -30,6 +30,7 @@ protected:
 public:
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
+
 	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
@@ -40,23 +41,23 @@ public:
 	CString m_pathToFile;
 	CString m_SQLtextQuery;
 	CString m_titleDatabaseName;
-	void CDBMainDlg::OnSize(UINT nType, int cx, int cy);
+	void CMainDlg::OnSize(UINT nType, int cx, int cy);
 	sql::ResultSet* m_resultSet;
-	void CDBMainDlg::SetProgressBarPosition(int position);
+	void CMainDlg::SetProgressBarPosition(int position);
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
 	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
 
-	CDBMainDlg(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CDBMainDlg();
+	CMainDlg(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~CMainDlg();
 	virtual BOOL OnInitDialog();
-	bool CDBMainDlg::FillTreeControl();
-	void CDBMainDlg::SwitchTabByName(const CString& tabName);
-	void CDBMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl);
-	void CDBMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
+	bool CMainDlg::FillTreeControl();
+	void CMainDlg::SwitchTabByName(const CString& tabName);
+	void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl);
+	void CMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
-	void CDBMainDlg::SetCurDataBase();
+	void CMainDlg::SetCurDataBase();
 	afx_msg void OnBnClickedBtnBrowse();
-	bool CDBMainDlg::FillDatabaseDropdown();
+	bool CMainDlg::FillDatabaseDropdown();
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();
 	afx_msg void OnBnClickedBtnExpand();

@@ -14,6 +14,6 @@ const CString MSG_EXPORT_ERR("Export error");
 const CString MSG_EXPORT_CANCEL("Export canceled");
 //DB change msgs
 // 
-// CDBMainDlg dialog
+// CMainDlg dialog
 const CString MSG_DBCHANGE_OK("Databased selected");
 const CString MSG_DBCHANGE_ERR("Databased select error");

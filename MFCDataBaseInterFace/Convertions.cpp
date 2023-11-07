@@ -3,9 +3,9 @@
 #include "pch.h"
 #include "CDBInterfaceApp.h"
 #include "afxdialogex.h"
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 #include "framework.h"
-#include "CDBAuthDlg.h"
+#include "CAuthDlg.h"
 #include "CServerInfoDlg.h"
 #include <locale>
 #include <codecvt>

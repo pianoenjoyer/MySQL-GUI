@@ -5,7 +5,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "CDBInterfaceApp.h"
-#include "CDBAuthDlg.h"
+#include "CAuthDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,7 +69,7 @@ BOOL CDBInterfaceApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
-	CDBAuthDlg dlg;
+	CAuthDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)

@@ -4,10 +4,10 @@
 #include "pch.h"
 #include "CDBInterfaceApp.h"
 #include "afxdialogex.h"
-#include "CDBExportDlg.h"
+#include "CExportDlg.h"
 #include <fstream>
 #include <atlstr.h>
-#include "CDBMainDlg.h"
+#include "CMainDlg.h"
 // CDBExportDlg dialog
 
 IMPLEMENT_DYNAMIC(CDBExportDlg, CDialogEx)
@@ -347,7 +347,7 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
     ExportFunc exportFunc = nullptr;
     //new list link
     auto pTab = this->GetParent();
-    CDBMainDlg* mainDlg = (CDBMainDlg*)pTab->GetParent();
+    CMainDlg* mainDlg = (CMainDlg*)pTab->GetParent();
     m_pList = (CListCtrl*)mainDlg->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
     if (((CButton*)GetDlgItem(IDC_RAD_CSV))->GetCheck() == BST_CHECKED)
     {

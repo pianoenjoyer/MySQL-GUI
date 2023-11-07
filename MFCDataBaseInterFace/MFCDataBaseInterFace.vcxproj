@@ -224,8 +224,8 @@
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h" />
     <ClInclude Include="CDBConnection.h" />
-    <ClInclude Include="CDBExportDlg.h" />
-    <ClInclude Include="CDBMainDlg.h" />
+    <ClInclude Include="CExportDlg.h" />
+    <ClInclude Include="CMainDlg.h" />
     <ClInclude Include="CLoginDataSave.h" />
     <ClInclude Include="CNewDBDlg.h" />
     <ClInclude Include="CQueryTab.h" />
@@ -235,7 +235,7 @@
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
-    <ClInclude Include="CDBAuthDlg.h" />
+    <ClInclude Include="CAuthDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Convertions.h" />
@@ -246,8 +246,8 @@
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
     <ClCompile Include="CDBConnection.cpp" />
-    <ClCompile Include="CDBExportDlg.cpp" />
-    <ClCompile Include="CDBMainDlg.cpp" />
+    <ClCompile Include="CExportDlg.cpp" />
+    <ClCompile Include="CMainDlg.cpp" />
     <ClCompile Include="CLoginDataSave.cpp" />
     <ClCompile Include="CNewDBDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
@@ -256,7 +256,7 @@
     <ClCompile Include="CTableCreationDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
-    <ClCompile Include="CDBAuthDlg.cpp" />
+    <ClCompile Include="CAuthDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
