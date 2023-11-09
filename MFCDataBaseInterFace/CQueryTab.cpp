@@ -3,31 +3,13 @@
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
-
+#include "SendMessagesUtils.h"
 #include "CQueryTab.h"
 #include "CMainDlg.h"
-#include "Convertions.h"
 #include "SharedFunctions.h"
 
 #include <chrono>
-// CQueryTab dialog
-#define RED RGB(255, 0, 0)
-#define GREEN RGB(0, 128, 0)
-#define BLACK RGB(0, 0, 0)
-
-//CONSOLE MESSEGES
-//Query msgs
-const CString MSG_QUERY_OK("Query completed");
-//Export msgs
-const CString MSG_EXPORT_START("Export started");
-const CString MSG_EXPORT_OK("Export completed");
-const CString MSG_EXPORT_ERR("Export error");
-const CString MSG_EXPORT_CANCEL("Export canceled");
-//DB change msgs
-// 
-// CMainDlg dialog
-const CString MSG_DBCHANGE_OK("Databased selected");
-const CString MSG_DBCHANGE_ERR("Databased select error");
+#include "Convertions.h"
 
 IMPLEMENT_DYNAMIC(CQueryTab, CDialogEx)
 
@@ -145,35 +127,6 @@ void CQueryTab::SendMessageToConsole(CString msg, COLORREF color)
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
     // Append the text with a specific color
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
-}
-
-inline sql::SQLString CStringToSQLString(const CString& cstr)
-{
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), NULL, 0, NULL, NULL);
-
-    std::string utf8Str(size_needed, 0);
-
-    // Convert the UTF-16 string (CString) to UTF-8
-    WideCharToMultiByte(CP_UTF8, 0, cstr.GetString(), cstr.GetLength(), &utf8Str[0], size_needed, NULL, NULL);
-
-    return sql::SQLString(utf8Str);
-}
-
-// CQueryTab message handlers
-inline CString SQLStringToCString(const sql::SQLString& sqlStr)
-{
-    // Directly use sqlStr's c_str() method
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), NULL, 0);
-
-    CString utf16CString;
-    wchar_t* buf = utf16CString.GetBufferSetLength(size_needed);
-
-    // Convert the UTF-8 string to UTF-16
-    MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), (int)sqlStr.length(), buf, size_needed);
-
-    utf16CString.ReleaseBuffer();
-
-    return utf16CString;
 }
 
 //if query text from rich edit

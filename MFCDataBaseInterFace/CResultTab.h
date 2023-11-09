@@ -1,5 +1,6 @@
 #pragma once
 #include "CDBConnection.h"
+#include "Convertions.h"
 #include <memory>
 
 // CResultTab dialog

@@ -90,4 +90,3 @@ public:
 	afx_msg void OnCbnSelchangeCmbSelDb();
 };
 
-inline sql::SQLString CStringToSQLString(const CString& cstr);

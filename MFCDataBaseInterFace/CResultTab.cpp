@@ -1,5 +1,3 @@
-// CResultTab.cpp : implementation file
-//
 #pragma once
 #include "pch.h"
 #include "afxdialogex.h"
@@ -11,8 +9,6 @@
 // CResultTab dialog
 
 IMPLEMENT_DYNAMIC(CResultTab, CDialogEx)
-
-
 
 CResultTab::CResultTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_RESULT, pParent)
