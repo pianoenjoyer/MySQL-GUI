@@ -230,11 +230,11 @@ BOOL CMainDlg::OnInitDialog()
 
     CRect rcItem4;
     pTabCtrl->GetItemRect(3, &rcItem4);
-    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_proceduresTab.SetWindowPos(NULL, rcItem1.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     CRect rcItem5;
     pTabCtrl->GetItemRect(4, &rcItem5);
-    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem5.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_tableTab.SetWindowPos(NULL, rcItem1.left, rcItem5.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     //initial show and hide
     m_queryTab.ShowWindow(SW_SHOW);
