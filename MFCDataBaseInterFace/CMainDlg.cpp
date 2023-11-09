@@ -341,7 +341,7 @@ void CMainDlg::OnBnClickedBtnBrowse()
 }
 
 
-CStringW CMainDlg::ReadFileContent() // Notice the CStringW here
+CStringW CMainDlg::ReadFileContent() 
 {
     CStringW fileContent;
     try
@@ -740,6 +740,7 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     m_proceduresTab.ShowWindow(SW_HIDE);
     m_tableTab.ShowWindow(SW_HIDE);
 
+
     // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
@@ -868,3 +869,5 @@ void CMainDlg::SwitchTabByName(const CString& tabName) {
         }
     }
 }
+
+

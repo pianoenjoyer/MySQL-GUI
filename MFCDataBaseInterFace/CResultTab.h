@@ -32,6 +32,7 @@ public:
 	CListCtrl m_resultList;
 	CComboBox m_comboLimit;
 
+	void CResultTab::SetPagesState();
 	BOOL CResultTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnClroutput();
 	void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color);

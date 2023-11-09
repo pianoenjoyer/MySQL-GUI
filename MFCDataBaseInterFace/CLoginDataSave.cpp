@@ -29,26 +29,52 @@ bool CLoginDataSave::LoadData(CString& serverIP, CString& username, CString& pas
     CRegKey key;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\MySQLGUI"), KEY_READ))
     {
-        ULONG size;
-        TCHAR buffer[512];
+        TCHAR* buffer = nullptr;
+        ULONG size = 0;
 
-        size = sizeof(buffer);
-        if (ERROR_SUCCESS == key.QueryStringValue(_T("ServerIP"), buffer, &size))
+        // Get the size of the ServerIP value
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("ServerIP"), nullptr, &size))
         {
-            serverIP = DecryptData(buffer);
+            // Allocate a buffer of the required size
+            buffer = new TCHAR[size];
+
+            // Read the ServerIP value
+            if (ERROR_SUCCESS == key.QueryStringValue(_T("ServerIP"), buffer, &size))
+            {
+                serverIP = DecryptData(buffer);
+            }
         }
 
-        size = sizeof(buffer);
-        if (ERROR_SUCCESS == key.QueryStringValue(_T("Username"), buffer, &size))
+        // Get the size of the Username value
+        size = 0;
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("Username"), nullptr, &size))
         {
-            username = DecryptData(buffer);
+            // Allocate a buffer of the required size
+            buffer = new TCHAR[size];
+
+            // Read the Username value
+            if (ERROR_SUCCESS == key.QueryStringValue(_T("Username"), buffer, &size))
+            {
+                username = DecryptData(buffer);
+            }
         }
 
-        size = sizeof(buffer);
-        if (ERROR_SUCCESS == key.QueryStringValue(_T("Password"), buffer, &size))
+        // Get the size of the Password value
+        size = 0;
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("Password"), nullptr, &size))
         {
-            password = DecryptData(buffer);
+            // Allocate a buffer of the required size
+            buffer = new TCHAR[size];
+
+            // Read the Password value
+            if (ERROR_SUCCESS == key.QueryStringValue(_T("Password"), buffer, &size))
+            {
+                password = DecryptData(buffer);
+            }
         }
+
+        // Clean up the dynamically allocated buffer
+        delete[] buffer;
 
         DWORD remMe;
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("RememberMe"), remMe))
@@ -110,6 +136,12 @@ CString CLoginDataSave::DecryptData(const CString& encrypted)
 
     int len = encrypted.GetLength();
 
+    if (len % 2 != 0)
+    {
+        // Handle invalid input length (not a pair of hexadecimal digits)
+        return _T("");
+    }
+
     DataIn.cbData = len / 2;
     DataIn.pbData = new BYTE[DataIn.cbData];
 
@@ -121,17 +153,19 @@ CString CLoginDataSave::DecryptData(const CString& encrypted)
 
     if (!CryptUnprotectData(&DataIn, NULL, NULL, NULL, NULL, 0, &DataOut))
     {
+        // Handle decryption error (e.g., log the error)
         delete[] DataIn.pbData;
-        return _T("");  // Handle decryption error
+        return _T("");
     }
 
-    CString data((TCHAR*)DataOut.pbData);
+    CString data((TCHAR*)DataOut.pbData, DataOut.cbData / sizeof(TCHAR));
 
     delete[] DataIn.pbData;
     LocalFree(DataOut.pbData);
 
     return data;
 }
+
 
 void CLoginDataSave::ClearData()
 {

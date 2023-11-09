@@ -17,7 +17,7 @@ IMPLEMENT_DYNAMIC(CResultTab, CDialogEx)
 CResultTab::CResultTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_RESULT, pParent)
 {
-
+    m_pMainDlg = nullptr;
 }
 
 CResultTab::~CResultTab()
@@ -411,6 +411,7 @@ void CResultTab::OnBnClickedBtnNextpage()
     pEdit->SetWindowTextW(pageNumberStr);
 }
 
+
 void CResultTab::BeginPageState() 
 {
     CStringW maxpage;
@@ -426,6 +427,7 @@ void CResultTab::BeginPageState()
         GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
     }
 }
+
 
 void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color)
 {
