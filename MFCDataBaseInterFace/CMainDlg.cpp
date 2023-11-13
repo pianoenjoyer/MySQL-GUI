@@ -309,6 +309,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
     ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CMainDlg::OnAboutVersionandcredits)
     ON_COMMAND(ID_HELP_SERVERINFO, &CMainDlg::OnHelpServerinfo)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CMainDlg::OnBnClickedBtnForward)
+    ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CMainDlg::OnTvnSelchangedTreeStructure)
     ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CMainDlg::OnNMClickTreeStructure)
     ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CMainDlg::OnTcnSelchangeMaintab)
     ON_COMMAND(ID_EDIT_UNDO32772, &CMainDlg::OnEditUndo)
@@ -596,12 +597,88 @@ void CMainDlg::OnBnClickedBtnForward()
 }
 
 
+void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    //single click exa
+    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
+    CComboBox* pComboDatabases = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+    CComboBox* pComboTables = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
+
+    HTREEITEM hItem = pNMTreeView->itemNew.hItem;
+    if (!hItem) return;
+
+    // Handle expanding or collapsing the node on single click
+   /* if (pTree->ItemHasChildren(hItem))
+    {
+        UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
+        if (state & TVIS_EXPANDED)
+            pTree->Expand(hItem, TVE_COLLAPSE);
+        else
+            pTree->Expand(hItem, TVE_EXPAND);
+    }*/
+
+    // Check if the selected item is a database or a table
+    HTREEITEM parentItem = pTree->GetParentItem(hItem);
+
+    if (!parentItem) // Top level, possibly a database
+    {
+        CString databaseName = pTree->GetItemText(hItem);
+        int index = pComboDatabases->FindStringExact(0, databaseName);
+        if (index != CB_ERR)
+        {
+            pComboDatabases->SetCurSel(index);
+            OnCbnSelchangeCmbSelDb();
+        }
+    }
+    else if (pTree->GetItemText(parentItem) == _T("[TABLES]"))
+    {
+        HTREEITEM grandParentItem = pTree->GetParentItem(parentItem); // This item should be a database
+        if (grandParentItem)
+        {
+            CString databaseName = pTree->GetItemText(grandParentItem);
+            int dbIndex = pComboDatabases->FindStringExact(0, databaseName);
+            if (dbIndex != CB_ERR)
+            {
+                pComboDatabases->SetCurSel(dbIndex);
+                OnCbnSelchangeCmbSelDb();
+
+            }
+        }
+
+        CString tableName = pTree->GetItemText(hItem);
+        int index =  m_queryTab.m_comboTables.FindStringExact(0, tableName);
+        
+        if (m_mainTabCtrl.GetCurSel() == 1) //if result tab is active 
+        {   //see table content on tree element click
+            if (m_queryTab.m_resultSet)
+            {
+                delete m_queryTab.m_resultSet;
+                m_queryTab.m_resultSet = nullptr;
+            }
+            CString query(L"SELECT * FROM ");
+            query += tableName;
+            auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
+            m_resultTab.BuildResultList(resultSet, 0);
+            m_queryTab.m_resultSet = resultSet;
+        }
+        if (index != CB_ERR)
+        {
+            m_queryTab.m_comboTables.SetCurSel(index);
+            m_queryTab.PopulateColumnsList();
+        }
+    }
+
+    *pResult = 0;
+}
+
+// single click expand selected element
 void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
     UINT flags = 0;
     CPoint point;
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
-    auto pComboDatabases = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
+
     // Get the current mouse position and convert it to client coordinates
     GetCursorPos(&point);
     pTree->ScreenToClient(&point);
@@ -611,7 +688,7 @@ void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (hItem)
     {
-        // Check if we clicked on an item (and not on the state icon)
+            // Check if we clicked on an item (and not on the state icon)
         if (pTree->GetItemText(hItem) == _T("New") && hItem == pTree->GetNextItem(NULL, TVGN_ROOT))
         {
             CNewDBDlg dlg;
@@ -624,75 +701,28 @@ void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             *pResult = 0;
             return;
         }
-
-        // Handle expanding or collapsing the node on single click
-        if (pTree->ItemHasChildren(hItem))
-        {
-            // Expand or collapse the item
-            UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
-            if (state & TVIS_EXPANDED)
-                pTree->Expand(hItem, TVE_COLLAPSE);
-            else
-                pTree->Expand(hItem, TVE_EXPAND);
-        }
-        else
-        {
-            // Check if the selected item is a database or a table
+            
             HTREEITEM parentItem = pTree->GetParentItem(hItem);
-
-            if (!parentItem) // Top level, possibly a database
+            if (parentItem && pTree->GetItemText(parentItem) == _T("[TABLES]"))
             {
-                CString databaseName = pTree->GetItemText(hItem);
-                int index = pComboDatabases->FindStringExact(0, databaseName);
-                if (index != CB_ERR)
-                {
-                    pComboDatabases->SetCurSel(index);
-                    OnCbnSelchangeCmbSelDb();
-                }
+                *pResult = 0;
+                return;
             }
-            else if (pTree->GetItemText(parentItem) == _T("[TABLES]"))
+
+            if (pTree->ItemHasChildren(hItem))
             {
-                HTREEITEM grandParentItem = pTree->GetParentItem(parentItem); // This item should be a database
-                if (grandParentItem)
-                {
-                    CString databaseName = pTree->GetItemText(grandParentItem);
-                    int dbIndex = pComboDatabases->FindStringExact(0, databaseName);
-                    if (dbIndex != CB_ERR)
-                    {
-                        pComboDatabases->SetCurSel(dbIndex);
-                        OnCbnSelchangeCmbSelDb();
-                    }
-                }
-
-                CString tableName = pTree->GetItemText(hItem);
-                int index = m_queryTab.m_comboTables.FindStringExact(0, tableName);
-
-                if (m_mainTabCtrl.GetCurSel() == 1) // If result tab is active
-                {   // See table content on tree element click
-                    if (m_queryTab.m_resultSet)
-                    {
-                        delete m_queryTab.m_resultSet;
-                        m_queryTab.m_resultSet = nullptr;
-                    }
-                    CString query(L"SELECT * FROM ");
-                    query += tableName;
-                    auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
-                    m_resultTab.BuildResultList(resultSet, 0);
-                    m_queryTab.m_resultSet = resultSet;
-                    m_resultTab.BeginPageState();
-                }
-                if (index != CB_ERR)
-                {
-                    m_queryTab.m_comboTables.SetCurSel(index);
-                    m_queryTab.PopulateColumnsList();
-                }
+                // Expand or collapse the item
+                UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
+                if (state & TVIS_EXPANDED)
+                    pTree->Expand(hItem, TVE_COLLAPSE);
+                else
+                    pTree->Expand(hItem, TVE_EXPAND);
             }
-        }
+        
     }
 
     *pResult = 0;
 }
-
 
 //main tab control switch logic
 void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
