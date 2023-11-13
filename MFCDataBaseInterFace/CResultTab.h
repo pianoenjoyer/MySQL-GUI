@@ -35,6 +35,8 @@ public:
 
 	void CResultTab::SetPagesState();
 	BOOL CResultTab::OnInitDialog();
+
+	void CResultTab::TestFunc();
 	afx_msg void OnBnClickedBtnClroutput();
 	void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color);
 	afx_msg void OnBnClickedCheckShowall();

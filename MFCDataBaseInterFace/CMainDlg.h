@@ -78,7 +78,6 @@ public:
 	afx_msg void OnAboutVersionandcredits();
 	afx_msg void OnHelpServerinfo();
 	afx_msg void OnBnClickedBtnForward();
-	afx_msg void OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult);
 	CTabCtrl m_mainTabCtrl;
