@@ -207,7 +207,7 @@ BOOL CMainDlg::OnInitDialog()
 
     item4.mask = TCIF_TEXT | TCIF_PARAM;
     item4.lParam = (LPARAM)&m_proceduresTab;
-    item4.pszText = _T("Procedures/Functions");
+    item4.pszText = _T("Functions");
     pTabCtrl->InsertItem(3, &item4);
 
     item5.mask = TCIF_TEXT | TCIF_PARAM;
