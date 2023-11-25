@@ -166,20 +166,16 @@ BOOL CMainDlg::OnInitDialog()
         HBITMAP hBmp = image.Detach();
         pPicCtrl->SetBitmap(hBmp);
     }
-   
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
     //give pointer to db object
     m_queryTab.db = this->db;
     m_resultTab.db = this->db;
-
+    m_tableTab.db = this->db;
     //fill db and tables
     
     // Create the two tabbed dialogs
     FillDatabaseDropdown();
-    ((CComboBox*)GetDlgItem(IDC_CMB_SEL_DB))->SetCurSel(0);
-    SetCurDataBase();
-
 
     //init dlgs
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
@@ -277,7 +273,7 @@ bool CMainDlg::FillDatabaseDropdown()
     std::vector<sql::SQLString> databases;
     databases = db->GetDatabases();
     PopulateDropdown(pComboBox, databases);
-    pComboBox->SetCurSel(0);
+    //pComboBox->SetCurSel(0);
     return true;
 }
 
@@ -444,8 +440,8 @@ void CMainDlg::OnBnClickedBtnUpdate()
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
     BuildDatabaseTree(*pTree);
-    FillDatabaseDropdown();
-    OnCbnSelchangeCmbSelDb();
+    //FillDatabaseDropdown();
+    //OnCbnSelchangeCmbSelDb();
 }
 
 

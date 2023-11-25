@@ -1,4 +1,5 @@
 #include "SharedFunctions.h"
+#include "CDBConnection.h"
 
 void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color)
 {
@@ -24,4 +25,21 @@ void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF col
     ctrl.SetSel(saveCharRange);
     // Scroll to the end so the latest text is visible //awesome
     ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
+}
+
+void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db)
+{
+    if (!pComboBox || !db)
+        return;
+
+    auto resultSet = db->ExecuteQuery("SHOW CHARACTER SET;");
+    if (resultSet)
+    {
+        while (resultSet->next())
+        {
+            std::string charsetName = resultSet->getString("Charset"); // Get the character set name
+            pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
+        }
+        delete resultSet;  
+    }
 }

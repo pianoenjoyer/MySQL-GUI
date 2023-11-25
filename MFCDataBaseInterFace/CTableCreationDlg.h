@@ -1,7 +1,7 @@
 #pragma once
 #include "afxdialogex.h"
-
-
+#include <memory>
+#include "CDBConnection.h"
 // CTableCreationDlg dialog
 
 class CTableCreationDlg : public CDialogEx
@@ -24,4 +24,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListCtrl m_ListCreateTable;
+	CRichEditCtrl m_editTableName;
+	CComboBox m_cmbCollation;
+	std::shared_ptr<CDBConnection> db;
+	CRichEditCtrl m_editComments;
+	CRichEditCtrl m_editAddColumns;
+	afx_msg void OnBnClickedGo();
 };

@@ -5,7 +5,7 @@
 #include "afxdialogex.h"
 #include "CTableCreationDlg.h"
 #include "resource.h"
-
+#include "SharedFunctions.h"
 // CTableCreationDlg dialog
 
 IMPLEMENT_DYNAMIC(CTableCreationDlg, CDialogEx)
@@ -20,7 +20,6 @@ BOOL CTableCreationDlg::OnInitDialog()
 {
 
     CDialog::OnInitDialog();
-
 
     // Assuming m_ListCtrl is the CListCtrl variable associated with the control.
 
@@ -58,6 +57,8 @@ BOOL CTableCreationDlg::OnInitDialog()
     // to show which control. Also, controls will need to be dynamically shown/hidden and values synced
     // with the list control items/subitems.
 
+    //PopulateCharacterSetDropdown(&this->m_cmbCollation, *this->db);
+
     return TRUE;
 }
 
@@ -67,13 +68,32 @@ CTableCreationDlg::~CTableCreationDlg()
 
 void CTableCreationDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_LIST_TABLECREATE, m_ListCreateTable);
+    CDialogEx::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_LIST_TABLECREATE, m_ListCreateTable);
+    DDX_Control(pDX, IDC_TABLENAME, m_editTableName);
+    DDX_Control(pDX, IDC_COLLATION, m_cmbCollation);
+    DDX_Control(pDX, IDC_COMMENT, m_editComments);
+    DDX_Control(pDX, IDC_COLUMNS, m_editAddColumns);
 }
 
 
 BEGIN_MESSAGE_MAP(CTableCreationDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_GO, &CTableCreationDlg::OnBnClickedGo)
 END_MESSAGE_MAP()
 
 
 // CTableCreationDlg message handlers
+
+
+void CTableCreationDlg::OnBnClickedGo()
+{
+    CStringW tableNameString;
+    CStringW tableCommentsString;
+    CStringW tableColumnAmount;
+
+    m_editTableName.GetWindowTextW(tableNameString);
+    m_editComments.GetWindowTextW(tableCommentsString);
+    m_editAddColumns.GetWindowTextW(tableColumnAmount);
+
+
+}

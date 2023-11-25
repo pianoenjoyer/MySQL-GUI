@@ -32,8 +32,8 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
-    FillTableDropdown();
-    PopulateColumnsList();
+    //FillTableDropdown();
+    //PopulateColumnsList();
     return TRUE;
 }
 

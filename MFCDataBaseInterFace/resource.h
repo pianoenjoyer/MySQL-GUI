@@ -33,6 +33,7 @@
 #define IDC_COMBO1                      1005
 #define IDC_SEL_TABLE                   1005
 #define IDC_COMBO_CHARSET               1005
+#define IDC_COLLATION                   1005
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
 #define IDC_TAB                         1006
@@ -82,6 +83,7 @@
 #define IDC_BUTTON1                     1030
 #define IDC_BTN_FIRSTPAGE               1030
 #define IDC_BTN_CREATEDB                1030
+#define IDC_GO                          1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_STATIC_FILTER               1032
@@ -123,8 +125,12 @@
 #define IDC_COMBO_LANGUAGE              1089
 #define IDC_LIST_TABLECREATE            1092
 #define IDC_RICHEDIT22                  1094
+#define IDC_TABLENAME                   1094
 #define IDC_RICHEDIT23                  1095
+#define IDC_COLUMNS                     1095
 #define IDC_RICHEDIT24                  1096
+#define IDC_COMMENT                     1096
+#define IDC_COMMENTS                    1096
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
