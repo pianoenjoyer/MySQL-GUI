@@ -6,7 +6,7 @@
 #include "CQueryTab.h"
 #include "CTableCreationDlg.h"
 #include "CProceduresDlg.h"
-
+#include "CHomeTab.h"
 
 class CMainDlg : public CDialogEx
 {
@@ -32,6 +32,7 @@ public:
 	CQueryTab m_queryTab;
 	CTableCreationDlg m_tableTab;
 	CProceduresDlg m_proceduresTab;
+	CHomeTab m_homeTab;
 
 	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;

@@ -158,15 +158,6 @@ BOOL CMainDlg::OnInitDialog()
     //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
-    //set pic for sever info
-    CImage image;
-    if (SUCCEEDED(image.Load(L".\\Pictures\\serverIcon(22x22).png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
-    {
-        CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_INFO);
-        HBITMAP hBmp = image.Detach();
-        pPicCtrl->SetBitmap(hBmp);
-    }
-
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
     //give pointer to db object
     m_queryTab.db = this->db;
@@ -178,62 +169,66 @@ BOOL CMainDlg::OnInitDialog()
     FillDatabaseDropdown();
 
     //init dlgs
+    m_homeTab.Create(IDD_HOME, pTabCtrl);
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
     m_exportTab.Create(IDD_EXPORT, pTabCtrl);
-    m_proceduresTab.Create(IDD_PROCEDURES, pTabCtrl);
     m_tableTab.Create(IDD_TABLES, pTabCtrl);
 
     //insert into tab control
-    TCITEM item1, item2, item3, item4, item5;
+
+    TCITEM item0, item1, item2, item3, item4, item5;
+
+    item0.mask = TCIF_TEXT | TCIF_PARAM;
+    item0.lParam = (LPARAM)&m_homeTab;
+    item0.pszText = _T("Home");
+    pTabCtrl->InsertItem(0, &item0);
+
     item1.mask = TCIF_TEXT | TCIF_PARAM;
     item1.lParam = (LPARAM)&m_queryTab;
     item1.pszText = _T("Query");
-    pTabCtrl->InsertItem(0, &item1);
+    pTabCtrl->InsertItem(1, &item1);
 
     item2.mask = TCIF_TEXT | TCIF_PARAM;
     item2.lParam = (LPARAM)&m_resultTab;
     item2.pszText = _T("Result");
-    pTabCtrl->InsertItem(1, &item2);
+    pTabCtrl->InsertItem(2, &item2);
 
     item3.mask = TCIF_TEXT | TCIF_PARAM;
     item3.lParam = (LPARAM)&m_exportTab;
     item3.pszText = _T("Export");
-    pTabCtrl->InsertItem(2, &item3);
+    pTabCtrl->InsertItem(3, &item3);
 
     item4.mask = TCIF_TEXT | TCIF_PARAM;
-    item4.lParam = (LPARAM)&m_proceduresTab;
-    item4.pszText = _T("Functions");
-    pTabCtrl->InsertItem(3, &item4);
+    item4.lParam = (LPARAM)&m_tableTab;
+    item4.pszText = _T("Tables");
+    pTabCtrl->InsertItem(4, &item4);
 
-    item5.mask = TCIF_TEXT | TCIF_PARAM;
-    item5.lParam = (LPARAM)&m_tableTab;
-    item5.pszText = _T("Tables");
-    pTabCtrl->InsertItem(4, &item5);
 
     //set pos
+    CRect rcItem0;
+    pTabCtrl->GetItemRect(0, &rcItem0);
+    m_homeTab.SetWindowPos(NULL, rcItem0.left, rcItem0.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
     CRect rcItem1;
-    pTabCtrl->GetItemRect(0, &rcItem1);
-    m_queryTab.SetWindowPos(NULL, rcItem1.left, rcItem1.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    pTabCtrl->GetItemRect(1, &rcItem1);
+    m_queryTab.SetWindowPos(NULL, rcItem0.left, rcItem1.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     CRect rcItem2;
-    pTabCtrl->GetItemRect(1, &rcItem2);
-    m_resultTab.SetWindowPos(NULL, rcItem1.left, rcItem2.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    pTabCtrl->GetItemRect(2, &rcItem2);
+    m_resultTab.SetWindowPos(NULL, rcItem0.left, rcItem2.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     CRect rcItem3;
-    pTabCtrl->GetItemRect(2, &rcItem3);
-    m_exportTab.SetWindowPos(NULL, rcItem1.left, rcItem3.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    pTabCtrl->GetItemRect(3, &rcItem3);
+    m_exportTab.SetWindowPos(NULL, rcItem0.left, rcItem3.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     CRect rcItem4;
-    pTabCtrl->GetItemRect(3, &rcItem4);
-    m_proceduresTab.SetWindowPos(NULL, rcItem1.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-
-    CRect rcItem5;
-    pTabCtrl->GetItemRect(4, &rcItem5);
-    m_tableTab.SetWindowPos(NULL, rcItem1.left, rcItem5.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    pTabCtrl->GetItemRect(4, &rcItem4);
+    m_tableTab.SetWindowPos(NULL, rcItem0.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     //initial show and hide
-    m_queryTab.ShowWindow(SW_SHOW);
+    m_homeTab.ShowWindow(SW_SHOW);
+    m_queryTab.ShowWindow(SW_HIDE);
     m_resultTab.ShowWindow(SW_HIDE);
     m_exportTab.ShowWindow(SW_HIDE);
     m_proceduresTab.ShowWindow(SW_HIDE);
@@ -729,6 +724,7 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     int iSel = p->GetCurSel();
 
     // Hide all tabs
+    m_homeTab.ShowWindow(SW_HIDE);
     m_queryTab.ShowWindow(SW_HIDE);
     m_resultTab.ShowWindow(SW_HIDE);
     m_exportTab.ShowWindow(SW_HIDE);
@@ -739,17 +735,18 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
+
     case 0:
-        m_queryTab.ShowWindow(SW_SHOW);
+        m_homeTab.ShowWindow(SW_SHOW);
         break;
     case 1:
-        m_resultTab.ShowWindow(SW_SHOW);
+        m_queryTab.ShowWindow(SW_SHOW);
         break;
     case 2:
-        m_exportTab.ShowWindow(SW_SHOW);
+        m_resultTab.ShowWindow(SW_SHOW);
         break;
     case 3:
-        m_proceduresTab.ShowWindow(SW_SHOW);
+        m_exportTab.ShowWindow(SW_SHOW);
         break;
     case 4:
         m_tableTab.ShowWindow(SW_SHOW);

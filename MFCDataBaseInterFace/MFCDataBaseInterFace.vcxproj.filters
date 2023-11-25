@@ -13,12 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Tabs">
+      <UniqueIdentifier>{6a250cdf-9dd2-4f59-8e92-a198db1c50b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dlgs">
+      <UniqueIdentifier>{079367c8-b6e9-48d4-a787-96041e27e183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Other">
+      <UniqueIdentifier>{b8075a96-2f65-4134-b45a-334215756bdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDBInterfaceApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CDBAuthDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -36,16 +42,10 @@
     <ClInclude Include="CDBConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDBMainDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CLoginDataSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CDBExportDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CServerInfoDlg.h">
@@ -75,55 +75,76 @@
     <ClInclude Include="SendMessagesUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CExportDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CProceduresDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CAuthDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHomeTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CDBInterfaceApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBAuthDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBMainDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLoginDataSave.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBExportDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CServerInfoDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CAboutDlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Dlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CAuthDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="CNewDBDlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
-    <ClCompile Include="CTableCreationDlg.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CHomeTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="CQueryTab.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CDBConnection.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoginDataSave.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CDBInterfaceApp.cpp">
+      <Filter>Source Files\Dlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CProceduresDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="CResultTab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="Convertions.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CQueryTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimer.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CServerInfoDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="SharedFunctions.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Convertions.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CTableCreationDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="CExportDlg.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

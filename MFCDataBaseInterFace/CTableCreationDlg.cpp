@@ -72,7 +72,7 @@ void CTableCreationDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST_TABLECREATE, m_ListCreateTable);
     DDX_Control(pDX, IDC_TABLENAME, m_editTableName);
     DDX_Control(pDX, IDC_COLLATION, m_cmbCollation);
-    DDX_Control(pDX, IDC_COMMENT, m_editComments);
+    DDX_Control(pDX, IDC_COMMENTS, m_editComments);
     DDX_Control(pDX, IDC_COLUMNS, m_editAddColumns);
 }
 

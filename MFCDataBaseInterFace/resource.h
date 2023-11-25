@@ -20,6 +20,7 @@
 #define IDD_QUERY                       148
 #define IDD_DIALOG3                     149
 #define IDD_RESULT                      149
+#define IDD_HOME                        152
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -84,6 +85,7 @@
 #define IDC_BTN_FIRSTPAGE               1030
 #define IDC_BTN_CREATEDB                1030
 #define IDC_GO                          1030
+#define IDC_BTN_HOME                    1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_STATIC_FILTER               1032
@@ -129,12 +131,17 @@
 #define IDC_RICHEDIT23                  1095
 #define IDC_COLUMNS                     1095
 #define IDC_RICHEDIT24                  1096
-#define IDC_COMMENT                     1096
+
 #define IDC_COMMENTS                    1096
+
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
 #define IDC_SCROLLBAR2                  1105
+#define IDC_LIST2                       1106
+#define IDC_LIST_GUII                   1106
+#define IDC_LIST3                       1107
+#define IDC_PIC_MySQLGUI                1108
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -147,10 +154,6 @@
 #define ID_MENU_OPEN                    32780
 #define ID_CONNECTION_RECONNECT         32781
 #define ID_FILE_EXPORTAS                32782
-#define ID_EXPORTAS_                    32783
-#define ID_EXPORTAS_32784               32784
-#define ID_EXPORTAS_32785               32785
-#define ID_EXPORTAS_32786               32786
 #define ID_EDIT_CUT32787                32787
 #define ID_EDIT_COPY32788               32788
 #define ID_PA                           32789
@@ -174,9 +177,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        152
+#define _APS_NEXT_RESOURCE_VALUE        154
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1106
+#define _APS_NEXT_CONTROL_VALUE         1109
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -225,6 +225,7 @@
     <ClInclude Include="CAboutDlg.h" />
     <ClInclude Include="CDBConnection.h" />
     <ClInclude Include="CExportDlg.h" />
+    <ClInclude Include="CHomeTab.h" />
     <ClInclude Include="CMainDlg.h" />
     <ClInclude Include="CLoginDataSave.h" />
     <ClInclude Include="CNewDBDlg.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="CAboutDlg.cpp" />
     <ClCompile Include="CDBConnection.cpp" />
     <ClCompile Include="CExportDlg.cpp" />
+    <ClCompile Include="CHomeTab.cpp" />
     <ClCompile Include="CMainDlg.cpp" />
     <ClCompile Include="CLoginDataSave.cpp" />
     <ClCompile Include="CNewDBDlg.cpp" />
