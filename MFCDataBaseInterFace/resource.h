@@ -131,17 +131,19 @@
 #define IDC_RICHEDIT23                  1095
 #define IDC_COLUMNS                     1095
 #define IDC_RICHEDIT24                  1096
-
 #define IDC_COMMENTS                    1096
-
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
 #define IDC_SCROLLBAR2                  1105
 #define IDC_LIST2                       1106
 #define IDC_LIST_GUII                   1106
+#define IDC_LIST_PLUGINS                1106
 #define IDC_LIST3                       1107
 #define IDC_PIC_MySQLGUI                1108
+#define IDC_SYSLINK1                    1111
+#define IDC_LIST_SERVER_INFO            1113
+#define IDC_LIST_ENGINES                1114
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -179,7 +181,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        154
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1109
+#define _APS_NEXT_CONTROL_VALUE         1115
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
