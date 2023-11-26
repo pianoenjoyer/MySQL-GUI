@@ -160,6 +160,7 @@ BOOL CMainDlg::OnInitDialog()
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
     //give pointer to db object
+    m_homeTab.db = this->db;
     m_queryTab.db = this->db;
     m_resultTab.db = this->db;
     m_tableTab.db = this->db;
