@@ -90,6 +90,15 @@
     <ClInclude Include="CHomeTab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CVariablesTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCharsetsTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDatabasesTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -145,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="CMainDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariablesTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharsetsTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDatabasesTab.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

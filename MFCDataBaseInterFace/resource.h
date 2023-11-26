@@ -21,6 +21,9 @@
 #define IDD_DIALOG3                     149
 #define IDD_RESULT                      149
 #define IDD_HOME                        152
+#define IDD_VARIABLES                   154
+#define IDD_CHARSETS                    156
+#define IDD_DATABASES                   158
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -135,6 +138,7 @@
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
+#define IDC_VARSEARCH                   1098
 #define IDC_SCROLLBAR2                  1105
 #define IDC_LIST2                       1106
 #define IDC_LIST_GUII                   1106
@@ -144,6 +148,10 @@
 #define IDC_SYSLINK1                    1111
 #define IDC_LIST_SERVER_INFO            1113
 #define IDC_LIST_ENGINES                1114
+#define IDC_LIST_VARS                   1115
+#define IDC_LIST_CHARSETS               1116
+#define IDC_CHARSSEARCH                 1117
+#define IDC_LIST_DATABASES              1118
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -179,9 +187,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        154
+#define _APS_NEXT_RESOURCE_VALUE        160
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1115
+#define _APS_NEXT_CONTROL_VALUE         1119
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

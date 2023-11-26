@@ -7,6 +7,9 @@
 #include "CTableCreationDlg.h"
 #include "CProceduresDlg.h"
 #include "CHomeTab.h"
+#include "CVariablesTab.h"
+#include "CCharsetsTab.h"
+#include "CDatabasesTab.h"
 
 class CMainDlg : public CDialogEx
 {
@@ -28,11 +31,15 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
 	CTableCreationDlg m_tableTab;
 	CProceduresDlg m_proceduresTab;
 	CHomeTab m_homeTab;
+	CVariablesTab m_varsTab;
+	CCharsetsTab m_charsetsTab;
+	CDatabasesTab m_databasesTab;
 
 	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;

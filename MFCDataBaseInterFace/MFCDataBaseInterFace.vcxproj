@@ -223,6 +223,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h" />
+    <ClInclude Include="CCharsetsTab.h" />
+    <ClInclude Include="CDatabasesTab.h" />
     <ClInclude Include="CDBConnection.h" />
     <ClInclude Include="CExportDlg.h" />
     <ClInclude Include="CHomeTab.h" />
@@ -235,6 +237,7 @@
     <ClInclude Include="CServerInfoDlg.h" />
     <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTimer.h" />
+    <ClInclude Include="CVariablesTab.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
     <ClInclude Include="CAuthDlg.h" />
@@ -247,6 +250,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
+    <ClCompile Include="CCharsetsTab.cpp" />
+    <ClCompile Include="CDatabasesTab.cpp" />
     <ClCompile Include="CDBConnection.cpp" />
     <ClCompile Include="CExportDlg.cpp" />
     <ClCompile Include="CHomeTab.cpp" />
@@ -261,6 +266,7 @@
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CAuthDlg.cpp" />
+    <ClCompile Include="CVariablesTab.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

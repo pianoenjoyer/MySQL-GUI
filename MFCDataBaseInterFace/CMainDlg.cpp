@@ -175,10 +175,13 @@ BOOL CMainDlg::OnInitDialog()
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
     m_exportTab.Create(IDD_EXPORT, pTabCtrl);
     m_tableTab.Create(IDD_TABLES, pTabCtrl);
+    m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
+    m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
+    m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
 
     //insert into tab control
 
-    TCITEM item0, item1, item2, item3, item4, item5;
+    TCITEM item0, item1, item2, item3, item4, item5, item6, item7;
 
     item0.mask = TCIF_TEXT | TCIF_PARAM;
     item0.lParam = (LPARAM)&m_homeTab;
@@ -205,6 +208,21 @@ BOOL CMainDlg::OnInitDialog()
     item4.pszText = _T("Tables");
     pTabCtrl->InsertItem(4, &item4);
 
+    item5.mask = TCIF_TEXT | TCIF_PARAM;
+    item5.lParam = (LPARAM)&m_databasesTab;//
+    item5.pszText = _T("Databases");
+    pTabCtrl->InsertItem(5, &item5);
+
+    item6.mask = TCIF_TEXT | TCIF_PARAM;
+    item6.lParam = (LPARAM)&m_varsTab;//
+    item6.pszText = _T("Variables");
+    pTabCtrl->InsertItem(6, &item6);
+
+    item7.mask = TCIF_TEXT | TCIF_PARAM;
+    item7.lParam = (LPARAM)&m_charsetsTab;//
+    item7.pszText = _T("Charsets");
+    pTabCtrl->InsertItem(7, &item7);
+
 
     //set pos
     CRect rcItem0;
@@ -227,6 +245,18 @@ BOOL CMainDlg::OnInitDialog()
     pTabCtrl->GetItemRect(4, &rcItem4);
     m_tableTab.SetWindowPos(NULL, rcItem0.left, rcItem4.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    CRect rcItem5;
+    pTabCtrl->GetItemRect(5, &rcItem5);
+    m_databasesTab.SetWindowPos(NULL, rcItem0.left, rcItem5.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    CRect rcItem6;
+    pTabCtrl->GetItemRect(6, &rcItem6);
+    m_varsTab.SetWindowPos(NULL, rcItem0.left, rcItem6.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    CRect rcItem7;
+    pTabCtrl->GetItemRect(7, &rcItem7);
+    m_charsetsTab.SetWindowPos(NULL, rcItem0.left, rcItem7.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
     //initial show and hide
     m_homeTab.ShowWindow(SW_SHOW);
     m_queryTab.ShowWindow(SW_HIDE);
@@ -234,7 +264,9 @@ BOOL CMainDlg::OnInitDialog()
     m_exportTab.ShowWindow(SW_HIDE);
     m_proceduresTab.ShowWindow(SW_HIDE);
     m_tableTab.ShowWindow(SW_HIDE);
-
+    m_databasesTab.ShowWindow(SW_HIDE);
+    m_varsTab.ShowWindow(SW_HIDE);
+    m_charsetsTab.ShowWindow(SW_HIDE);
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -731,8 +763,9 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     m_exportTab.ShowWindow(SW_HIDE);
     m_proceduresTab.ShowWindow(SW_HIDE);
     m_tableTab.ShowWindow(SW_HIDE);
-
-
+    m_databasesTab.ShowWindow(SW_HIDE);
+    m_varsTab.ShowWindow(SW_HIDE);
+    m_charsetsTab.ShowWindow(SW_HIDE);
     // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
@@ -752,7 +785,19 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     case 4:
         m_tableTab.ShowWindow(SW_SHOW);
         break;
+    case 5:
+        m_databasesTab.ShowWindow(SW_SHOW);
+        break;
+    case 6:
+        m_varsTab.ShowWindow(SW_SHOW);
+        break;
+    case 7:
+        m_charsetsTab.ShowWindow(SW_SHOW);
+        break;
     }
+    
+  
+
 }
 
 

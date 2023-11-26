@@ -36,62 +36,62 @@ void CHomeTab::PopulateGeneralInfo()
 
     sql::ResultSet* resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'version'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Server Version"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Server Version"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'version_comment'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Server Comment"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Server Comment"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'version_compile_os'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Server OS"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Server OS"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'protocol_version'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Protocol Version"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Protocol Version"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'character_set_server'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Server Charset"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Server Charset"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'max_connections'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Max Connections"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Max Connections"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW STATUS LIKE 'Threads_connected'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Threads Connected"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Threads Connected"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'hostname'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Hostname"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Hostname"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SELECT SUBSTRING_INDEX(host, ':', 1) AS ServerIP FROM information_schema.processlist WHERE ID = connection_id()");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Server IP"), SQLStringToCString(resultSet->getString("ServerIP")));
+        AddGeneralInfoItem(pListCtrl, _T("Server IP"), SQLStringToCString(resultSet->getString("ServerIP")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'port'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Port"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Port"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'datadir'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("Data Directory"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("Data Directory"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'innodb_version'");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("InnoDB Version"), SQLStringToCString(resultSet->getString("Value")));
+        AddGeneralInfoItem(pListCtrl, _T("InnoDB Version"), SQLStringToCString(resultSet->getString("Value")));
     }
 
     //USER INFO
@@ -100,12 +100,12 @@ void CHomeTab::PopulateGeneralInfo()
 
     resultSet = db->ExecuteQuery("SELECT USER() AS UserHost");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("UserHost"), SQLStringToCString(resultSet->getString("UserHost")));
+        AddGeneralInfoItem(pListCtrl, _T("UserHost"), SQLStringToCString(resultSet->getString("UserHost")));
     }
 
     resultSet = db->ExecuteQuery("SELECT CURRENT_USER() AS CurrentUser");
     while (resultSet->next()) {
-        AddServerInfoItem(pListCtrl, _T("CurrentUser"), SQLStringToCString(resultSet->getString("CurrentUser")));
+        AddGeneralInfoItem(pListCtrl, _T("CurrentUser"), SQLStringToCString(resultSet->getString("CurrentUser")));
     }
 
 
@@ -114,11 +114,13 @@ void CHomeTab::PopulateGeneralInfo()
 }
 
 
-void CHomeTab::AddServerInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue)
+void CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue)
 {
     int nItemIndex = pListCtrl->GetItemCount();
     pListCtrl->InsertItem(nItemIndex, lpszProperty);
     pListCtrl->SetItemText(nItemIndex, 1, lpszValue);
+    pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE);
+    pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
 
 
@@ -141,15 +143,16 @@ void CHomeTab::PopulateEnginesList()
     delete resultSet;
 }
 
+
 void CHomeTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment)
 {
     int nIndex = pListCtrl->GetItemCount();
     // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, engine);
     pListCtrl->SetItemText(nIndex, 1, comment);  // Corrected column index
+    pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE);
+    pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
-
-
 
 
 void CHomeTab::PopulatePluginsList()
@@ -177,9 +180,11 @@ void CHomeTab::PopulatePluginsList()
     delete resultSet;
 }
 
+
 void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license)
 {
     int nIndex = pListCtrl->GetItemCount();
+
 
     // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, name);
@@ -188,8 +193,11 @@ void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, co
     pListCtrl->SetItemText(nIndex, 1, status);
     pListCtrl->SetItemText(nIndex, 2, type);
     pListCtrl->SetItemText(nIndex, 3, license);
-}
 
+    pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
+    pListCtrl->SetColumnWidth(2, LVSCW_AUTOSIZE);
+    pListCtrl->SetColumnWidth(3, LVSCW_AUTOSIZE);
+}
 
 
 BOOL CHomeTab::OnInitDialog()
