@@ -159,10 +159,10 @@
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="CCharsetsTab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="CDatabasesTab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
