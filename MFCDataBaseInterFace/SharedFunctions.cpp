@@ -43,3 +43,12 @@ void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db)
         delete resultSet;  
     }
 }
+
+
+void SetTotalNum(CListCtrl* pList, CWnd* pStatic)
+{
+    int totalItems = pList->GetItemCount();
+    CString totalItemsStr;
+    totalItemsStr.Format(_T("%d"), totalItems);
+    pStatic->SetWindowText(totalItemsStr);
+}

@@ -6,17 +6,10 @@
 #include "CDatabasesTab.h"
 #include "resource.h"
 #include "Convertions.h"
+#include "SharedFunctions.h"
 // CDatabasesTab dialog
 
 IMPLEMENT_DYNAMIC(CDatabasesTab, CDialogEx)
-
-void SetTotalNum(CListCtrl* pList, CWnd* pStatic)
-{
-    int totalItems = pList->GetItemCount();
-    CString totalItemsStr;
-    totalItemsStr.Format(_T("%d"), totalItems);
-    pStatic->SetWindowText(totalItemsStr);
-}
 
 CDatabasesTab::CDatabasesTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DATABASES, pParent)

@@ -165,6 +165,7 @@ BOOL CMainDlg::OnInitDialog()
     m_resultTab.db = this->db;
     m_tableTab.db = this->db;
     m_databasesTab.db = this->db;
+    m_varsTab.db = this->db;
     //fill db and tables
     
     // Create the two tabbed dialogs

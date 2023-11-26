@@ -3,4 +3,8 @@
 #include "CDBConnection.h"
 void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color);
 
+
 void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db);
+
+
+void SetTotalNum(CListCtrl* pList, CWnd* pStatic);
