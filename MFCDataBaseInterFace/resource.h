@@ -91,6 +91,7 @@
 #define IDC_BTN_HOME                    1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
+#define IDC_BTN_DELETEDB                1031
 #define IDC_STATIC_FILTER               1032
 #define IDC_EDIT3                       1033
 #define IDC_TREE_STRUCTURE              1034
