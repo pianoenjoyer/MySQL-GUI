@@ -714,27 +714,17 @@ void CQueryTab::UpdateStringCounter()
     // Clear existing content in the string counter control
     pStringCounter->SetWindowText(L"");
 
-    // Update the string counter with center-aligned line numbers
+    // Update the string counter with line numbers
     CString strLineCount;
-    CString margin = L"\r\n";  // Each number on a new line
-
-    for (int i = 1; i <= lineCount; ++i)
+    CString margin = L" ";
+    for (int i = 1; i <= lineCount; ++i) 
     {
-        // Calculate the padding needed for center alignment
-        int lineLength = pQueryText->LineLength(pQueryText->LineIndex(i - 1));
-        int padding = (pQueryText->GetLineCount() - lineLength) / 2;
-
-        // Format the line number with padding
-        strLineCount.Format(L"%*s%d", padding, L"", i);
-
-        // Append the formatted line number to the string counter
+        strLineCount.Format(L"%d\n", i);
         CString curState;
         pStringCounter->GetWindowTextW(curState);
-        pStringCounter->SetWindowTextW(curState + strLineCount + margin);
+        pStringCounter->SetWindowTextW(curState + margin + strLineCount + "\r\n");
     }
 }
-
-
 
 
 void CQueryTab::OnEnChangeEditQuery()
