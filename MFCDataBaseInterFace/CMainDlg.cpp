@@ -695,6 +695,11 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             m_queryTab.m_comboTables.SetCurSel(index);
             m_queryTab.PopulateColumnsList();
         }
+        else if (pTree->GetItemText(parentItem) == _T("[VIEWS]")) 
+        {
+            CString query(L"SELECT * FROM VIEW");
+            
+        }
     }
 
     *pResult = 0;
