@@ -268,6 +268,9 @@ void CResultTab::OnCbnSelchangeComboNmbOfRows()
 void CResultTab::OnEnChangeEditCurrentpage()
 {
     auto pEdit = GetDlgItem(IDC_EDIT_CURRENTPAGE);
+    auto pStaticMaxPage = GetDlgItem(IDC_STAT_MAXPAGE);
+    CString MaxPage;
+    pStaticMaxPage->GetWindowTextW(MaxPage);
     sql::ResultSet* m_resultSet = nullptr;
     CMainDlg* pParentDialog;
     CWnd* pTabCtrl = GetParent();
@@ -285,11 +288,23 @@ void CResultTab::OnEnChangeEditCurrentpage()
 
     CStringW pageNumberStr;
     pEdit->GetWindowTextW(pageNumberStr);
-    if (pageNumberStr == L"")
+
+    if (pageNumberStr == L"0" && MaxPage == L"0")
+    {
+        return;
+    }
+    else if (pageNumberStr == L"")
     {
         pEdit->SetWindowTextW(L"1");
         return; // Return here after setting the page to 1 to avoid further calculations in this call.
     }
+    else if (pageNumberStr != L"0" && MaxPage == L"0")
+    {
+        pEdit->SetWindowTextW(L"0");
+        return;
+    }
+
+
     std::wstring wstr(pageNumberStr);
     int pageNumber = std::stoi(wstr);
 

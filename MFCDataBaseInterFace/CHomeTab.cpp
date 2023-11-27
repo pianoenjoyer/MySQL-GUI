@@ -160,7 +160,7 @@ void CHomeTab::PopulatePluginsList()
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_PLUGINS);
 
     if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
-        pListCtrl->InsertColumn(0, _T("Name"), LVCFMT_LEFT, 200);
+        pListCtrl->InsertColumn(0, _T("Plugin"), LVCFMT_LEFT, 200);
         pListCtrl->InsertColumn(1, _T("Status"), LVCFMT_LEFT, 200);
         pListCtrl->InsertColumn(2, _T("Type"), LVCFMT_LEFT, 200);
         pListCtrl->InsertColumn(4, _T("License"), LVCFMT_LEFT, 200);

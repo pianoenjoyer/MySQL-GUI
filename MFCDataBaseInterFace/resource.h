@@ -139,7 +139,6 @@
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
-#define IDC_VARSEARCH                   1098
 #define IDC_SCROLLBAR2                  1105
 #define IDC_LIST2                       1106
 #define IDC_LIST_GUII                   1106
@@ -151,7 +150,6 @@
 #define IDC_LIST_ENGINES                1114
 #define IDC_LIST_VARS                   1115
 #define IDC_LIST_CHARSETS               1116
-#define IDC_CHARSSEARCH                 1117
 #define IDC_LIST_DATABASES              1118
 #define IDC_TOTAL                       1119
 #define IDC_EDIT_VARSEARCH              1120
