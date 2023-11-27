@@ -468,10 +468,11 @@ void CMainDlg::OnBnClickedBtnExpand()
 
 void CMainDlg::OnBnClickedBtnUpdate()
 {
+    FillDatabaseDropdown();
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
     BuildDatabaseTree(*pTree);
-    FillDatabaseDropdown();
+    
     //OnCbnSelchangeCmbSelDb();
 }
 

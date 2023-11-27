@@ -137,6 +137,7 @@ CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName)
 BEGIN_MESSAGE_MAP(CDatabasesTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CREATEDB, &CDatabasesTab::OnBnClickedBtnCreatedb)
     ON_BN_CLICKED(IDC_BTN_DELETEDB, &CDatabasesTab::OnBnClickedBtnDeletedb)
+    ON_EN_CHANGE(IDC_FILTER_DATABASES, &CDatabasesTab::OnEnChangeFilterDatabases)
 END_MESSAGE_MAP()
 
 
@@ -233,3 +234,50 @@ void CDatabasesTab::OnBnClickedBtnDeletedb()
     }
 }
 
+
+void CDatabasesTab::UpdateListFilter()
+{
+    // Get the filter text from the edit control
+    CEdit* pEditFilter = (CEdit*)GetDlgItem(IDC_FILTER_DATABASES);
+    CString filterText;
+    pEditFilter->GetWindowText(filterText);
+
+    // Assuming m_listCtrl is the ID of your list control
+    CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_DATABASES);
+
+    // Clear existing items
+    pListCtrl->DeleteAllItems();
+
+    // Assuming db is an instance of your database class
+    auto resultSet = db->ExecuteQuery("SHOW DATABASES");
+
+    // Process the result set and add items that match the filter
+    while (resultSet->next())
+    {
+        CString databaseName = SQLStringToCString(resultSet->getString(1));
+
+        // Check if the database name contains the filter text
+        if (databaseName.Find(filterText) != -1)
+        {
+            // Get the collation for the current database
+            CString collation = GetDatabaseCollation(databaseName);
+
+            // Placeholder values for additional information (replace with actual logic)
+            CString size = GetDatabaseSize(databaseName);
+
+            // Add the item to the list
+            int nIndex = pListCtrl->GetItemCount();
+            pListCtrl->InsertItem(nIndex, databaseName);
+            pListCtrl->SetItemText(nIndex, 1, collation);
+            pListCtrl->SetItemText(nIndex, 2, size);
+        }
+    }
+
+    // Don't forget to close the result set
+    delete resultSet;
+}
+
+void CDatabasesTab::OnEnChangeFilterDatabases()
+{
+    UpdateListFilter();
+}

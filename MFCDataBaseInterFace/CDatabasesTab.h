@@ -22,6 +22,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	BOOL CDatabasesTab::OnInitDialog();
 	void CDatabasesTab::PopulateDatabaseList();
+	void CDatabasesTab::UpdateListFilter();
 	CString CDatabasesTab::GetDatabaseCreatedDate(const CString& databaseName);
 	CString CDatabasesTab::GetDatabaseOwner(const CString& databaseName);
 	void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation);
@@ -34,4 +35,5 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnCreatedb();
 	afx_msg void OnBnClickedBtnDeletedb();
+	afx_msg void OnEnChangeFilterDatabases();
 };

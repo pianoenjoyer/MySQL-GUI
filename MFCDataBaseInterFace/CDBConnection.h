@@ -18,7 +18,7 @@ public:
     bool ChangeCurrentDatabase(const sql::SQLString& databaseName);
     bool IsConnected() const;
     bool CheckConnection();
-
+    void CDBConnection::ChangeUserPassword(const std::string& user, const std::string& password);
     // Database Operations
     sql::ResultSet* ExecuteQuery(const sql::SQLString& query);
     sql::ResultSet* ExecuteQuery(const sql::SQLString& query, CString& error);

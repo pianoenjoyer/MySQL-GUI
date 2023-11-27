@@ -31,6 +31,7 @@
 #define IDC_EDIT_DBNAME                 1000
 #define IDC_EDIT2                       1001
 #define IDC_EDIT_QTEXT                  1001
+#define IDC_FILTER_DATABASES            1001
 #define IDC_BTN_CONNECT                 1002
 #define IDC_BTN_EXIT                    1003
 #define IDC_LIST1                       1004

@@ -323,3 +323,4 @@ bool CDBConnection::CheckConnection()
 {
     return (m_connection->isValid() && !m_connection->isClosed());
 }
+
