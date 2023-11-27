@@ -144,14 +144,32 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
     pRichEdit->SetSelectionCharFormat(cf);
 }
 
+void CMainDlg::SetDlgStyle(int style)
+{
+    switch (style)
+    {
+    case 0: //light theme
+        ModifyStyle(0, BS_OWNERDRAW, 0);
+        SetBackgroundColor(RGB(0, 0, 0));
+        RedrawWindow();
+    case 1: //dark theme
+        ModifyStyle(0, BS_OWNERDRAW, 0);
+        SetBackgroundColor(RGB(200, 200, 200));
+        RedrawWindow();
+    default:
+        break;
+    }
+    
+}
+
 
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    //((CProgressCtrl*)GetDlgItem(IDC_EXECPROGRESS))->SetRange(0, 100);
+    //SetDlgStyle(1);
 
-    //set icon
-    //m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+    // Invalidate and redraw the entire client area of the dialog
     SetIcon(m_hIcon, TRUE);			// Set big icon
     SetIcon(m_hIcon, FALSE);		// Set small icon
 

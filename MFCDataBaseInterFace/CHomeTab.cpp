@@ -204,6 +204,8 @@ BOOL CHomeTab::OnInitDialog()
 {
 
 	CDialogEx::OnInitDialog();
+    //ModifyStyle(0, BS_OWNERDRAW, 0);
+    //SetBackgroundColor(RGB(200, 200, 200));
 	AfxInitRichEdit2();
     PopulateGeneralInfo();
     PopulatePluginsList();

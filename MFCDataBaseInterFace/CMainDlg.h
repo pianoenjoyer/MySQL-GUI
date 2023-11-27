@@ -40,7 +40,7 @@ public:
 	CVariablesTab m_varsTab;
 	CCharsetsTab m_charsetsTab;
 	CDatabasesTab m_databasesTab;
-
+	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
@@ -71,6 +71,7 @@ public:
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();
 	afx_msg void OnBnClickedBtnExpand();
+	void CMainDlg::SetDlgStyle(int style);
 	afx_msg void OnBnClickedBtnUpdate();
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();

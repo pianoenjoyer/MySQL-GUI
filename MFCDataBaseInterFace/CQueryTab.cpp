@@ -32,6 +32,7 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
+    //SetBackgroundColor(RGB(200, 200, 200));
     UpdateStringCounter();
     //FillTableDropdown();
     //PopulateColumnsList();
@@ -435,7 +436,7 @@ void CQueryTab::OnBnClickedBtnRefactor()
 
 void CQueryTab::OnBnClickedBtnSelectall()
 {
-    OnBnClickedBtnClear();
+    
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown;
     if (pTabCtrl) {
@@ -457,7 +458,7 @@ void CQueryTab::OnBnClickedBtnSelectall()
         SendMessageToConsole(L"Select table first!", RED);
         return;
     }
-
+    OnBnClickedBtnClear();
     CString table;
     CString database;
     CString columnList;
@@ -479,7 +480,7 @@ void CQueryTab::OnBnClickedBtnSelectall()
 
 void CQueryTab::OnBnClickedBtnnSelect()
 {
-    OnBnClickedBtnClear();
+    
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown;
     if (pTabCtrl) {
@@ -499,6 +500,7 @@ void CQueryTab::OnBnClickedBtnnSelect()
         SendMessageToConsole(L"Select table first!", RED);
         return;
     }
+    OnBnClickedBtnClear();
     CString table;
     CString database;
     CString columnList;
@@ -520,7 +522,6 @@ void CQueryTab::OnBnClickedBtnnSelect()
 
 void CQueryTab::OnBnClickedBtnInsert()
 {
-    OnBnClickedBtnClear();
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown;
     if (pTabCtrl) {
@@ -540,6 +541,7 @@ void CQueryTab::OnBnClickedBtnInsert()
         SendMessageToConsole(L"Select table first!", RED);
         return;
     }
+    OnBnClickedBtnClear();
     CString table;
     CString database;
     CString columnList;
@@ -564,7 +566,7 @@ void CQueryTab::OnBnClickedBtnInsert()
 
 void CQueryTab::OnBnClickedBtnUpdaterecord()
 {
-    OnBnClickedBtnClear();
+
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown;
     if (pTabCtrl) {
@@ -584,6 +586,7 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
         SendMessageToConsole(L"Select table first!", RED);
         return;
     }
+    OnBnClickedBtnClear();
     CString table;
     CString database;
     CString columnList;
@@ -606,7 +609,7 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
 
 void CQueryTab::OnBnClickedBtnDeleterecord()
 {
-    OnBnClickedBtnClear();
+
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown;
     if (pTabCtrl) {
@@ -627,6 +630,7 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
         SendMessageToConsole(L"Select table first!", RED);
         return;
     }
+    OnBnClickedBtnClear();
     CString table;
     CString database;
 
