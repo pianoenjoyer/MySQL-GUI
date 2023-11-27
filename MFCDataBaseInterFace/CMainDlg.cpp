@@ -563,12 +563,10 @@ void CMainDlg::OnFileExport()
 }
 
 
-
-
-
 void CMainDlg::OnMenuOpen()
 {
     OnBnClickedBtnBrowse();
+    m_queryTab.UpdateStringCounter();
 }
 
 

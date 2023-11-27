@@ -374,6 +374,7 @@ void CQueryTab::OnBnClickedBtnClear()
 {
     CRichEditCtrl* pEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
     pEdit->SetWindowTextW(L"");
+    UpdateStringCounter();
 }
 
 
@@ -473,7 +474,7 @@ void CQueryTab::OnBnClickedBtnSelectall()
     }
     columnList.TrimRight(',');
     queryText->SetWindowTextW(L"SELECT * FROM " + database + "." + table + " " + "WHERE 1");
-
+    UpdateStringCounter();
 } 
 
 void CQueryTab::OnBnClickedBtnnSelect()
@@ -513,6 +514,7 @@ void CQueryTab::OnBnClickedBtnnSelect()
     }
     columnList.TrimRight(',');
     queryText->SetWindowTextW(L"SELECT " + columnList + " FROM " + database + "." + table + " " + "WHERE 1");
+    UpdateStringCounter();
 }
 
 
@@ -556,6 +558,7 @@ void CQueryTab::OnBnClickedBtnInsert()
     columnList.TrimRight(',');
     queryText->SetWindowTextW(L"INSERT INTO " + database + "." + table + " (" + columnList +
         ")" + " VALUES " + "(" + valuesList + ")");
+    UpdateStringCounter();
 }
 
 
@@ -597,6 +600,7 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
     valuesList.TrimRight(',');
     columnList.TrimRight(',');
     queryText->SetWindowTextW(L"UPDATE " + database + "." + table + " SET " + columnList + " WHERE 1");
+    UpdateStringCounter();
 }
 
 
@@ -629,6 +633,7 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
     dbDropdown->GetLBText(selectedDBNumber, database);
     tablesDropdown->GetLBText(selectedTableNumber, table);
     queryText->SetWindowTextW(L"DELETE FROM " + database + "." + table + " WHERE 0");
+    UpdateStringCounter();
 }
 
 
