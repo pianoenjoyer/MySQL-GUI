@@ -897,13 +897,14 @@ void CMainDlg::OnSize(UINT nType, int cx, int cy)
         CRect rcTab;
         pTabCtrl->GetClientRect(&rcTab);
 
-        CRect rcItem1, rcItem2;
+        CRect rcItem1, rcItem2, rcItem3;
         pTabCtrl->GetItemRect(0, &rcItem1);
         pTabCtrl->GetItemRect(1, &rcItem2);
-
+        pTabCtrl->GetItemRect(1, &rcItem3);
         // Adjust the position and size of the child dialogs
         m_queryTab.MoveWindow(rcTab.left, rcTab.top + rcItem1.Height(), rcTab.Width(), rcTab.Height() - rcItem1.Height());
         m_resultTab.MoveWindow(rcTab.left, rcTab.top + rcItem2.Height(), rcTab.Width(), rcTab.Height() - rcItem2.Height());
+        m_homeTab.MoveWindow(rcTab.left, rcTab.top + rcItem3.Height(), rcTab.Width(), rcTab.Height() - rcItem3.Height());
     }
 }
 

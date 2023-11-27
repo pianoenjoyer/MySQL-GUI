@@ -63,11 +63,122 @@ BEGIN_MESSAGE_MAP(CAuthDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_CONNECT, &CAuthDlg::OnBnClickedBtnConnect)
 	ON_BN_CLICKED(IDC_BTN_EXIT, &CAuthDlg::OnBnClickedBtnExit)
 	ON_BN_CLICKED(IDC_BTN_SHOW_PASSWORD, &CAuthDlg::OnBnClickedBtnShowPassword)
+	ON_WM_CTLCOLOR()
+	ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
+	ON_WM_DRAWITEM()
 END_MESSAGE_MAP()
-//ON INIT----------------------------------------------!!!
+
+void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
+{
+	if (lpDrawItemStruct->CtlType == ODT_BUTTON)
+	{
+		CDC dc;
+		dc.Attach(lpDrawItemStruct->hDC);
+
+		// Customize the appearance based on the button ID
+		if (nIDCtl == IDC_BTN_CONNECT)
+		{
+			dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(216, 120, 29));
+			dc.SetTextColor(RGB(255, 255, 255));
+		}
+		else if (nIDCtl == IDC_BTN_EXIT)
+		{
+			dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(66, 101, 173));
+			dc.SetTextColor(RGB(255, 255, 255));
+		}
+		else if (nIDCtl == IDC_SAVE_LOGIN) // This is a checkbox
+		{
+			// Draw checkbox background
+			DrawFrameControl(lpDrawItemStruct->hDC, &lpDrawItemStruct->rcItem, DFC_BUTTON, DFCS_BUTTONCHECK);
+
+			// Set a custom font for the checkbox text
+			CFont font;
+			font.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+				OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
+				DEFAULT_PITCH | FF_SWISS, _T("Arial"));
+			dc.SelectObject(&font);
+
+			// Draw checkbox text
+			CString checkboxText;
+			GetDlgItemText(nIDCtl, checkboxText);
+			dc.SetTextColor(RGB(0, 0, 255)); // Blue text color
+			dc.DrawText(checkboxText, &lpDrawItemStruct->rcItem, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+
+			dc.Detach();
+		}
+
+		// Set a custom font
+		CFont font;
+		font.CreateFont(22, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+			OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
+			DEFAULT_PITCH | FF_SWISS, _T("Leelawadee UI"));
+		dc.SelectObject(&font);
+
+		// Draw the text based on the button type
+		CString buttonText;
+		GetDlgItemText(nIDCtl, buttonText);
+		dc.DrawText(buttonText, &lpDrawItemStruct->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+		dc.Detach();
+	}
+}
+
+HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// Check if the control is a static control
+	if (nCtlColor == CTLCOLOR_STATIC)
+	{
+		// Set the desired text color
+		pDC->SetTextColor(RGB(255, 255, 255)); // Red color, change as needed
+		pDC->SetBkMode(TRANSPARENT); // Make the background transparent
+		hbr = (HBRUSH)GetStockObject(NULL_BRUSH); // Return a null brush to prevent background painting
+	}
+
+	return hbr;
+}
+
+BOOL CAuthDlg::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMCUSTOMDRAW* pNMCustomDraw = reinterpret_cast<NMCUSTOMDRAW*>(pNMHDR);
+
+	// Check if the custom draw is for a button
+	if (pNMCustomDraw->dwDrawStage == CDDS_PREPAINT &&
+		pNMCustomDraw->dwItemSpec == (UINT)-1)  // Entire control
+	{
+		*pResult = CDRF_NOTIFYITEMDRAW; // Notify for item drawing
+		return TRUE;
+	}
+	else if (pNMCustomDraw->dwDrawStage == CDDS_ITEMPREPAINT)
+	{
+		// Check if it's the button you want to customize
+		if (pNMCustomDraw->dwItemSpec == IDC_BTN_CONNECT ||
+			pNMCustomDraw->dwItemSpec == IDC_BTN_EXIT)
+		{
+			// Customize the appearance of the button here
+			// You can change the background color, text color, etc.
+
+			// For example, set the background color to light gray
+			CDC* pDC = CDC::FromHandle(pNMCustomDraw->hdc);
+			pDC->FillSolidRect(&pNMCustomDraw->rc, RGB(0, 0, 0)); // Light gray color
+
+			// Set text color
+			pDC->SetTextColor(RGB(0, 0, 255)); // Blue text color
+
+			*pResult = CDRF_SKIPDEFAULT; // Skip default drawing
+			return TRUE;
+		}
+	}
+
+	*pResult = 0;
+	return FALSE;
+}
+
+
 BOOL CAuthDlg::OnInitDialog()
 {
-	SetBackgroundColor(RGB(16, 26, 44));
+	SetBackgroundColor(RGB(29, 48, 82));
 	CDialogEx::OnInitDialog();
 	AfxInitRichEdit2();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -76,7 +187,7 @@ BOOL CAuthDlg::OnInitDialog()
 	this->SetWindowTextW(_T("Authentication")); 
 	//set image
 	CImage image;
-	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo_white.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_LOGO);
 		HBITMAP hBmp = image.Detach();
