@@ -129,6 +129,45 @@ void CQueryTab::SendMessageToConsole(CString msg, COLORREF color)
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 
+CStringW RemoveSQLComments(const CStringW& sqlText)
+{
+    // Simple implementation to remove SQL comments
+    CStringW result;
+    bool inComment = false;
+
+    for (int i = 0; i < sqlText.GetLength(); ++i)
+    {
+        if (sqlText[i] == L'-' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'-')
+        {
+            // Start of single-line comment
+            inComment = true;
+        }
+        else if (sqlText[i] == L'\n' && inComment)
+        {
+            // End of single-line comment
+            inComment = false;
+        }
+        else if (sqlText[i] == L'/' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'*')
+        {
+            // Start of multi-line comment
+            inComment = true;
+            ++i;  // Skip the next character as well
+        }
+        else if (sqlText[i] == L'*' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'/' && inComment)
+        {
+            // End of multi-line comment
+            inComment = false;
+            ++i;  // Skip the next character as well
+        }
+        else if (!inComment)
+        {
+            result += sqlText[i];
+        }
+    }
+
+    return result;
+}
+
 //if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
 {
@@ -149,52 +188,112 @@ void CQueryTab::ExecuteQueryMainDlg()
 
     CStringW sqlText;
     GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(sqlText);
+    sqlText = RemoveSQLComments(sqlText);
 
-    //sql::SQLString query(CW2A(sqlText.GetString())); //old method 
+    CStringW delimiter = L";";
+    int pos = 0;
+    CStringW statement;
 
-    sql::SQLString query = CStringToSQLString(sqlText);
-
-    auto start = std::chrono::high_resolution_clock::now();
-    m_resultSet = db->ExecuteQuery(query, errorString);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration<double>(end - start);
-    double timeTaken = duration.count();
-    CString timeTakenStr;
-
-
-    if (m_resultSet)
+    // Check if there is a delimiter in the SQL text
+    if ((pos = sqlText.Find(delimiter)) != -1)
     {
-        int rowsCount = m_resultSet->rowsCount();
-        timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
+        do
+        {
+            statement = sqlText.Left(pos);
+            sqlText = sqlText.Mid(pos + delimiter.GetLength());
 
-        SendMessageToConsole(timeTakenStr, GREEN);
-        //send exac same msg to resultTab edit
-        ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
-        start = std::chrono::high_resolution_clock::now();
-        pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
-        end = std::chrono::high_resolution_clock::now();
-        duration = std::chrono::duration<double>(end - start);
-        timeTaken = duration.count();
-        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        //SendMessageToConsole(timeTakenStr, BLACK);
-        if (rowsCount == 0)
-        {
-            pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-        }
-        else
-        {
-            pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
-        }
-        ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
-        ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
+            statement = RemoveSQLComments(statement);
+
+            // Ensure CStringToSQLString works correctly
+            sql::SQLString query = CStringToSQLString(statement);
+
+            auto start = std::chrono::high_resolution_clock::now();
+            m_resultSet = db->ExecuteQuery(query, errorString);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration<double>(end - start);
+            double timeTaken = duration.count();
+            CString timeTakenStr;
+
+            if (m_resultSet)
+            {
+                int rowsCount = m_resultSet->rowsCount();
+                timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
+
+                SendMessageToConsole(timeTakenStr, GREEN);
+                // Send the exact same message to resultTab edit
+                ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
+                start = std::chrono::high_resolution_clock::now();
+                pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
+                end = std::chrono::high_resolution_clock::now();
+                duration = std::chrono::duration<double>(end - start);
+                timeTaken = duration.count();
+
+                if (rowsCount == 0)
+                {
+                    pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+                }
+                else
+                {
+                    pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+                }
+                ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+                ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
+            }
+            else
+            {
+                SendMessageToConsole(errorString, RED);
+            }
+
+            // Check if there is another delimiter in the remaining SQL text
+            pos = sqlText.Find(delimiter);
+        } while (pos != -1);
     }
     else
     {
-        SendMessageToConsole(errorString, RED);
+        // If no delimiter is found, treat the entire input as a single query
+        statement = RemoveSQLComments(sqlText);
+        sql::SQLString query = CStringToSQLString(statement);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        m_resultSet = db->ExecuteQuery(query, errorString);
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration<double>(end - start);
+        double timeTaken = duration.count();
+        CString timeTakenStr;
+
+        if (m_resultSet)
+        {
+            int rowsCount = m_resultSet->rowsCount();
+            timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
+
+            SendMessageToConsole(timeTakenStr, GREEN);
+            // Send the exact same message to resultTab edit
+            ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
+            start = std::chrono::high_resolution_clock::now();
+            pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
+            end = std::chrono::high_resolution_clock::now();
+            duration = std::chrono::duration<double>(end - start);
+            timeTaken = duration.count();
+
+            if (rowsCount == 0)
+            {
+                pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
+            }
+            else
+            {
+                pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
+            }
+            ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
+            ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
+        }
+        else
+        {
+            SendMessageToConsole(errorString, RED);
+        }
     }
-    //delete resultSet;
 }
+
+
 
 //if query from string
 void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
