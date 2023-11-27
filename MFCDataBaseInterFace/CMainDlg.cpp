@@ -688,6 +688,7 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
             m_resultTab.BuildResultList(resultSet, 0);
             m_queryTab.m_resultSet = resultSet;
+            m_resultTab.OnEnChangeEditCurrentpage();
         }
         if (index != CB_ERR)
         {

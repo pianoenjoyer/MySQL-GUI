@@ -423,23 +423,6 @@ void CResultTab::OnBnClickedBtnNextpage()
 }
 
 
-void CResultTab::BeginPageState() 
-{
-    CStringW maxpage;
-    CStringW curpage;
-    GetDlgItem(IDC_EDIT_CURRENTPAGE)->GetWindowTextW(curpage);
-    GetDlgItem(IDC_STAT_MAXPAGE)->GetWindowTextW(maxpage);
-    if (maxpage == L"0")
-    {
-        GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
-    }
-    else
-    {
-        GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
-    }
-}
-
-
 void CResultTab::SendMessageToQueryInfo(CString msg, COLORREF color)
 {
     CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_QUERYINFO);
