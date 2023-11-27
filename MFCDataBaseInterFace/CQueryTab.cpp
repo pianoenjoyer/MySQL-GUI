@@ -711,20 +711,29 @@ void CQueryTab::UpdateStringCounter()
     // Get the number of lines in the query text
     int lineCount = pQueryText->GetLineCount();
 
-    // Clear existing content in the string counter control
-    pStringCounter->SetWindowText(L"");
+    // Calculate the maximum line number length
+    int maxLineNumberLength = static_cast<int>(log10(lineCount) + 1);
 
-    // Update the string counter with line numbers
+    // Format the line numbers
     CString strLineCount;
     CString margin = L" ";
-    for (int i = 1; i <= lineCount; ++i) 
+    CString newContent;
+
+
+    for (int i = 1; i <= lineCount; ++i)
     {
-        strLineCount.Format(L"%d\n", i);
-        CString curState;
-        pStringCounter->GetWindowTextW(curState);
-        pStringCounter->SetWindowTextW(curState + margin + strLineCount + "\r\n");
+        // Format the line number with padding
+        strLineCount.Format(L"%*d%s", maxLineNumberLength, i, margin);
+
+        // Append the formatted line number to the new content
+        newContent += strLineCount + L"\r\n";
     }
+
+    // Set the updated content to the string counter (append to the end)
+    pStringCounter->SetSel(-1, -1);
+    pStringCounter->ReplaceSel(newContent);
 }
+
 
 
 void CQueryTab::OnEnChangeEditQuery()
