@@ -471,7 +471,7 @@ void CMainDlg::OnBnClickedBtnUpdate()
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
     BuildDatabaseTree(*pTree);
-    //FillDatabaseDropdown();
+    FillDatabaseDropdown();
     //OnCbnSelchangeCmbSelDb();
 }
 
