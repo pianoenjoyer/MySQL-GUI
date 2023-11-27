@@ -67,7 +67,7 @@ END_MESSAGE_MAP()
 //ON INIT----------------------------------------------!!!
 BOOL CAuthDlg::OnInitDialog()
 {
-
+	SetBackgroundColor(RGB(16, 26, 44));
 	CDialogEx::OnInitDialog();
 	AfxInitRichEdit2();
 	SetIcon(m_hIcon, TRUE);			// Set big icon

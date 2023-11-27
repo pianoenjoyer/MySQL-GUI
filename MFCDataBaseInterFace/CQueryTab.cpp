@@ -119,6 +119,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_EN_CHANGE(IDC_EDIT_QUERY, &CQueryTab::OnEnChangeEditQuery)
     ON_EN_VSCROLL(IDC_EDIT_QUERY, &CQueryTab::OnEnVscrollEditQuery)
     ON_WM_VSCROLL()
+    ON_EN_VSCROLL(IDC_STRINGCOUNTER, &CQueryTab::OnEnVscrollStringcounter)
 END_MESSAGE_MAP()
 
 
@@ -774,4 +775,13 @@ void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     }
 
     CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CQueryTab::OnEnVscrollStringcounter()
+{
+    
+    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
+    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+    int nPos = pStringCounter->GetFirstVisibleLine();
+    pQueryText->LineScroll(nPos - pQueryText->GetFirstVisibleLine());
 }
