@@ -50,4 +50,5 @@ public:
 	afx_msg void OnBnClickedBtnSchema();
 	afx_msg void OnLbnDblclkListColumns();
 	afx_msg void OnEnChangeEditQuery();
+	afx_msg void OnEnVscrollEditQuery();
 };
