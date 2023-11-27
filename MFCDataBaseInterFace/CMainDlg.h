@@ -42,6 +42,7 @@ public:
 	CDatabasesTab m_databasesTab;
 	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
+
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
 	HICON m_hIcon;

@@ -163,11 +163,60 @@ void CMainDlg::SetDlgStyle(int style)
 }
 
 
+HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+    HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+    // Check if the control is a static control
+    if (nCtlColor == CTLCOLOR_STATIC)
+    {
+        // Set the desired text color
+        pDC->SetTextColor(RGB(0, 0, 0));
+        pDC->SetBkMode(TRANSPARENT);
+        hbr = (HBRUSH)GetStockObject(NULL_BRUSH);
+    }
+
+    return hbr;
+}
+
+BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
+    ON_BN_CLICKED(IDC_BTN_BROWSE, &CMainDlg::OnBnClickedBtnBrowse)
+    ON_BN_CLICKED(IDC_EXPORT, &CMainDlg::OnBnClickedExport)
+    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CMainDlg::OnBnClickedBtnCollapse)
+    ON_BN_CLICKED(IDC_BTN_EXPAND, &CMainDlg::OnBnClickedBtnExpand)
+    ON_BN_CLICKED(IDC_BTN_UPDATE, &CMainDlg::OnBnClickedBtnUpdate)
+    ON_COMMAND(ID_MENU_OPEN, &CMainDlg::OnMenuOpen)
+    ON_COMMAND(ID_CONNECTION_DISCONNECT, &CMainDlg::OnConnectionDisconnect)
+    ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CMainDlg::OnConnectionCheckconnection)
+    ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CMainDlg::OnNMClickSyslinkServerinfo)
+    ON_COMMAND(ID_FILE_SAVEAS, &CMainDlg::OnFileSaveas)
+    ON_COMMAND(ID_FILE_EXIT, &CMainDlg::OnFileExit)
+    ON_COMMAND(ID_FILE_EXPORT, &CMainDlg::OnFileExport)
+    ON_COMMAND(ID_EDIT_SELECTALL, &CMainDlg::OnEditSelectall)
+    ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CMainDlg::OnHelpMysqldocumentation)
+    ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CMainDlg::OnAboutVersionandcredits)
+    ON_COMMAND(ID_HELP_SERVERINFO, &CMainDlg::OnHelpServerinfo)
+    ON_BN_CLICKED(IDC_BTN_FORWARD, &CMainDlg::OnBnClickedBtnForward)
+    ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CMainDlg::OnTvnSelchangedTreeStructure)
+    ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CMainDlg::OnNMClickTreeStructure)
+    ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CMainDlg::OnTcnSelchangeMaintab)
+    ON_COMMAND(ID_EDIT_UNDO32772, &CMainDlg::OnEditUndo)
+    ON_COMMAND(ID_EDIT_REDO32773, &CMainDlg::OnEditRedo)
+    ON_COMMAND(ID_EDIT_CUT32787, &CMainDlg::OnEditCut)
+    ON_COMMAND(ID_EDIT_COPY32788, &CMainDlg::OnEditCopy)
+    ON_WM_SIZE()
+    ON_COMMAND(ID_EDIT_PASTE32794, &CMainDlg::OnEditPaste)
+    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CMainDlg::OnCbnSelchangeCmbSelDb)
+    ON_WM_CTLCOLOR()
+
+END_MESSAGE_MAP()
+
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
     //SetDlgStyle(1);
-
+    //SetBackgroundColor(RGB(0, 97, 139));
+    SetBackgroundColor(RGB(240, 241, 242));
 
     // Invalidate and redraw the entire client area of the dialog
     SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -337,35 +386,7 @@ bool CMainDlg::FillTreeControl()
 }
 
 
-BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
-    ON_BN_CLICKED(IDC_BTN_BROWSE, &CMainDlg::OnBnClickedBtnBrowse)
-    ON_BN_CLICKED(IDC_EXPORT, &CMainDlg::OnBnClickedExport)
-    ON_BN_CLICKED(IDC_BTN_COLLAPSE, &CMainDlg::OnBnClickedBtnCollapse)
-    ON_BN_CLICKED(IDC_BTN_EXPAND, &CMainDlg::OnBnClickedBtnExpand)
-    ON_BN_CLICKED(IDC_BTN_UPDATE, &CMainDlg::OnBnClickedBtnUpdate)
-    ON_COMMAND(ID_MENU_OPEN, &CMainDlg::OnMenuOpen)
-    ON_COMMAND(ID_CONNECTION_DISCONNECT, &CMainDlg::OnConnectionDisconnect)
-    ON_COMMAND(ID_CONNECTION_CHECKCONNECTION, &CMainDlg::OnConnectionCheckconnection)
-    ON_NOTIFY(NM_CLICK, IDC_SYSLINK_SERVERINFO, &CMainDlg::OnNMClickSyslinkServerinfo)
-    ON_COMMAND(ID_FILE_SAVEAS, &CMainDlg::OnFileSaveas)
-    ON_COMMAND(ID_FILE_EXIT, &CMainDlg::OnFileExit)
-    ON_COMMAND(ID_FILE_EXPORT, &CMainDlg::OnFileExport)
-    ON_COMMAND(ID_EDIT_SELECTALL, &CMainDlg::OnEditSelectall)
-    ON_COMMAND(ID_HELP_MYSQLDOCUMENTATION, &CMainDlg::OnHelpMysqldocumentation)
-    ON_COMMAND(ID_ABOUT_VERSIONANDCREDITS, &CMainDlg::OnAboutVersionandcredits)
-    ON_COMMAND(ID_HELP_SERVERINFO, &CMainDlg::OnHelpServerinfo)
-    ON_BN_CLICKED(IDC_BTN_FORWARD, &CMainDlg::OnBnClickedBtnForward)
-    ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_STRUCTURE, &CMainDlg::OnTvnSelchangedTreeStructure)
-    ON_NOTIFY(NM_CLICK, IDC_TREE_STRUCTURE, &CMainDlg::OnNMClickTreeStructure)
-    ON_NOTIFY(TCN_SELCHANGE, IDC_MAINTAB, &CMainDlg::OnTcnSelchangeMaintab)
-    ON_COMMAND(ID_EDIT_UNDO32772, &CMainDlg::OnEditUndo)
-    ON_COMMAND(ID_EDIT_REDO32773, &CMainDlg::OnEditRedo)
-    ON_COMMAND(ID_EDIT_CUT32787, &CMainDlg::OnEditCut)
-    ON_COMMAND(ID_EDIT_COPY32788, &CMainDlg::OnEditCopy)
-    ON_WM_SIZE()
-    ON_COMMAND(ID_EDIT_PASTE32794, &CMainDlg::OnEditPaste)
-    ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CMainDlg::OnCbnSelchangeCmbSelDb)
-END_MESSAGE_MAP()
+
 
 //open .sql file
 void CMainDlg::OnBnClickedBtnBrowse()

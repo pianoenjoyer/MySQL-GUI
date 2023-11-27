@@ -66,7 +66,11 @@ BEGIN_MESSAGE_MAP(CAuthDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
 	ON_WM_DRAWITEM()
+
 END_MESSAGE_MAP()
+
+
+
 
 void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
@@ -131,9 +135,9 @@ HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	if (nCtlColor == CTLCOLOR_STATIC)
 	{
 		// Set the desired text color
-		pDC->SetTextColor(RGB(255, 255, 255)); // Red color, change as needed
-		pDC->SetBkMode(TRANSPARENT); // Make the background transparent
-		hbr = (HBRUSH)GetStockObject(NULL_BRUSH); // Return a null brush to prevent background painting
+		pDC->SetTextColor(RGB(255, 255, 255)); 
+		pDC->SetBkMode(TRANSPARENT); 
+		hbr = (HBRUSH)GetStockObject(NULL_BRUSH); 
 	}
 
 	return hbr;
