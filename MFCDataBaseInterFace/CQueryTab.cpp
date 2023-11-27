@@ -32,6 +32,7 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
+    AfxInitRichEdit2();
     UpdateStringCounter();
     //FillTableDropdown();
     //PopulateColumnsList();
@@ -115,7 +116,8 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CQueryTab::OnBnClickedBtnSchema)
     ON_LBN_DBLCLK(IDC_LIST_COLUMNS, &CQueryTab::OnLbnDblclkListColumns)
-    ON_EN_CHANGE(IDC_EDIT_QUERY, &CQueryTab::OnEnChangeEditQuery)
+    ON_EN_CHANGE(IDC_EDIT_QUERYTEXT, &CQueryTab::OnEnChangeEditQuerytext)
+    ON_EN_VSCROLL(IDC_EDIT_QUERYTEXT, &CQueryTab::OnEnVscrollEditQuerytext)
 END_MESSAGE_MAP()
 
 
@@ -704,7 +706,7 @@ void CQueryTab::UpdateStringCounter()
 {
     // Get pointers to the string counter and query text controls
     CRichEditCtrl* pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_STRINGCOUNTER);
-    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERYTEXT);
 
     // Get the number of lines in the query text
     int lineCount = pQueryText->GetLineCount();
@@ -714,18 +716,24 @@ void CQueryTab::UpdateStringCounter()
 
     // Update the string counter with line numbers
     CString strLineCount;
-   
+    CString marging = L" ";
     for (int i = 1; i <= lineCount; ++i) 
     {
         strLineCount.Format(L"%d\n", i);
         CString curState;
         pStringCounter->GetWindowTextW(curState);
-        pStringCounter->SetWindowTextW(curState + strLineCount);
+        pStringCounter->SetWindowTextW(curState + marging + strLineCount);
     }
 }
 
 
-void CQueryTab::OnEnChangeEditQuery()
+void CQueryTab::OnEnChangeEditQuerytext()
 {
     UpdateStringCounter();
+}
+
+
+void CQueryTab::OnEnVscrollEditQuerytext()
+{
+    // TODO: Add your control notification handler code here
 }
