@@ -676,7 +676,7 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         CString tableName = pTree->GetItemText(hItem);
         int index =  m_queryTab.m_comboTables.FindStringExact(0, tableName);
         
-        if (m_mainTabCtrl.GetCurSel() == 1) //if result tab is active 
+        if (m_mainTabCtrl.GetCurSel() == 2) //if result tab is active 
         {   //see table content on tree element click
             if (m_queryTab.m_resultSet)
             {
