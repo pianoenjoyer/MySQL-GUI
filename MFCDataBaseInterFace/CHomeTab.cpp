@@ -184,8 +184,12 @@ void CHomeTab::PopulatePluginsList()
 void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license)
 {
     int nIndex = pListCtrl->GetItemCount();
+
+
+    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, name);
 
+    // Set text for the remaining columns
     pListCtrl->SetItemText(nIndex, 1, status);
     pListCtrl->SetItemText(nIndex, 2, type);
     pListCtrl->SetItemText(nIndex, 3, license);
@@ -193,27 +197,6 @@ void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, co
     pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
     pListCtrl->SetColumnWidth(2, LVSCW_AUTOSIZE);
     pListCtrl->SetColumnWidth(3, LVSCW_AUTOSIZE);
-}
-
-void CHomeTab::OnNMCustomdrawListPlugins(NMHDR* pNMHDR, LRESULT* pResult)
-{
-    LPNMLVCUSTOMDRAW lpLVCustomDraw = reinterpret_cast<LPNMLVCUSTOMDRAW>(pNMHDR);
-
-
-        int columnIndex = 1;  // Assuming you want to change the color of the second column
-
-
-            CString status = ((CListCtrl*)GetDlgItem(IDC_LIST_PLUGINS))->GetItemText(lpLVCustomDraw->nmcd.dwItemSpec, columnIndex);
-
-            // Set the text color based on the value in the "Status" column
-            COLORREF textColor = (status.CompareNoCase(_T("ACTIVE")) == 0) ? RGB(0, 128, 0) : RGB(255, 0, 0);
-
-            lpLVCustomDraw->clrText = textColor;
-
-
-    *pResult = CDRF_DODEFAULT;
-    CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_PLUGINS);
-    pListCtrl->Invalidate();
 }
 
 
@@ -245,10 +228,7 @@ void CHomeTab::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CHomeTab, CDialogEx)
-    ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST_PLUGINS, &CHomeTab::OnNMCustomdrawListPlugins)
 END_MESSAGE_MAP()
 
 
 // CHomeTab message handlers
-
-
