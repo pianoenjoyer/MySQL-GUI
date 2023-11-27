@@ -117,6 +117,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_LBN_DBLCLK(IDC_LIST_COLUMNS, &CQueryTab::OnLbnDblclkListColumns)
     ON_EN_CHANGE(IDC_EDIT_QUERY, &CQueryTab::OnEnChangeEditQuery)
     ON_EN_VSCROLL(IDC_EDIT_QUERY, &CQueryTab::OnEnVscrollEditQuery)
+    ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -729,6 +730,7 @@ void CQueryTab::UpdateStringCounter()
 void CQueryTab::OnEnChangeEditQuery()
 {
     UpdateStringCounter();
+    OnEnVscrollEditQuery();
 }
 
 
@@ -738,4 +740,22 @@ void CQueryTab::OnEnVscrollEditQuery()
     CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringCounter->LineScroll(nPos - pStringCounter->GetFirstVisibleLine());
+}
+
+void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
+    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+
+    // Check if the event is from the scrollbar of the QueryText control
+    if (pScrollBar->GetDlgCtrlID() == IDC_EDIT_QUERY)
+    {
+        // Get the current scroll position of the QueryText control
+        int nPosQueryText = pQueryText->GetFirstVisibleLine();
+
+        // Scroll the StringCounter to match the QueryText
+        pStringCounter->LineScroll(nPosQueryText - pStringCounter->GetFirstVisibleLine());
+    }
+
+    CDialogEx::OnVScroll(nSBCode, nPos, pScrollBar);
 }

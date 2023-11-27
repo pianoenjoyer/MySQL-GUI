@@ -47,6 +47,7 @@ public:
 	afx_msg void OnBnClickedBtnClearmsg();
 	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnBnClickedBtnForward();
+	void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnBnClickedBtnSchema();
 	afx_msg void OnLbnDblclkListColumns();
 	afx_msg void OnEnChangeEditQuery();

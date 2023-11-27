@@ -3,6 +3,7 @@
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
 
+
 #include "CResultTab.h"
 #include "CMainDlg.h"
 #include "CAuthDlg.h"
@@ -362,7 +363,7 @@ void CMainDlg::OnBnClickedBtnBrowse()
     {
         m_pathToFile = fileOpenDialog.GetPathName();
         m_SQLtextQuery = ReadFileContent();
-        m_queryTab.GetDlgItem(IDC_EDIT_QTEXT)->SetWindowTextW(m_SQLtextQuery);
+        m_queryTab.GetDlgItem(IDC_EDIT_QUERY)->SetWindowTextW(m_SQLtextQuery);
     }
 }
 
@@ -494,9 +495,9 @@ void CMainDlg::OnBnClickedButtonSave()
     {
         m_pathToFile = fileSaveDialog.GetPathName();
 
-        // Get the text from the IDC_EDIT_QTEXT control
+        // Get the text from the IDC_EDIT_QUERY control
         CString content;
-        m_queryTab.GetDlgItem(IDC_EDIT_QTEXT)->GetWindowTextW(content);
+        m_queryTab.GetDlgItem(IDC_EDIT_QUERY)->GetWindowTextW(content);
 
         // Save the content to the file
         CFile file;
@@ -590,7 +591,7 @@ void CMainDlg::OnConnectionDisconnect()
 
 void CMainDlg::OnEditSelectall()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->SetSel(0, -1);
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->SetSel(0, -1);
 }
 
 
@@ -610,7 +611,7 @@ void CMainDlg::OnHelpServerinfo()
 void CMainDlg::OnBnClickedBtnForward()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
-    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QTEXT);
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
     HTREEITEM hSelectedItem = pTree->GetSelectedItem();
 
     if (hSelectedItem)
@@ -808,31 +809,31 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CMainDlg::OnEditUndo()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Undo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Undo();
 }
 
 
 void CMainDlg::OnEditRedo()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Redo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Redo();
 }
 
 
 void CMainDlg::OnEditCut()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Cut();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Cut();
 }
 
 
 void CMainDlg::OnEditCopy()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Copy();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Copy();
 }
 
 
 void CMainDlg::OnEditPaste()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QTEXT))->Paste();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Paste();
 }
 
 
