@@ -32,6 +32,7 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
+    UpdateStringCounter();
     //FillTableDropdown();
     //PopulateColumnsList();
     return TRUE;
@@ -114,6 +115,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CQueryTab::OnBnClickedBtnSchema)
     ON_LBN_DBLCLK(IDC_LIST_COLUMNS, &CQueryTab::OnLbnDblclkListColumns)
+    ON_EN_CHANGE(IDC_EDIT_QUERY, &CQueryTab::OnEnChangeEditQuery)
 END_MESSAGE_MAP()
 
 
@@ -695,4 +697,35 @@ void CQueryTab::OnBnClickedBtnSchema()
 void CQueryTab::OnLbnDblclkListColumns()
 {
     OnBnClickedBtnForward();
+}
+
+
+void CQueryTab::UpdateStringCounter()
+{
+    // Get pointers to the string counter and query text controls
+    CRichEditCtrl* pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_STRINGCOUNTER);
+    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+
+    // Get the number of lines in the query text
+    int lineCount = pQueryText->GetLineCount();
+
+    // Clear existing content in the string counter control
+    pStringCounter->SetWindowText(L"");
+
+    // Update the string counter with line numbers
+    CString strLineCount;
+   
+    for (int i = 1; i <= lineCount; ++i) 
+    {
+        strLineCount.Format(L"%d\n", i);
+        CString curState;
+        pStringCounter->GetWindowTextW(curState);
+        pStringCounter->SetWindowTextW(curState + strLineCount);
+    }
+}
+
+
+void CQueryTab::OnEnChangeEditQuery()
+{
+    UpdateStringCounter();
 }

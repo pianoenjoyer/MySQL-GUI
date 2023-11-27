@@ -140,6 +140,7 @@
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
+#define IDC_STRINGCOUNTER               1098
 #define IDC_SCROLLBAR2                  1105
 #define IDC_LIST2                       1106
 #define IDC_LIST_GUII                   1106
@@ -155,6 +156,7 @@
 #define IDC_TOTAL                       1119
 #define IDC_EDIT_VARSEARCH              1120
 #define IDC_TAB_TITLE                   1121
+#define IDC_EDIT_QUERY                  1122
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -192,7 +194,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        160
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1122
+#define _APS_NEXT_CONTROL_VALUE         1123
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

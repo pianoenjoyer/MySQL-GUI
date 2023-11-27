@@ -36,6 +36,7 @@ public:
 	bool CQueryTab::FillTableDropdown();
 	BOOL CQueryTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnGo();
+	void CQueryTab::UpdateStringCounter();
 	afx_msg void OnBnClickedBtnSelectall();
 	afx_msg void OnBnClickedBtnnSelect();
 	afx_msg void OnBnClickedBtnInsert();
@@ -48,4 +49,5 @@ public:
 	afx_msg void OnBnClickedBtnForward();
 	afx_msg void OnBnClickedBtnSchema();
 	afx_msg void OnLbnDblclkListColumns();
+	afx_msg void OnEnChangeEditQuery();
 };
