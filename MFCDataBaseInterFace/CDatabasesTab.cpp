@@ -46,6 +46,7 @@ void CDatabasesTab::PopulateDatabaseList()
     if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
         pListCtrl->InsertColumn(0, _T("Database"), LVCFMT_LEFT, 200);
         pListCtrl->InsertColumn(1, _T("Collation"), LVCFMT_LEFT, 200);
+        pListCtrl->InsertColumn(2, _T("Size (MB)"), LVCFMT_LEFT, 100);
     }
 
     auto resultSet = db->ExecuteQuery("SHOW DATABASES");
@@ -61,11 +62,52 @@ void CDatabasesTab::PopulateDatabaseList()
         // Get the collation for the current database
         CString collation = GetDatabaseCollation(databaseName);
 
+        // Placeholder values for additional information (replace with actual logic)
+        CString size = GetDatabaseSize(databaseName);
+
         // Add the database and collation to the list
-        AddDatabaseInfoToList(pListCtrl, databaseName, collation);
+        AddDatabaseInfoToList(pListCtrl, databaseName, collation, size);
     }
 
     delete resultSet;
+}
+
+
+CString CDatabasesTab::GetDatabaseSize(const CString& databaseName)
+{
+    // Formulate the SQL query to get database size
+    CString query;
+    query.Format(_T("SELECT SUM(DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024 AS size_MB FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s'"), databaseName);
+
+    // Execute the query
+    auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
+
+    if (resultSet->next())
+    {
+        // Get the size from the result set
+        double sizeMB = resultSet->getDouble("size_MB");
+
+        // Format the size as a string
+        CString sizeStr;
+        sizeStr.Format(_T("%.2f MB"), sizeMB);
+
+        // Don't forget to close the result set
+        delete resultSet;
+
+        return sizeStr;
+    }
+
+    // Return an empty string if the query fails
+    return _T("N/A");
+}
+
+void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation,
+    const CString& size)
+{
+    int nIndex = pListCtrl->GetItemCount();
+    pListCtrl->InsertItem(nIndex, databaseName);
+    pListCtrl->SetItemText(nIndex, 1, collation);
+    pListCtrl->SetItemText(nIndex, 2, size);
 }
 
 CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName)
@@ -90,12 +132,7 @@ CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName)
 }
 
 
-void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation)
-{
-    int nIndex = pListCtrl->GetItemCount();
-    pListCtrl->InsertItem(nIndex, databaseName);
-    pListCtrl->SetItemText(nIndex, 1, collation);
-}
+
 
 BEGIN_MESSAGE_MAP(CDatabasesTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CREATEDB, &CDatabasesTab::OnBnClickedBtnCreatedb)
@@ -157,7 +194,6 @@ void CDatabasesTab::PopulateCharacterSetDropdown()
         delete resultSet;  // Clean up
     }
 }
-
 
 
 void CDatabasesTab::OnBnClickedBtnDeletedb()
