@@ -217,7 +217,6 @@ BOOL CMainDlg::OnInitDialog()
     //SetDlgStyle(1);
     //SetBackgroundColor(RGB(0, 97, 139));
     SetBackgroundColor(RGB(240, 241, 242));
-
     // Invalidate and redraw the entire client area of the dialog
     SetIcon(m_hIcon, TRUE);			// Set big icon
     SetIcon(m_hIcon, FALSE);		// Set small icon

@@ -126,10 +126,12 @@ void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		font.CreateFontW(22, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 			OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 			DEFAULT_PITCH | FF_SWISS, _T("Leelawadee UI"));
+
 		dc.SelectObject(&font);
+
 		auto pCheckbox = (CCheckListBox*)GetDlgItem(IDC_SAVE_LOGIN);
 		pCheckbox->SetFont(&font);
-		// Draw the text based on the button type
+
 		CString buttonText;
 		GetDlgItemText(nIDCtl, buttonText);
 		dc.DrawText(buttonText, &lpDrawItemStruct->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -170,6 +172,8 @@ BOOL CAuthDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	AfxInitRichEdit2();
+	auto button = (CMFCButton*)GetDlgItem(IDC_SAVE_LOGIN);
+	button->SetTextColor(RGB(200, 1, 1));
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	//set title
