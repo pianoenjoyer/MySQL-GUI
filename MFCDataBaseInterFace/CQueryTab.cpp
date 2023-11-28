@@ -94,7 +94,7 @@ bool CQueryTab::FillTableDropdown()
 {
     std::vector<sql::SQLString> tableNames;
     CTabCtrl* pMainTab = ((CTabCtrl*)this->GetParent());
-    CMainDlg* pMainDlg = ((CMainDlg*)pMainTab->GetParent());
+    CMainDlg* pMainDlg = (CMainDlg*)pMainTab->GetParent();
 
     tableNames = pMainDlg->db->GetTables();
     PopulateDropdown(&m_comboTables, tableNames);
@@ -207,6 +207,9 @@ void CQueryTab::ExecuteQueryMainDlg()
         {
             statement = sqlText.Left(pos);
             sqlText = sqlText.Mid(pos + delimiter.GetLength());
+
+            statement = RemoveSQLComments(statement);
+
             // Ensure CStringToSQLString works correctly
             sql::SQLString query = CStringToSQLString(statement);
 
@@ -244,15 +247,7 @@ void CQueryTab::ExecuteQueryMainDlg()
             }
             else
             {
-                if (errorString = L"No result available")
-                {
-                    SendMessageToConsole(errorString, GREEN);
-                }
-                else 
-                {
-                    SendMessageToConsole(errorString, RED);
-                }
-
+                SendMessageToConsole(errorString, RED);
             }
 
             // Check if there is another delimiter in the remaining SQL text
