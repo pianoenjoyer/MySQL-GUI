@@ -160,7 +160,8 @@
 #define IDC_TAB_TITLE                   1121
 #define IDC_EDIT_QUERY                  1122
 #define IDC_STATIC_SELDB                1123
-#define IDC_MFCVSLISTBOX1               1125
+#define IDC_MFCBUTTON1                  1126
+#define IDC_MFCBUTTON2                  1127
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -196,9 +197,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        160
+#define _APS_NEXT_RESOURCE_VALUE        161
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1126
+#define _APS_NEXT_CONTROL_VALUE         1128
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
