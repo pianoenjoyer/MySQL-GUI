@@ -32,6 +32,13 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
+    auto pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    DWORD dwMask = pRichEdit->GetEventMask();
+    dwMask |= (ENM_CHANGE | ENM_SCROLL);
+    pRichEdit->SetEventMask(dwMask);
+
+    
+
     //SetBackgroundColor(RGB(200, 200, 200));
     UpdateStringCounter();
     //FillTableDropdown();
@@ -116,10 +123,12 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CQueryTab::OnBnClickedBtnForward)
     ON_BN_CLICKED(IDC_BTN_SCHEMA, &CQueryTab::OnBnClickedBtnSchema)
     ON_LBN_DBLCLK(IDC_LIST_COLUMNS, &CQueryTab::OnLbnDblclkListColumns)
-    ON_EN_CHANGE(IDC_EDIT_QUERY, &CQueryTab::OnEnChangeEditQuery)
-    ON_EN_VSCROLL(IDC_EDIT_QUERY, &CQueryTab::OnEnVscrollEditQuery)
+    ON_EN_CHANGE(IDC_RICH_SQL, &CQueryTab::OnEnChangeEditQuery)
+    ON_EN_VSCROLL(IDC_RICH_SQL, &CQueryTab::OnEnVscrollEditQuery)
     ON_WM_VSCROLL()
-    ON_EN_VSCROLL(IDC_STRINGCOUNTER, &CQueryTab::OnEnVscrollStringcounter)
+    ON_EN_VSCROLL(IDC_RICH_LINENUMBERER, &CQueryTab::OnEnVscrollStringcounter)
+    ON_EN_CHANGE(IDC_RICH_SQL, &CQueryTab::OnEnChangeRichSql)
+    ON_EN_VSCROLL(IDC_RICH_SQL, &CQueryTab::OnEnVscrollRichSql)
 END_MESSAGE_MAP()
 
 
@@ -193,7 +202,7 @@ void CQueryTab::ExecuteQueryMainDlg()
     }
 
     CStringW sqlText;
-    GetDlgItem(IDC_EDIT_QUERY)->GetWindowTextW(sqlText);
+    GetDlgItem(IDC_RICH_SQL)->GetWindowTextW(sqlText);
     sqlText = RemoveSQLComments(sqlText);
 
     CStringW delimiter = L";";
@@ -374,7 +383,7 @@ void CQueryTab::OnBnClickedBtnGo()
 
 void CQueryTab::OnBnClickedBtnClear()
 {
-    CRichEditCtrl* pEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* pEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     pEdit->SetWindowTextW(L"");
     UpdateStringCounter();
 }
@@ -425,7 +434,7 @@ CString FormatSQLQuery(const CString& query)
 
 void CQueryTab::OnBnClickedBtnRefactor()
 {
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
 
     CString currentQuery;
     queryText->GetWindowTextW(currentQuery);
@@ -448,7 +457,7 @@ void CQueryTab::OnBnClickedBtnSelectall()
         }
     }
 
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
     int selectedDBNumber = dbDropdown->GetCurSel();
@@ -491,7 +500,7 @@ void CQueryTab::OnBnClickedBtnnSelect()
             dbDropdown = (CComboBox*)pParentDialog->GetDlgItem(IDC_CMB_SEL_DB);
         }
     }
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
     int selectedDBNumber = dbDropdown->GetCurSel();
@@ -532,7 +541,7 @@ void CQueryTab::OnBnClickedBtnInsert()
             dbDropdown = (CComboBox*)pParentDialog->GetDlgItem(IDC_CMB_SEL_DB);
         }
     }
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
     int selectedDBNumber = dbDropdown->GetCurSel();
@@ -577,7 +586,7 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
             dbDropdown = (CComboBox*)pParentDialog->GetDlgItem(IDC_CMB_SEL_DB);
         }
     }
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
     int selectedDBNumber = dbDropdown->GetCurSel();
@@ -621,7 +630,7 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
         }
     }
 
-    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* queryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     CComboBox* tablesDropdown = (CComboBox*)GetDlgItem(IDC_SEL_TABLE);
 
     int selectedDBNumber = dbDropdown->GetCurSel();
@@ -661,7 +670,7 @@ void CQueryTab::OnCbnSelchangeSelTable()
 void CQueryTab::OnBnClickedBtnForward()
 {
     CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST_COLUMNS);  // Replace with your ListBox's ID
-    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
 
     int nSelectedItem = pListBox->GetCurSel();
 
@@ -715,8 +724,8 @@ void CQueryTab::OnLbnDblclkListColumns()
 void CQueryTab::UpdateStringCounter()
 {
     // Get pointers to the string counter and query text controls
-    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
-    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
 
     // Get the number of lines in the query text
     int lineCount = pQueryText->GetLineCount();
@@ -753,19 +762,19 @@ void CQueryTab::OnEnChangeEditQuery()
 
 void CQueryTab::OnEnVscrollEditQuery()
 {
-    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
-    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringCounter->LineScroll(nPos - pStringCounter->GetFirstVisibleLine());
 }
 
 void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
-    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
 
     // Check if the event is from the scrollbar of the QueryText control
-    if (pScrollBar->GetDlgCtrlID() == IDC_EDIT_QUERY)
+    if (pScrollBar->GetDlgCtrlID() == IDC_RICH_SQL)
     {
         // Get the current scroll position of the QueryText control
         int nPosQueryText = pQueryText->GetFirstVisibleLine();
@@ -779,9 +788,24 @@ void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 void CQueryTab::OnEnVscrollStringcounter()
 {
-    
-    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_STRINGCOUNTER);
-    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_EDIT_QUERY);
+    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
     int nPos = pStringCounter->GetFirstVisibleLine();
     pQueryText->LineScroll(nPos - pQueryText->GetFirstVisibleLine());
+}
+
+
+void CQueryTab::OnEnChangeRichSql()
+{
+    UpdateStringCounter();
+    OnEnVscrollRichSql();
+}
+
+
+void CQueryTab::OnEnVscrollRichSql()
+{
+    CRichEditCtrl* pStringNumberer = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    int nPos = pQueryText->GetFirstVisibleLine();
+    pStringNumberer->LineScroll(nPos - pStringNumberer->GetFirstVisibleLine());
 }

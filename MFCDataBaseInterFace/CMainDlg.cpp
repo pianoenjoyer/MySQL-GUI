@@ -402,7 +402,7 @@ void CMainDlg::OnBnClickedBtnBrowse()
     {
         m_pathToFile = fileOpenDialog.GetPathName();
         m_SQLtextQuery = ReadFileContent();
-        m_queryTab.GetDlgItem(IDC_EDIT_QUERY)->SetWindowTextW(m_SQLtextQuery);
+        m_queryTab.GetDlgItem(IDC_RICH_SQL)->SetWindowTextW(m_SQLtextQuery);
     }
 }
 
@@ -534,9 +534,9 @@ void CMainDlg::OnBnClickedButtonSave()
     {
         m_pathToFile = fileSaveDialog.GetPathName();
 
-        // Get the text from the IDC_EDIT_QUERY control
+        // Get the text from the IDC_RICH_SQL control
         CString content;
-        m_queryTab.GetDlgItem(IDC_EDIT_QUERY)->GetWindowTextW(content);
+        m_queryTab.GetDlgItem(IDC_RICH_SQL)->GetWindowTextW(content);
 
         // Save the content to the file
         CFile file;
@@ -628,7 +628,7 @@ void CMainDlg::OnConnectionDisconnect()
 
 void CMainDlg::OnEditSelectall()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->SetSel(0, -1);
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->SetSel(0, -1);
 }
 
 
@@ -648,7 +648,7 @@ void CMainDlg::OnHelpServerinfo()
 void CMainDlg::OnBnClickedBtnForward()
 {
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
-    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_EDIT_QUERY);
+    CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     HTREEITEM hSelectedItem = pTree->GetSelectedItem();
 
     if (hSelectedItem)
@@ -851,31 +851,31 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CMainDlg::OnEditUndo()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Undo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->Undo();
 }
 
 
 void CMainDlg::OnEditRedo()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Redo();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->Redo();
 }
 
 
 void CMainDlg::OnEditCut()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Cut();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->Cut();
 }
 
 
 void CMainDlg::OnEditCopy()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Copy();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->Copy();
 }
 
 
 void CMainDlg::OnEditPaste()
 {
-    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_EDIT_QUERY))->Paste();
+    ((CRichEditCtrl*)m_queryTab.GetDlgItem(IDC_RICH_SQL))->Paste();
 }
 
 

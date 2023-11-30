@@ -53,4 +53,6 @@ public:
 	afx_msg void OnEnChangeEditQuery();
 	afx_msg void OnEnVscrollEditQuery();
 	afx_msg void OnEnVscrollStringcounter();
+	afx_msg void OnEnChangeRichSql();
+	afx_msg void OnEnVscrollRichSql();
 };

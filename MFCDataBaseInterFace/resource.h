@@ -133,8 +133,10 @@
 #define IDC_LIST_TABLECREATE            1092
 #define IDC_RICHEDIT22                  1094
 #define IDC_TABLENAME                   1094
+#define IDC_RICH_LINENUMBERER           1094
 #define IDC_RICHEDIT23                  1095
 #define IDC_COLUMNS                     1095
+#define IDC_RICH_SQL                    1095
 #define IDC_RICHEDIT24                  1096
 #define IDC_COMMENTS                    1096
 #define IDC_LIST_COLUMNS                1097
@@ -158,6 +160,7 @@
 #define IDC_TAB_TITLE                   1121
 #define IDC_EDIT_QUERY                  1122
 #define IDC_STATIC_SELDB                1123
+#define IDC_MFCVSLISTBOX1               1125
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -195,7 +198,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        160
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1124
+#define _APS_NEXT_CONTROL_VALUE         1126
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
