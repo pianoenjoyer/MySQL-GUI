@@ -33,7 +33,6 @@ BOOL CCharsetsTab::OnInitDialog()
 {
 
     CDialogEx::OnInitDialog();
-    AfxInitRichEdit2();
     PopulateCharacterSetsList();
 
     CStatic* pStaticControl = (CStatic*)GetDlgItem(IDC_TAB_TITLE);

@@ -169,7 +169,6 @@ HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 BOOL CAuthDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	AfxInitRichEdit2();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	//set title

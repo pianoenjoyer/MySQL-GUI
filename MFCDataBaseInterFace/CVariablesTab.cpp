@@ -15,6 +15,7 @@ CVariablesTab::CVariablesTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_VARIABLES, pParent)
 {
 
+
 }
 
 CVariablesTab::~CVariablesTab()
@@ -35,7 +36,6 @@ BOOL CVariablesTab::OnInitDialog()
 {
 
     CDialogEx::OnInitDialog();
-    AfxInitRichEdit2();
     PopulateVariablesList();
     SetTotalNum((CListCtrl*)GetDlgItem(IDC_LIST_VARS), GetDlgItem(IDC_TOTAL));
 

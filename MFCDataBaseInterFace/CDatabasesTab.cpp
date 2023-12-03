@@ -30,7 +30,6 @@ BOOL CDatabasesTab::OnInitDialog()
 {
 
     CDialogEx::OnInitDialog();
-    AfxInitRichEdit2();
     PopulateDatabaseList();
     PopulateCharacterSetDropdown();
 
