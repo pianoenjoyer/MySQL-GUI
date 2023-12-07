@@ -234,7 +234,6 @@
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryTab.h" />
     <ClInclude Include="CResultTab.h" />
-    <ClInclude Include="CServerInfoDlg.h" />
     <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
@@ -247,6 +246,7 @@
     <ClInclude Include="SendMessagesUtils.h" />
     <ClInclude Include="SharedFunctions.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Theme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
@@ -261,7 +261,6 @@
     <ClCompile Include="CProceduresDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
     <ClCompile Include="CResultTab.cpp" />
-    <ClCompile Include="CServerInfoDlg.cpp" />
     <ClCompile Include="CTableCreationDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
@@ -275,6 +274,7 @@
     </ClCompile>
     <ClCompile Include="Convertions.cpp" />
     <ClCompile Include="SharedFunctions.cpp" />
+    <ClCompile Include="Theme.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCDataBaseInterFace.rc" />

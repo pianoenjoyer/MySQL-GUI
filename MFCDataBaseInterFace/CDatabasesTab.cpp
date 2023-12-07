@@ -7,6 +7,7 @@
 #include "resource.h"
 #include "Convertions.h"
 #include "SharedFunctions.h"
+#include "Theme.h"
 // CDatabasesTab dialog
 
 IMPLEMENT_DYNAMIC(CDatabasesTab, CDialogEx)
@@ -28,11 +29,10 @@ void CDatabasesTab::DoDataExchange(CDataExchange* pDX)
 
 BOOL CDatabasesTab::OnInitDialog()
 {
-
     CDialogEx::OnInitDialog();
+    AppTheme::SetMainTitleStyle((CStatic*)GetDlgItem(IDC_TAB_TITLE));
     PopulateDatabaseList();
     PopulateCharacterSetDropdown();
-
 
     SetTotalNum((CListCtrl*)GetDlgItem(IDC_LIST_DATABASES), GetDlgItem(IDC_TOTAL));
     return TRUE;

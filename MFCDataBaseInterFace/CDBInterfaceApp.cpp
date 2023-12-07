@@ -11,14 +11,11 @@
 #define new DEBUG_NEW
 #endif
 
-// CDBInterfaceApp
 
 BEGIN_MESSAGE_MAP(CDBInterfaceApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
-
-// CDBInterfaceApp construction
 
 CDBInterfaceApp::CDBInterfaceApp()
 {
@@ -58,6 +55,8 @@ BOOL CDBInterfaceApp::InitInstance()
 	// Activate "Windows Native" visual manager for enabling themes in MFC controls
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+
+	
 
 	CAuthDlg dlg;
 	m_pMainWnd = &dlg;

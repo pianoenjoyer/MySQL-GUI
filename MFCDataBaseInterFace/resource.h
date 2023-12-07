@@ -10,7 +10,6 @@
 #define IDD_MAIN                        130
 #define IDR_MENU_MAIN                   132
 #define IDD_EXPORT                      133
-#define IDD_SERVERINFO                  136
 #define IDD_PROCEDURES                  138
 #define IDD_DIALOG2                     139
 #define IDD_FUNCTIONS                   139
@@ -41,11 +40,9 @@
 #define IDC_COLLATION                   1005
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
-#define IDC_TAB                         1006
 #define IDC_MAINTAB                     1006
 #define IDC_EDT_FILENAME                1007
 #define IDC_PIC_LOGO2                   1007
-#define IDC_PIC_SERVERICON              1007
 #define IDC_BTN_BROWSE                  1008
 #define IDC_SERVER_NAME                 1009
 #define IDC_BTN_DISCONNECT              1009
@@ -56,7 +53,6 @@
 #define IDC_BUTTON5                     1012
 #define IDC_DATABASE_NAME               1012
 #define IDC_BTN_CLROUTPUT               1012
-#define IDC_BTN_ABOUT                   1012
 #define IDC_BTN_SELECT                  1013
 #define IDC_BTN_UNDO                    1013
 #define IDC_BTN_CLEAR2                  1013
@@ -119,8 +115,6 @@
 #define IDC_CMB_SEL_DB                  1050
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
-#define IDC_BTN_SAVE                    1075
-#define IDC_BTN_CLOSE                   1077
 #define IDC_BUTTON2                     1078
 #define IDC_BTN_FORWARD                 1078
 #define IDC_COMBO2                      1079
@@ -161,7 +155,6 @@
 #define IDC_EDIT_QUERY                  1122
 #define IDC_STATIC_SELDB                1123
 #define IDC_MFCBUTTON1                  1126
-#define IDC_MFCBUTTON2                  1127
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773

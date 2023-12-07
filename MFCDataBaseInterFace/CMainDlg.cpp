@@ -7,7 +7,6 @@
 #include "CResultTab.h"
 #include "CMainDlg.h"
 #include "CAuthDlg.h"
-#include "CServerInfoDlg.h"
 #include "CNewDBDlg.h"
 #include "CAboutDlg.h"
 
@@ -214,6 +213,7 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+
     //SetDlgStyle(1);
     //SetBackgroundColor(RGB(0, 97, 139));
     SetBackgroundColor(RGB(240, 241, 242));
@@ -570,9 +570,7 @@ void CMainDlg::OnConnectionCheckconnection()
 
 void CMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    CServerInfoDlg serverinfoWindow;
-    auto status = serverinfoWindow.DoModal();
-    //*pResult = 0;
+
 }
 
 

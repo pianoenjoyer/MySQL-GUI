@@ -19,85 +19,97 @@
     <Filter Include="Source Files\Dlgs">
       <UniqueIdentifier>{079367c8-b6e9-48d4-a787-96041e27e183}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Other">
+    <Filter Include="Header Files\Tabs">
+      <UniqueIdentifier>{f05258f7-f308-4795-9907-0ac94e6d4d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dlgs">
+      <UniqueIdentifier>{0a130207-077d-4cf3-bdfe-32e72ccf5c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{6013509f-2a3f-42b7-8b07-befedbc04013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MFC">
+      <UniqueIdentifier>{cbe8cb62-83a9-48c0-bde0-21092efc1879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
       <UniqueIdentifier>{b8075a96-2f65-4134-b45a-334215756bdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CDBInterfaceApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CDBConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLoginDataSave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CServerInfoDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CAboutDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewDBDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTableCreationDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CQueryTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CResultTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Convertions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SendMessagesUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CExportDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMainDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CProceduresDlg.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="CAuthDlg.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Dlgs</Filter>
     </ClInclude>
-    <ClInclude Include="CHomeTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CVariablesTab.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CAboutDlg.h">
+      <Filter>Header Files\Dlgs</Filter>
     </ClInclude>
     <ClInclude Include="CCharsetsTab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="CDatabasesTab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CHomeTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainDlg.h">
+      <Filter>Header Files\Dlgs</Filter>
+    </ClInclude>
+    <ClInclude Include="CNewDBDlg.h">
+      <Filter>Header Files\Dlgs</Filter>
+    </ClInclude>
+    <ClInclude Include="CProceduresDlg.h">
+      <Filter>Header Files\Dlgs</Filter>
+    </ClInclude>
+    <ClInclude Include="CQueryTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CVariablesTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CTableCreationDlg.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CDBConnection.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CDBInterfaceApp.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoginDataSave.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Convertions.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CResultTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimer.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files\MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files\MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files\MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="SendMessagesUtils.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedFunctions.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Theme.h">
+      <Filter>Header Files\Misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,13 +126,10 @@
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="CDBConnection.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="CLoginDataSave.cpp">
-      <Filter>Source Files\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="CDBInterfaceApp.cpp">
-      <Filter>Source Files\Dlgs</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="CProceduresDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
@@ -132,22 +141,19 @@
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="CTimer.cpp">
-      <Filter>Source Files\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="CServerInfoDlg.cpp">
-      <Filter>Source Files\Dlgs</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="SharedFunctions.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Convertions.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="CTableCreationDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files\Other</Filter>
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="CExportDlg.cpp">
       <Filter>Source Files\Tabs</Filter>
@@ -163,6 +169,12 @@
     </ClCompile>
     <ClCompile Include="CDatabasesTab.cpp">
       <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Theme.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="CDBInterfaceApp.cpp">
+      <Filter>Source Files\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
