@@ -42,13 +42,19 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 }
 
 
-//main dlg construct
+
 CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_MFCDATABASEINTERFACE_DIALOG, pParent), db(std::make_shared<CDBConnection>())
+	: CDialogEx(IDD_AUTH, pParent), db(std::make_shared<CDBConnection>())
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_serverPassword = _T(""); // Initialize the server password
 }
+
+CAuthDlg::CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_AUTH, pParent), db(db)
+{
+	
+}
+
 
 void CAuthDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -189,11 +195,8 @@ BOOL CAuthDlg::OnInitDialog()
 		CString serverIP, username, password;
 		bool rememberMe;
 
-		// Load the saved data
 		if (dataSaver.LoadData(serverIP, username, password, rememberMe))
 		{
-			// Assuming you have member variables m_editServerIP, m_editUsername, m_editPassword, and m_chkRememberMe
-			// linked to the respective controls using DDX_Control in DoDataExchange
 			GetDlgItem(IDC_SERVER_NAME)->SetWindowTextW(serverIP);
 			GetDlgItem(IDC_USER_NAME2)->SetWindowTextW(username);
 			GetDlgItem(IDC_PASSWORD)->SetWindowTextW(password);
@@ -205,7 +208,6 @@ BOOL CAuthDlg::OnInitDialog()
 	pCombo->AddString(L"en");
 	pCombo->SetCurSel(0);
 
-	//OnBnClickedBtnConnect(); // REMOVE AFTER COMPLETE DEBUGGING
 	return TRUE;
 }
 
@@ -275,24 +277,7 @@ void CAuthDlg::OnBnClickedBtnConnect()
 
 		if (db->Connect(sqlServer, sqlUser, sqlPassword))
 		{
-			mainWindow.db = this->db;
-			this->ShowWindow(SW_HIDE);
-			status = mainWindow.DoModal();
-		}
-		//check dialog exit status
-		switch (status)
-		{
-		case IDOK: //if disconected button pressed
-			this->ShowWindow(SW_SHOW);
-			break;
-		case IDCANCEL: //if system menu close button
 			this->EndDialog(IDOK);
-			break;
-		case IDABORT:
-			this->EndDialog(IDOK);
-			break;
-		default:
-			break;
 		}
 		
 }
@@ -301,9 +286,7 @@ void CAuthDlg::OnBnClickedBtnConnect()
 
 void CAuthDlg::OnBnClickedBtnExit()
 {
-	/*CString cwd = GetAppCurrentDirectory();
-	AfxMessageBox(cwd);*/
-	this->EndDialog(IDOK);
+	this->EndDialog(IDCANCEL);
 }
 
 

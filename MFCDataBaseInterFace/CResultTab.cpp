@@ -18,6 +18,7 @@ CResultTab::CResultTab(CWnd* pParent /*=nullptr*/)
 
 CResultTab::~CResultTab()
 {
+
 }
 
 void CResultTab::DoDataExchange(CDataExchange* pDX)
@@ -333,6 +334,7 @@ void CResultTab::OnEnChangeEditCurrentpage()
     }
 
     int offset = (pageNumber - 1) * limit; // Fixed offset calculation
+
     BuildResultList(m_resultSet, offset);
 }
 

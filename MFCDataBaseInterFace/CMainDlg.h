@@ -31,6 +31,12 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+
+	CMainDlg(CWnd* pParent = nullptr);   // standard constructor
+	CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
+	CMainDlg(CWnd* pParent /*=nullptr*/, std::shared_ptr<CDBConnection> db);
+	virtual ~CMainDlg();
+
 	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
@@ -42,6 +48,7 @@ public:
 	CDatabasesTab m_databasesTab;
 	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
+
 
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;
@@ -58,8 +65,6 @@ public:
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
 	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
 
-	CMainDlg(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CMainDlg();
 	virtual BOOL OnInitDialog();
 	bool CMainDlg::FillTreeControl();
 	void CMainDlg::SwitchTabByName(const CString& tabName);

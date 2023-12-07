@@ -14,7 +14,6 @@
 #include "SendMessagesUtils.h"
 #include <fstream>
 
-
 IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
@@ -25,6 +24,14 @@ CMainDlg::CMainDlg(CWnd* pParent /*=nullptr*/)
     m_resultSet = nullptr;
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
+
+CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/)
+    : CDialogEx(IDD_MAIN, pParent), db(db)
+{ 
+     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+     m_resultSet = nullptr;
+}
+
 
 CMainDlg::~CMainDlg() 
 {
@@ -213,7 +220,6 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-
     //SetDlgStyle(1);
     //SetBackgroundColor(RGB(0, 97, 139));
     SetBackgroundColor(RGB(240, 241, 242));
@@ -619,9 +625,6 @@ void CMainDlg::OnConnectionDisconnect()
     db->Disconnect();
     this->EndDialog(IDOK);
 }
-
-
-
 
 
 void CMainDlg::OnEditSelectall()

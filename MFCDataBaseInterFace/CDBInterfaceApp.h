@@ -1,7 +1,4 @@
 
-// CDBInterfaceApp : main header file for the PROJECT_NAME application
-//
-
 #pragma once
 
 #ifndef __AFXWIN_H__
@@ -10,10 +7,6 @@
 
 #include "resource.h"		// main symbols
 
-
-// CDBInterfaceApp:
-// See MFCDataBaseInterFace.cpp for the implementation of this class
-//
 
 class CDBInterfaceApp : public CWinApp
 {

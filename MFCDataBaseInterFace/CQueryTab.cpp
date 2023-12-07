@@ -1,5 +1,4 @@
-// CQueryTab.cpp : implementation file
-//
+
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
@@ -21,6 +20,7 @@ CQueryTab::CQueryTab(CWnd* pParent /*=nullptr*/)
 
 CQueryTab::~CQueryTab()
 {
+    delete m_resultSet;
 }
 
 void CQueryTab::DoDataExchange(CDataExchange* pDX)

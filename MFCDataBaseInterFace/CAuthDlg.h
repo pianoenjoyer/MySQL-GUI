@@ -8,6 +8,7 @@ class CAuthDlg : public CDialogEx
 {
 public:
     CAuthDlg(CWnd* pParent = nullptr);    // standard constructor
+    CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
 
     afx_msg void OnBnClickedBtnConnect();
     afx_msg void OnBnClickedBtnExit();
@@ -26,6 +27,7 @@ protected:
     afx_msg void OnPaint();
     afx_msg HCURSOR OnQueryDragIcon();
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+
     void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
     BOOL CAuthDlg::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
 
@@ -36,10 +38,8 @@ protected:
 
 private:
     HICON m_hIcon;
-    CWinThread* m_workerThread;
     std::shared_ptr<CDBConnection> db;
     CMainDlg mainWindow;
-
     CEdit m_editServerName;
     CString m_serverPassword;
     CString m_cServer;

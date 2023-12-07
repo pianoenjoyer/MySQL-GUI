@@ -48,7 +48,7 @@ void CDatabasesTab::PopulateDatabaseList()
         pListCtrl->InsertColumn(2, _T("Size (MB)"), LVCFMT_LEFT, 100);
     }
 
-    auto resultSet = db->ExecuteQuery("SHOW DATABASES");
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
 
     // Clear existing items
     pListCtrl->DeleteAllItems();
@@ -67,36 +67,23 @@ void CDatabasesTab::PopulateDatabaseList()
         // Add the database and collation to the list
         AddDatabaseInfoToList(pListCtrl, databaseName, collation, size);
     }
-
-    delete resultSet;
 }
 
 
 CString CDatabasesTab::GetDatabaseSize(const CString& databaseName)
 {
-    // Formulate the SQL query to get database size
     CString query;
     query.Format(_T("SELECT SUM(DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024 AS size_MB FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s'"), databaseName);
 
-    // Execute the query
-    auto resultSet = db->ExecuteQuery(CStringToSQLString(query));
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery(CStringToSQLString(query)));
 
     if (resultSet->next())
     {
-        // Get the size from the result set
         double sizeMB = resultSet->getDouble("size_MB");
-
-        // Format the size as a string
         CString sizeStr;
         sizeStr.Format(_T("%.2f MB"), sizeMB);
-
-        // Don't forget to close the result set
-        delete resultSet;
-
         return sizeStr;
     }
-
-    // Return an empty string if the query fails
     return _T("N/A");
 }
 
@@ -116,16 +103,14 @@ CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName)
     query += databaseName;
     query += "'";
 
-    auto collationResultSet = db->ExecuteQuery(CStringToSQLString(query));
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery(CStringToSQLString(query)));
 
     CString collation;
 
-    if (collationResultSet->next())
+    if (resultSet->next())
     {
-        collation = SQLStringToCString(collationResultSet->getString(1));
+        collation = SQLStringToCString(resultSet->getString(1));
     }
-
-    delete collationResultSet;
 
     return collation;
 }
@@ -160,7 +145,7 @@ void CDatabasesTab::OnBnClickedBtnCreatedb()
     {
         CString query;
         query.Format(_T("CREATE DATABASE `%s` CHARACTER SET %s;"), databaseName, charsetName);
-        db->ExecuteQuery(CStringToSQLString(query), query);
+        std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery(CStringToSQLString(query), query));
         if (query = L"No result available")
         {
             AfxMessageBox(L"Database created succesfuly");
@@ -183,7 +168,7 @@ void CDatabasesTab::PopulateCharacterSetDropdown()
     if (!pComboBox || !db)
         return;
 
-    auto resultSet = db->ExecuteQuery("SHOW CHARACTER SET;");
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW CHARACTER SET;"));
     if (resultSet)
     {
         while (resultSet->next())
@@ -191,7 +176,6 @@ void CDatabasesTab::PopulateCharacterSetDropdown()
             std::string charsetName = resultSet->getString("Charset"); // Get the character set name
             pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
         }
-        delete resultSet;  // Clean up
     }
 }
 
@@ -241,39 +225,26 @@ void CDatabasesTab::UpdateListFilter()
     CString filterText;
     pEditFilter->GetWindowText(filterText);
 
-    // Assuming m_listCtrl is the ID of your list control
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_DATABASES);
-
-    // Clear existing items
     pListCtrl->DeleteAllItems();
 
-    // Assuming db is an instance of your database class
-    auto resultSet = db->ExecuteQuery("SHOW DATABASES");
-
-    // Process the result set and add items that match the filter
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
     while (resultSet->next())
     {
         CString databaseName = SQLStringToCString(resultSet->getString(1));
 
-        // Check if the database name contains the filter text
         if (databaseName.Find(filterText) != -1)
         {
             // Get the collation for the current database
             CString collation = GetDatabaseCollation(databaseName);
-
-            // Placeholder values for additional information (replace with actual logic)
             CString size = GetDatabaseSize(databaseName);
 
-            // Add the item to the list
             int nIndex = pListCtrl->GetItemCount();
             pListCtrl->InsertItem(nIndex, databaseName);
             pListCtrl->SetItemText(nIndex, 1, collation);
             pListCtrl->SetItemText(nIndex, 2, size);
         }
     }
-
-    // Don't forget to close the result set
-    delete resultSet;
 }
 
 void CDatabasesTab::OnEnChangeFilterDatabases()

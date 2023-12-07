@@ -286,6 +286,7 @@ std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString&
 
 std::vector<sql::SQLString> CDBConnection::GetDatabases() 
 {
+
     std::vector<sql::SQLString> databases;
     sql::Statement* statement = m_connection->createStatement();
     sql::ResultSet* resultSet = statement->executeQuery("SHOW DATABASES");
@@ -295,6 +296,8 @@ std::vector<sql::SQLString> CDBConnection::GetDatabases()
         sql::SQLString tableName = resultSet->getString(1).asStdString();
         databases.push_back(tableName);
     }
+
+
     delete resultSet;
     delete statement;
 

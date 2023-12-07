@@ -77,7 +77,7 @@ void CCharsetsTab::PopulateCharacterSetsList()
     pListCtrl->DeleteAllItems();
 
     // Assuming db is an instance of your database class
-    sql::ResultSet* resultSet = db->ExecuteQuery("SHOW CHARACTER SET");
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW CHARACTER SET"));
 
     // Process the result set
     while (resultSet->next())
@@ -88,7 +88,7 @@ void CCharsetsTab::PopulateCharacterSetsList()
     }
 
     // Don't forget to close the result set
-    delete resultSet;
+
 }
 
 void CCharsetsTab::AddCharacterSetToList(CListCtrl* pListCtrl, const CString& characterSet, const CString& defaultCollation)
