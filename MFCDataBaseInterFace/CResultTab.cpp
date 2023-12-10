@@ -334,7 +334,6 @@ void CResultTab::OnEnChangeEditCurrentpage()
     }
 
     int offset = (pageNumber - 1) * limit; // Fixed offset calculation
-
     BuildResultList(m_resultSet, offset);
 }
 
