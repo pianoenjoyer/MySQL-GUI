@@ -215,6 +215,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CMainDlg::OnCbnSelchangeCmbSelDb)
     ON_WM_CTLCOLOR()
 
+    ON_BN_CLICKED(IDC_BTN_UNSEL, &CMainDlg::OnBnClickedBtnUnsel)
 END_MESSAGE_MAP()
 
 BOOL CMainDlg::OnInitDialog()
@@ -959,5 +960,9 @@ void CMainDlg::SwitchTabByName(const CString& tabName) {
 }
 
 
-
-
+void CMainDlg::OnBnClickedBtnUnsel()
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
+    pComboBox->SetCurSel(-1);
+    
+}

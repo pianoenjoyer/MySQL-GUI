@@ -211,34 +211,30 @@ void CChangeUserPasswordDlg::OnBnClickedChangepwd()
     while (resultSet->next()) {
         username = SQLStringToCString(resultSet->getString("CurrentUser"));
     }
-
+    if (username.GetLength() >= 2) {
+        username.Delete(username.GetLength() - 2, 2);
+    }
     auto pPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
     CString new_password;
     pPassword->GetWindowTextW(new_password);
     CString sqlQuery;
     CString error;
+
     try
     {
-        // Construct the SQL query to update the password for the current user
         sqlQuery.Format(_T("UPDATE users SET password = '%s' WHERE username = '%s'"), new_password, username);
-        
-        // Execute the SQL query
         auto result = db->ExecuteQuery(CStringToSQLString(sqlQuery), error);
 
         if (result)
         {
-            // Password updated successfully
-            // You might want to add some additional handling here
         }
         else
         {
-            // Handle the case where the query failed
             AfxMessageBox(_T("Failed to update password. Check your input and try again."));
         }
     }
     catch (sql::SQLException& e)
     {
-        // Handle any SQL exceptions
         AfxMessageBox(CString("SQL Error: ") + e.what() + _T("\nQuery: ") + sqlQuery);
     }
 

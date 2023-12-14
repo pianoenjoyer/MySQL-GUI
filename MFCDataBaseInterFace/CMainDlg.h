@@ -103,5 +103,6 @@ public:
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
 	afx_msg void OnCbnSelchangeCmbSelDb();
+	afx_msg void OnBnClickedBtnUnsel();
 };
 
