@@ -120,6 +120,30 @@ void CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LP
     pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
 
+void CHomeTab::PopulateConnectionCollationDropdown()
+{
+    CComboBox* pCollationCombo = (CComboBox*)GetDlgItem(IDC_CONNCOLL);
+
+    if (!pCollationCombo)
+    {
+        return;
+    }
+    pCollationCombo->ResetContent();
+
+    try
+    {
+        auto ResultSet = db->ExecuteQuery("SHOW COLLATION");
+        while (ResultSet->next())
+        {
+            CString collationName =  SQLStringToCString(ResultSet->getString("Collation"));
+            pCollationCombo->AddString(collationName);
+        }
+    }
+    catch (sql::SQLException& e)
+    {
+        AfxMessageBox(CString("SQL Error: ") + e.what());
+    }
+}
 
 void CHomeTab::PopulateEnginesList()
 {
@@ -208,7 +232,7 @@ BOOL CHomeTab::OnInitDialog()
     PopulateGeneralInfo();
     PopulatePluginsList();
     PopulateEnginesList();
-
+    PopulateConnectionCollationDropdown();
     CImage image;
     if (SUCCEEDED(image.Load(L".\\Pictures\\MySQLHOME.jpg"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
     {

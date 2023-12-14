@@ -23,9 +23,9 @@
 #define IDD_VARIABLES                   154
 #define IDD_CHARSETS                    156
 #define IDD_DATABASES                   158
-#define IDD_CHANGEUSERPASSWORD          161
 #define IDD_CHANGEUSRPWD                161
 #define IDD_CHANGEVARVALUE              163
+#define IDD_STATUS                      165
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -34,6 +34,7 @@
 #define IDC_EDIT2                       1001
 #define IDC_EDIT_QTEXT                  1001
 #define IDC_FILTER_DATABASES            1001
+#define IDC_EDIT_ENTERPASSWORD          1001
 #define IDC_BTN_CONNECT                 1002
 #define IDC_BTN_EXIT                    1003
 #define IDC_LIST1                       1004
@@ -89,11 +90,13 @@
 #define IDC_BTN_CREATEDB                1030
 #define IDC_GO                          1030
 #define IDC_BTN_HOME                    1030
+#define IDC_BTN_GENERATE                1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
 #define IDC_STATIC_FILTER               1032
 #define IDC_EDIT3                       1033
+#define IDC_EDIT_GENPASSWORD            1033
 #define IDC_TREE_STRUCTURE              1034
 #define IDC_BTN_ENTER                   1035
 #define IDC_BTN_COLLAPSE                1036
@@ -111,10 +114,12 @@
 #define IDC_RAD_HTML                    1044
 #define IDC_AUTOSWITCH                  1044
 #define IDC_CHECK_SHOWBINARY            1044
+#define IDC_CHECKALL                    1044
 #define IDC_RAD_TSV                     1045
 #define IDC_RICHEDIT_MSGS               1048
 #define IDC_PROGRESS1                   1049
 #define IDC_EXECPROGRESS                1049
+#define IDC_PROGRESS_STRENGTH           1049
 #define IDC_CMB_SEL_DB                  1050
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
@@ -158,8 +163,13 @@
 #define IDC_EDIT_QUERY                  1122
 #define IDC_STATIC_SELDB                1123
 #define IDC_MFCBUTTON1                  1126
-#define IDC_RADIO1                      1128
-#define IDC_RADIO2                      1129
+#define IDC_RADIO_NOPASSWORD            1128
+#define IDC_RADIO_PASSWORD              1129
+#define IDC_CONNCOLL                    1130
+#define IDC_CHANGEPWD                   1131
+#define IDC_CANCEL                      1132
+#define IDC_EDIT_RETYPE                 1133
+#define IDC_STATIC_STRENGTH             1134
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -195,9 +205,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        165
+#define _APS_NEXT_RESOURCE_VALUE        167
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1130
+#define _APS_NEXT_CONTROL_VALUE         1135
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

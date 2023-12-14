@@ -26,6 +26,7 @@ protected:
 	void CHomeTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment);
 	void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license);
 	void CHomeTab::PopulatePluginsList();
+	void CHomeTab::PopulateConnectionCollationDropdown();
 	void CHomeTab::PopulateEnginesList();
 	DECLARE_MESSAGE_MAP()
 public:
