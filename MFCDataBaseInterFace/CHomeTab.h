@@ -28,4 +28,6 @@ protected:
 	void CHomeTab::PopulatePluginsList();
 	void CHomeTab::PopulateEnginesList();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
 };

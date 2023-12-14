@@ -227,7 +227,15 @@ void CHomeTab::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CHomeTab, CDialogEx)
+    ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CHomeTab::OnNMClickSyslink1)
 END_MESSAGE_MAP()
 
 
 // CHomeTab message handlers
+
+
+void CHomeTab::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    // TODO: Add your control notification handler code here
+    *pResult = 0;
+}
