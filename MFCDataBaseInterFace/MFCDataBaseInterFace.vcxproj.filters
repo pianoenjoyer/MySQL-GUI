@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Misc">
       <UniqueIdentifier>{b8075a96-2f65-4134-b45a-334215756bdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\InputDlgs">
+      <UniqueIdentifier>{299afd59-76fa-421a-baa6-cf1603197367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputDlgs">
+      <UniqueIdentifier>{2e911385-898e-4b3f-9e3e-08e845f96746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CExportDlg.h">
@@ -111,15 +117,15 @@
     <ClInclude Include="Theme.h">
       <Filter>Header Files\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="CChangeUserPasswordDlg.h">
+      <Filter>Header Files\InputDlgs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="CAuthDlg.cpp">
-      <Filter>Source Files\Dlgs</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewDBDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
     <ClCompile Include="CHomeTab.cpp">
@@ -149,9 +155,6 @@
     <ClCompile Include="Convertions.cpp">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="CTableCreationDlg.cpp">
-      <Filter>Source Files\Dlgs</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
@@ -175,6 +178,15 @@
     </ClCompile>
     <ClCompile Include="CDBInterfaceApp.cpp">
       <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="CTableCreationDlg.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CNewDBDlg.cpp">
+      <Filter>Source Files\InputDlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CChangeUserPasswordDlg.cpp">
+      <Filter>Source Files\InputDlgs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

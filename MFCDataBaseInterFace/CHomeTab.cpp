@@ -6,6 +6,7 @@
 #include "CHomeTab.h"
 #include "resource.h"
 #include "Convertions.h"
+#include "CChangeUserPasswordDlg.h"
 // CHomeTab dialog
 
 IMPLEMENT_DYNAMIC(CHomeTab, CDialogEx)
@@ -236,6 +237,7 @@ END_MESSAGE_MAP()
 
 void CHomeTab::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    // TODO: Add your control notification handler code here
+    CChangeUserPasswordDlg dialog(nullptr, this->db);
+    dialog.DoModal();
     *pResult = 0;
 }

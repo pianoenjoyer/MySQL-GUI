@@ -23,6 +23,9 @@
 #define IDD_VARIABLES                   154
 #define IDD_CHARSETS                    156
 #define IDD_DATABASES                   158
+#define IDD_CHANGEUSERPASSWORD          161
+#define IDD_CHANGEUSRPWD                161
+#define IDD_CHANGEVARVALUE              163
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -155,6 +158,8 @@
 #define IDC_EDIT_QUERY                  1122
 #define IDC_STATIC_SELDB                1123
 #define IDC_MFCBUTTON1                  1126
+#define IDC_RADIO1                      1128
+#define IDC_RADIO2                      1129
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -190,9 +195,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        161
+#define _APS_NEXT_RESOURCE_VALUE        165
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1128
+#define _APS_NEXT_CONTROL_VALUE         1130
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

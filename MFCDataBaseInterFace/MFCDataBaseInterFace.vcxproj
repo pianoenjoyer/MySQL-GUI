@@ -223,6 +223,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h" />
+    <ClInclude Include="CChangeUserPasswordDlg.h" />
     <ClInclude Include="CCharsetsTab.h" />
     <ClInclude Include="CDatabasesTab.h" />
     <ClInclude Include="CDBConnection.h" />
@@ -250,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
+    <ClCompile Include="CChangeUserPasswordDlg.cpp" />
     <ClCompile Include="CCharsetsTab.cpp" />
     <ClCompile Include="CDatabasesTab.cpp" />
     <ClCompile Include="CDBConnection.cpp" />
