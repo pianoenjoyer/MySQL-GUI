@@ -197,7 +197,6 @@ void CResultTab::OnBnClickedBtnClroutput()
     for (int col = numCols - 1; col >= 0; col--) {
         pList->DeleteColumn(col);
     }
-
 }
 
 

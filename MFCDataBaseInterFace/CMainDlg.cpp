@@ -35,7 +35,7 @@ CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/
 
 CMainDlg::~CMainDlg() 
 {
-
+    delete m_resultSet;
 }
 
 
@@ -248,14 +248,14 @@ BOOL CMainDlg::OnInitDialog()
     FillDatabaseDropdown();
 
     //init dlgs
-    m_homeTab.Create(IDD_HOME, pTabCtrl);
-    m_queryTab.Create(IDD_QUERY, pTabCtrl);
-    m_resultTab.Create(IDD_RESULT, pTabCtrl);
-    m_exportTab.Create(IDD_EXPORT, pTabCtrl);
-    m_tableTab.Create(IDD_TABLES, pTabCtrl);
-    m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
-    m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
-    m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
+    //m_homeTab.Create(IDD_HOME, pTabCtrl);
+    //m_queryTab.Create(IDD_QUERY, pTabCtrl);
+    //m_resultTab.Create(IDD_RESULT, pTabCtrl);
+   // m_exportTab.Create(IDD_EXPORT, pTabCtrl);
+    //m_tableTab.Create(IDD_TABLES, pTabCtrl);
+   // m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
+    //m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
+    //m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
 
     //insert into tab control
 
@@ -345,7 +345,8 @@ BOOL CMainDlg::OnInitDialog()
     m_databasesTab.ShowWindow(SW_HIDE);
     m_varsTab.ShowWindow(SW_HIDE);
     m_charsetsTab.ShowWindow(SW_HIDE);
-    OnBnClickedBtnUpdate();
+
+    //OnBnClickedBtnUpdate();
 
     return TRUE;
 }
@@ -517,10 +518,12 @@ void CMainDlg::OnBnClickedBtnUpdate()
 {
     FillDatabaseDropdown();
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
-    pTree->DeleteAllItems();
-    BuildDatabaseTree(*pTree);
-    
-    //OnCbnSelchangeCmbSelDb();
+    if (pTree)
+    {
+        pTree->DeleteAllItems();
+        BuildDatabaseTree(*pTree);
+    }
+  
 }
 
 
@@ -617,12 +620,15 @@ void CMainDlg::OnMenuOpen()
 void CMainDlg::OnConnectionDisconnect()
 {
     CListCtrl* pList = (CListCtrl*)m_resultTab.GetDlgItem(IDC_LIST_QUERY);
+    if (pList)
+    {
+        pList->DeleteAllItems();
+    }
     if (m_queryTab.m_resultSet)
     {
         delete m_queryTab.m_resultSet;
         m_queryTab.m_resultSet = nullptr;
     }
-    pList->DeleteAllItems();
     db->Disconnect();
     this->EndDialog(IDOK);
 }
@@ -649,7 +655,7 @@ void CMainDlg::OnHelpServerinfo()
 
 void CMainDlg::OnBnClickedBtnForward()
 {
-    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE); 
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     HTREEITEM hSelectedItem = pTree->GetSelectedItem();
 
@@ -730,6 +736,8 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
             m_resultTab.BuildResultList(resultSet, 0);
             m_queryTab.m_resultSet = resultSet;
             m_resultTab.OnEnChangeEditCurrentpage();
+            delete resultSet;
+
         }
         if (index != CB_ERR)
         {

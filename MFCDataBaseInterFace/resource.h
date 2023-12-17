@@ -7,6 +7,7 @@
 #define IDD_MFCDATABASEINTERFACE_DIALOG 102
 #define IDD_AUTH                        102
 #define IDR_MAINFRAME                   128
+
 #define IDD_MAIN                        130
 #define IDR_MENU_MAIN                   132
 #define IDD_EXPORT                      133

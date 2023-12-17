@@ -36,6 +36,7 @@ CDBInterfaceApp theApp;
 
 BOOL CDBInterfaceApp::InitInstance()
 {
+	CWinApp::InitInstance();
 	AfxInitRichEdit2();
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
@@ -44,7 +45,6 @@ BOOL CDBInterfaceApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
-	CWinApp::InitInstance();
 
 	AfxEnableControlContainer();
 

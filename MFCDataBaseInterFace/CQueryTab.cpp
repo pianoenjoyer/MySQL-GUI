@@ -101,7 +101,15 @@ bool CQueryTab::FillTableDropdown()
 {
     std::vector<sql::SQLString> tableNames;
     CTabCtrl* pMainTab = ((CTabCtrl*)this->GetParent());
+    if (!pMainTab)
+    {
+        return false;
+    }
     CMainDlg* pMainDlg = (CMainDlg*)pMainTab->GetParent();
+    if (!pMainDlg)
+    {  
+        return false;
+    }
 
     tableNames = pMainDlg->db->GetTables();
     PopulateDropdown(&m_comboTables, tableNames);
