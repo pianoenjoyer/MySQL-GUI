@@ -60,23 +60,7 @@ BOOL CDBInterfaceApp::InitInstance()
 
 	//m_pMainWnd = &dlg; // causing dlg to shutdown
 	CAuthDlg authDlg(db);
-	CMainDlg mainWindow(db);
-
-	do {
-		if (authDlg.DoModal() == IDCANCEL) {
-			// User canceled authentication, exit the loop
-			break;
-		}
-
-		if (mainWindow.DoModal() != IDOK) {
-			// User canceled main window, exit the loop
-			break;
-		}
-
-		// User closed main window with IDOK, disconnect and loop again
-		db->Disconnect();
-
-	} while (true);
+	authDlg.DoModal();
 
 	// Delete the shell manager created above.
 	if (pShellManager != nullptr)

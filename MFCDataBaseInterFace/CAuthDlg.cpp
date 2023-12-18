@@ -277,9 +277,18 @@ void CAuthDlg::OnBnClickedBtnConnect()
 
 		if (db->Connect(sqlServer, sqlUser, sqlPassword))
 		{
-			this->EndDialog(IDOK);
-		}
-		
+			CMainDlg mainWindow(db);
+			this->ShowWindow(SW_HIDE);
+			auto status = mainWindow.DoModal();
+			if (status == IDOK)
+			{
+				this->ShowWindow(SW_SHOW);
+			}
+			else
+			{
+				this->EndDialog(IDOK);
+			}
+		}	
 }
 
 
