@@ -220,11 +220,11 @@ void CAuthDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // device context for painting
+		CPaintDC dc(this); 
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Center icon in client rectangle
+		
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -232,7 +232,7 @@ void CAuthDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// Draw the icon
+		
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -290,7 +290,6 @@ void CAuthDlg::OnBnClickedBtnExit()
 }
 
 
-//hide or show password button
 void CAuthDlg::OnBnClickedBtnShowPassword()
 {	
 	CEdit* pEdit = (CEdit*)GetDlgItem(IDC_PASSWORD);

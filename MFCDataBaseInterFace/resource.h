@@ -26,6 +26,11 @@
 #define IDD_CHANGEUSRPWD                161
 #define IDD_CHANGEVARVALUE              163
 #define IDD_STATUS                      165
+#define IDD_STATUS_SERVER               165
+#define IDD_STATUS_PROCESSES            167
+#define IDD_STATUS_QSTATS               169
+#define IDD_DIALOG1                     170
+#define IDD_STATUS_MONITOR              170
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -91,6 +96,7 @@
 #define IDC_GO                          1030
 #define IDC_BTN_HOME                    1030
 #define IDC_BTN_GENERATE                1030
+#define IDC_BTN_MONSTART                1030
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
@@ -170,6 +176,10 @@
 #define IDC_EDIT_RETYPE                 1133
 #define IDC_STATIC_STRENGTH             1134
 #define IDC_BTN_UNSEL                   1135
+#define IDC_PIC_TRAFFIC                 1136
+#define IDC_PIC_CPU                     1137
+#define IDC_PIC_CONNECTIONS             1138
+#define IDC_PIC_PROCESSES               1139
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -205,9 +215,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
+#define _APS_NEXT_RESOURCE_VALUE        173
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1136
+#define _APS_NEXT_CONTROL_VALUE         1140
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -120,6 +120,12 @@
     <ClInclude Include="CChangeUserPasswordDlg.h">
       <Filter>Header Files\InputDlgs</Filter>
     </ClInclude>
+    <ClInclude Include="CMonitorTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -187,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="CChangeUserPasswordDlg.cpp">
       <Filter>Source Files\InputDlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonitorTab.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
-
+#include "CMonitorTab.h"
 
 #include "CResultTab.h"
 #include "CMainDlg.h"
@@ -150,6 +150,7 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
     pRichEdit->SetSelectionCharFormat(cf);
 }
 
+
 void CMainDlg::SetDlgStyle(int style)
 {
     switch (style)
@@ -173,10 +174,8 @@ HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-    // Check if the control is a static control
     if (nCtlColor == CTLCOLOR_STATIC)
     {
-        // Set the desired text color
         pDC->SetTextColor(RGB(0, 0, 0));
         pDC->SetBkMode(TRANSPARENT);
         hbr = (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -184,6 +183,7 @@ HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
     return hbr;
 }
+
 
 BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_BROWSE, &CMainDlg::OnBnClickedBtnBrowse)
@@ -242,11 +242,8 @@ BOOL CMainDlg::OnInitDialog()
     m_databasesTab.db = this->db;
     m_varsTab.db = this->db;
     m_charsetsTab.db = this->db;
-    //fill db and tables
-    
-    // Create the two tabbed dialogs
+    m_monitorTab.SetDatabaseObject(db);
     FillDatabaseDropdown();
-
     //init dlgs
     m_homeTab.Create(IDD_HOME, pTabCtrl);
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
@@ -256,10 +253,10 @@ BOOL CMainDlg::OnInitDialog()
     m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
     m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
     m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
+    m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
 
     //insert into tab control
-
-    TCITEM item0, item1, item2, item3, item4, item5, item6, item7;
+    TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor;
 
     item0.mask = TCIF_TEXT | TCIF_PARAM;
     item0.lParam = (LPARAM)&m_homeTab;
@@ -301,6 +298,10 @@ BOOL CMainDlg::OnInitDialog()
     item7.pszText = _T("Charsets");
     pTabCtrl->InsertItem(7, &item7);
 
+    itemMonitor.mask = TCIF_TEXT | TCIF_PARAM;
+    itemMonitor.lParam = (LPARAM)&m_monitorTab;//
+    itemMonitor.pszText = _T("Monitor");
+    pTabCtrl->InsertItem(9, &itemMonitor);
 
     //set pos
     CRect rcItem0;
@@ -335,6 +336,11 @@ BOOL CMainDlg::OnInitDialog()
     pTabCtrl->GetItemRect(7, &rcItem7);
     m_charsetsTab.SetWindowPos(NULL, rcItem0.left, rcItem7.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    CRect rcItemMonitor;
+    pTabCtrl->GetItemRect(7, &rcItemMonitor);
+    m_monitorTab.SetWindowPos(NULL, rcItem0.left, rcItemMonitor.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+
     //initial show and hide
     m_homeTab.ShowWindow(SW_SHOW);
     m_queryTab.ShowWindow(SW_HIDE);
@@ -345,6 +351,8 @@ BOOL CMainDlg::OnInitDialog()
     m_databasesTab.ShowWindow(SW_HIDE);
     m_varsTab.ShowWindow(SW_HIDE);
     m_charsetsTab.ShowWindow(SW_HIDE);
+    m_monitorTab.ShowWindow(SW_HIDE);
+
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -816,6 +824,7 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     m_databasesTab.ShowWindow(SW_HIDE);
     m_varsTab.ShowWindow(SW_HIDE);
     m_charsetsTab.ShowWindow(SW_HIDE);
+    m_monitorTab.ShowWindow(SW_HIDE);
     // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
@@ -843,6 +852,9 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
         break;
     case 7:
         m_charsetsTab.ShowWindow(SW_SHOW);
+        break;
+    case 8:
+        m_monitorTab.ShowWindow(SW_SHOW);
         break;
     }
     
@@ -964,5 +976,4 @@ void CMainDlg::OnBnClickedBtnUnsel()
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
     pComboBox->SetCurSel(-1);
-    
 }

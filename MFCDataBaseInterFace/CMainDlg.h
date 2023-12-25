@@ -10,7 +10,7 @@
 #include "CVariablesTab.h"
 #include "CCharsetsTab.h"
 #include "CDatabasesTab.h"
-
+#include "CMonitorTab.h"
 class CMainDlg : public CDialogEx
 {
 
@@ -48,7 +48,7 @@ public:
 	CDatabasesTab m_databasesTab;
 	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
-
+	CMonitorTab m_monitorTab;
 
 	std::vector<ListItem> m_AllItems;
 	CDBExportDlg exportWindow;

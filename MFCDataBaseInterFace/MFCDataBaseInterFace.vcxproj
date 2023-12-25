@@ -231,6 +231,7 @@
     <ClInclude Include="CHomeTab.h" />
     <ClInclude Include="CMainDlg.h" />
     <ClInclude Include="CLoginDataSave.h" />
+    <ClInclude Include="CMonitorTab.h" />
     <ClInclude Include="CNewDBDlg.h" />
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryTab.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
+    <ClInclude Include="Drawer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
     <ClInclude Include="CAuthDlg.h" />
@@ -259,6 +261,7 @@
     <ClCompile Include="CHomeTab.cpp" />
     <ClCompile Include="CMainDlg.cpp" />
     <ClCompile Include="CLoginDataSave.cpp" />
+    <ClCompile Include="CMonitorTab.cpp" />
     <ClCompile Include="CNewDBDlg.cpp" />
     <ClCompile Include="CProceduresDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
