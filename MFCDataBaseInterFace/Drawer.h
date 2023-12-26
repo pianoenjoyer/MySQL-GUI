@@ -1,9 +1,7 @@
 #pragma once
-#pragma once
-//класс для вывода графиков на экран
+
 #include <afxwin.h>
 #include <vector>
-
 
 class Drawer
 {
@@ -65,10 +63,8 @@ public:
 		int actual_left = padding + left_keys_padding;
 		int actual_right = actual_left + actual_width;
 
-		// Белый фон.
 		memDC.FillSolidRect(frame, RGB(255, 255, 255));
 
-		// Рисуем сетку и подсетку.
 		unsigned int grid_size = 10;
 		memDC.SelectObject(&subgrid_pen);
 		for (double i = 0.5; i < grid_size; i += 1.0)

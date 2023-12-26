@@ -30,4 +30,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnMonstart();
+	std::vector<double> CMonitorTab::getTrafficLast60Seconds();
+	std::vector<double> CMonitorTab::getCPULast60Seconds();
 };
