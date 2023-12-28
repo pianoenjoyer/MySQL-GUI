@@ -32,7 +32,8 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	CListCtrl m_resultList;
 	CComboBox m_comboLimit;
-
+	inline void CResultTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> CResultTab::GetDatabaseObject() { return db; };
 	void CResultTab::SetPagesState();
 	BOOL CResultTab::OnInitDialog();
 	afx_msg void OnBnClickedBtnClroutput();

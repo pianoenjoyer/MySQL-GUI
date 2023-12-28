@@ -127,7 +127,9 @@ public:
 		dc->BitBlt(0, 0, frame.Width(), frame.Height(), &memDC, 0, 0, SRCCOPY);
 	}
 
-	std::vector<double> convert_range(std::vector <double>& data, double outmax, double outmin, double inmax, double inmin)
+	std::vector<double> convert_range(std::vector <double>& data, double outmax, 
+									double outmin,
+									double inmax, double inmin)
 	{
 		std::vector<double> output = data;
 		double k = (outmax - outmin) / (inmax - inmin);

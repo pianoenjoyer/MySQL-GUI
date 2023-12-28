@@ -30,5 +30,7 @@ protected:
 	void CHomeTab::PopulateEnginesList();
 	DECLARE_MESSAGE_MAP()
 public:
+	inline void CHomeTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> CHomeTab::GetDatabaseObject() { return db; };
 	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
 };

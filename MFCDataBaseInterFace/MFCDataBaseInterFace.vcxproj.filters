@@ -195,7 +195,7 @@
       <Filter>Source Files\InputDlgs</Filter>
     </ClCompile>
     <ClCompile Include="CMonitorTab.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

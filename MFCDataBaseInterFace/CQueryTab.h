@@ -26,7 +26,8 @@ public:
 	std::shared_ptr<CDBConnection> db;
 	CString errorString;
 	sql::ResultSet* m_resultSet;
-
+	inline void CQueryTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> CQueryTab::GetDatabaseObject() { return db; };
 	void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText);
 	void CQueryTab::SendMessageToConsole(CString msg, COLORREF color);
 	void CQueryTab::ExecuteQueryMainDlg();

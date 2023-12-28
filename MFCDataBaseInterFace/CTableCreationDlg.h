@@ -23,6 +23,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	inline void CTableCreationDlg::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> CTableCreationDlg::GetDatabaseObject() { return db; };
 	CListCtrl m_ListCreateTable;
 	CRichEditCtrl m_editTableName;
 	CComboBox m_cmbCollation;

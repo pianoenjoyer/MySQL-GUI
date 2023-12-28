@@ -13,7 +13,7 @@ public:
 	virtual ~CMonitorTab();
 	BOOL CMonitorTab::OnInitDialog();
 	inline void CMonitorTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-
+	inline std::shared_ptr<CDBConnection> CMonitorTab::GetDatabaseObject() { return db; };
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_STATUS_MONITOR };

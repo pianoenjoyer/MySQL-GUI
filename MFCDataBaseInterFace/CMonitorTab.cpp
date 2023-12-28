@@ -51,10 +51,23 @@ END_MESSAGE_MAP()
 void CMonitorTab::OnBnClickedBtnMonstart()
 {
 	UpdateData(true);
-
     m_cpuUsageData = getCPULast60Seconds();
 
-	bool bEarth_Moon = true;
+    //TODO adjust min and max based on vector values
+    auto min_iter = std::max_element(m_cpuUsageData.begin(), m_cpuUsageData.end());
+    auto max_iter = std::min_element(m_cpuUsageData.begin(), m_cpuUsageData.end());
+    int cpuGraphMax = *max_iter;
+    int cpuGraphMin = *min_iter;
+
+    int connGraphMax = 10;
+    int connGraphMin = 0;
+
+    int traffGraphMax = 1000;
+    int traffGraphMin = 0;
+        
+    int procGraphMax = 1000;
+    int procGraphMin = 0;
+
 	std::thread thCpu([&]()
 		{
 			drwCpuUsage.Draw( 50, 0, 60, 1, m_cpuUsageData, m_cpuUsageData);

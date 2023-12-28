@@ -33,6 +33,8 @@ protected:
 	CString CDatabasesTab::GetDatabaseSize(const CString& databaseName);
 	DECLARE_MESSAGE_MAP()
 public:
+	inline void CDatabasesTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> CDatabasesTab::GetDatabaseObject() { return db; };
 	afx_msg void OnBnClickedBtnCreatedb();
 	afx_msg void OnBnClickedBtnDeletedb();
 	afx_msg void OnEnChangeFilterDatabases();
