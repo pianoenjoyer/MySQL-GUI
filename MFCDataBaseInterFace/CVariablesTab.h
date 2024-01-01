@@ -28,7 +28,6 @@ protected:
 public:
 	inline void CVariablesTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> CVariablesTab::GetDatabaseObject() { return db; };
-	afx_msg void OnEnChangeVarsearch();
 	afx_msg void OnEnChangeEditVarsearch();
 	afx_msg void OnBnClickedBtnRefreshVar();
 };

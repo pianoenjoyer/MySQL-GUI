@@ -39,35 +39,29 @@ BOOL CVariablesTab::OnInitDialog()
     PopulateVariablesList();
     SetTotalNum((CListCtrl*)GetDlgItem(IDC_LIST_VARS), GetDlgItem(IDC_TOTAL));
 
+
     return TRUE;
 }
 
+
 void CVariablesTab::PopulateVariablesList()
 {
-    // Assuming m_listCtrl is the ID of your list control
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_VARS);
-
-    // Add columns if not already added
     if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
         pListCtrl->InsertColumn(0, _T("Variable"), LVCFMT_LEFT, 200);
         pListCtrl->InsertColumn(1, _T("Value"), LVCFMT_LEFT, 200);
     }
 
-    // Clear existing items
     pListCtrl->DeleteAllItems();
 
-    // Assuming db is an instance of your database class
     sql::ResultSet* resultSet = db->ExecuteQuery("SHOW VARIABLES");
-
-    // Process the result set
     while (resultSet->next()) 
     {
         CString Variable = SQLStringToCString(resultSet->getString("Variable_name"));
         CString Value = SQLStringToCString(resultSet->getString("Value"));
         AddVariableToList(pListCtrl, Variable, Value);
     }
-
-    // Don't forget to close the result set
+    AdjustColumnWidths(pListCtrl);
     delete resultSet;
 }
 

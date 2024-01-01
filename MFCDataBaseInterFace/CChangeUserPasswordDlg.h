@@ -29,4 +29,6 @@ public:
 	void CheckPasswordStrength(CString password);
 	afx_msg void OnBnClickedCancel();
 	afx_msg void OnBnClickedChangepwd();
+	afx_msg void OnBnClickedRadioNopassword();
+	afx_msg void OnBnClickedRadioPassword();
 };

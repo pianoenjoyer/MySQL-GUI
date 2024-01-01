@@ -3,6 +3,7 @@
 #include "CDBConnection.h"
 void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color);
 
+void AdjustColumnWidths(CListCtrl* pListCtrl);
 
 void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db);
 

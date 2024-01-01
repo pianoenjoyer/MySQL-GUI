@@ -66,3 +66,33 @@ bool FindElemByNameInComboBox(CComboBox* pComboBox, const CString& collation)
     }
     return false;
 }
+
+void AdjustColumnWidths(CListCtrl* pListCtrl)
+{
+    // Iterate through columns
+    for (int i = 0; i < pListCtrl->GetHeaderCtrl()->GetItemCount(); i++) {
+        int maxColWidth = 0;
+
+        // Iterate through items in the column
+        for (int j = 0; j < pListCtrl->GetItemCount(); j++) {
+            CString itemText = pListCtrl->GetItemText(j, i);
+            int itemWidth = pListCtrl->GetStringWidth(itemText);
+            maxColWidth = max(maxColWidth, itemWidth);
+        }
+
+        // Ensure the column width is not less than the width of the column header
+        HDITEM hdi;
+        hdi.mask = HDI_TEXT;
+        hdi.pszText = new TCHAR[256]; // Allocate enough space for the column header
+        hdi.cchTextMax = 256;
+        if (pListCtrl->GetHeaderCtrl()->GetItem(i, &hdi)) {
+            CString colHeaderText = hdi.pszText;
+            int colHeaderWidth = pListCtrl->GetStringWidth(colHeaderText);
+            maxColWidth = max(maxColWidth, colHeaderWidth);
+        }
+        delete[] hdi.pszText;
+
+        // Set the column width
+        pListCtrl->SetColumnWidth(i, maxColWidth);
+    }
+}

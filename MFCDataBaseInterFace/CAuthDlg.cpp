@@ -52,7 +52,7 @@ CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
 CAuthDlg::CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_AUTH, pParent), db(db)
 {
-	
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 
@@ -181,7 +181,7 @@ BOOL CAuthDlg::OnInitDialog()
 	this->SetWindowTextW(_T("Authentication")); 
 	//set image
 	CImage image;
-	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo_white.png"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
+	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo_white.png")))
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_LOGO);
 		HBITMAP hBmp = image.Detach();

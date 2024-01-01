@@ -39,6 +39,8 @@ BEGIN_MESSAGE_MAP(CChangeUserPasswordDlg, CDialogEx)
     ON_EN_CHANGE(IDC_EDIT_ENTERPASSWORD, &CChangeUserPasswordDlg::OnEnChangeEditEnterpassword)
     ON_BN_CLICKED(IDC_CANCEL, &CChangeUserPasswordDlg::OnBnClickedCancel)
     ON_BN_CLICKED(IDC_CHANGEPWD, &CChangeUserPasswordDlg::OnBnClickedChangepwd)
+    ON_BN_CLICKED(IDC_RADIO_NOPASSWORD, &CChangeUserPasswordDlg::OnBnClickedRadioNopassword)
+    ON_BN_CLICKED(IDC_RADIO_PASSWORD, &CChangeUserPasswordDlg::OnBnClickedRadioPassword)
 END_MESSAGE_MAP()
 
 
@@ -46,7 +48,11 @@ END_MESSAGE_MAP()
 BOOL CChangeUserPasswordDlg::OnInitDialog() 
 {
 	CDialogEx::OnInitDialog();
-
+    auto pRadioPassword = (CButton*)GetDlgItem(IDC_RADIO_PASSWORD);
+    if (pRadioPassword)
+    {
+        pRadioPassword->SetCheck(BST_CHECKED);
+    }
 
 
 	return TRUE;
@@ -220,23 +226,69 @@ void CChangeUserPasswordDlg::OnBnClickedChangepwd()
     CString sqlQuery;
     CString error;
 
-    try
-    {
-        sqlQuery.Format(_T("UPDATE users SET password = '%s' WHERE username = '%s'"), new_password, username);
-        auto result = db->ExecuteQuery(CStringToSQLString(sqlQuery), error);
+    auto pRadioPassword = (CButton*)GetDlgItem(IDC_RADIO_PASSWORD);
 
+    if (pRadioPassword)
+    {
+        int status = pRadioPassword->GetCheck();
+        if (status == BST_CHECKED)
+        {
+            new_password = L"";
+        }
+    }
+
+
+
+        sqlQuery.Format(_T("UPDATE users SET password = '%s' WHERE username = '%s'"), new_password, username);
+        bool result = db->ExecuteNonQuery(CStringToSQLString(sqlQuery));
         if (result)
         {
+            AfxMessageBox(_T("Password changed."));
         }
         else
         {
             AfxMessageBox(_T("Failed to update password. Check your input and try again."));
         }
-    }
-    catch (sql::SQLException& e)
-    {
-        AfxMessageBox(CString("SQL Error: ") + e.what() + _T("\nQuery: ") + sqlQuery);
-    }
 
     delete resultSet;
+}
+
+
+void CChangeUserPasswordDlg::OnBnClickedRadioNopassword()
+{
+    // Get pointers to the controls
+    auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_STRENGTH);
+    auto pStrengthText = (CStatic*)GetDlgItem(IDC_STATIC_STRENGTH);
+    auto pEditPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
+    auto PEditRetype = (CStatic*)GetDlgItem(IDC_EDIT_RETYPE);
+    auto GenPassword = (CStatic*)GetDlgItem(IDC_EDIT_GENPASSWORD);
+    auto btnGenerate = (CStatic*)GetDlgItem(IDC_BTN_GENERATE);
+
+    // Disable all controls
+    pProgress->EnableWindow(FALSE);
+    pStrengthText->EnableWindow(FALSE);
+    pEditPassword->EnableWindow(FALSE);
+    PEditRetype->EnableWindow(FALSE);
+    GenPassword->EnableWindow(FALSE);
+    btnGenerate->EnableWindow(FALSE);
+}
+
+
+void CChangeUserPasswordDlg::OnBnClickedRadioPassword()
+{
+    // Get pointers to the controls
+    auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_STRENGTH);
+    auto pStrengthText = (CStatic*)GetDlgItem(IDC_STATIC_STRENGTH);
+    auto pEditPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
+    auto PEditRetype = (CStatic*)GetDlgItem(IDC_EDIT_RETYPE);
+    auto GenPassword = (CStatic*)GetDlgItem(IDC_EDIT_GENPASSWORD);
+    auto btnGenerate = (CStatic*)GetDlgItem(IDC_BTN_GENERATE);
+
+    // Disable all controls
+    pProgress->EnableWindow(TRUE);
+    pStrengthText->EnableWindow(TRUE);
+    pEditPassword->EnableWindow(TRUE);
+    PEditRetype->EnableWindow(TRUE);
+    GenPassword->EnableWindow(TRUE);
+    btnGenerate->EnableWindow(TRUE);
 }
