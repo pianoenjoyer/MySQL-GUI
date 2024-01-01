@@ -2,7 +2,6 @@
 //
 
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CVariablesTab.h"
 #include "resource.h"
 #include "Convertions.h"
@@ -30,6 +29,7 @@ void CVariablesTab::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CVariablesTab, CDialogEx)
     ON_EN_CHANGE(IDC_EDIT_VARSEARCH, &CVariablesTab::OnEnChangeEditVarsearch)
+    ON_BN_CLICKED(IDC_BTN_REFRESH_VAR, &CVariablesTab::OnBnClickedBtnRefreshVar)
 END_MESSAGE_MAP()
 
 BOOL CVariablesTab::OnInitDialog()
@@ -123,4 +123,10 @@ void CVariablesTab::UpdateListFilter()
 void CVariablesTab::OnEnChangeEditVarsearch()
 {
     UpdateListFilter();
+}
+
+
+void CVariablesTab::OnBnClickedBtnRefreshVar()
+{
+    PopulateVariablesList();
 }

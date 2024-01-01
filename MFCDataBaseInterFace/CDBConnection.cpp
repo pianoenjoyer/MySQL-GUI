@@ -327,3 +327,27 @@ bool CDBConnection::CheckConnection()
     return (m_connection->isValid() && !m_connection->isClosed());
 }
 
+bool CDBConnection::ExecuteNonQuery(const sql::SQLString& query)
+{
+    sql::Statement* statement = nullptr;
+
+    try {
+        statement = m_connection->createStatement();
+        statement->executeUpdate(query);
+
+        delete statement;
+        return true;
+    }
+    catch (const sql::SQLException& e) {
+        CStringW wideErrorMessage(e.what());
+        AfxMessageBox(wideErrorMessage);
+
+        if (statement) {
+            delete statement;
+        }
+
+        return false;  // Return false indicating failure
+    }
+}
+
+

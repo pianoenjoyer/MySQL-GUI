@@ -7,6 +7,7 @@
 #include "resource.h"
 #include "Convertions.h"
 #include "CChangeUserPasswordDlg.h"
+#include "SharedFunctions.h"
 // CHomeTab dialog
 
 IMPLEMENT_DYNAMIC(CHomeTab, CDialogEx)
@@ -220,6 +221,31 @@ void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, co
     pListCtrl->SetColumnWidth(3, LVSCW_AUTOSIZE);
 }
 
+bool SetImage(CStatic* pPicCtrl, CString path)
+{
+    CImage image;
+    if (SUCCEEDED(image.Load(path)))
+    {
+        HBITMAP hBmp = image.Detach();
+        pPicCtrl->SetBitmap(hBmp);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+CString CHomeTab::GetCurrentConnectionCollation()
+{
+    auto resultSet = db->ExecuteQuery("SHOW VARIABLES LIKE 'collation_connection';");
+    if (resultSet->next()) {
+        return SQLStringToCString(resultSet->getString("Value"));
+    }
+
+    return _T("Unknown");
+}
 
 BOOL CHomeTab::OnInitDialog()
 {
@@ -233,14 +259,19 @@ BOOL CHomeTab::OnInitDialog()
     PopulatePluginsList();
     PopulateEnginesList();
     PopulateConnectionCollationDropdown();
-    CImage image;
-    if (SUCCEEDED(image.Load(L".\\Pictures\\MySQLHOME.jpg"))) //if (SUCCEEDED(image.Load(L"D:\\RTX.png")))
-    {
-        CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_MySQLGUI);
-        HBITMAP hBmp = image.Detach();
-        pPicCtrl->SetBitmap(hBmp);
-    }
 
+    CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_MySQLGUI);
+    SetImage(pPicCtrl, L".\\Pictures\\MySQLHOME.png");
+  
+    CComboBox* pCombo = (CComboBox*)GetDlgItem(IDC_CONNCOLL);
+    if (pCombo)
+    {
+        CString curConnColl = GetCurrentConnectionCollation();
+        if (curConnColl != L"Unknow")
+        {
+            FindElemByNameInComboBox(pCombo, curConnColl);
+        }
+    }
 	return TRUE;
 }
 
@@ -253,10 +284,8 @@ void CHomeTab::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CHomeTab, CDialogEx)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CHomeTab::OnNMClickSyslink1)
+    ON_CBN_SELCHANGE(IDC_CONNCOLL, &CHomeTab::OnCbnSelchangeConncoll)
 END_MESSAGE_MAP()
-
-
-// CHomeTab message handlers
 
 
 void CHomeTab::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
@@ -264,4 +293,32 @@ void CHomeTab::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
     CChangeUserPasswordDlg dialog(nullptr, this->db);
     dialog.DoModal();
     *pResult = 0;
+}
+
+void CHomeTab::SetConnectionCollation(const CString& collation)
+{
+    CString query = _T("SET collation_connection = '") + collation + _T("';");
+    CString error;
+    bool result = db->ExecuteNonQuery(CStringToSQLString(query));
+    if (result)
+    {
+       AfxMessageBox(_T("Collation changed."));
+    }
+    else 
+    {
+       AfxMessageBox(_T("Failed to set connection collation."));
+    }
+}
+
+void CHomeTab::OnCbnSelchangeConncoll()
+{
+    CComboBox* pCombo = (CComboBox*)GetDlgItem(IDC_CONNCOLL);
+    if (pCombo) {
+        int selectedIndex = pCombo->GetCurSel();
+        if (selectedIndex != CB_ERR) {
+            CString selectedCollation;
+            pCombo->GetLBText(selectedIndex, selectedCollation);
+            SetConnectionCollation(selectedCollation);
+        }
+    }
 }

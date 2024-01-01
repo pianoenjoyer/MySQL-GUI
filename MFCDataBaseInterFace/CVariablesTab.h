@@ -30,4 +30,5 @@ public:
 	inline std::shared_ptr<CDBConnection> CVariablesTab::GetDatabaseObject() { return db; };
 	afx_msg void OnEnChangeVarsearch();
 	afx_msg void OnEnChangeEditVarsearch();
+	afx_msg void OnBnClickedBtnRefreshVar();
 };

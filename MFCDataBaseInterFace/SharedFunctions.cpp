@@ -52,3 +52,17 @@ void SetTotalNum(CListCtrl* pList, CWnd* pStatic)
     totalItemsStr.Format(_T("%d"), totalItems);
     pStatic->SetWindowText(totalItemsStr);
 }
+
+bool FindElemByNameInComboBox(CComboBox* pComboBox, const CString& collation)
+{
+    int itemCount = pComboBox->GetCount();
+    for (int i = 0; i < itemCount; ++i) {
+        CString itemText;
+        pComboBox->GetLBText(i, itemText);
+        if (itemText.CompareNoCase(collation) == 0) {
+            pComboBox->SetCurSel(i);
+            return true;
+        }
+    }
+    return false;
+}

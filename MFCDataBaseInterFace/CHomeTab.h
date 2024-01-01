@@ -23,14 +23,18 @@ protected:
 	void CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue);
 	void CHomeTab::PopulateGeneralInfo();
 	BOOL CHomeTab::OnInitDialog();
+	void CHomeTab::SetConnectionCollation(const CString& collation);
 	void CHomeTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment);
 	void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license);
 	void CHomeTab::PopulatePluginsList();
 	void CHomeTab::PopulateConnectionCollationDropdown();
 	void CHomeTab::PopulateEnginesList();
+	CString CHomeTab::GetCurrentConnectionCollation();
 	DECLARE_MESSAGE_MAP()
 public:
+
 	inline void CHomeTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> CHomeTab::GetDatabaseObject() { return db; };
 	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnCbnSelchangeConncoll();
 };

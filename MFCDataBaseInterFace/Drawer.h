@@ -5,12 +5,14 @@
 
 class Drawer
 {
+
 	CRect frame;
 	CWnd* wnd;
 	CDC* dc;
 	CDC memDC;
 	CBitmap bmp;
 	bool init;
+
 public:
 	void Create(HWND hWnd)
 	{

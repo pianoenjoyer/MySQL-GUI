@@ -25,7 +25,7 @@ public:
     std::vector<sql::SQLString> GetDatabases();
     std::vector<sql::SQLString> GetTables();
     std::vector<sql::SQLString> GetTableColumns(const sql::SQLString& tableName);
-
+    bool CDBConnection::ExecuteNonQuery(const sql::SQLString& query);
     // Utility methods
     CString GetResultString(sql::ResultSet* resultSet);
 
