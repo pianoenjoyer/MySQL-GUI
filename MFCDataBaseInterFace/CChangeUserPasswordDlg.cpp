@@ -210,53 +210,55 @@ void CChangeUserPasswordDlg::OnBnClickedCancel()
 }
 
 
-void CChangeUserPasswordDlg::OnBnClickedChangepwd()
+CString CChangeUserPasswordDlg::GetCurrentUsername()
 {
-    CString username;
     auto resultSet = db->ExecuteQuery("SELECT CURRENT_USER() AS CurrentUser");
+    CString username;
     while (resultSet->next()) {
         username = SQLStringToCString(resultSet->getString("CurrentUser"));
     }
     if (username.GetLength() >= 2) {
         username.Delete(username.GetLength() - 2, 2);
     }
-    auto pPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
-    CString new_password;
-    pPassword->GetWindowTextW(new_password);
-    CString sqlQuery;
-    CString error;
+    delete resultSet;
+    return username;
+}
 
-    auto pRadioPassword = (CButton*)GetDlgItem(IDC_RADIO_PASSWORD);
+bool CChangeUserPasswordDlg::GetEnteredPasswords(CString& new_password, CString& retyped)
+{
+    auto pPassword = (CEdit*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
+    auto PEditRetype = (CEdit*)GetDlgItem(IDC_EDIT_RETYPE);
+    if (pPassword && PEditRetype) {
+        pPassword->GetWindowTextW(new_password);
+        PEditRetype->GetWindowTextW(retyped);
+        return true;
+    }
+    else {
+        AfxMessageBox(_T("Error accessing password fields."));
+        return false;
+    }
+}
 
+bool CChangeUserPasswordDlg::IsNoPasswordSelected()
+{
+    auto pRadioPassword = (CButton*)GetDlgItem(IDC_RADIO_NOPASSWORD);
     if (pRadioPassword)
     {
-        int status = pRadioPassword->GetCheck();
-        if (status == BST_CHECKED)
-        {
-            new_password = L"";
-        }
+        return pRadioPassword->GetCheck() == BST_CHECKED;
     }
-
-
-
-        sqlQuery.Format(_T("UPDATE users SET password = '%s' WHERE username = '%s'"), new_password, username);
-        bool result = db->ExecuteNonQuery(CStringToSQLString(sqlQuery));
-        if (result)
-        {
-            AfxMessageBox(_T("Password changed."));
-        }
-        else
-        {
-            AfxMessageBox(_T("Failed to update password. Check your input and try again."));
-        }
-
-    delete resultSet;
 }
+
+bool CChangeUserPasswordDlg::UpdatePassword(const CString& username, const CString& new_password)
+{
+    CString sqlQuery;
+    sqlQuery.Format(_T("SET PASSWORD FOR '%s' = '%s'"), username, new_password);
+    return db->ExecuteNonQuery(CStringToSQLString(sqlQuery));
+}
+
 
 
 void CChangeUserPasswordDlg::OnBnClickedRadioNopassword()
 {
-    // Get pointers to the controls
     auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_STRENGTH);
     auto pStrengthText = (CStatic*)GetDlgItem(IDC_STATIC_STRENGTH);
     auto pEditPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
@@ -264,7 +266,10 @@ void CChangeUserPasswordDlg::OnBnClickedRadioNopassword()
     auto GenPassword = (CStatic*)GetDlgItem(IDC_EDIT_GENPASSWORD);
     auto btnGenerate = (CStatic*)GetDlgItem(IDC_BTN_GENERATE);
 
-    // Disable all controls
+    pEditPassword->SetWindowTextW(L"");
+    PEditRetype->SetWindowTextW(L"");
+    GenPassword->SetWindowTextW(L"");
+
     pProgress->EnableWindow(FALSE);
     pStrengthText->EnableWindow(FALSE);
     pEditPassword->EnableWindow(FALSE);
@@ -291,4 +296,42 @@ void CChangeUserPasswordDlg::OnBnClickedRadioPassword()
     PEditRetype->EnableWindow(TRUE);
     GenPassword->EnableWindow(TRUE);
     btnGenerate->EnableWindow(TRUE);
+}
+
+
+void CChangeUserPasswordDlg::OnBnClickedChangepwd()
+{
+    // Get current user
+    CString username = GetCurrentUsername();
+
+    // Get entered passwords
+    CString new_password, retyped;
+    if (!GetEnteredPasswords(new_password, retyped)) {
+        return; // Error message already displayed
+    }
+
+    // Check if password should be empty
+    if (IsNoPasswordSelected()) {
+        new_password.Empty();
+    }
+
+    // Check if the new password is empty
+    if (new_password.IsEmpty() && !IsNoPasswordSelected()) {
+        AfxMessageBox(_T("Password edit box cannot be blank."));
+        return;
+    }
+
+    // Check if passwords match
+    if (new_password == retyped) {
+        // Update the password in the database
+        if (UpdatePassword(username, new_password)) {
+            AfxMessageBox(_T("Password changed."));
+        }
+        else {
+            AfxMessageBox(_T("Failed to update password. Check your input and try again."));
+        }
+    }
+    else {
+        AfxMessageBox(_T("Passwords are not equal."));
+    }
 }
