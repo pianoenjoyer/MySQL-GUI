@@ -40,4 +40,5 @@ public:
 	afx_msg void OnBnClickedBtnDeletedb();
 	afx_msg void OnEnChangeFilterDatabases();
 	afx_msg void OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBnClickedBtnRefreshdbs();
 };

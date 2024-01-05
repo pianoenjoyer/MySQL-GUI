@@ -76,8 +76,15 @@ void CNewDBDlg::OnBnClickedBtnCreatedb()
     {
         CString query;
         query.Format(_T("CREATE DATABASE `%s` CHARACTER SET %s;"), databaseName, charsetName);
-        db->ExecuteQuery(CStringToSQLString(query), query);
-        AfxMessageBox(query);
+        int result = db->ExecuteNonQuery(CStringToSQLString(query));
+        if (result)
+        {
+            AfxMessageBox(L"Database created.");
+        }
+        else
+        {
+            AfxMessageBox(L"Something went wrong.");
+        }
         this->EndDialog(IDOK);
 
     }

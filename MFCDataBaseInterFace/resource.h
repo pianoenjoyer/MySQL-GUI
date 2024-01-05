@@ -79,6 +79,7 @@
 #define IDC_SAVE_LOGIN                  1016
 #define IDC_BTN_DISCONNECT2             1016
 #define IDC_BTN_SCHEMA                  1016
+#define IDC_BTN_REFRESHDBS              1016
 #define IDC_BTN_PRINTTABLE2             1017
 #define IDC_LIST_QUERY                  1018
 #define IDC_BTN_DISCONNECT3             1019
@@ -108,6 +109,7 @@
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
 #define IDC_STATIC_FILTER               1032
+#define IDC_BTN_DELETEDB2               1032
 #define IDC_EDIT3                       1033
 #define IDC_EDIT_GENPASSWORD            1033
 #define IDC_TREE_STRUCTURE              1034

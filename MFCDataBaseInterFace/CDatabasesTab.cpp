@@ -30,7 +30,6 @@ void CDatabasesTab::DoDataExchange(CDataExchange* pDX)
 BOOL CDatabasesTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    AppTheme::SetMainTitleStyle((CStatic*)GetDlgItem(IDC_TAB_TITLE));
     PopulateDatabaseList();
     PopulateCharacterSetDropdown();
     PopulateDatabaseDropdown();
@@ -46,7 +45,7 @@ bool CDatabasesTab::PopulateDatabaseDropdown()
     {
         return false;
     }
-
+    pCombo->ResetContent();
     std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
 
     while (resultSet->next())
@@ -145,6 +144,7 @@ BEGIN_MESSAGE_MAP(CDatabasesTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_DELETEDB, &CDatabasesTab::OnBnClickedBtnDeletedb)
     ON_EN_CHANGE(IDC_FILTER_DATABASES, &CDatabasesTab::OnEnChangeFilterDatabases)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_DATABASES, &CDatabasesTab::OnLvnItemchangedListDatabases)
+    ON_BN_CLICKED(IDC_BTN_REFRESHDBS, &CDatabasesTab::OnBnClickedBtnRefreshdbs)
 END_MESSAGE_MAP()
 
 
@@ -177,6 +177,7 @@ void CDatabasesTab::OnBnClickedBtnCreatedb()
         }
         AfxMessageBox(query);
         PopulateDatabaseList();
+        PopulateDatabaseDropdown();
     }
     else
     {
@@ -220,11 +221,12 @@ void CDatabasesTab::OnBnClickedBtnDeletedb()
             CString query;
             CString errorString;
             query.Format(_T("DROP DATABASE IF EXISTS `%s`"), dbName);
-            db->ExecuteQuery(CStringToSQLString(query), errorString);
+            int result = db->ExecuteNonQuery(CStringToSQLString(query));
 
-            if (errorString.IsEmpty()) {
+            if (result) {
                 AfxMessageBox(_T("Database deleted successfully"));
                 PopulateDatabaseList();
+                PopulateDatabaseDropdown();
             }
             else {
                 AfxMessageBox(_T("Error deleting database: ") + errorString);
@@ -309,4 +311,11 @@ void CDatabasesTab::OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResul
         }
     }
     *pResult = 0;
+}
+
+
+void CDatabasesTab::OnBnClickedBtnRefreshdbs()
+{
+    PopulateDatabaseList();
+    PopulateDatabaseDropdown();
 }
