@@ -19,6 +19,7 @@ public:
 #endif
 
 protected:
+	bool CDatabasesTab::PopulateDatabaseDropdown();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	BOOL CDatabasesTab::OnInitDialog();
 	void CDatabasesTab::PopulateDatabaseList();
@@ -38,4 +39,5 @@ public:
 	afx_msg void OnBnClickedBtnCreatedb();
 	afx_msg void OnBnClickedBtnDeletedb();
 	afx_msg void OnEnChangeFilterDatabases();
+	afx_msg void OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResult);
 };

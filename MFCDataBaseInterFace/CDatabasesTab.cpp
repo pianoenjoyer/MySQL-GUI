@@ -33,10 +33,31 @@ BOOL CDatabasesTab::OnInitDialog()
     AppTheme::SetMainTitleStyle((CStatic*)GetDlgItem(IDC_TAB_TITLE));
     PopulateDatabaseList();
     PopulateCharacterSetDropdown();
+    PopulateDatabaseDropdown();
 
     SetTotalNum((CListCtrl*)GetDlgItem(IDC_LIST_DATABASES), GetDlgItem(IDC_TOTAL));
     return TRUE;
 }
+
+bool CDatabasesTab::PopulateDatabaseDropdown()
+{
+    auto pCombo = (CComboBox*)GetDlgItem(IDC_CMB_DATABASES);
+    if (!pCombo)
+    {
+        return false;
+    }
+
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
+
+    while (resultSet->next())
+    {
+        CString databaseName = SQLStringToCString(resultSet->getString(1));
+        pCombo->AddString(databaseName);
+
+    }
+    return true;
+}
+
 
 void CDatabasesTab::PopulateDatabaseList()
 {
@@ -66,6 +87,7 @@ void CDatabasesTab::PopulateDatabaseList()
 
         // Add the database and collation to the list
         AddDatabaseInfoToList(pListCtrl, databaseName, collation, size);
+
     }
 }
 
@@ -122,6 +144,7 @@ BEGIN_MESSAGE_MAP(CDatabasesTab, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_CREATEDB, &CDatabasesTab::OnBnClickedBtnCreatedb)
     ON_BN_CLICKED(IDC_BTN_DELETEDB, &CDatabasesTab::OnBnClickedBtnDeletedb)
     ON_EN_CHANGE(IDC_FILTER_DATABASES, &CDatabasesTab::OnEnChangeFilterDatabases)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_DATABASES, &CDatabasesTab::OnLvnItemchangedListDatabases)
 END_MESSAGE_MAP()
 
 
@@ -162,6 +185,7 @@ void CDatabasesTab::OnBnClickedBtnCreatedb()
 }
 
 
+
 void CDatabasesTab::PopulateCharacterSetDropdown()
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_CHARSET));
@@ -182,40 +206,36 @@ void CDatabasesTab::PopulateCharacterSetDropdown()
 
 void CDatabasesTab::OnBnClickedBtnDeletedb()
 {
-    // Assuming m_listCtrl is the ID of your list control
-    CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_DATABASES);
+    CComboBox* pComboBox = (CComboBox*)GetDlgItem(IDC_CMB_DATABASES);
+    int selectedIndex = pComboBox->GetCurSel();
 
-    // Get the selected item index
-    int selectedIndex = pListCtrl->GetNextItem(-1, LVNI_SELECTED);
+    if (selectedIndex != CB_ERR) {
+        CString dbName;
+        pComboBox->GetLBText(selectedIndex, dbName);
 
-    // Check if any item is selected
-    if (selectedIndex != -1) {
-        // Get the name of the selected database
-        CString dbName = pListCtrl->GetItemText(selectedIndex, 0);
-
-        // Prompt for confirmation
         CString message;
         message.Format(_T("Are you sure you want to delete the database '%s'?"), dbName);
 
         if (MessageBox(message, _T("Confirmation"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-            // Execute the query to delete the database
             CString query;
             CString errorString;
             query.Format(_T("DROP DATABASE IF EXISTS `%s`"), dbName);
             db->ExecuteQuery(CStringToSQLString(query), errorString);
-            if (errorString = L"No result available")
-            {
-                AfxMessageBox(L"Database deleted successfuly");
+
+            if (errorString.IsEmpty()) {
+                AfxMessageBox(_T("Database deleted successfully"));
                 PopulateDatabaseList();
             }
-
+            else {
+                AfxMessageBox(_T("Error deleting database: ") + errorString);
+            }
         }
     }
     else {
-        // No item selected, show a message or take appropriate action
         MessageBox(_T("Please select a database to delete."), _T("Information"), MB_OK | MB_ICONINFORMATION);
     }
 }
+
 
 
 void CDatabasesTab::UpdateListFilter()
@@ -250,4 +270,43 @@ void CDatabasesTab::UpdateListFilter()
 void CDatabasesTab::OnEnChangeFilterDatabases()
 {
     UpdateListFilter();
+}
+
+
+void CDatabasesTab::OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+    auto pList = (CListCtrl*)GetDlgItem(IDC_LIST_DATABASES);
+    auto pCombo = (CComboBox*)GetDlgItem(IDC_CMB_DATABASES);
+    if (!pList || !pCombo)
+    {
+    #ifdef DEBUG
+            OutputDebugString(L"PopulateVariablesList()  control ptr is null");
+    #endif
+        return;
+    }
+    CString curVarName;
+    int currentIndex = pCombo->GetCurSel();
+    if (currentIndex != CB_ERR)
+    {
+        pCombo->GetLBText(currentIndex, curVarName);
+    }
+
+    if ((pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVIS_SELECTED))
+    {
+        CString selectedItemText;
+        int selectedIndex = pNMLV->iItem;
+
+        if (selectedIndex >= 0)
+        {
+            selectedItemText = pList->GetItemText(selectedIndex, 0);
+        }
+
+        int comboIndex = pCombo->FindStringExact(0, selectedItemText);
+        if (comboIndex != CB_ERR)
+        {
+            pCombo->SetCurSel(comboIndex);
+        }
+    }
+    *pResult = 0;
 }
