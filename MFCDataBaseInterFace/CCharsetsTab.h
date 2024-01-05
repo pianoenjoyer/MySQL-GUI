@@ -25,4 +25,8 @@ protected:
 	inline std::shared_ptr<CDBConnection> CCharsetsTab::GetDatabaseObject() { return db; };
 	void CCharsetsTab::AddCharacterSetToList(CListCtrl* pListCtrl, const CString& characterSet, const CString& defaultCollation);
 	DECLARE_MESSAGE_MAP()
+	void CCharsetsTab::UpdateListFilter();
+public:
+	afx_msg void OnEnChangeEditCharsetsearch();
+	afx_msg void OnBnClickedBtnRefreshCharsets();
 };

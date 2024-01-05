@@ -127,10 +127,10 @@
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="CEnginesTab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="CPluginsTab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -77,23 +77,21 @@ void CEnginesTab::UpdateListFilter()
     CString filterText;
     pEditFilter->GetWindowText(filterText);
 
-
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_ENGINESTAB);
     pListCtrl->DeleteAllItems();
 
-    sql::ResultSet* resultSet = db->ExecuteQuery("SHOW VARIABLES");
+    auto resultSet = db->ExecuteQuery("SHOW ENGINES;");
 
-    while (resultSet->next())
-    {
-        CString variable = SQLStringToCString(resultSet->getString("Variable_name"));
-        CString value = SQLStringToCString(resultSet->getString("Value"));
-        if (variable.Find(filterText) != -1 || value.Find(filterText) != -1)
-        {
-            int nIndex = pListCtrl->GetItemCount();
-            pListCtrl->InsertItem(nIndex, variable);
-            pListCtrl->SetItemText(nIndex, 1, value);
+    while (resultSet->next()) {
+        CString engine = SQLStringToCString(resultSet->getString("Engine"));
+        CString comment = SQLStringToCString(resultSet->getString("Comment"));
+
+        // Check if the filter text is empty or matches the engine or comment
+        if (filterText.IsEmpty() || engine.Find(filterText) != -1 || comment.Find(filterText) != -1) {
+            AddEngineInfoToList(pListCtrl, engine, comment);
         }
     }
+
     delete resultSet;
 }
 

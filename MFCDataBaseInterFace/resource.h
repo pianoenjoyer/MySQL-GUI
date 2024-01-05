@@ -207,6 +207,8 @@
 #define IDC_EDIT_ENGINESSEARCH          1158
 #define IDC_LIST_ENGINESTAB             1159
 #define IDC_BTN_REFRESH_ENGINES         1160
+#define IDC_EDIT_CHARSETSEARCH          1161
+#define IDC_BTN_REFRESH_CHARSETS        1162
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -244,7 +246,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        184
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1161
+#define _APS_NEXT_CONTROL_VALUE         1163
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

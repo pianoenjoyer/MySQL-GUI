@@ -5,7 +5,7 @@
 #include "afxdialogex.h"
 #include "CMonitorTab.h"
 #include "resource.h"
-#include "thread"
+
 // CMonitorTab dialog
 
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
@@ -22,10 +22,12 @@ CMonitorTab::~CMonitorTab()
 
 }
 
+
 void CMonitorTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
+
 
 BOOL CMonitorTab::OnInitDialog()
 {
@@ -36,7 +38,6 @@ BOOL CMonitorTab::OnInitDialog()
 	drwProcesses.Create(GetDlgItem(IDC_PIC_PROCESSES)->GetSafeHwnd());
 
     m_cpuUsageData = getCPULast60Seconds();
-
 	return TRUE;
 }
 

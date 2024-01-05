@@ -92,35 +92,32 @@ void CPluginsTab::UpdateListFilter()
     CString filterText;
     pEditFilter->GetWindowText(filterText);
 
-
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_PLUGINSTAB);
     pListCtrl->DeleteAllItems();
 
-    sql::ResultSet* resultSet = db->ExecuteQuery("SHOW VARIABLES");
+    auto resultSet = db->ExecuteQuery("SHOW PLUGINS;");
 
     while (resultSet->next())
     {
-        CString variable = SQLStringToCString(resultSet->getString("Variable_name"));
-        CString value = SQLStringToCString(resultSet->getString("Value"));
-        if (variable.Find(filterText) != -1 || value.Find(filterText) != -1)
+        CString name = SQLStringToCString(resultSet->getString("Name"));
+        CString status = SQLStringToCString(resultSet->getString("Status"));
+        CString type = SQLStringToCString(resultSet->getString("Type"));
+        CString license = SQLStringToCString(resultSet->getString("License"));
+
+        // Check if the filter text is empty or matches the name
+        if (filterText.IsEmpty() || name.Find(filterText) != -1)
         {
-            int nIndex = pListCtrl->GetItemCount();
-            pListCtrl->InsertItem(nIndex, variable);
-            pListCtrl->SetItemText(nIndex, 1, value);
+            AddPluginInfoToList(pListCtrl, name, status, type, license);
         }
     }
+
+
     delete resultSet;
 }
 
 
 void CPluginsTab::OnEnChangeEditPluginsearch()
 {
-    // TODO:  If this is a RICHEDIT control, the control will not
-    // send this notification unless you override the CDialogEx::OnInitDialog()
-    // function and call CRichEditCtrl().SetEventMask()
-    // with the ENM_CHANGE flag ORed into the mask.
-
-    // TODO:  Add your control notification handler code here
     UpdateListFilter();
 }
 

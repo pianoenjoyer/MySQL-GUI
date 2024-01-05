@@ -27,6 +27,8 @@ void CCharsetsTab::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CCharsetsTab, CDialogEx)
+    ON_EN_CHANGE(IDC_EDIT_CHARSETSEARCH, &CCharsetsTab::OnEnChangeEditCharsetsearch)
+    ON_BN_CLICKED(IDC_BTN_REFRESH_CHARSETS, &CCharsetsTab::OnBnClickedBtnRefreshCharsets)
 END_MESSAGE_MAP()
 
 BOOL CCharsetsTab::OnInitDialog()
@@ -100,4 +102,40 @@ void CCharsetsTab::AddCharacterSetToList(CListCtrl* pListCtrl, const CString& ch
 
     // Set text for the second column
     pListCtrl->SetItemText(nIndex, 1, defaultCollation);
+}
+
+
+void CCharsetsTab::UpdateListFilter()
+{
+    CEdit* pEditFilter = (CEdit*)GetDlgItem(IDC_EDIT_CHARSETSEARCH);
+    CString filterText;
+    pEditFilter->GetWindowText(filterText);
+
+    CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_CHARSETS);
+    pListCtrl->DeleteAllItems();
+
+    auto resultSet = db->ExecuteQuery("SHOW CHARACTER SET;");
+
+    while (resultSet->next()) {
+        CString characterSet = SQLStringToCString(resultSet->getString("Charset"));
+        CString defaultCollation = SQLStringToCString(resultSet->getString("Default collation"));
+
+        // Check if the filter text is empty or matches the character set or default collation
+        if (filterText.IsEmpty() || characterSet.Find(filterText) != -1 || defaultCollation.Find(filterText) != -1) {
+            AddCharacterSetToList(pListCtrl, characterSet, defaultCollation);
+        }
+    }
+
+    delete resultSet;
+}
+
+void CCharsetsTab::OnEnChangeEditCharsetsearch()
+{
+    UpdateListFilter();
+}
+
+
+void CCharsetsTab::OnBnClickedBtnRefreshCharsets()
+{
+    PopulateCharacterSetsList();
 }
