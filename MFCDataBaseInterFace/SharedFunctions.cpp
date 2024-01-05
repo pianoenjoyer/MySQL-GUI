@@ -27,30 +27,38 @@ void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF col
     ctrl.SendMessage(EM_SCROLL, SB_PAGEDOWN, 0);
 }
 
-void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db)
+bool PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db)
 {
     if (!pComboBox || !db)
-        return;
+    {
+        return false;
+    }
 
     auto resultSet = db->ExecuteQuery("SHOW CHARACTER SET;");
     if (resultSet)
     {
         while (resultSet->next())
         {
-            std::string charsetName = resultSet->getString("Charset"); // Get the character set name
-            pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
+            std::string charsetName = resultSet->getString("Charset"); 
+            pComboBox->AddString(CString(charsetName.c_str())); 
         }
         delete resultSet;  
     }
+    return true;
 }
 
 
-void SetTotalNum(CListCtrl* pList, CWnd* pStatic)
+bool SetTotalNum(CListCtrl* pList, CWnd* pStatic)
 {
+    if (!pList)
+    {
+        return false;
+    }
     int totalItems = pList->GetItemCount();
     CString totalItemsStr;
     totalItemsStr.Format(_T("%d"), totalItems);
-    pStatic->SetWindowText(totalItemsStr);
+    pStatic->SetWindowTextW(totalItemsStr);
+    return true;
 }
 
 bool FindElemByNameInComboBox(CComboBox* pComboBox, const CString& collation)
@@ -69,6 +77,13 @@ bool FindElemByNameInComboBox(CComboBox* pComboBox, const CString& collation)
 
 void AdjustColumnWidths(CListCtrl* pListCtrl)
 {
+    if (!pListCtrl)
+    {
+        #ifdef DEBUG
+                OutputDebugString(L"PopulateVariablesList()  pListCtrl is null");
+        #endif
+        return;
+    }
     // Iterate through columns
     for (int i = 0; i < pListCtrl->GetHeaderCtrl()->GetItemCount(); i++) {
         int maxColWidth = 0;

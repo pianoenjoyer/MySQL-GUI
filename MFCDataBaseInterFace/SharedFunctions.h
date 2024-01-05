@@ -5,8 +5,8 @@ void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF col
 
 void AdjustColumnWidths(CListCtrl* pListCtrl);
 
-void PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db);
+bool PopulateCharacterSetDropdown(CComboBox* pComboBox, CDBConnection* db);
 
 bool FindElemByNameInComboBox(CComboBox* pComboBox, const CString& collation);
 
-void SetTotalNum(CListCtrl* pList, CWnd* pStatic);
+bool SetTotalNum(CListCtrl* pList, CWnd* pStatic);

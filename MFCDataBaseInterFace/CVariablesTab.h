@@ -21,13 +21,17 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	BOOL CVariablesTab::OnInitDialog();
-	void CVariablesTab::PopulateVariablesList();
+	bool CVariablesTab::PopulateVariablesList();
 	void CVariablesTab::UpdateListFilter();
 	void CVariablesTab::AddVariableToList(CListCtrl* pListCtrl, const CString& variable, const CString& value);
+	bool CVariablesTab::PopulateVariablesCombo() const;
 	DECLARE_MESSAGE_MAP()
 public:
 	inline void CVariablesTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> CVariablesTab::GetDatabaseObject() { return db; };
 	afx_msg void OnEnChangeEditVarsearch();
 	afx_msg void OnBnClickedBtnRefreshVar();
+	afx_msg void OnCbnSelchangeCmbVars();
+	afx_msg void OnBnClickedMfcbutton1();
+	afx_msg void OnLvnItemchangedListVars(NMHDR* pNMHDR, LRESULT* pResult);
 };

@@ -195,6 +195,8 @@
 #define IDC_STATIC_STRENGHT             1149
 #define IDC_STATIC_RETYPE               1150
 #define IDC_STATIC_GENERATE_PASSWORD    1151
+#define IDC_CMB_VARS                    1152
+#define IDC_EDIT_VARVALUE               1153
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -232,7 +234,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        180
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1152
+#define _APS_NEXT_CONTROL_VALUE         1154
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
