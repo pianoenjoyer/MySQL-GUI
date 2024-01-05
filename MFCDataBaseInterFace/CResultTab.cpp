@@ -226,7 +226,8 @@ void CResultTab::OnEnChangeListSearch()
 
     // First, restore the list from m_AllItems
     pList->DeleteAllItems();
-    for (const auto& listItem : m_AllItems) {
+    for (auto it = m_AllItems.rbegin(); it != m_AllItems.rend(); ++it) {
+        const auto& listItem = *it;
         int index = pList->InsertItem(0, listItem.mainItem);
         for (size_t i = 0; i < listItem.subItems.size(); ++i) {
             pList->SetItemText(index, i + 1, listItem.subItems[i]);
