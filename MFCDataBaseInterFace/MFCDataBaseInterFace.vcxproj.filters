@@ -120,11 +120,11 @@
     <ClInclude Include="CChangeUserPasswordDlg.h">
       <Filter>Header Files\InputDlgs</Filter>
     </ClInclude>
-    <ClInclude Include="CMonitorTab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Drawer.h">
       <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonitorTab.h">
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +215,22 @@
     <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\x64\Custom\mysql_logo.png">
+    <Image Include="Pictures\MySQLHOME.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Pictures\mysql_logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Pictures\mysql_logo_white.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Pictures\serverIcon(22x22).png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Pictures\serverIcon(45x45).png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

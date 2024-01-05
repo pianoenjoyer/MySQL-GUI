@@ -31,6 +31,13 @@
 #define IDD_STATUS_QSTATS               169
 #define IDD_DIALOG1                     170
 #define IDD_STATUS_MONITOR              170
+#define IDB_BITMAP1                     173
+#define IDB_PNG1                        174
+#define IDB_PNG2                        175
+#define IDR_IMAGE1                      176
+#define IDB_PNG3                        177
+#define IDB_PNG4                        178
+#define IDB_PNG5                        179
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -184,6 +191,10 @@
 #define IDC_RADIO2                      1142
 #define IDC_CHECK3                      1143
 #define IDC_BTN_REFRESH_VAR             1147
+#define IDC_STATIC_ENTER                1148
+#define IDC_STATIC_STRENGHT             1149
+#define IDC_STATIC_RETYPE               1150
+#define IDC_STATIC_GENERATE_PASSWORD    1151
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -219,9 +230,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        173
+#define _APS_NEXT_RESOURCE_VALUE        180
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1148
+#define _APS_NEXT_CONTROL_VALUE         1152
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

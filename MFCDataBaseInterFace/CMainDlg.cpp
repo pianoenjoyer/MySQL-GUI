@@ -975,5 +975,21 @@ void CMainDlg::SwitchTabByName(const CString& tabName) {
 void CMainDlg::OnBnClickedBtnUnsel()
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
-    pComboBox->SetCurSel(-1);
+    if (pComboBox)
+    {
+        pComboBox->SetCurSel(-1);
+        #ifdef DEBUG
+        OutputDebugString(L"Selection cleared.\n");
+        #endif
+    }
+    else
+    {
+        #ifdef DEBUG
+        OutputDebugString(L"OnBnClickedBtnUnsel(), pComboBox error\n");
+        #endif
+        #ifdef DEBUG_AFXMESSAGE
+        AfxMessageBox(L"OnBnClickedBtnUnsel(), pComboBox error\n");
+        #endif
+    }
+
 }

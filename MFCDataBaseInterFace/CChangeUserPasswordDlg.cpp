@@ -266,6 +266,18 @@ void CChangeUserPasswordDlg::OnBnClickedRadioNopassword()
     auto GenPassword = (CStatic*)GetDlgItem(IDC_EDIT_GENPASSWORD);
     auto btnGenerate = (CStatic*)GetDlgItem(IDC_BTN_GENERATE);
 
+    auto staticEnter = (CStatic*)GetDlgItem(IDC_STATIC_ENTER);
+    auto staticStrength = (CStatic*)GetDlgItem(IDC_STATIC_STRENGHT);
+    auto staticRetype = (CStatic*)GetDlgItem(IDC_STATIC_RETYPE);
+    auto staticGenerate = (CStatic*)GetDlgItem(IDC_STATIC_GENERATE_PASSWORD);
+    auto pProgressBar = (CStatic*)GetDlgItem(IDC_PROGRESS_STRENGTH);
+
+    pProgressBar->EnableWindow(FALSE);
+    staticEnter->EnableWindow(FALSE);
+    staticStrength->EnableWindow(FALSE);
+    staticRetype->EnableWindow(FALSE);
+    staticGenerate->EnableWindow(FALSE);
+
     pEditPassword->SetWindowTextW(L"");
     PEditRetype->SetWindowTextW(L"");
     GenPassword->SetWindowTextW(L"");
@@ -281,7 +293,6 @@ void CChangeUserPasswordDlg::OnBnClickedRadioNopassword()
 
 void CChangeUserPasswordDlg::OnBnClickedRadioPassword()
 {
-    // Get pointers to the controls
     auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_STRENGTH);
     auto pStrengthText = (CStatic*)GetDlgItem(IDC_STATIC_STRENGTH);
     auto pEditPassword = (CStatic*)GetDlgItem(IDC_EDIT_ENTERPASSWORD);
@@ -289,7 +300,28 @@ void CChangeUserPasswordDlg::OnBnClickedRadioPassword()
     auto GenPassword = (CStatic*)GetDlgItem(IDC_EDIT_GENPASSWORD);
     auto btnGenerate = (CStatic*)GetDlgItem(IDC_BTN_GENERATE);
 
-    // Disable all controls
+    auto staticEnter = (CStatic*)GetDlgItem(IDC_STATIC_ENTER);
+    auto staticStrength = (CStatic*)GetDlgItem(IDC_STATIC_STRENGHT);
+    auto staticRetype = (CStatic*)GetDlgItem(IDC_STATIC_RETYPE);
+    auto staticGenerate = (CStatic*)GetDlgItem(IDC_STATIC_GENERATE_PASSWORD);
+    auto pProgressBar = (CStatic*)GetDlgItem(IDC_PROGRESS_STRENGTH);
+
+    if (!(pProgress && pStrengthText && pEditPassword && PEditRetype && GenPassword && btnGenerate))
+    {
+        return;
+    }
+
+    if (!(staticEnter && staticStrength && staticRetype && staticGenerate && pProgressBar))
+    {
+        return;
+    }
+
+    pProgressBar->EnableWindow(TRUE);
+    staticEnter->EnableWindow(TRUE);
+    staticStrength->EnableWindow(TRUE);
+    staticRetype->EnableWindow(TRUE);
+    staticGenerate->EnableWindow(TRUE);
+
     pProgress->EnableWindow(TRUE);
     pStrengthText->EnableWindow(TRUE);
     pEditPassword->EnableWindow(TRUE);

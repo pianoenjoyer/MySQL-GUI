@@ -288,8 +288,13 @@
     <None Include="res\MFCDataBaseInterFace.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\x64\Custom\mysql_logo.png" />
     <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico" />
+    <Image Include="Pictures\MySQLHOME.png" />
+    <Image Include="Pictures\mysql_logo.png" />
+    <Image Include="Pictures\mysql_logo_white.png" />
+    <Image Include="Pictures\serverIcon(22x22).png" />
+    <Image Include="Pictures\serverIcon(45x45).png" />
+    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\MFCDataBaseInterFace.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

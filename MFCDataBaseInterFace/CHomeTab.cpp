@@ -20,6 +20,7 @@ CHomeTab::CHomeTab(CWnd* pParent /*=nullptr*/)
 
 CHomeTab::~CHomeTab()
 {
+
 }
 
 void CHomeTab::PopulateGeneralInfo()
@@ -107,27 +108,31 @@ void CHomeTab::PopulateGeneralInfo()
     }
 
 
-
+    AdjustColumnWidths(pListCtrl);
     delete resultSet;
 }
 
 
-void CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue)
+bool CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue)
 {
     int nItemIndex = pListCtrl->GetItemCount();
-    pListCtrl->InsertItem(nItemIndex, lpszProperty);
-    pListCtrl->SetItemText(nItemIndex, 1, lpszValue);
-    pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE);
-    pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
+    if (pListCtrl)
+    {
+        if (!pListCtrl->InsertItem(nItemIndex, lpszProperty)) return false;
+        if (!pListCtrl->SetItemText(nItemIndex, 1, lpszValue)) return false;
+        if (!pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE)) return false;
+        if (!pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE)) return false;
+    }
+    return true;
 }
 
-void CHomeTab::PopulateConnectionCollationDropdown()
+bool CHomeTab::PopulateConnectionCollationDropdown()
 {
     CComboBox* pCollationCombo = (CComboBox*)GetDlgItem(IDC_CONNCOLL);
 
     if (!pCollationCombo)
     {
-        return;
+        return false;
     }
     pCollationCombo->ResetContent();
 
@@ -144,6 +149,7 @@ void CHomeTab::PopulateConnectionCollationDropdown()
     {
         AfxMessageBox(CString("SQL Error: ") + e.what());
     }
+    return true;
 }
 
 void CHomeTab::PopulateEnginesList()
@@ -162,6 +168,7 @@ void CHomeTab::PopulateEnginesList()
         CString comment = SQLStringToCString(resultSet->getString("Comment"));
         AddEngineInfoToList(pListCtrl, engine, comment);
     }
+    AdjustColumnWidths(pListCtrl);
     delete resultSet;
 }
 
@@ -199,6 +206,7 @@ void CHomeTab::PopulatePluginsList()
         CString license = SQLStringToCString(resultSet->getString("License"));
         AddPluginInfoToList(pListCtrl, name, status, type, license);
     }
+    AdjustColumnWidths(pListCtrl);
     delete resultSet;
 }
 
@@ -295,18 +303,20 @@ void CHomeTab::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-void CHomeTab::SetConnectionCollation(const CString& collation)
+bool CHomeTab::SetConnectionCollation(const CString& collation)
 {
     CString query = _T("SET collation_connection = '") + collation + _T("';");
     CString error;
     bool result = db->ExecuteNonQuery(CStringToSQLString(query));
     if (result)
     {
-       AfxMessageBox(_T("Collation changed."));
+       AfxMessageBox(_T("Collation changed to " + collation));
+       return true;
     }
     else 
     {
-       AfxMessageBox(_T("Failed to set connection collation."));
+       AfxMessageBox(_T("Failed to set connection collation to " + collation));
+       return false;
     }
 }
 
@@ -318,7 +328,21 @@ void CHomeTab::OnCbnSelchangeConncoll()
         if (selectedIndex != CB_ERR) {
             CString selectedCollation;
             pCombo->GetLBText(selectedIndex, selectedCollation);
-            SetConnectionCollation(selectedCollation);
+            if (!SetConnectionCollation(selectedCollation))
+            {
+                #ifdef DEBUG
+                       OutputDebugString(L"SetConnectionCollation error\n");
+                #endif
+                #ifdef DEBUG_AFXMESSAGE
+                       AfxMessageBox(L"SetConnectionCollation error\n");
+                #endif
+            }
         }
+    }
+    else
+    {
+        #ifdef DEBUG
+                OutputDebugString(L"pCombo is null\n");
+        #endif
     }
 }

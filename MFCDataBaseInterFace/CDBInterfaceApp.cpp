@@ -36,7 +36,16 @@ CDBInterfaceApp theApp;
 
 BOOL CDBInterfaceApp::InitInstance()
 {
-	AfxInitRichEdit2();
+	if (!AfxInitRichEdit2()) 
+	{
+		#ifdef DEBUG
+				OutputDebugString(L"AfxInitRichEdit2() init error \n");
+		#endif
+		#ifdef DEBUG_AFXMESSAGE
+				AfxMessageBox(L"AfxInitRichEdit2() init error\n");
+		#endif
+		return FALSE;
+	}
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
 	// Set this to include all the common control classes you want to use
@@ -62,23 +71,18 @@ BOOL CDBInterfaceApp::InitInstance()
 	CAuthDlg authDlg(db);
 	CMainDlg mainWindow(db);
 
-	do {
-		if (authDlg.DoModal() == IDCANCEL) {
-			// User canceled authentication, exit the loop
-			break;
-		}
-
-		if (mainWindow.DoModal() != IDOK) {
-			// User canceled main window, exit the loop
-			break;
-		}
-
-		// User closed main window with IDOK, disconnect and loop again
-		db->Disconnect();
-
-	} while (true);
-
-	// Delete the shell manager created above.
+	INT_PTR status_auth = IDOK;
+	INT_PTR status_main = IDOK;
+	while (status_auth == IDOK && status_main == IDOK)
+	{
+		status_auth = authDlg.DoModal();
+		if (status_auth == IDOK)
+		{
+			status_main = mainWindow.DoModal();
+			db->Disconnect();
+		}	
+	}
+	
 	if (pShellManager != nullptr)
 	{
 		delete pShellManager;
