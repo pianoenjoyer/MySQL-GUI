@@ -126,6 +126,12 @@
     <ClInclude Include="CMonitorTab.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="CEnginesTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPluginsTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -195,6 +201,12 @@
       <Filter>Source Files\InputDlgs</Filter>
     </ClCompile>
     <ClCompile Include="CMonitorTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnginesTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CPluginsTab.cpp">
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
   </ItemGroup>

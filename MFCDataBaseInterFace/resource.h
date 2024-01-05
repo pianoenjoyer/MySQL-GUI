@@ -38,6 +38,8 @@
 #define IDB_PNG3                        177
 #define IDB_PNG4                        178
 #define IDB_PNG5                        179
+#define IDD_PLUGINS                     180
+#define IDD_ENGINES                     181
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -109,7 +111,6 @@
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
 #define IDC_STATIC_FILTER               1032
-#define IDC_BTN_DELETEDB2               1032
 #define IDC_EDIT3                       1033
 #define IDC_EDIT_GENPASSWORD            1033
 #define IDC_TREE_STRUCTURE              1034
@@ -200,6 +201,12 @@
 #define IDC_CMB_VARS                    1152
 #define IDC_EDIT_VARVALUE               1153
 #define IDC_CMB_DATABASES               1154
+#define IDC_EDIT_PLUGINSEARCH           1155
+#define IDC_BTN_REFRESH_PLUGINS         1156
+#define IDC_LIST_PLUGINSTAB             1157
+#define IDC_EDIT_ENGINESSEARCH          1158
+#define IDC_LIST_ENGINESTAB             1159
+#define IDC_BTN_REFRESH_ENGINES         1160
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -235,9 +242,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        180
+#define _APS_NEXT_RESOURCE_VALUE        184
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1155
+#define _APS_NEXT_CONTROL_VALUE         1161
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

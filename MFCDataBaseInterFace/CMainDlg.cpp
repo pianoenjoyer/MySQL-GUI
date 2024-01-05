@@ -9,6 +9,8 @@
 #include "CAuthDlg.h"
 #include "CNewDBDlg.h"
 #include "CAboutDlg.h"
+#include "CPluginsTab.h"
+#include "CEnginesTab.h"
 
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
@@ -243,6 +245,9 @@ BOOL CMainDlg::OnInitDialog()
     m_varsTab.db = this->db;
     m_charsetsTab.db = this->db;
     m_monitorTab.SetDatabaseObject(db);
+    m_pluginsTab.SetDatabaseObject(db);
+    m_enginesTab.SetDatabaseObject(db);
+
     FillDatabaseDropdown();
     //init dlgs
     m_homeTab.Create(IDD_HOME, pTabCtrl);
@@ -254,9 +259,10 @@ BOOL CMainDlg::OnInitDialog()
     m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
     m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
     m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
-
+    m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
+    m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
     //insert into tab control
-    TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor;
+    TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;
 
     item0.mask = TCIF_TEXT | TCIF_PARAM;
     item0.lParam = (LPARAM)&m_homeTab;
@@ -301,7 +307,17 @@ BOOL CMainDlg::OnInitDialog()
     itemMonitor.mask = TCIF_TEXT | TCIF_PARAM;
     itemMonitor.lParam = (LPARAM)&m_monitorTab;//
     itemMonitor.pszText = _T("Monitor");
-    pTabCtrl->InsertItem(9, &itemMonitor);
+    pTabCtrl->InsertItem(8, &itemMonitor);
+
+    itemPlugins.mask = TCIF_TEXT | TCIF_PARAM;
+    itemPlugins.lParam = (LPARAM)&m_pluginsTab;//
+    itemPlugins.pszText = _T("Plugins");
+    pTabCtrl->InsertItem(9, &itemPlugins);
+
+    itemEngines.mask = TCIF_TEXT | TCIF_PARAM;
+    itemEngines.lParam = (LPARAM)&m_enginesTab;//
+    itemEngines.pszText = _T("Engines");
+    pTabCtrl->InsertItem(10, &itemEngines);
 
     //set pos
     CRect rcItem0;
@@ -337,9 +353,16 @@ BOOL CMainDlg::OnInitDialog()
     m_charsetsTab.SetWindowPos(NULL, rcItem0.left, rcItem7.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     CRect rcItemMonitor;
-    pTabCtrl->GetItemRect(7, &rcItemMonitor);
+    pTabCtrl->GetItemRect(8, &rcItemMonitor);
     m_monitorTab.SetWindowPos(NULL, rcItem0.left, rcItemMonitor.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    CRect rcItemPlugin;
+    pTabCtrl->GetItemRect(9, &rcItemPlugin);
+    m_pluginsTab.SetWindowPos(NULL, rcItem0.left, rcItemPlugin.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    CRect rcItemEngine;
+    pTabCtrl->GetItemRect(10, &rcItemEngine);
+    m_enginesTab.SetWindowPos(NULL, rcItem0.left, rcItemEngine.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     //initial show and hide
     m_homeTab.ShowWindow(SW_SHOW);
@@ -352,7 +375,8 @@ BOOL CMainDlg::OnInitDialog()
     m_varsTab.ShowWindow(SW_HIDE);
     m_charsetsTab.ShowWindow(SW_HIDE);
     m_monitorTab.ShowWindow(SW_HIDE);
-
+    m_pluginsTab.ShowWindow(SW_HIDE);
+    m_enginesTab.ShowWindow(SW_HIDE);
     OnBnClickedBtnUpdate();
 
     return TRUE;
@@ -825,6 +849,8 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     m_varsTab.ShowWindow(SW_HIDE);
     m_charsetsTab.ShowWindow(SW_HIDE);
     m_monitorTab.ShowWindow(SW_HIDE);
+    m_pluginsTab.ShowWindow(SW_HIDE);
+    m_enginesTab.ShowWindow(SW_HIDE);
     // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
@@ -856,10 +882,14 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     case 8:
         m_monitorTab.ShowWindow(SW_SHOW);
         break;
+    case 9:
+        m_pluginsTab.ShowWindow(SW_SHOW);
+        break;
+    case 10:
+        m_enginesTab.ShowWindow(SW_SHOW);
+        break;
     }
-    
-  
-
+ 
 }
 
 
