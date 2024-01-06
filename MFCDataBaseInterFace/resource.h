@@ -110,7 +110,9 @@
 #define IDC_BUTTON3                     1031
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
+#define IDC_BTN_MONSTART2               1031
 #define IDC_STATIC_FILTER               1032
+#define IDC_BTN_MONSTART3               1032
 #define IDC_EDIT3                       1033
 #define IDC_EDIT_GENPASSWORD            1033
 #define IDC_TREE_STRUCTURE              1034

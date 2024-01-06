@@ -306,7 +306,7 @@ BOOL CMainDlg::OnInitDialog()
 
     itemMonitor.mask = TCIF_TEXT | TCIF_PARAM;
     itemMonitor.lParam = (LPARAM)&m_monitorTab;//
-    itemMonitor.pszText = _T("Monitor");
+    itemMonitor.pszText = _T("Status");
     pTabCtrl->InsertItem(8, &itemMonitor);
 
     itemPlugins.mask = TCIF_TEXT | TCIF_PARAM;

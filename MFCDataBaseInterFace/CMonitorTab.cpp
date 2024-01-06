@@ -146,7 +146,6 @@ std::vector<int> getConnectionCountLast60Seconds(sql::Statement* stmt)
     return connectionCount;
 }
 
-
 std::vector<int> getProcessCountLast60Seconds(sql::Statement* stmt)
 {
     std::vector<int> processCount;
