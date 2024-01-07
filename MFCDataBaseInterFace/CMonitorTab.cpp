@@ -58,7 +58,19 @@ double CMonitorTab::GetCurrentCpuUsage()
         delete res;
         return cpuUsage;
     }
-    return 0.0;
+    return 0;
+}
+
+double CMonitorTab::GetCurrentQuestions()
+{
+    sql::ResultSet* res = db->ExecuteQuery("SHOW GLOBAL STATUS LIKE 'QUESTIONS';");
+
+    if (res && res->next()) {
+        double questions = res->getDouble("Value");
+        delete res;
+        return questions;
+    }
+    return 0;
 }
 
 
@@ -112,7 +124,7 @@ void CMonitorTab::UpdateGraph()
     }
 
 
-    double curCpuUsage = GetCurrentCpuUsage();
+    double curCpuUsage = GetCurrentQuestions();
     double curConnections = GetConnectionCount();
     double curTrafficUsage = GetCurrentNetworkTraffic();
     int curProcesses = GetProcessCount();
@@ -135,11 +147,9 @@ void CMonitorTab::UpdateGraph()
     }
 
 
-
-
     //TODO adjust min and max based on vector values
-    int cpuGraphMax = 100;
-    int cpuGraphMin = 0;
+    int questionsGraphMax = 100000;
+    int questionsGraphMin = 0;
 
     int connXGraphMax = 10;
     int connXGraphMin = 0;
@@ -152,9 +162,10 @@ void CMonitorTab::UpdateGraph()
 
     int timeAxisMin = 0;
     int timeAxisMax = 60;
+
     std::thread thCpu([&]()
         {
-            drwCpuUsage.Draw(cpuGraphMax, cpuGraphMin, timeAxisMax, timeAxisMin, m_cpuUsageData, timeStamps);
+            drwCpuUsage.Draw(questionsGraphMax, questionsGraphMin, timeAxisMax, timeAxisMin, m_cpuUsageData, timeStamps);
         });
 
     std::thread thCon([&]()

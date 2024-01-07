@@ -42,24 +42,19 @@ BOOL CCharsetsTab::OnInitDialog()
     {
         // Set font size and make it bold
         CFont font;
-        font.CreateFontW(
-            500,                        // nHeight
-            50,                         // nWidth
-            0,                         // nEscapement
-            0,                         // nOrientation
-            FW_BOLD,                 // nWeight
-            FALSE,                     // bItalic
-            FALSE,                     // bUnderline
-            0,                         // cStrikeOut
-            ANSI_CHARSET,              // nCharSet
-            OUT_DEFAULT_PRECIS,        // nOutPrecision
-            CLIP_DEFAULT_PRECIS,       // nClipPrecision
-            DEFAULT_QUALITY,           // nQuality
-            DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
-            _T("Times New Roman"));                 // lpszFacename
-        pStaticControl->SetFont(&font);
+        font.CreateFontW(18, 0, 0, 0,
+            FW_DONTCARE,
+            FALSE,
+            FALSE,
+            FALSE,
+            DEFAULT_CHARSET,
+            OUT_OUTLINE_PRECIS,
+            CLIP_DEFAULT_PRECIS,
+            100,
+            VARIABLE_PITCH,
+            TEXT("Times New Roman")
+        );
     }
-
     return TRUE;
 }
 

@@ -38,6 +38,7 @@ public:
 	DWORD CMonitorTab::GetTimerElapse(UINT_PTR nIDEvent) const;
 	double CMonitorTab::GetCurrentNetworkTrafficSent();
 	void CMonitorTab::UpdateNetworkTrafficTitle();
+	double CMonitorTab::GetCurrentQuestions();
 	double CMonitorTab::GetCurrentCpuUsage();
 	void CMonitorTab::UpdateServerRunningTime();
 	double CMonitorTab::GetCurrentNetworkTrafficReceived();
