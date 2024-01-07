@@ -35,6 +35,8 @@ BOOL CMonitorTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
     InitGraph();
+    UpdateTrafficList();
+    UpdateConnectionsList();
     UpdateNetworkTrafficTitle();
     UpdateServerRunningTime();
 
@@ -281,6 +283,49 @@ CString CMonitorTab::GetServerStartupTime() {
         char buffer[100];
         strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tmInfo);
         return CString(_T(" It started up on ")) + CString(buffer);
+}
+
+void CMonitorTab::UpdateTrafficList()
+{
+    auto pList = (CListCtrl*)GetDlgItem(IDC_LIST_TRAFFIC);
+    if (!pList)
+    {
+        return;
+    }
+
+    pList->InsertColumn(0, _T("Traffic type"), LVCFMT_LEFT, 200);
+    pList->InsertColumn(1, _T("#"), LVCFMT_LEFT, 200);
+    pList->InsertColumn(2, _T("ø per hour"), LVCFMT_LEFT, 200);  
+
+
+    int nIndex = pList->GetItemCount();
+
+    pList->InsertItem(nIndex, _T("Received"));
+    pList->SetItemText(nIndex, 1, L"200");
+    pList->SetItemText(nIndex, 2, L"220");
+    nIndex++;
+    pList->InsertItem(nIndex, _T("Sent"));
+    pList->SetItemText(nIndex, 1, L"300");
+    pList->SetItemText(nIndex, 2, L"330");
+    nIndex++;
+    pList->InsertItem(nIndex, _T("Total"));
+    pList->SetItemText(nIndex, 1, L"400");
+    pList->SetItemText(nIndex, 2, L"440");
+
+}
+
+void CMonitorTab::UpdateConnectionsList()
+{
+    auto pList = (CListCtrl*)GetDlgItem(IDC_LIST_CONNECTIONS);
+    if (!pList)
+    {
+        return;
+    }
+
+    pList->InsertColumn(0, _T("Connections"), LVCFMT_LEFT, 200);
+    pList->InsertColumn(1, _T("#"), LVCFMT_LEFT, 200);
+    pList->InsertColumn(2, _T("ø per hour"), LVCFMT_LEFT, 200);  
+
 }
 
 

@@ -32,11 +32,13 @@ protected:
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 public:
+	void CMonitorTab::UpdateTrafficList();
 	afx_msg void OnBnClickedBtnMonstart();
 	void CMonitorTab::InitGraph();
 	BOOL CMonitorTab::IsTimerActive(UINT_PTR nIDEvent) const;
 	DWORD CMonitorTab::GetTimerElapse(UINT_PTR nIDEvent) const;
 	double CMonitorTab::GetCurrentNetworkTrafficSent();
+	void CMonitorTab::UpdateConnectionsList();
 	void CMonitorTab::UpdateNetworkTrafficTitle();
 	double CMonitorTab::GetCurrentQuestions();
 	double CMonitorTab::GetCurrentCpuUsage();
