@@ -323,8 +323,32 @@ void CMonitorTab::UpdateConnectionsList()
     }
 
     pList->InsertColumn(0, _T("Connections"), LVCFMT_LEFT, 200);
-    pList->InsertColumn(1, _T("#"), LVCFMT_LEFT, 200);
-    pList->InsertColumn(2, _T("ø per hour"), LVCFMT_LEFT, 200);  
+    pList->InsertColumn(1, _T("#"), LVCFMT_LEFT, 100);
+    pList->InsertColumn(2, _T("ø per hour"), LVCFMT_LEFT, 100);  
+    pList->InsertColumn(3, _T("%"), LVCFMT_LEFT, 100);
+
+    int nIndex = pList->GetItemCount();
+
+    pList->InsertItem(nIndex, _T("Max. concurrent connections	"));
+    pList->SetItemText(nIndex, 1, L"200");
+    pList->SetItemText(nIndex, 2, L"220");
+    pList->SetItemText(nIndex, 3, L"100%");
+    nIndex++;
+    pList->InsertItem(nIndex, _T("Failed attempts"));
+    pList->SetItemText(nIndex, 1, L"300");
+    pList->SetItemText(nIndex, 2, L"330");
+    pList->SetItemText(nIndex, 3, L"100%");
+    nIndex++;
+    pList->InsertItem(nIndex, _T("Aborted"));
+    pList->SetItemText(nIndex, 1, L"400");
+    pList->SetItemText(nIndex, 2, L"440");
+    pList->SetItemText(nIndex, 3, L"100%");
+    nIndex++;
+    pList->InsertItem(nIndex, _T("Total"));
+    pList->SetItemText(nIndex, 1, L"400");
+    pList->SetItemText(nIndex, 2, L"440");
+    pList->SetItemText(nIndex, 3, L"100%");
+
 
 }
 
