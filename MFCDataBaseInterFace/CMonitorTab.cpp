@@ -7,8 +7,10 @@
 #include "resource.h"
 
 // CMonitorTab dialog
-
+#define TIMER_ID 1
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
+
+static bool TimerStatus = 0;
 
 CMonitorTab::CMonitorTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_STATUS_MONITOR, pParent)
@@ -32,139 +34,312 @@ void CMonitorTab::DoDataExchange(CDataExchange* pDX)
 BOOL CMonitorTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	drwCpuUsage.Create(GetDlgItem(IDC_PIC_CPU)->GetSafeHwnd());
-	drwConnections.Create(GetDlgItem(IDC_PIC_CONNECTIONS)->GetSafeHwnd());
-	drwTraffic.Create(GetDlgItem(IDC_PIC_TRAFFIC)->GetSafeHwnd());
-	drwProcesses.Create(GetDlgItem(IDC_PIC_PROCESSES)->GetSafeHwnd());
+    InitGraph();
+    UpdateNetworkTrafficTitle();
+    UpdateServerRunningTime();
 
-    m_cpuUsageData = getCPULast60Seconds();
 	return TRUE;
 }
 
 BEGIN_MESSAGE_MAP(CMonitorTab, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_MONSTART, &CMonitorTab::OnBnClickedBtnMonstart)
+    ON_BN_CLICKED(IDC_BTN_TRAFFIC_UPDATE, &CMonitorTab::OnBnClickedBtnTrafficUpdate)
+    ON_WM_TIMER()
+    ON_BN_CLICKED(IDC_BTN_MONCLEAR, &CMonitorTab::OnBnClickedBtnMonclear)
 END_MESSAGE_MAP()
 
 
-// CMonitorTab message handlers
+double CMonitorTab::GetCurrentCpuUsage() 
+{
+    sql::ResultSet* res = db->ExecuteQuery("SHOW GLOBAL STATUS LIKE 'CPU_USAGE';");
+
+    if (res && res->next()) {
+        double cpuUsage = res->getDouble("Value");
+        delete res;
+        return cpuUsage;
+    }
+    return 0.0;
+}
 
 
 void CMonitorTab::OnBnClickedBtnMonstart()
 {
-	UpdateData(true);
-    m_cpuUsageData = getCPULast60Seconds();
+    auto pBtn = GetDlgItem(IDC_BTN_MONSTART);
 
-    //TODO adjust min and max based on vector values
-    auto min_iter = std::max_element(m_cpuUsageData.begin(), m_cpuUsageData.end());
-    auto max_iter = std::min_element(m_cpuUsageData.begin(), m_cpuUsageData.end());
-    int cpuGraphMax = *max_iter;
-    int cpuGraphMin = *min_iter;
-
-    int connGraphMax = 10;
-    int connGraphMin = 0;
-
-    int traffGraphMax = 1000;
-    int traffGraphMin = 0;
-        
-    int procGraphMax = 1000;
-    int procGraphMin = 0;
-
-	std::thread thCpu([&]()
-		{
-			drwCpuUsage.Draw( 50, 0, 60, 1, m_cpuUsageData, m_cpuUsageData);
-		});
-
-	std::thread thCon([&]()
-		{
-			drwConnections.Draw(50, 0, 60, 1, m_cpuUsageData, m_cpuUsageData);
-		});
-	std::thread thTraf([&]()
-		{
-			drwTraffic.Draw(50, 0, 60, 1, m_cpuUsageData, m_cpuUsageData);
-		});
-	std::thread thProc([&]()
-		{
-			drwProcesses.Draw(50, 0, 60, 1, m_cpuUsageData, m_cpuUsageData);
-		});
-
-	thCpu.join();
-	thCon.join();
-	thTraf.join();
-	thProc.join();
-}
-
-std::vector<double> CMonitorTab::getTrafficLast60Seconds()
-{
-    std::vector<double> traffic;
-    sql::ResultSet* res = db->ExecuteQuery("SELECT `bytes_sent` + `bytes_received` AS `total_traffic` FROM `performance_schema`.`network_io` WHERE `event_time` > NOW() - INTERVAL 1 MINUTE;");
-
-    while (res->next())
+    if (pBtn)
     {
-        traffic.push_back(res->getDouble("total_traffic"));
+        UpdateGraph();
+        if (!TimerStatus)
+        {
+            pBtn->SetWindowTextW(L"PAUSE");
+            TimerStatus = true;
+            SetTimer(TIMER_ID, 1000, nullptr);
+        }
+        else
+        {
+            pBtn->SetWindowTextW(L"START");
+            TimerStatus = false;
+            KillTimer(TIMER_ID);
+        }
     }
-    delete res;
-    return traffic;
-}
-
-std::vector<double> CMonitorTab::getCPULast60Seconds()
-{
-    std::vector<double> cpuUsage;
-    sql::ResultSet* res = db->ExecuteQuery("SELECT ROUND(SUM(`TIMER_WAIT`) / 1000000000, 2) AS `cpu_usage` FROM `performance_schema`.`events_stages_history_long` WHERE `EVENT_NAME` = 'idle' AND `TIMER_WAIT` > 0 AND `TIMER_START` > NOW() - INTERVAL 1 MINUTE;");
-    if (!res)
-    {
-        return cpuUsage;
-    }
-    while (res->next())
-    {
-        cpuUsage.push_back(res->getDouble("cpu_usage"));
-    }
-    delete res;
-    return cpuUsage;
     
 }
 
-std::vector<int> getConnectionCountLast60Seconds(sql::Statement* stmt)
+void CMonitorTab::OnTimer(UINT_PTR nIDEvent) {
+    if (nIDEvent == TIMER_ID) {
+
+        UpdateGraph();
+    }
+    CDialog::OnTimer(nIDEvent);
+}
+
+void CMonitorTab::InitGraph() 
 {
-    std::vector<int> connectionCount;
+    drwCpuUsage.Create(GetDlgItem(IDC_PIC_CPU)->GetSafeHwnd());
+    drwConnections.Create(GetDlgItem(IDC_PIC_CONNECTIONS)->GetSafeHwnd());
+    drwTraffic.Create(GetDlgItem(IDC_PIC_TRAFFIC)->GetSafeHwnd());
+    drwProcesses.Create(GetDlgItem(IDC_PIC_PROCESSES)->GetSafeHwnd());
+}
 
-    try
+void CMonitorTab::UpdateGraph() 
+{
+    UpdateData(true);
+    if (m_cpuUsageData.size() == 61) {
+        m_cpuUsageData.erase(m_cpuUsageData.begin());
+        m_ProcessesData.erase(m_ProcessesData.begin());
+        m_TrafficData.erase(m_TrafficData.begin());
+        m_ConnectionData.erase(m_ConnectionData.begin());
+    }
+
+
+    double curCpuUsage = GetCurrentCpuUsage();
+    double curConnections = GetConnectionCount();
+    double curTrafficUsage = GetCurrentNetworkTraffic();
+    int curProcesses = GetProcessCount();
+
+    if (!m_TrafficData.empty()) {
+        curTrafficUsage -= m_TrafficData.back();
+    }
+
+    m_cpuUsageData.push_back(curCpuUsage);
+    m_ProcessesData.push_back(curProcesses);
+    m_TrafficData.push_back(curTrafficUsage);
+    m_ConnectionData.push_back(curConnections);
+
+    std::vector<double> timeStamps;
+    int i = 1;
+    for (auto& value : timeStamps)
     {
-        sql::ResultSet* res = stmt->executeQuery("SELECT `total_connections` FROM `performance_schema`.`global_status` WHERE `variable_name` = 'Threads_connected' AND `event_time` > NOW() - INTERVAL 1 MINUTE;");
+        timeStamps.push_back(i);
+        ++i;
+    }
 
-        while (res->next())
+
+
+
+    //TODO adjust min and max based on vector values
+    int cpuGraphMax = 100;
+    int cpuGraphMin = 0;
+
+    int connXGraphMax = 10;
+    int connXGraphMin = 0;
+
+    double traffGraphMax = 1;
+    double traffGraphMin = 0;
+
+    int procGraphMax = 10;
+    int procGraphMin = 0;
+
+    int timeAxisMin = 0;
+    int timeAxisMax = 60;
+    std::thread thCpu([&]()
         {
-            connectionCount.push_back(res->getInt("total_connections"));
-        }
+            drwCpuUsage.Draw(cpuGraphMax, cpuGraphMin, timeAxisMax, timeAxisMin, m_cpuUsageData, timeStamps);
+        });
 
-        delete res;
-    }
-    catch (sql::SQLException& e)
+    std::thread thCon([&]()
+        {
+            drwConnections.Draw(connXGraphMax, connXGraphMin, timeAxisMax, timeAxisMin, m_ConnectionData, timeStamps);
+        });
+    std::thread thTraf([&]()
+        {
+            drwTraffic.Draw(traffGraphMax, traffGraphMin, timeAxisMax, timeAxisMin, m_TrafficData, timeStamps);
+        });
+    std::thread thProc([&]()
+        {
+            drwProcesses.Draw(procGraphMax, procGraphMin, timeAxisMax, timeAxisMin, m_ProcessesData, timeStamps);
+        });
+
+    thCpu.join();
+    thCon.join();
+    thTraf.join();
+    thProc.join();
+}
+
+void CMonitorTab::UpdateNetworkTrafficTitle()
+{
+    // Assuming m_groupControl is the ID of your group control
+    CStatic* pStaticControl = (CStatic*)GetDlgItem(IDC_STATIC_TRAFFIC_TITLE);
+    if (pStaticControl)
     {
-
+        // Retrieve and set the current network traffic since startup
+        double currentTraffic = GetCurrentNetworkTraffic();
+        CString title;
+        title.Format(_T("Network traffic since startup: %.2f MiB"), currentTraffic);
+        pStaticControl->SetWindowTextW(title);
     }
+}
+
+void CMonitorTab::UpdateServerRunningTime()
+{
+    // Assuming m_editControl is the ID of your edit control
+    CEdit* pEditControl = (CEdit*)GetDlgItem(IDC_EDIT_SERVER_RUNNING_TIME);
+    if (pEditControl)
+    {
+        // Retrieve and set the running time information
+        CString runningTimeInfo = GetServerRunningTime();
+        CString startupTimeInfo = GetServerStartupTime();
+        pEditControl->SetWindowTextW(L"This MySQL server has been running for " + runningTimeInfo + L"." + startupTimeInfo + L".");
+    }
+}
+
+double CMonitorTab::GetCurrentNetworkTraffic() {
+
+        sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_received';");
+        res->next();
+        double bytesReceived = res->getDouble("Value");
+        delete res;
+
+        res = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_sent';");
+        res->next();
+        double bytesSent = res->getDouble("Value");
+        delete res;
+        double trafficInMiB = (bytesReceived + bytesSent) / (1024.0 * 1024.0);
+        return trafficInMiB;
+}
+
+double CMonitorTab::GetCurrentNetworkTrafficReceived() {
+
+    sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_received';");
+    res->next();
+    double bytesReceived = res->getDouble("Value");
+    delete res;
+    return bytesReceived;
+}
+
+double CMonitorTab::GetCurrentNetworkTrafficSent() {
+
+    sql::ResultSet* res =  db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_sent';");
+    res->next();
+    double bytesSent = res->getDouble("Value");
+    delete res;
+    return bytesSent;
+}
+
+CString CMonitorTab::GetServerRunningTime() {
+        sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Uptime';");
+        res->next();
+        int uptimeSeconds = res->getInt("Value");
+        delete res;
+
+        int days = uptimeSeconds / (60 * 60 * 24);
+        int hours = (uptimeSeconds % (60 * 60 * 24)) / (60 * 60);
+        int minutes = (uptimeSeconds % (60 * 60)) / 60;
+
+        CString result;
+        result.Format(_T("%d days, %d hours, %d minutes"), days, hours, minutes);
+        return result;
+}
+
+CString CMonitorTab::GetServerStartupTime() {
+        sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Uptime';");
+        if (!res)
+        {
+            return CString(_T("Error retrieving startup time."));
+        }
+        res->next();
+        int uptimeSeconds = res->getInt("Value");
+        delete res;
+
+        time_t currentTime;
+        time(&currentTime);
+
+        time_t startupTime = currentTime - uptimeSeconds;
+        struct tm* tmInfo = localtime(&startupTime);
+
+        char buffer[100];
+        strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tmInfo);
+        return CString(_T(" It started up on ")) + CString(buffer);
+}
+
+
+void CMonitorTab::OnBnClickedBtnTrafficUpdate()
+{
+    UpdateNetworkTrafficTitle();
+    UpdateServerRunningTime();
+}
+
+double CMonitorTab::GetTrafficUsage()
+{
+    // Assuming Bytes_received and Bytes_sent are in bytes
+    double bytesReceived = 0.0;
+    double bytesSent = 0.0;
+
+    sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_received';");
+    if (res->next())
+    {
+        bytesReceived = res->getDouble("Value");
+    }
+    delete res;
+
+    res = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_sent';");
+    if (res->next())
+    {
+        bytesSent = res->getDouble("Value");
+    }
+    delete res;
+
+    // Convert bytes to MiB
+    bytesReceived /= (1024 * 1024);
+    bytesSent /= (1024 * 1024);
+
+    return bytesReceived + bytesSent;
+}
+
+int CMonitorTab::GetConnectionCount()
+{
+    int connectionCount = 0;
+
+    sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Threads_connected';");
+    if (res->next())
+    {
+        connectionCount = res->getInt("Value");
+    }
+    delete res;
 
     return connectionCount;
 }
 
-std::vector<int> getProcessCountLast60Seconds(sql::Statement* stmt)
+int CMonitorTab::GetProcessCount()
 {
-    std::vector<int> processCount;
+    int processCount = 0;
 
-    try
+    sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Threads_running';");
+    if (res->next())
     {
-        sql::ResultSet* res = stmt->executeQuery("SELECT `count` FROM `performance_schema`.`threads` WHERE `name` = 'thread/sql/main' AND `event_time` > NOW() - INTERVAL 1 MINUTE;");
-
-        while (res->next())
-        {
-            processCount.push_back(res->getInt("count"));
-        }
-
-        delete res;
+        processCount = res->getInt("Value");
     }
-    catch (sql::SQLException& e)
-    {
-
-    }
+    delete res;
 
     return processCount;
+}
+
+
+void CMonitorTab::OnBnClickedBtnMonclear()
+{
+    m_cpuUsageData.clear();
+    m_ProcessesData.clear();
+    m_TrafficData.clear();
+    m_ConnectionData.clear();
+    UpdateGraph();
 }

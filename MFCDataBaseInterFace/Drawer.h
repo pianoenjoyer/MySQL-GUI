@@ -36,7 +36,7 @@ public:
 
 		CPen subgrid_pen(PS_DOT, 1, RGB(200, 200, 200));
 		CPen grid_pen(PS_SOLID, 1, RGB(0, 0, 0));
-		CPen data_pen(PS_SOLID, 2, RGB(255, 0, 0));
+		CPen data_pen(PS_SOLID, 2, RGB(216, 120, 29)); //pen 1 color 
 		CPen data_pen2(PS_SOLID, 2, RGB(0, 255, 0));
 		CPen data_pen3(PS_SOLID, 2, RGB(0, 0, 255));
 		CFont font;
@@ -65,7 +65,7 @@ public:
 		int actual_left = padding + left_keys_padding;
 		int actual_right = actual_left + actual_width;
 
-		memDC.FillSolidRect(frame, RGB(255, 255, 255));
+		memDC.FillSolidRect(frame, RGB(255, 255, 255)); //rect color
 
 		unsigned int grid_size = 10;
 		memDC.SelectObject(&subgrid_pen);

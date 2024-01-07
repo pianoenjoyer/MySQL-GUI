@@ -111,6 +111,7 @@
 #define IDC_BTN_PREVPAGE                1031
 #define IDC_BTN_DELETEDB                1031
 #define IDC_BTN_MONSTART2               1031
+#define IDC_BTN_MONCLEAR                1031
 #define IDC_STATIC_FILTER               1032
 #define IDC_BTN_MONSTART3               1032
 #define IDC_EDIT3                       1033
@@ -211,6 +212,11 @@
 #define IDC_BTN_REFRESH_ENGINES         1160
 #define IDC_EDIT_CHARSETSEARCH          1161
 #define IDC_BTN_REFRESH_CHARSETS        1162
+#define IDC_EDIT_SERVER_RUNNING_TIME    1163
+#define IDC_STATIC_TRAFFIC_TITLE        1164
+#define IDC_LIST_TRAFFIC                1165
+#define IDC_LIST_CONNECTIONS            1166
+#define IDC_BTN_TRAFFIC_UPDATE          1167
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -248,7 +254,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        184
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1163
+#define _APS_NEXT_CONTROL_VALUE         1168
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

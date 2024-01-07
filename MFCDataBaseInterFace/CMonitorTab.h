@@ -14,7 +14,7 @@ public:
 	BOOL CMonitorTab::OnInitDialog();
 	inline void CMonitorTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> CMonitorTab::GetDatabaseObject() { return db; };
-// Dialog Data
+	// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_STATUS_MONITOR };
 #endif
@@ -26,10 +26,30 @@ protected:
 	Drawer drwTraffic;
 	Drawer drwProcesses;
 	std::vector<double> m_cpuUsageData;
+	std::vector<double> m_TrafficData;
+	std::vector<double> m_ConnectionData;
+	std::vector<double> m_ProcessesData;
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnMonstart();
-	std::vector<double> CMonitorTab::getTrafficLast60Seconds();
-	std::vector<double> CMonitorTab::getCPULast60Seconds();
+	void CMonitorTab::InitGraph();
+	BOOL CMonitorTab::IsTimerActive(UINT_PTR nIDEvent) const;
+	DWORD CMonitorTab::GetTimerElapse(UINT_PTR nIDEvent) const;
+	double CMonitorTab::GetCurrentNetworkTrafficSent();
+	void CMonitorTab::UpdateNetworkTrafficTitle();
+	double CMonitorTab::GetCurrentCpuUsage();
+	void CMonitorTab::UpdateServerRunningTime();
+	double CMonitorTab::GetCurrentNetworkTrafficReceived();
+	double CMonitorTab::GetCurrentNetworkTraffic();
+	CString CMonitorTab::GetServerRunningTime();
+	CString CMonitorTab::GetServerStartupTime();
+	BOOL CMonitorTab::IsTimerRunning() const;
+	double CMonitorTab::GetTrafficUsage();
+	int CMonitorTab::GetConnectionCount();
+	int CMonitorTab::GetProcessCount();
+	void CMonitorTab::UpdateGraph();
+	void CMonitorTab::OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedBtnTrafficUpdate();
+	afx_msg void OnBnClickedBtnMonclear();
 };
