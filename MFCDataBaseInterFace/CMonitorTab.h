@@ -25,7 +25,7 @@ protected:
 	Drawer drwConnections;
 	Drawer drwTraffic;
 	Drawer drwProcesses;
-	std::vector<double> m_cpuUsageData;
+	std::vector<double> m_cpuUsageDataTo;
 	std::vector<double> m_TrafficData;
 	std::vector<double> m_ConnectionData;
 	std::vector<double> m_ProcessesData;

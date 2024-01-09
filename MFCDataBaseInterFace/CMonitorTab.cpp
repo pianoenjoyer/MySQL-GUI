@@ -117,6 +117,8 @@ void CMonitorTab::InitGraph()
 
 void CMonitorTab::UpdateGraph() 
 {
+
+
     UpdateData(true);
     if (m_cpuUsageData.size() == 61) {
         m_cpuUsageData.erase(m_cpuUsageData.begin());
@@ -125,13 +127,13 @@ void CMonitorTab::UpdateGraph()
         m_ConnectionData.erase(m_ConnectionData.begin());
     }
 
-
-    double curCpuUsage = GetCurrentQuestions();
+    double curCpuUsage = GetCurrentNetworkTrafficReceived();
     double curConnections = GetConnectionCount();
-    double curTrafficUsage = GetCurrentNetworkTraffic();
+    double curTrafficUsage = GetCurrentNetworkTrafficSent();
     int curProcesses = GetProcessCount();
 
-    if (!m_TrafficData.empty()) {
+    if (!m_TrafficData.empty()) 
+    {
         curTrafficUsage -= m_TrafficData.back();
     }
 
@@ -148,9 +150,8 @@ void CMonitorTab::UpdateGraph()
         ++i;
     }
 
-
     //TODO adjust min and max based on vector values
-    int questionsGraphMax = 100000;
+    int questionsGraphMax = 1;
     int questionsGraphMin = 0;
 
     int connXGraphMax = 10;
@@ -237,7 +238,8 @@ double CMonitorTab::GetCurrentNetworkTrafficReceived() {
     res->next();
     double bytesReceived = res->getDouble("Value");
     delete res;
-    return bytesReceived;
+    double trafficInMiB = (bytesReceived) / (1024.0 * 1024.0);
+    return trafficInMiB;
 }
 
 double CMonitorTab::GetCurrentNetworkTrafficSent() {
@@ -246,7 +248,8 @@ double CMonitorTab::GetCurrentNetworkTrafficSent() {
     res->next();
     double bytesSent = res->getDouble("Value");
     delete res;
-    return bytesSent;
+    double trafficInMiB = (bytesSent) / (1024.0 * 1024.0);
+    return trafficInMiB;
 }
 
 CString CMonitorTab::GetServerRunningTime() {
@@ -303,10 +306,12 @@ void CMonitorTab::UpdateTrafficList()
     pList->InsertItem(nIndex, _T("Received"));
     pList->SetItemText(nIndex, 1, L"200");
     pList->SetItemText(nIndex, 2, L"220");
+
     nIndex++;
     pList->InsertItem(nIndex, _T("Sent"));
     pList->SetItemText(nIndex, 1, L"300");
     pList->SetItemText(nIndex, 2, L"330");
+
     nIndex++;
     pList->InsertItem(nIndex, _T("Total"));
     pList->SetItemText(nIndex, 1, L"400");
