@@ -281,9 +281,9 @@ BOOL CMainDlg::OnInitDialog()
     m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
     loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
     m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
-    loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
+   loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
     m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
-    loadingDlg.SetLoadingState(100, L"Finishing... ");
+   loadingDlg.SetLoadingState(100, L"Finishing... ");
     //insert into tab control
     TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;
 

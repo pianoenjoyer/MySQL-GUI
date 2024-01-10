@@ -23,6 +23,5 @@ protected:
 	BOOL CStartDlg::OnEraseBkgnd(CDC* pDC);
 	void CStartDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
 	DECLARE_MESSAGE_MAP()
 };
