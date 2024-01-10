@@ -63,6 +63,7 @@ double CMonitorTab::GetCurrentCpuUsage()
     return 0;
 }
 
+
 double CMonitorTab::GetCurrentQuestions()
 {
     sql::ResultSet* res = db->ExecuteQuery("SHOW GLOBAL STATUS LIKE 'QUESTIONS';");
@@ -117,30 +118,46 @@ void CMonitorTab::InitGraph()
 
 void CMonitorTab::UpdateGraph() 
 {
+    if (m_TrafficSentDataToDraw.size() == 61) 
+    {
+        m_TrafficSentDataToDraw.erase(m_TrafficSentDataToDraw.begin());
+        m_ProcessesDataToDraw.erase(m_ProcessesDataToDraw.begin());
+        m_TrafficReceivedDataToDraw.erase(m_TrafficReceivedDataToDraw.begin());
+        m_ConnectionDataToDraw.erase(m_ConnectionDataToDraw.begin());
 
-
-    UpdateData(true);
-    if (m_cpuUsageData.size() == 61) {
-        m_cpuUsageData.erase(m_cpuUsageData.begin());
-        m_ProcessesData.erase(m_ProcessesData.begin());
-        m_TrafficData.erase(m_TrafficData.begin());
-        m_ConnectionData.erase(m_ConnectionData.begin());
+        m_TrafficSentDataHystory.erase(m_TrafficSentDataHystory.begin());
+        m_TrafficReceivedDataHystory.erase(m_TrafficReceivedDataHystory.begin());
+        m_ConnectionDataHystory.erase(m_ConnectionDataHystory.begin());
+        m_ProcessesDataHystory.erase(m_ProcessesDataHystory.begin());
     }
 
-    double curCpuUsage = GetCurrentNetworkTrafficReceived();
+    double curTrafficSentUsage = GetCurrentNetworkTrafficSent();
+    double curTrafficReceivedUsage = GetCurrentNetworkTrafficReceived();
     double curConnections = GetConnectionCount();
-    double curTrafficUsage = GetCurrentNetworkTrafficSent();
+    
     int curProcesses = GetProcessCount();
 
-    if (!m_TrafficData.empty()) 
+    m_TrafficSentDataHystory.push_back(curTrafficSentUsage);
+    m_ProcessesDataHystory.push_back(curProcesses);
+    m_TrafficReceivedDataHystory.push_back(curTrafficReceivedUsage);
+    m_ConnectionDataHystory.push_back(curConnections);
+
+    size_t lastIndex = m_TrafficSentDataHystory.size() - 1;
+    if (!m_TrafficSentDataHystory.empty())
     {
-        curTrafficUsage -= m_TrafficData.back();
+        curTrafficSentUsage = curTrafficSentUsage - m_TrafficSentDataHystory[lastIndex - 1];
     }
 
-    m_cpuUsageData.push_back(curCpuUsage);
-    m_ProcessesData.push_back(curProcesses);
-    m_TrafficData.push_back(curTrafficUsage);
-    m_ConnectionData.push_back(curConnections);
+    lastIndex = m_TrafficReceivedDataHystory.size() - 1;
+    if (!m_TrafficReceivedDataHystory.empty())
+    {
+        curTrafficReceivedUsage = curTrafficReceivedUsage - m_TrafficReceivedDataHystory[lastIndex - 1];
+    }
+
+    m_TrafficReceivedDataToDraw.push_back(curTrafficReceivedUsage);
+    m_TrafficSentDataToDraw.push_back(curTrafficSentUsage);
+    m_ProcessesDataToDraw.push_back(curProcesses);
+    m_ConnectionDataToDraw.push_back(curConnections);
 
     std::vector<double> timeStamps;
     int i = 1;
@@ -151,14 +168,15 @@ void CMonitorTab::UpdateGraph()
     }
 
     //TODO adjust min and max based on vector values
-    int questionsGraphMax = 1;
-    int questionsGraphMin = 0;
+
+    double traffReceivedGraphMax = 1;
+    double traffReceivedGraphMin = 0;
+
+    double traffSentGraphMax = 1;
+    double traffSentGraphMin = 0;
 
     int connXGraphMax = 10;
     int connXGraphMin = 0;
-
-    double traffGraphMax = 1;
-    double traffGraphMin = 0;
 
     int procGraphMax = 10;
     int procGraphMin = 0;
@@ -166,27 +184,41 @@ void CMonitorTab::UpdateGraph()
     int timeAxisMin = 0;
     int timeAxisMax = 60;
 
-    std::thread thCpu([&]()
+    if (traffReceivedGraphMax < curTrafficReceivedUsage || traffReceivedGraphMin > curTrafficReceivedUsage)
+    {
+        traffReceivedGraphMax = curTrafficReceivedUsage * 2;
+        traffReceivedGraphMin = curTrafficReceivedUsage / 2;
+    }
+
+    if (traffSentGraphMax < curTrafficReceivedUsage || traffSentGraphMin > curTrafficReceivedUsage)
+    {
+        traffSentGraphMax = curTrafficReceivedUsage * 2;
+        traffSentGraphMin = curTrafficReceivedUsage / 2;
+    }
+
+
+
+    std::thread thTrafReceived([&]()
         {
-            drwCpuUsage.Draw(questionsGraphMax, questionsGraphMin, timeAxisMax, timeAxisMin, m_cpuUsageData, timeStamps);
+            drwCpuUsage.Draw(traffReceivedGraphMax, traffReceivedGraphMin, timeAxisMax, timeAxisMin, m_TrafficReceivedDataToDraw, timeStamps);
         });
 
     std::thread thCon([&]()
         {
-            drwConnections.Draw(connXGraphMax, connXGraphMin, timeAxisMax, timeAxisMin, m_ConnectionData, timeStamps);
+            drwConnections.Draw(connXGraphMax, connXGraphMin, timeAxisMax, timeAxisMin, m_ConnectionDataToDraw, timeStamps);
         });
-    std::thread thTraf([&]()
+    std::thread thTrafSent([&]()
         {
-            drwTraffic.Draw(traffGraphMax, traffGraphMin, timeAxisMax, timeAxisMin, m_TrafficData, timeStamps);
+            drwTraffic.Draw(traffSentGraphMax, traffSentGraphMin, timeAxisMax, timeAxisMin, m_TrafficSentDataToDraw, timeStamps);
         });
     std::thread thProc([&]()
         {
-            drwProcesses.Draw(procGraphMax, procGraphMin, timeAxisMax, timeAxisMin, m_ProcessesData, timeStamps);
+            drwProcesses.Draw(procGraphMax, procGraphMin, timeAxisMax, timeAxisMin, m_ProcessesDataToDraw, timeStamps);
         });
 
-    thCpu.join();
+    thTrafReceived.join();
+    thTrafSent.join();
     thCon.join();
-    thTraf.join();
     thProc.join();
 }
 
@@ -238,8 +270,8 @@ double CMonitorTab::GetCurrentNetworkTrafficReceived() {
     res->next();
     double bytesReceived = res->getDouble("Value");
     delete res;
-    double trafficInMiB = (bytesReceived) / (1024.0 * 1024.0);
-    return trafficInMiB;
+    double trafficInKiB = bytesReceived / 1024.0;
+    return trafficInKiB;
 }
 
 double CMonitorTab::GetCurrentNetworkTrafficSent() {
@@ -248,7 +280,7 @@ double CMonitorTab::GetCurrentNetworkTrafficSent() {
     res->next();
     double bytesSent = res->getDouble("Value");
     delete res;
-    double trafficInMiB = (bytesSent) / (1024.0 * 1024.0);
+    double trafficInMiB = bytesSent / 1024.0;
     return trafficInMiB;
 }
 
@@ -422,9 +454,14 @@ int CMonitorTab::GetProcessCount()
 
 void CMonitorTab::OnBnClickedBtnMonclear()
 {
-    m_cpuUsageData.clear();
-    m_ProcessesData.clear();
-    m_TrafficData.clear();
-    m_ConnectionData.clear();
+    m_TrafficSentDataToDraw.clear();
+    m_ProcessesDataToDraw.clear();
+    m_TrafficReceivedDataToDraw.clear();
+    m_ConnectionDataToDraw.clear();
+
+    m_TrafficSentDataHystory.clear();
+    m_TrafficReceivedDataHystory.clear();
+    m_ConnectionDataHystory.clear();
+    m_ProcessesDataHystory.clear();
     UpdateGraph();
 }

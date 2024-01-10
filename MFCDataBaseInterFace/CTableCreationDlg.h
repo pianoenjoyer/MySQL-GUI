@@ -22,14 +22,16 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
-public:
+public:void CTableCreationDlg::PopulateStorageEngineDropdown();
+	void CTableCreationDlg::PopulateCharacterSetDropdown();
 	inline void CTableCreationDlg::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> CTableCreationDlg::GetDatabaseObject() { return db; };
 	CListCtrl m_ListCreateTable;
 	CRichEditCtrl m_editTableName;
+	// m_comboCollation
 	CComboBox m_cmbCollation;
 	std::shared_ptr<CDBConnection> db;
 	CRichEditCtrl m_editComments;
-	CRichEditCtrl m_editAddColumns;
 	afx_msg void OnBnClickedGo();
+	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
 };

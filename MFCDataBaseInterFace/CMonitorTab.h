@@ -25,10 +25,16 @@ protected:
 	Drawer drwConnections;
 	Drawer drwTraffic;
 	Drawer drwProcesses;
-	std::vector<double> m_cpuUsageDataTo;
-	std::vector<double> m_TrafficData;
-	std::vector<double> m_ConnectionData;
-	std::vector<double> m_ProcessesData;
+
+	std::vector<double> m_TrafficSentDataHystory;
+	std::vector<double> m_TrafficReceivedDataHystory;
+	std::vector<double> m_ConnectionDataHystory;
+	std::vector<double> m_ProcessesDataHystory;
+
+	std::vector<double> m_TrafficSentDataToDraw;
+	std::vector<double> m_TrafficReceivedDataToDraw;
+	std::vector<double> m_ConnectionDataToDraw;
+	std::vector<double> m_ProcessesDataToDraw;
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 public:

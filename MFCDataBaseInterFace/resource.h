@@ -217,6 +217,8 @@
 #define IDC_LIST_TRAFFIC                1165
 #define IDC_LIST_CONNECTIONS            1166
 #define IDC_BTN_TRAFFIC_UPDATE          1167
+#define IDC_COMBO3                      1168
+#define IDC_COMBO_STORAGE_ENGINE        1168
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -254,7 +256,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        184
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1168
+#define _APS_NEXT_CONTROL_VALUE         1169
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

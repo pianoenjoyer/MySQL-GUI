@@ -12,6 +12,7 @@ class Drawer
 	CDC memDC;
 	CBitmap bmp;
 	bool init;
+	CFont font;
 
 public:
 	void Create(HWND hWnd)
@@ -24,6 +25,20 @@ public:
 		bmp.CreateCompatibleBitmap(dc, frame.Width(), frame.Height());
 		memDC.SelectObject(&bmp);
 		init = true;
+
+
+		font.CreateFontW(18, 0, 0, 0,
+			FW_DONTCARE,
+			FALSE,
+			FALSE,
+			FALSE,
+			DEFAULT_CHARSET,
+			OUT_OUTLINE_PRECIS,
+			CLIP_DEFAULT_PRECIS,
+			100,
+			VARIABLE_PITCH,
+			TEXT("Times New Roman")
+		);
 	}
 
 	void Draw(
@@ -39,19 +54,7 @@ public:
 		CPen data_pen(PS_SOLID, 2, RGB(216, 120, 29)); //pen 1 color 
 		CPen data_pen2(PS_SOLID, 2, RGB(0, 255, 0));
 		CPen data_pen3(PS_SOLID, 2, RGB(0, 0, 255));
-		CFont font;
-		font.CreateFontW(18, 0, 0, 0,
-			FW_DONTCARE,
-			FALSE,				
-			FALSE,				
-			FALSE,				
-			DEFAULT_CHARSET,	
-			OUT_OUTLINE_PRECIS,	
-			CLIP_DEFAULT_PRECIS,
-			100,				
-			VARIABLE_PITCH,
-			TEXT("Times New Roman")
-		);
+		
 
 		int padding = 20;
 		int left_keys_padding = 20;

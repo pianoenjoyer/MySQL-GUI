@@ -189,7 +189,7 @@ void CDatabasesTab::OnBnClickedBtnCreatedb()
 
 void CDatabasesTab::PopulateCharacterSetDropdown()
 {
-    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_CHARSET));
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COLLATION));
     if (!pComboBox || !db)
         return;
 
@@ -198,8 +198,8 @@ void CDatabasesTab::PopulateCharacterSetDropdown()
     {
         while (resultSet->next())
         {
-            std::string charsetName = resultSet->getString("Charset"); // Get the character set name
-            pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
+            std::string charsetName = resultSet->getString("Charset"); 
+            pComboBox->AddString(CString(charsetName.c_str()));
         }
     }
 }
