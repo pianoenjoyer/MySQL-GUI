@@ -29,6 +29,29 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SEL_TABLE, m_comboTables);
 }
 
+
+BOOL CQueryTab::SetDefaultFontSize() 
+{
+    auto pComboFontSize = (CComboBox*)GetDlgItem(IDC_FONT_SIZE);
+    if (pComboFontSize)
+    {
+        pComboFontSize->SetCurSel(1);
+        return true;
+    }
+    return false;
+}
+
+BOOL CQueryTab::SetDefaultFont()
+{
+    auto pComboFontCombo = (CMFCFontComboBox*)GetDlgItem(IDC_FONTCOMBO);
+    if (pComboFontCombo)
+    {
+        pComboFontCombo->SetCurSel(0);
+        return true;
+    }
+    return false;
+}
+
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
@@ -37,10 +60,8 @@ BOOL CQueryTab::OnInitDialog()
     dwMask |= (ENM_CHANGE | ENM_SCROLL);
     pRichEdit->SetEventMask(dwMask);
     PopulateFontSizesDropdown();
-    
-    auto pComboFontSize = (CComboBox*)GetDlgItem(IDC_FONT_SIZE);
-    pComboFontSize->SetCurSel(1);
-
+    SetDefaultFontSize();
+    SetDefaultFont();
     //SetBackgroundColor(RGB(200, 200, 200));
     UpdateStringCounter();
     //FillTableDropdown();
@@ -859,14 +880,10 @@ void CQueryTab::OnCbnSelchangeFontcombo()
 
 void CQueryTab::OnBnClickedColorFont()
 {
-    // Show the color picker dialog
-    CColorDialog dlg;
-    if (dlg.DoModal() == IDOK)
+    auto pColorPicker = (CMFCColorButton*)GetDlgItem(IDC_COLOR_FONT);
+    if (pColorPicker)
     {
-        // Get the selected color from the color picker dialog
-        COLORREF color = dlg.GetColor();
-
-        // Apply the color to the selected text in the rich edit control
+        auto color = pColorPicker->GetColor();
         ApplyFontColor(color);
     }
 }

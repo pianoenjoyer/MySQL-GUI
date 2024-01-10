@@ -22,6 +22,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	BOOL CQueryTab::SetDefaultFontSize();
+	BOOL CQueryTab::SetDefaultFont();
 	void CQueryTab::PopulateFontSizesDropdown();
 	void CQueryTab::PopulateFontNamesDropdown();
 	int CALLBACK EnumFontsProc(const LOGFONT* lpelf, const TEXTMETRIC* lpntm, DWORD FontType, LPARAM lParam);
