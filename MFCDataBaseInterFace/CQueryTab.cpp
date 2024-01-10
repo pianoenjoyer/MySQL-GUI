@@ -36,7 +36,7 @@ BOOL CQueryTab::OnInitDialog()
     DWORD dwMask = pRichEdit->GetEventMask();
     dwMask |= (ENM_CHANGE | ENM_SCROLL);
     pRichEdit->SetEventMask(dwMask);
-
+    PopulateFontSizesDropdown();
     
 
     //SetBackgroundColor(RGB(200, 200, 200));
@@ -129,6 +129,9 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_EN_VSCROLL(IDC_RICH_LINENUMBERER, &CQueryTab::OnEnVscrollStringcounter)
     ON_EN_CHANGE(IDC_RICH_SQL, &CQueryTab::OnEnChangeRichSql)
     ON_EN_VSCROLL(IDC_RICH_SQL, &CQueryTab::OnEnVscrollRichSql)
+    ON_CBN_SELCHANGE(IDC_FONT_SIZE, &CQueryTab::OnCbnSelchangeFontSize)
+    ON_CBN_SELCHANGE(IDC_FONTCOMBO, &CQueryTab::OnCbnSelchangeFontcombo)
+    ON_BN_CLICKED(IDC_COLOR_FONT, &CQueryTab::OnBnClickedColorFont)
 END_MESSAGE_MAP()
 
 
@@ -809,3 +812,107 @@ void CQueryTab::OnEnVscrollRichSql()
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringNumberer->LineScroll(nPos - pStringNumberer->GetFirstVisibleLine());
 }
+
+void CQueryTab::PopulateFontSizesDropdown()
+{
+    CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_FONT_SIZE));
+    if (!pComboBox)
+        return;
+
+    for (int fontSize = 8; fontSize <= 32; fontSize += 2)
+    {
+        CString strSize;
+        strSize.Format(L"%d", fontSize);
+        pComboBox->AddString(strSize);
+    }
+}
+
+
+
+void CQueryTab::OnCbnSelchangeFontSize()
+{
+    // Get the selected font size from the combo box
+    auto pComboFontSize = GetDlgItem(IDC_FONT_SIZE);
+    CString strSize;
+    pComboFontSize->GetWindowTextW(strSize);
+    int nSize = _ttoi(strSize);
+
+    // Apply the font size to the selected text in the rich edit control
+    ApplyFontSize(nSize);
+}
+
+
+void CQueryTab::OnCbnSelchangeFontcombo()
+{
+    auto pComboFontCombo = GetDlgItem(IDC_FONTCOMBO);
+
+    // Get the selected font type from the font combo box
+    CString strFontType;
+    pComboFontCombo->GetWindowTextW(strFontType);
+
+    // Apply the font type to the selected text in the rich edit control
+    ApplyFontType(strFontType);
+    OnCbnSelchangeFontSize();
+}
+
+void CQueryTab::OnBnClickedColorFont()
+{
+    // Show the color picker dialog
+    CColorDialog dlg;
+    if (dlg.DoModal() == IDOK)
+    {
+        // Get the selected color from the color picker dialog
+        COLORREF color = dlg.GetColor();
+
+        // Apply the color to the selected text in the rich edit control
+        ApplyFontColor(color);
+    }
+}
+
+// Functions to apply font properties to the rich edit control
+void CQueryTab::ApplyFontSize(int nSize)
+{
+    auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CHARFORMAT2 cf;
+    cf.cbSize = sizeof(cf);
+    cf.dwMask = CFM_SIZE;
+    cf.yHeight = nSize * 20;  // Convert to twips (1/1440 inch)
+
+    pRichEditSQL->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditSQL->SetSelectionCharFormat(cf);
+
+    pRichEditString->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditString->SetSelectionCharFormat(cf);
+
+}
+
+void CQueryTab::ApplyFontType(const CString& strFontType)
+{
+    auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CHARFORMAT2 cf;
+    cf.cbSize = sizeof(cf);
+    cf.dwMask = CFM_FACE;
+    _tcscpy_s(cf.szFaceName, LF_FACESIZE, strFontType);
+
+    pRichEditSQL->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditSQL->SetSelectionCharFormat(cf);
+
+    pRichEditString->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditString->SetSelectionCharFormat(cf);
+
+}
+
+void CQueryTab::ApplyFontColor(COLORREF color)
+{
+    auto pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    CHARFORMAT2 cf;
+    cf.cbSize = sizeof(cf);
+    cf.dwMask = CFM_COLOR;
+    cf.crTextColor = RGB(GetBValue(color), GetGValue(color), GetRValue(color));
+
+    pRichEdit->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEdit->SetSelectionCharFormat(cf);
+}
+

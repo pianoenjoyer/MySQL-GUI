@@ -22,6 +22,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	void CQueryTab::PopulateFontSizesDropdown();
+	void CQueryTab::PopulateFontNamesDropdown();
+	int CALLBACK EnumFontsProc(const LOGFONT* lpelf, const TEXTMETRIC* lpntm, DWORD FontType, LPARAM lParam);
 	CComboBox m_comboTables;
 	std::shared_ptr<CDBConnection> db;
 	CString errorString;
@@ -56,4 +59,10 @@ public:
 	afx_msg void OnEnVscrollStringcounter();
 	afx_msg void OnEnChangeRichSql();
 	afx_msg void OnEnVscrollRichSql();
+	afx_msg void OnCbnSelchangeFontSize();
+	afx_msg void OnCbnSelchangeFontcombo();
+	afx_msg void OnBnClickedColorFont();
+	void CQueryTab::ApplyFontSize(int nSize);
+	void CQueryTab::ApplyFontType(const CString& strFontType);
+	void CQueryTab::ApplyFontColor(COLORREF color);
 };
