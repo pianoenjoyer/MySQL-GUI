@@ -40,6 +40,8 @@
 #define IDB_PNG5                        179
 #define IDD_PLUGINS                     180
 #define IDD_ENGINES                     181
+#define IDD_DIALOG4                     185
+#define IDD_LOADING                     185
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -221,7 +223,6 @@
 #define IDC_COLOR_FONT                  1169
 #define IDC_FONT_SIZE                   1170
 #define IDC_FONTCOMBO                   1174
-#define IDC_MFCFONTCOMBO3               1175
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -257,7 +258,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        185
+#define _APS_NEXT_RESOURCE_VALUE        187
 #define _APS_NEXT_COMMAND_VALUE         32805
 #define _APS_NEXT_CONTROL_VALUE         1176
 #define _APS_NEXT_SYMED_VALUE           101

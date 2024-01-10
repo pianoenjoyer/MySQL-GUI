@@ -819,7 +819,7 @@ void CQueryTab::PopulateFontSizesDropdown()
     if (!pComboBox)
         return;
 
-    for (int fontSize = 8; fontSize <= 32; fontSize += 2)
+    for (int fontSize = 8; fontSize <= 20; fontSize += 2)
     {
         CString strSize;
         strSize.Format(L"%d", fontSize);
