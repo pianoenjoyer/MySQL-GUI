@@ -132,11 +132,11 @@
     <ClInclude Include="CPluginsTab.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="CStartDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Colors.h">
       <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoadingDlg.h">
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,8 +215,8 @@
     <ClCompile Include="CPluginsTab.cpp">
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="CStartDlg.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CLoadingDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

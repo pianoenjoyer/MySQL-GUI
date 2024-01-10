@@ -6,7 +6,7 @@
 #include "framework.h"
 #include "CDBInterfaceApp.h"
 #include "CAuthDlg.h"
-#include "CStartDlg.h"
+#include "CLoadingDlg.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif

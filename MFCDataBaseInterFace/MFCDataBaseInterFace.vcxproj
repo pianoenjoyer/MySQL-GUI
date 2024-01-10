@@ -239,7 +239,7 @@
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryTab.h" />
     <ClInclude Include="CResultTab.h" />
-    <ClInclude Include="CStartDlg.h" />
+    <ClInclude Include="CLoadingDlg.h" />
     <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
@@ -272,7 +272,7 @@
     <ClCompile Include="CProceduresDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
     <ClCompile Include="CResultTab.cpp" />
-    <ClCompile Include="CStartDlg.cpp" />
+    <ClCompile Include="CLoadingDlg.cpp" />
     <ClCompile Include="CTableCreationDlg.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />

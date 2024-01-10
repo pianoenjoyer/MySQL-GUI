@@ -38,6 +38,8 @@ BOOL CQueryTab::OnInitDialog()
     pRichEdit->SetEventMask(dwMask);
     PopulateFontSizesDropdown();
     
+    auto pComboFontSize = (CComboBox*)GetDlgItem(IDC_FONT_SIZE);
+    pComboFontSize->SetCurSel(1);
 
     //SetBackgroundColor(RGB(200, 200, 200));
     UpdateStringCounter();

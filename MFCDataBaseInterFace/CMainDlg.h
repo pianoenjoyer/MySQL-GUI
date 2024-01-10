@@ -13,7 +13,7 @@
 #include "CMonitorTab.h"
 #include "CEnginesTab.h"
 #include "CPluginsTab.h"
-#include "CStartDlg.h"
+#include "CLoadingDlg.h"
 
 class CMainDlg : public CDialogEx
 {
@@ -41,7 +41,7 @@ public:
 
 
 	virtual ~CMainDlg();
-	CStartDlg* m_startDlg;
+	CLoadingDlg* m_startDlg;
 	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;

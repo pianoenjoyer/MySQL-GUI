@@ -11,7 +11,7 @@
 #include "CAboutDlg.h"
 #include "CPluginsTab.h"
 #include "CEnginesTab.h"
-#include "CStartDlg.h"
+#include "CLoadingDlg.h"
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
 #include <fstream>
@@ -230,7 +230,7 @@ BOOL CMainDlg::OnInitDialog()
         #endif
         return TRUE;
     }
-    CStartDlg loadingDlg;
+    CLoadingDlg loadingDlg;
     loadingDlg.Create(IDD_LOADING, 0);
     loadingDlg.ShowWindow(TRUE);
 

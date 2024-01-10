@@ -1,35 +1,35 @@
-// CStartDlg.cpp : implementation file
+// CLoadingDlg.cpp : implementation file
 //
 
 #include "pch.h"
 #include "afxdialogex.h"
-#include "CStartDlg.h"
+#include "CLoadingDlg.h"
 #include "resource.h"
 #include "Colors.h"
 #include "resource.h"
 #include "CMainDlg.h"
-// CStartDlg dialog
+// CLoadingDlg dialog
 
-IMPLEMENT_DYNAMIC(CStartDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CLoadingDlg, CDialogEx)
 
-CStartDlg::CStartDlg(CWnd* pParent /*=nullptr*/)
+CLoadingDlg::CLoadingDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_LOADING, pParent)
 {
 
 }
 
 
-CStartDlg::~CStartDlg()
+CLoadingDlg::~CLoadingDlg()
 {
 
 }
 
-void CStartDlg::DoDataExchange(CDataExchange* pDX)
+void CLoadingDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
-BOOL CStartDlg::OnInitDialog()
+BOOL CLoadingDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
     auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
@@ -50,7 +50,7 @@ BOOL CStartDlg::OnInitDialog()
 	return TRUE;
 }
 
-BOOL CStartDlg::SetLoadingState(int position, CString message)
+BOOL CLoadingDlg::SetLoadingState(int position, CString message)
 {
     auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
     auto pStatic = (CStatic*)GetDlgItem(IDC_STATIC_LOADING);
@@ -65,7 +65,7 @@ BOOL CStartDlg::SetLoadingState(int position, CString message)
     return FALSE;
 }
 
-void CStartDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
+void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	if (lpDrawItemStruct->CtlType == ODT_BUTTON)
 	{
@@ -135,7 +135,7 @@ void CStartDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 
 
-BOOL CStartDlg::OnEraseBkgnd(CDC* pDC)
+BOOL CLoadingDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
 	GetClientRect(&rectClient);
@@ -144,7 +144,7 @@ BOOL CStartDlg::OnEraseBkgnd(CDC* pDC)
 }
 
 
-HBRUSH CStartDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+HBRUSH CLoadingDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
@@ -160,11 +160,11 @@ HBRUSH CStartDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
-BEGIN_MESSAGE_MAP(CStartDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CLoadingDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_WM_DRAWITEM()
 	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
-// CStartDlg message handlers
+// CLoadingDlg message handlers
