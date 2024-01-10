@@ -70,7 +70,6 @@ BOOL CDBInterfaceApp::InitInstance()
 	//m_pMainWnd = &dlg; // causing dlg to shutdown
 	CAuthDlg authDlg(db);
 	CMainDlg mainWindow(db);
-	CStartDlg startDlg(nullptr, &mainWindow);
 	INT_PTR status_auth = IDOK;
 	INT_PTR status_main = IDOK;
 
@@ -79,9 +78,7 @@ BOOL CDBInterfaceApp::InitInstance()
 		status_auth = authDlg.DoModal();
 		if (status_auth == IDOK)
 		{
-			startDlg.DoModal();
 			status_main = mainWindow.DoModal();
-
 			if (db)
 			{
 				db->Disconnect();

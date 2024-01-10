@@ -8,13 +8,12 @@
 #include "CDBConnection.h"
 #include "CMainDlg.h"
 #include "CAboutDlg.h"
-
+#include "Colors.h"
 #include <memory>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-#define SQLDARKBLUE RGB(29, 48, 82)
 
 CString GetAppCurrentDirectory()
 {
@@ -185,7 +184,11 @@ BOOL CAuthDlg::OnInitDialog()
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_LOGO);
 		HBITMAP hBmp = image.Detach();
-		pPicCtrl->SetBitmap(hBmp);
+		if (pPicCtrl)
+		{
+			pPicCtrl->SetBitmap(hBmp);
+		}
+
 	}
 
 	CLoginDataSave dataSaver;

@@ -37,7 +37,6 @@ protected:
 public:
 
 	CMainDlg(CWnd* pParent = nullptr);  // Standard constructor
-	CMainDlg(std::shared_ptr<CDBConnection> db, CStartDlg* startDlg, CWnd* pParent = nullptr);
 	CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
 
 

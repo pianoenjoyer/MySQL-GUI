@@ -9,17 +9,20 @@ class CStartDlg : public CDialogEx
 
 public:
 	CStartDlg(CWnd* pParent = nullptr);   // standard constructor
-	CStartDlg(CWnd* pParent, CMainDlg* mainDlg);   // standard constructor
+	bool CStartDlg::SetLoadingState();
+	BOOL CStartDlg::OnInitDialog();
 	virtual ~CStartDlg();
-
+	BOOL CStartDlg::SetLoadingState(int position, CString message);
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_LOADING };
 #endif
 
 protected:
+	HBRUSH CStartDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	BOOL CStartDlg::OnEraseBkgnd(CDC* pDC);
+	void CStartDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	BOOL CStartDlg::OnInitDialog();
-	CMainDlg* m_mainDlg;
+
 	DECLARE_MESSAGE_MAP()
 };

@@ -135,6 +135,9 @@
     <ClInclude Include="CStartDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">

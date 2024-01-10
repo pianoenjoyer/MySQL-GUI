@@ -1,7 +1,8 @@
 #pragma once
+#include "pch.h"
 #include "CDBConnection.h"
 #include "Convertions.h"
-#include <memory>
+
 
 // CResultTab dialog
 class CMainDlg;

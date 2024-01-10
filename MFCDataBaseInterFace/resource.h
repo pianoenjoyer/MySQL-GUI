@@ -40,7 +40,6 @@
 #define IDB_PNG5                        179
 #define IDD_PLUGINS                     180
 #define IDD_ENGINES                     181
-#define IDD_DIALOG4                     185
 #define IDD_LOADING                     185
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
@@ -140,6 +139,7 @@
 #define IDC_PROGRESS1                   1049
 #define IDC_EXECPROGRESS                1049
 #define IDC_PROGRESS_STRENGTH           1049
+#define IDC_PROGRESS_INIT               1049
 #define IDC_CMB_SEL_DB                  1050
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
@@ -223,6 +223,8 @@
 #define IDC_COLOR_FONT                  1169
 #define IDC_FONT_SIZE                   1170
 #define IDC_FONTCOMBO                   1174
+#define IDC_STATIC_LOADING              1176
+#define IDC_LOADING_PIC                 1177
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -260,7 +262,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        187
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1176
+#define _APS_NEXT_CONTROL_VALUE         1178
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

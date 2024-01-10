@@ -27,13 +27,6 @@ CMainDlg::CMainDlg(CWnd* pParent /*= nullptr*/)
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CStartDlg* startDlg, CWnd* pParent /*= nullptr*/)
-    : CDialogEx(IDD_MAIN, pParent), db(db), m_startDlg(startDlg)
-{
-    m_resultSet = nullptr;
-    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-}
-
 CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*= nullptr*/)
     : CDialogEx(IDD_MAIN, pParent), db(db)
 {
@@ -233,10 +226,14 @@ BOOL CMainDlg::OnInitDialog()
     if (!db)
     {
         #ifdef DEBUG
-                OutputDebugString(L"OnBnClickedBtnUnsel(), pComboBox error\n");
+                OutputDebugString(L"db is null\n");
         #endif
         return TRUE;
     }
+    CStartDlg loadingDlg;
+    loadingDlg.Create(IDD_LOADING, 0);
+    loadingDlg.ShowWindow(TRUE);
+
     //SetDlgStyle(1);
     //SetBackgroundColor(RGB(0, 97, 139));
     SetBackgroundColor(RGB(240, 241, 242));
@@ -264,17 +261,29 @@ BOOL CMainDlg::OnInitDialog()
 
     FillDatabaseDropdown();
     //init dlgs
+    loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
     m_homeTab.Create(IDD_HOME, pTabCtrl);
+    loadingDlg.SetLoadingState(20, L"Loading: IDD_QUERY ");
     m_queryTab.Create(IDD_QUERY, pTabCtrl);
+    loadingDlg.SetLoadingState(30, L"Loading: IDD_RESULT ");
     m_resultTab.Create(IDD_RESULT, pTabCtrl);
+    loadingDlg.SetLoadingState(40, L"Loading: IDD_EXPORT ");
     m_exportTab.Create(IDD_EXPORT, pTabCtrl);
+    loadingDlg.SetLoadingState(50, L"Loading: IDD_TABLES ");
     m_tableTab.Create(IDD_TABLES, pTabCtrl);
+    loadingDlg.SetLoadingState(55, L"Loading: IDD_CHARSETS ");
     m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
+    loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
     m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
+    loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
     m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
+    loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
     m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
+    loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
     m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
+    loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
     m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
+    loadingDlg.SetLoadingState(100, L"Finishing... ");
     //insert into tab control
     TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;
 
@@ -393,7 +402,6 @@ BOOL CMainDlg::OnInitDialog()
     m_enginesTab.ShowWindow(SW_HIDE);
     OnBnClickedBtnUpdate();
 
-    //m_startDlg->EndDialog(IDOK);
     return TRUE;
 }
 

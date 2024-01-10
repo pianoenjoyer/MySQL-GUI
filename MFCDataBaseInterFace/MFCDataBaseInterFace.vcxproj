@@ -234,6 +234,7 @@
     <ClInclude Include="CLoginDataSave.h" />
     <ClInclude Include="CMonitorTab.h" />
     <ClInclude Include="CNewDBDlg.h" />
+    <ClInclude Include="Colors.h" />
     <ClInclude Include="CPluginsTab.h" />
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryTab.h" />
