@@ -41,6 +41,7 @@
 #define IDD_PLUGINS                     180
 #define IDD_ENGINES                     181
 #define IDD_LOADING                     185
+#define IDD_HOME_RUS                    189
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -260,7 +261,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        187
+#define _APS_NEXT_RESOURCE_VALUE        190
 #define _APS_NEXT_COMMAND_VALUE         32805
 #define _APS_NEXT_CONTROL_VALUE         1178
 #define _APS_NEXT_SYMED_VALUE           101

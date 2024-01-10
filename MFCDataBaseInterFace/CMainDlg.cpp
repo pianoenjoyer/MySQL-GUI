@@ -223,6 +223,7 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+    CString app_language = ((CDBInterfaceApp*)AfxGetApp())->m_language;
     if (!db)
     {
         #ifdef DEBUG
@@ -261,29 +262,58 @@ BOOL CMainDlg::OnInitDialog()
 
     FillDatabaseDropdown();
     //init dlgs
-    loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
-    m_homeTab.Create(IDD_HOME, pTabCtrl);
-    loadingDlg.SetLoadingState(20, L"Loading: IDD_QUERY ");
-    m_queryTab.Create(IDD_QUERY, pTabCtrl);
-    loadingDlg.SetLoadingState(30, L"Loading: IDD_RESULT ");
-    m_resultTab.Create(IDD_RESULT, pTabCtrl);
-    loadingDlg.SetLoadingState(40, L"Loading: IDD_EXPORT ");
-    m_exportTab.Create(IDD_EXPORT, pTabCtrl);
-    loadingDlg.SetLoadingState(50, L"Loading: IDD_TABLES ");
-    m_tableTab.Create(IDD_TABLES, pTabCtrl);
-    loadingDlg.SetLoadingState(55, L"Loading: IDD_CHARSETS ");
-    m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
-    loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
-    m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
-    loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
-    m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
-    loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
-    m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
-    loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
-    m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
-   loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
-    m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
-   loadingDlg.SetLoadingState(100, L"Finishing... ");
+    if (app_language == L"en")
+    {
+        loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
+        m_homeTab.Create(IDD_HOME, pTabCtrl);
+        loadingDlg.SetLoadingState(20, L"Loading: IDD_QUERY ");
+        m_queryTab.Create(IDD_QUERY, pTabCtrl);
+        loadingDlg.SetLoadingState(30, L"Loading: IDD_RESULT ");
+        m_resultTab.Create(IDD_RESULT, pTabCtrl);
+        loadingDlg.SetLoadingState(40, L"Loading: IDD_EXPORT ");
+        m_exportTab.Create(IDD_EXPORT, pTabCtrl);
+        loadingDlg.SetLoadingState(50, L"Loading: IDD_TABLES ");
+        m_tableTab.Create(IDD_TABLES, pTabCtrl);
+        loadingDlg.SetLoadingState(55, L"Loading: IDD_CHARSETS ");
+        m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
+        loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
+        m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
+        loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
+        m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
+        loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
+        m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
+        loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
+        m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
+        loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
+        m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
+        loadingDlg.SetLoadingState(100, L"Finishing... ");
+    }
+    if (app_language == L"ru")
+    {
+        loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
+        m_homeTab.Create(IDD_HOME_RUS, pTabCtrl);
+        loadingDlg.SetLoadingState(20, L"Loading: IDD_QUERY ");
+        m_queryTab.Create(IDD_QUERY, pTabCtrl);
+        loadingDlg.SetLoadingState(30, L"Loading: IDD_RESULT ");
+        m_resultTab.Create(IDD_RESULT, pTabCtrl);
+        loadingDlg.SetLoadingState(40, L"Loading: IDD_EXPORT ");
+        m_exportTab.Create(IDD_EXPORT, pTabCtrl);
+        loadingDlg.SetLoadingState(50, L"Loading: IDD_TABLES ");
+        m_tableTab.Create(IDD_TABLES, pTabCtrl);
+        loadingDlg.SetLoadingState(55, L"Loading: IDD_CHARSETS ");
+        m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
+        loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
+        m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
+        loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
+        m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
+        loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
+        m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
+        loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
+        m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
+        loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
+        m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
+        loadingDlg.SetLoadingState(100, L"Finishing... ");
+    }
     //insert into tab control
     TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;
 

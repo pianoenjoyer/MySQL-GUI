@@ -22,6 +22,8 @@ protected:
     //CLoginDataSave dataSaver;
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
+
+    BOOL CAuthDlg::PopulateLangCombo();
     HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnPaint();
@@ -46,4 +48,6 @@ private:
     CString m_cUser;
     CString m_cPassword;
     CString m_cDatabase;
+public:
+    afx_msg void OnCbnSelchangeComboLanguage();
 };

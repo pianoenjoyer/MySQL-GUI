@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CAuthDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_WM_DRAWITEM()
 	ON_WM_ERASEBKGND()
+	ON_CBN_SELCHANGE(IDC_COMBO_LANGUAGE, &CAuthDlg::OnCbnSelchangeComboLanguage)
 END_MESSAGE_MAP()
 
 
@@ -207,11 +208,23 @@ BOOL CAuthDlg::OnInitDialog()
 		}
 	}
 
-	auto pCombo = (CComboBox*)GetDlgItem(IDC_COMBO_LANGUAGE);
-	pCombo->AddString(L"en");
-	pCombo->SetCurSel(0);
+	PopulateLangCombo();
 
 	return TRUE;
+}
+
+BOOL CAuthDlg::PopulateLangCombo()
+{
+	auto pCombo = (CComboBox*)GetDlgItem(IDC_COMBO_LANGUAGE);
+	if (!pCombo)
+	{
+		return false;
+	}
+	pCombo->AddString(L"en");
+	pCombo->AddString(L"ru");
+	pCombo->SetCurSel(0);
+	OnCbnSelchangeComboLanguage();
+	return true;
 }
 
 void CAuthDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -313,3 +326,21 @@ void CAuthDlg::OnBnClickedBtnShowPassword()
 }
 
 
+
+
+void CAuthDlg::OnCbnSelchangeComboLanguage()
+{
+	auto pCombo = (CComboBox*)GetDlgItem(IDC_COMBO_LANGUAGE);
+	if (!pCombo)
+	{
+		return;
+	}
+
+	int curSel = pCombo->GetCurSel();
+	if (curSel != CB_ERR)
+	{
+		CString ComboLangString;
+		pCombo->GetLBText(curSel, ComboLangString);
+		((CDBInterfaceApp*)AfxGetApp())->m_language = ComboLangString;
+	}
+}

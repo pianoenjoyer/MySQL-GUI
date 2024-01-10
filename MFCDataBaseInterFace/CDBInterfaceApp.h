@@ -16,7 +16,7 @@ public:
 // Overrides
 public:
 	virtual BOOL InitInstance();
-
+	CString m_language;
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
