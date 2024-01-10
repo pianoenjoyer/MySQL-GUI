@@ -6,7 +6,7 @@
 #include "framework.h"
 #include "CDBInterfaceApp.h"
 #include "CAuthDlg.h"
-
+#include "CStartDlg.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -70,14 +70,16 @@ BOOL CDBInterfaceApp::InitInstance()
 	//m_pMainWnd = &dlg; // causing dlg to shutdown
 	CAuthDlg authDlg(db);
 	CMainDlg mainWindow(db);
-
+	CStartDlg startDlg;
 	INT_PTR status_auth = IDOK;
 	INT_PTR status_main = IDOK;
 	while (status_auth == IDOK && status_main == IDOK)
 	{
 		status_auth = authDlg.DoModal();
+
 		if (status_auth == IDOK)
 		{
+
 			status_main = mainWindow.DoModal();
 			db->Disconnect();
 		}	

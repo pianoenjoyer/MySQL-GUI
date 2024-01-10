@@ -132,6 +132,9 @@
     <ClInclude Include="CPluginsTab.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="CStartDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="CPluginsTab.cpp">
       <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartDlg.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
