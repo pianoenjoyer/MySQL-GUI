@@ -11,7 +11,7 @@
 #include "CAboutDlg.h"
 #include "CPluginsTab.h"
 #include "CEnginesTab.h"
-
+#include "CStartDlg.h"
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
 #include <fstream>
@@ -20,18 +20,25 @@ IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 
-CMainDlg::CMainDlg(CWnd* pParent /*=nullptr*/)
+CMainDlg::CMainDlg(CWnd* pParent /*= nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
     m_resultSet = nullptr;
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/)
+CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CStartDlg* startDlg, CWnd* pParent /*= nullptr*/)
+    : CDialogEx(IDD_MAIN, pParent), db(db), m_startDlg(startDlg)
+{
+    m_resultSet = nullptr;
+    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
+
+CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*= nullptr*/)
     : CDialogEx(IDD_MAIN, pParent), db(db)
-{ 
-     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-     m_resultSet = nullptr;
+{
+    m_resultSet = nullptr;
+    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 
@@ -223,6 +230,13 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+    if (!db)
+    {
+        #ifdef DEBUG
+                OutputDebugString(L"OnBnClickedBtnUnsel(), pComboBox error\n");
+        #endif
+        return TRUE;
+    }
     //SetDlgStyle(1);
     //SetBackgroundColor(RGB(0, 97, 139));
     SetBackgroundColor(RGB(240, 241, 242));
@@ -379,6 +393,7 @@ BOOL CMainDlg::OnInitDialog()
     m_enginesTab.ShowWindow(SW_HIDE);
     OnBnClickedBtnUpdate();
 
+    //m_startDlg->EndDialog(IDOK);
     return TRUE;
 }
 

@@ -13,6 +13,7 @@
 #include "CMonitorTab.h"
 #include "CEnginesTab.h"
 #include "CPluginsTab.h"
+#include "CStartDlg.h"
 
 class CMainDlg : public CDialogEx
 {
@@ -35,11 +36,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 
-	CMainDlg(CWnd* pParent = nullptr);   // standard constructor
+	CMainDlg(CWnd* pParent = nullptr);  // Standard constructor
+	CMainDlg(std::shared_ptr<CDBConnection> db, CStartDlg* startDlg, CWnd* pParent = nullptr);
 	CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
-	CMainDlg(CWnd* pParent /*=nullptr*/, std::shared_ptr<CDBConnection> db);
-	virtual ~CMainDlg();
 
+
+	virtual ~CMainDlg();
+	CStartDlg* m_startDlg;
 	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;

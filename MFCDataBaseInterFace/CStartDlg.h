@@ -1,7 +1,6 @@
 #pragma once
 #include "afxdialogex.h"
 
-
 // CStartDlg dialog
 
 class CStartDlg : public CDialogEx
@@ -10,6 +9,7 @@ class CStartDlg : public CDialogEx
 
 public:
 	CStartDlg(CWnd* pParent = nullptr);   // standard constructor
+	CStartDlg(CWnd* pParent, CMainDlg* mainDlg);   // standard constructor
 	virtual ~CStartDlg();
 
 // Dialog Data
@@ -19,6 +19,7 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	BOOL CStartDlg::OnInitDialog();
+	CMainDlg* m_mainDlg;
 	DECLARE_MESSAGE_MAP()
 };
