@@ -32,7 +32,6 @@ protected:
 
     void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
     BOOL CAuthDlg::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
-
     BOOL CAuthDlg::OnEraseBkgnd(CDC* pDC);
     BOOL PreTranslateMessage(MSG* pMsg);
 

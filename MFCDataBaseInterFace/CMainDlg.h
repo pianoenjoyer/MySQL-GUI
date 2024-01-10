@@ -41,7 +41,6 @@ public:
 
 
 	virtual ~CMainDlg();
-	CLoadingDlg* m_startDlg;
 	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
@@ -54,7 +53,6 @@ public:
 	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
 	CMonitorTab m_monitorTab;
-
 	CEnginesTab m_enginesTab;
 	CPluginsTab m_pluginsTab;
 

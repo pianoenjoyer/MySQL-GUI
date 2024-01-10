@@ -290,29 +290,29 @@ BOOL CMainDlg::OnInitDialog()
     }
     if (app_language == L"ru")
     {
-        loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
+        loadingDlg.SetLoadingState(10, L"Загрузка: IDD_HOME ");
         m_homeTab.Create(IDD_HOME_RUS, pTabCtrl);
-        loadingDlg.SetLoadingState(20, L"Loading: IDD_QUERY ");
+        loadingDlg.SetLoadingState(20, L"Загрузка: IDD_QUERY ");
         m_queryTab.Create(IDD_QUERY, pTabCtrl);
-        loadingDlg.SetLoadingState(30, L"Loading: IDD_RESULT ");
+        loadingDlg.SetLoadingState(30, L"Загрузка: IDD_RESULT ");
         m_resultTab.Create(IDD_RESULT, pTabCtrl);
-        loadingDlg.SetLoadingState(40, L"Loading: IDD_EXPORT ");
+        loadingDlg.SetLoadingState(40, L"Загрузка: IDD_EXPORT ");
         m_exportTab.Create(IDD_EXPORT, pTabCtrl);
-        loadingDlg.SetLoadingState(50, L"Loading: IDD_TABLES ");
+        loadingDlg.SetLoadingState(50, L"Загрузка: IDD_TABLES ");
         m_tableTab.Create(IDD_TABLES, pTabCtrl);
-        loadingDlg.SetLoadingState(55, L"Loading: IDD_CHARSETS ");
+        loadingDlg.SetLoadingState(55, L"Загрузка: IDD_CHARSETS ");
         m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
-        loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
+        loadingDlg.SetLoadingState(60, L"Загрузка: IDD_DATABASES ");
         m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
-        loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
+        loadingDlg.SetLoadingState(70, L"Загрузка: IDD_VARIABLES ");
         m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
-        loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
+        loadingDlg.SetLoadingState(80, L"Загрузка: IDD_STATUS_MONITOR ");
         m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);
-        loadingDlg.SetLoadingState(90, L"Loading: IDD_PLUGINS ");
+        loadingDlg.SetLoadingState(90, L"Загрузка: IDD_PLUGINS ");
         m_pluginsTab.Create(IDD_PLUGINS, pTabCtrl);
-        loadingDlg.SetLoadingState(100, L"Loading: IDD_ENGINES ");
+        loadingDlg.SetLoadingState(100, L"Загрузка: IDD_ENGINES ");
         m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
-        loadingDlg.SetLoadingState(100, L"Finishing... ");
+        loadingDlg.SetLoadingState(100, L"Завершение... ");
     }
     //insert into tab control
     TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;

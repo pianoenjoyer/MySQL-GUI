@@ -68,16 +68,16 @@ BOOL CDBInterfaceApp::InitInstance()
 	std::shared_ptr<CDBConnection> db(std::make_shared<CDBConnection>());
 
 	//m_pMainWnd = &dlg; // causing dlg to shutdown
-	CAuthDlg authDlg(db);
-	CMainDlg mainWindow(db);
 	INT_PTR status_auth = IDOK;
 	INT_PTR status_main = IDOK;
 
 	while (status_auth == IDOK && status_main == IDOK)
 	{
+		CAuthDlg authDlg(db);
 		status_auth = authDlg.DoModal();
 		if (status_auth == IDOK)
 		{
+			CMainDlg mainWindow(db);
 			status_main = mainWindow.DoModal();
 			if (db)
 			{
