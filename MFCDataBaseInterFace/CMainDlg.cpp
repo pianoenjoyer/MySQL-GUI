@@ -1,9 +1,10 @@
 ﻿
 #include "pch.h"
 #include "afxdialogex.h"
+#include "Colors.h"
+
 #include "CDBInterfaceApp.h"
 #include "CMonitorTab.h"
-
 #include "CResultTab.h"
 #include "CMainDlg.h"
 #include "CAuthDlg.h"
@@ -14,6 +15,7 @@
 #include "CLoadingDlg.h"
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
+
 #include <fstream>
 
 IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
@@ -223,6 +225,7 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+    SetBackgroundColor(TABWHITE);
     CString app_language = ((CDBInterfaceApp*)AfxGetApp())->m_language;
     if (!db)
     {
@@ -233,21 +236,13 @@ BOOL CMainDlg::OnInitDialog()
     }
     CLoadingDlg loadingDlg;
     loadingDlg.Create(IDD_LOADING, 0);
-    loadingDlg.ShowWindow(TRUE);
 
-    //SetDlgStyle(1);
-    //SetBackgroundColor(RGB(0, 97, 139));
-    SetBackgroundColor(RGB(240, 241, 242));
-
-    // Invalidate and redraw the entire client area of the dialog
     SetIcon(m_hIcon, TRUE);			// Set big icon
     SetIcon(m_hIcon, FALSE);		// Set small icon
-
-    m_resultSet = nullptr;
-    //set visible at task bar
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+
     //give pointer to db object
     m_homeTab.db = this->db;
     m_queryTab.db = this->db;

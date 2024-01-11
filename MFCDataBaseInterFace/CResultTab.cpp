@@ -104,8 +104,8 @@ int CResultTab::BuildResultList(sql::ResultSet* resultSet, int offset) {
     pList->SetRedraw(FALSE);  // Prevent redraw during data insertion
 
     while (resultSet->next() && (limit == 0 || populatedRows < limit)) {
-        CString rowData = SQLStringToCString(resultSet->getString(1));
 
+        CString rowData = SQLStringToCString(resultSet->getString(1));
         int nIndex = pList->InsertItem(populatedRows, rowData);
 
         for (int i = 2; i <= columnCount; i++) {
@@ -183,6 +183,7 @@ BOOL CResultTab::OnInitDialog()
     CDialogEx::OnInitDialog();
     auto pMainTab = (CTabCtrl*)this->GetParent();
     m_pMainDlg = (CMainDlg*)pMainTab->GetParent();
+
     FillLimitDropdown();
     GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(L"0");

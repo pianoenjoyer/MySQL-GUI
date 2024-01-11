@@ -36,7 +36,8 @@ BOOL CLoadingDlg::OnInitDialog()
     pProgress->SetRange(0, 50);
 
 	CImage image;
-	if (SUCCEEDED(image.Load(L".\\Pictures\\MySQLHOME.png")))
+
+	if (SUCCEEDED(image.Load(L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png")))
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
 		HBITMAP hBmp = image.Detach();
@@ -156,7 +157,7 @@ HBRUSH CLoadingDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkMode(TRANSPARENT);
-	hbr = CreateSolidBrush(SQLDARKBLUE);
+	hbr = CreateSolidBrush(SQLBLUE);
 	return hbr;
 }
 

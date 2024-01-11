@@ -8,6 +8,7 @@
 #include "Convertions.h"
 #include "CChangeUserPasswordDlg.h"
 #include "SharedFunctions.h"
+#include "Colors.h";
 // CHomeTab dialog
 
 IMPLEMENT_DYNAMIC(CHomeTab, CDialogEx)
@@ -259,10 +260,7 @@ BOOL CHomeTab::OnInitDialog()
 {
 
 	CDialogEx::OnInitDialog();
-    SetBackgroundColor(RGB(240, 241, 242));
-
-    //ModifyStyle(0, BS_OWNERDRAW, 0);
-    //SetBackgroundColor(RGB(200, 200, 200));
+    SetBackgroundColor(TABWHITE);
     PopulateGeneralInfo();
     PopulatePluginsList();
     PopulateEnginesList();

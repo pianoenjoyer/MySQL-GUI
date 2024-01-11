@@ -6,7 +6,7 @@
 #include "CQueryTab.h"
 #include "CMainDlg.h"
 #include "SharedFunctions.h"
-
+#include "Colors.h"
 #include <chrono>
 #include "Convertions.h"
 
@@ -55,6 +55,7 @@ BOOL CQueryTab::SetDefaultFont()
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
+    SetBackgroundColor(TABWHITE);
     auto pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     DWORD dwMask = pRichEdit->GetEventMask();
     dwMask |= (ENM_CHANGE | ENM_SCROLL);
