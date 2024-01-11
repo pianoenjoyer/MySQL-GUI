@@ -118,7 +118,7 @@ void CMonitorTab::InitGraph()
 
 void CMonitorTab::UpdateGraph() 
 {
-    if (m_TrafficSentDataToDraw.size() == 61) 
+    if (m_TrafficSentDataToDraw.size() > 60) 
     {
         m_TrafficSentDataToDraw.erase(m_TrafficSentDataToDraw.begin());
         m_ProcessesDataToDraw.erase(m_ProcessesDataToDraw.begin());
@@ -134,7 +134,6 @@ void CMonitorTab::UpdateGraph()
     double curTrafficSentUsage = GetCurrentNetworkTrafficSent();
     double curTrafficReceivedUsage = GetCurrentNetworkTrafficReceived();
     double curConnections = GetConnectionCount();
-    
     int curProcesses = GetProcessCount();
 
     m_TrafficSentDataHystory.push_back(curTrafficSentUsage);
@@ -160,13 +159,10 @@ void CMonitorTab::UpdateGraph()
     m_ConnectionDataToDraw.push_back(curConnections);
 
     std::vector<double> timeStamps;
-    int i = 1;
-    for (auto& value : timeStamps)
+    for (int i = 1; i <= 60; ++i)
     {
         timeStamps.push_back(i);
-        ++i;
     }
-
     //TODO adjust min and max based on vector values
 
     double traffReceivedGraphMax = 1;
@@ -196,8 +192,6 @@ void CMonitorTab::UpdateGraph()
         traffSentGraphMin = curTrafficReceivedUsage / 2;
     }
 
-
-
     std::thread thTrafReceived([&]()
         {
             drwCpuUsage.Draw(traffReceivedGraphMax, traffReceivedGraphMin, timeAxisMax, timeAxisMin, m_TrafficReceivedDataToDraw, timeStamps);
@@ -220,6 +214,7 @@ void CMonitorTab::UpdateGraph()
     thTrafSent.join();
     thCon.join();
     thProc.join();
+
 }
 
 void CMonitorTab::UpdateNetworkTrafficTitle()

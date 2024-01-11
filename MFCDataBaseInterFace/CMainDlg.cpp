@@ -225,7 +225,7 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    SetBackgroundColor(TABWHITE);
+    //SetBackgroundColor(TABWHITE);
     CString app_language = ((CDBInterfaceApp*)AfxGetApp())->m_language;
     if (!db)
     {
