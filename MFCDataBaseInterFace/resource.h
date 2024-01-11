@@ -226,6 +226,21 @@
 #define IDC_FONTCOMBO                   1174
 #define IDC_STATIC_LOADING              1176
 #define IDC_LOADING_PIC                 1177
+#define IDC_MFCSHELLTREE1               1178
+#define IDC_MFCSHELLLIST1               1179
+#define IDC_MFCPROPERTYGRID1            1180
+#define IDC_MFCMENUBUTTON1              1181
+#define IDC_MFCMENUBUTTON2              1182
+#define IDC_MFCMASKEDEDIT1              1183
+#define IDC_MFCVSLISTBOX1               1185
+#define IDC_MFCEDITBROWSE1              1186
+#define IDC_MFCCOLORBUTTON1             1187
+#define IDC_COMMAND1                    1188
+#define IDC_NETADDRESS1                 1189
+#define IDC_CUSTOM1                     1190
+#define IDC_SPLIT1                      1191
+#define IDC_COMBOBOXEX1                 1192
+#define IDC_MONTHCALENDAR1              1193
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -261,9 +276,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        190
+#define _APS_NEXT_RESOURCE_VALUE        191
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1178
+#define _APS_NEXT_CONTROL_VALUE         1194
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

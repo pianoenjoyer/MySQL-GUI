@@ -1060,6 +1060,7 @@ void CMainDlg::OnBnClickedBtnUnsel()
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
     if (pComboBox)
     {
+        this->SetWindowTextW(L"MySQL GUI");
         pComboBox->SetCurSel(-1);
         #ifdef DEBUG
         OutputDebugString(L"Selection cleared.\n");
