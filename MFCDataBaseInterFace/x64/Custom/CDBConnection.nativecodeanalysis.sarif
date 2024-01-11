@@ -67,7 +67,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "sha-256": "b7eff31a01fdda9ba97e8c77c74c631862337898b3733e456f5b9aeedb29b066"
+            "sha-256": "b8ee45bcf643bfd44a94782eca51ac8648c48f3a33d969be96b49fbab4e3b44f"
           }
         },
         {
@@ -75,7 +75,7 @@
             "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/pch.h"
           },
           "hashes": {
-            "sha-256": "fda211d3fbebb94e3e5c9de42df0dc37894f01310b0fada0d8277fbbb49f27c2"
+            "sha-256": "91ba447f2282519cb0bd2d254f65cc912a29ffddce4b85d187f892cf45cf14fa"
           }
         },
         {
@@ -99,7 +99,7 @@
             "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cdbconnection.h"
           },
           "hashes": {
-            "sha-256": "4b06e09545fe2824d570eac804a5570cac41f428920ae103a772bf365a57f319"
+            "sha-256": "eb990988a1958593acc5cba113fb6902d723230e55fa05d84796d4716dceb4fe"
           }
         },
         {

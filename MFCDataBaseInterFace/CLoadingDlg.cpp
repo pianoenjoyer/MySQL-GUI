@@ -46,6 +46,7 @@ BOOL CLoadingDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+
 	CProgressCtrl* pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
 	pProgress->SetRange(0, 50);
 

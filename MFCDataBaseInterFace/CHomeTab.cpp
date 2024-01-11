@@ -8,7 +8,7 @@
 #include "Convertions.h"
 #include "CChangeUserPasswordDlg.h"
 #include "SharedFunctions.h"
-#include "Colors.h";
+#include "Colors.h"
 // CHomeTab dialog
 
 IMPLEMENT_DYNAMIC(CHomeTab, CDialogEx)

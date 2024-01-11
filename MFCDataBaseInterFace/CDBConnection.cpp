@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "CDBConnection.h"
-#include <codecvt>
+
 
 CDBConnection::CDBConnection()
     : m_driver(nullptr), m_connection(nullptr), m_isConnected(false)
@@ -15,10 +15,14 @@ CDBConnection::~CDBConnection()
 
 bool CDBConnection::Connect(sql::ConnectOptionsMap& settings)
 {
-    if (IsConnected()) return true;
+    if (IsConnected())
+    {
+        return true;
+    }
     try {
         m_connection = m_driver->connect(settings);
         delete m_connection;
+        return true;
     }
     catch (sql::SQLException& e) {
         CStringW wideErrorMessage(e.what());
