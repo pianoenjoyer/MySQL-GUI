@@ -94,7 +94,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -115,12 +115,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\mysql-connector-c++-8.0.33-winx64\include\mysql;G:\Repos VS\MFCDataBaseInterFace\mysql-connector-c++-8.0.33-winx64\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\connector\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>G:\Repos VS\MFCDataBaseInterFace\mysql-connector-c++-8.0.33-winx64\lib64\vs14;.\mysql-connector-c++-8.0.33-winx64\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\connector\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
@@ -214,7 +214,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Custom|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\connector\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <WarningLevel>Level1</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\connector\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -18,14 +18,14 @@ public:
 #endif
 
 protected:
-	BOOL CTableCreationDlg::OnInitDialog();
+	BOOL OnInitDialog();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
-public:void CTableCreationDlg::PopulateStorageEngineDropdown();
-	void CTableCreationDlg::PopulateCharacterSetDropdown();
-	inline void CTableCreationDlg::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-	inline std::shared_ptr<CDBConnection> CTableCreationDlg::GetDatabaseObject() { return db; };
+public:void PopulateStorageEngineDropdown();
+	void PopulateCharacterSetDropdown();
+	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
 	CListCtrl m_ListCreateTable;
 	CRichEditCtrl m_editTableName;
 	// m_comboCollation

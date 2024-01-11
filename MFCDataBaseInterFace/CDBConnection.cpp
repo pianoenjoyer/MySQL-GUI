@@ -162,60 +162,6 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString
         return nullptr;  // Return nullptr indicating failure
     }
 }
-// No longer in use
-CString CDBConnection::GetResultString(sql::ResultSet* resultSet)
-{
-    CString result;
-    if (resultSet)
-    {
-        int columnCount = resultSet->getMetaData()->getColumnCount();
-        const int columnWidth = 30; // Adjust the column width as needed
-
-        // Retrieve column names
-        for (int i = 1; i <= columnCount; i++)
-        {
-            std::string columnName = resultSet->getMetaData()->getColumnName(i);
-            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-            std::wstring utf16ColumnName = converter.from_bytes(columnName);
-            result += utf16ColumnName.c_str();
-
-            // Pad the column name to match the column width
-            int padding = columnWidth - utf16ColumnName.length();
-            result += CString(L' ', padding + 1); // Add extra space after each column name
-        }
-        result += L"\r\n";
-
-        // Add a line between column names and data
-        for (int i = 1; i <= columnCount; i++)
-        {
-            result += L"-----------------------"; // Adjust the line length as needed
-        }
-        result += L"\r\n";
-
-        while (resultSet->next())
-        {
-            for (int i = 1; i <= columnCount; i++)
-            {
-                std::string utf8String = resultSet->getString(i);
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-                std::wstring utf16String = converter.from_bytes(utf8String);
-                result += utf16String.c_str();
-
-                // Pad the column value to match the column width
-                int padding = columnWidth - utf16String.length();
-                result += CString(L' ', padding + 1); // Add extra space after each column value
-            }
-            result += L"\r\n";
-        }
-    }
-
-    /*if (resultSet)
-    {
-        delete resultSet;
-    }*/
-
-    return result;
-}
 
 std::vector<sql::SQLString> CDBConnection::GetTables()
 {

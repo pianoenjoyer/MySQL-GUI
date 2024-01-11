@@ -300,12 +300,12 @@ CString CMonitorTab::GetServerRunningTime() {
 }
 
 CString CMonitorTab::GetServerStartupTime() {
-        sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Uptime';");
-        if (!res)
-        {
-            return CString(_T("Error retrieving startup time."));
-        }
-        res->next();
+    sql::ResultSet* res = db->ExecuteQuery("SHOW STATUS LIKE 'Uptime';");
+    if (!res) {
+        return CString(_T("Error retrieving startup time."));
+    }
+
+    if (res->next()) {
         int uptimeSeconds = res->getInt("Value");
         delete res;
 
@@ -313,12 +313,19 @@ CString CMonitorTab::GetServerStartupTime() {
         time(&currentTime);
 
         time_t startupTime = currentTime - uptimeSeconds;
-        struct tm* tmInfo = localtime(&startupTime);
+        struct tm tmInfo;
+        localtime_s(&tmInfo, &startupTime);
 
         char buffer[100];
-        strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tmInfo);
+        strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &tmInfo);
         return CString(_T(" It started up on ")) + CString(buffer);
+    }
+    else {
+        delete res;
+        return CString(_T("No result found for startup time."));
+    }
 }
+
 
 void CMonitorTab::UpdateTrafficList()
 {

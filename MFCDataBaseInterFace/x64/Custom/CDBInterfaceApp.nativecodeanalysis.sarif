@@ -13,7 +13,7 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MFCDataBaseInterFace/connector/include/jdbc/cppconn/variant.h"
+                  "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MySQL-GUI/connector/include/jdbc/cppconn/variant.h"
                 },
                 "region": {
                   "startLine": 298,
@@ -32,13 +32,39 @@
           "properties": {
             "targetSymbol": "sql::Variant::variant"
           }
+        },
+        {
+          "ruleId": "C6262",
+          "message": {
+            "text": "Function uses '16720' bytes of stack.  Consider moving some data to heap."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MySQL-GUI/MFCDataBaseInterFace/CDBInterfaceApp.cpp"
+                },
+                "region": {
+                  "startLine": 37,
+                  "startColumn": 23
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "CDBInterfaceApp::InitInstance",
+                  "decoratedName": "?InitInstance@CDBInterfaceApp@@UEAAHXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
         }
       ],
       "tool": {
         "driver": {
           "name": "PREfast",
           "fullName": "PREfast Code Analysis",
-          "version": "14.37.32822.0",
+          "version": "14.38.33133.0",
           "informationUri": "https://aka.ms/cpp/ca"
         }
       },
@@ -50,7 +76,7 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MFCDataBaseInterFace/connector/include/jdbc/cppconn/variant.h"
+            "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MySQL-GUI/connector/include/jdbc/cppconn/variant.h"
           },
           "roles": [
             "resultFile"
@@ -61,26 +87,27 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbinterfaceapp.cpp"
+            "uri": "file:///C:/Users/mikhail/source/repos/pianoenjoyer/MySQL-GUI/MFCDataBaseInterFace/CDBInterfaceApp.cpp"
           },
           "roles": [
-            "analysisTarget"
+            "analysisTarget",
+            "resultFile"
           ],
           "hashes": {
-            "sha-256": "c4e47cef7149364aaaa921eeeca5a066ceb5a4b6324860f718c34b2c3bd32c81"
+            "sha-256": "061edc01aaad91e27fcef75cad7e220868b916e2225b0af6b2c7fbff7ac2b497"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/pch.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/pch.h"
           },
           "hashes": {
-            "sha-256": "c2d8c468b0dd828eaa49a609c5e54ebca95ea4d2de3cd390e968e01c5d7f79ed"
+            "sha-256": "fda211d3fbebb94e3e5c9de42df0dc37894f01310b0fada0d8277fbbb49f27c2"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/framework.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/framework.h"
           },
           "hashes": {
             "sha-256": "3fbdf2536ce3b71811d81172bb1ccc2d58b44b569326433f3ca10477e724c4a4"
@@ -88,7 +115,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/targetver.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/targetver.h"
           },
           "hashes": {
             "sha-256": "a2761fdbd4c8925741ddea678ee8398de930207e447666bc6a76d5f72684c04f"
@@ -96,39 +123,39 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbinterfaceapp.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cdbinterfaceapp.h"
           },
           "hashes": {
-            "sha-256": "d421cb85cb68a6f6e18dde9315c2ba6ebf6a65f41aea01b9dc52706b3fb5a822"
+            "sha-256": "8c0eee57b8aa811659900d4cd00c0df4ccabd30aafb3b773f8b1fae81fc12ae5"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/resource.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/resource.h"
           },
           "hashes": {
-            "sha-256": "efae4f96c0fa4c50c7fe687b4085a4a560a9c76d157cbfd489d8626680a60d78"
+            "sha-256": "113ff269e48ae263e288517f2d09d7c28d2a2ac867ae4f4b5aaf4e579e4c7c6c"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbauthdlg.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cauthdlg.h"
           },
           "hashes": {
-            "sha-256": "114463686b1cb6f8e986d027c5c053f5f1deebdaaaea08304fbff6fb1e088f98"
+            "sha-256": "4459637bc019df2b4f46935fc09b611618f727d13b3c8759b4e31dd9f7516fa2"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbconnection.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cdbconnection.h"
           },
           "hashes": {
-            "sha-256": "1e00083be5799e2703528f5840cad5640e9c8c38b8f5b19ce9b14415b6051673"
+            "sha-256": "4b06e09545fe2824d570eac804a5570cac41f428920ae103a772bf365a57f319"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/mysql/jdbc.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/mysql/jdbc.h"
           },
           "hashes": {
             "sha-256": "745668a584f0e42b94f4b358aa943d792d099fb39f029fb065bd2a7f68027113"
@@ -136,7 +163,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/mysql_connection.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/mysql_connection.h"
           },
           "hashes": {
             "sha-256": "62ce2890fe8c5c3bddedc6d7520842bb3d21f24cd0ecd9a4d4a08404b050ba64"
@@ -144,7 +171,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/connection.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/connection.h"
           },
           "hashes": {
             "sha-256": "3cab936cae1fb5e349f5803ba89f35ca46e83428b14b5052bf1a0d931a518619"
@@ -152,7 +179,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/build_config.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/build_config.h"
           },
           "hashes": {
             "sha-256": "92ef0e0025de61dffa45604a1feaaa8bad88a070e1715f069cd22e64dae58e48"
@@ -160,7 +187,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/warning.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/warning.h"
           },
           "hashes": {
             "sha-256": "05bb1424ea6f25ffe9e301d3e84e42f2944cb757ec91b0c4f07d37108ec5a241"
@@ -168,7 +195,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/sqlstring.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/sqlstring.h"
           },
           "hashes": {
             "sha-256": "41c00ebb5c29fc075071a59b7cbc33e8e0345d9776d218a4d463506128dd4741"
@@ -176,7 +203,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/exception.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/exception.h"
           },
           "hashes": {
             "sha-256": "63efa4366cfb7db1efb3d561c664c455860182908533f8e31df1672ce9a1626f"
@@ -184,7 +211,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/mysql_driver.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/mysql_driver.h"
           },
           "hashes": {
             "sha-256": "1f0cb0a67ec0b14ea5984a0e66c71a8b643b8f572562cbbf01929d240713c87a"
@@ -192,7 +219,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/driver.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/driver.h"
           },
           "hashes": {
             "sha-256": "6bea58f921b13c2a38bc7d059defc59764237e9984a64356ae71e00a2f4b6a31"
@@ -200,7 +227,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/callback.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/callback.h"
           },
           "hashes": {
             "sha-256": "87d7ed20cb8ab8075557533ba54f7d5d1343ab2542d2a28e03243c4c7e25fef3"
@@ -208,7 +235,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/mysql_error.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/mysql_error.h"
           },
           "hashes": {
             "sha-256": "c2705d57d2388aebf1da3282b3aca3dc46bb84d4bdc336c2459b3aba8c0e3bcb"
@@ -216,7 +243,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/config.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/config.h"
           },
           "hashes": {
             "sha-256": "715f243dc7df0611d3db57c6d2d5895c2c125838e3254690e62236ecace37471"
@@ -224,7 +251,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/datatype.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/datatype.h"
           },
           "hashes": {
             "sha-256": "bb397730f93eaa361a6bf686f102a039616d264a7d83077f6987e5203f634de7"
@@ -232,7 +259,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/metadata.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/metadata.h"
           },
           "hashes": {
             "sha-256": "bae18c5ba4312d310661597fd276117957aa44d5a303603c587c5cd7763c81ba"
@@ -240,7 +267,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/parameter_metadata.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/parameter_metadata.h"
           },
           "hashes": {
             "sha-256": "21316a574b405fd91699c89b5f5cc0018870e8a128ce22e83911e2e35cab09d3"
@@ -248,7 +275,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/prepared_statement.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/prepared_statement.h"
           },
           "hashes": {
             "sha-256": "dc92b91aff41918c9869d6ccdaa5b1301485bc020aa69440cdd49289f84efe7d"
@@ -256,7 +283,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/statement.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/statement.h"
           },
           "hashes": {
             "sha-256": "988dffd094d3b120a68ab4fe327bc20397610fcceb133d461a3d412d3f34ad01"
@@ -264,7 +291,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/resultset.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/resultset.h"
           },
           "hashes": {
             "sha-256": "d658833504c1b71b72669c17a86f14c0e5fdc34e2b808c9f74a7b4aed1af4646"
@@ -272,7 +299,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/resultset_metadata.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/resultset_metadata.h"
           },
           "hashes": {
             "sha-256": "98921750363bad7eec1ff73153e69d84a6eb01fe7c59682d2654388ad33f7cbb"
@@ -280,7 +307,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/connector/include/jdbc/cppconn/version_info.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/connector/include/jdbc/cppconn/version_info.h"
           },
           "hashes": {
             "sha-256": "c4b5fd6c79af7f2d02f7c2e7fd9ad05a3c7b4fc47e03c5170de1bd4039b9d3c8"
@@ -288,18 +315,130 @@
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbmaindlg.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cmaindlg.h"
           },
           "hashes": {
-            "sha-256": "73e9499919d9013779af90ec75697bfd60e2dd5cb31f1d8514ea6cae7878e113"
+            "sha-256": "04a4252f1d108ec30d37512b0c68231849c59f143f4797388f17185ae88d324c"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mfcdatabaseinterface/mfcdatabaseinterface/cdbexportdlg.h"
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cresulttab.h"
           },
           "hashes": {
-            "sha-256": "e165c43d63563ff74f64abd875c1aff31d1f66290ed4e3931709dd1317a930da"
+            "sha-256": "8c83228f677e9cd92f8d8145f3eac7d6422d21d7ccc0c105f242e62d7a2f788c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/convertions.h"
+          },
+          "hashes": {
+            "sha-256": "cbb5441953844b3cdd8b81e6994d248a71bb2b65d7c342ff41dfa68a20b70cac"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cexportdlg.h"
+          },
+          "hashes": {
+            "sha-256": "bb030c07cd6ff9f107cb7caa0ea5995bf847c95445563233697beaed5623b958"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cquerytab.h"
+          },
+          "hashes": {
+            "sha-256": "4e2967efd2dc4caf86e79a2b5bd11218eccfca91ee06c649b270b406f5c91f0f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/ctablecreationdlg.h"
+          },
+          "hashes": {
+            "sha-256": "e6e8ce48ddec000a14c71c81d9c65f0f9ee52ec630046831d8eb83a198daccc3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cproceduresdlg.h"
+          },
+          "hashes": {
+            "sha-256": "fb2058bda1dab048959f0dc962abf199ca2057daecb6e08af60cce880c4306f3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/chometab.h"
+          },
+          "hashes": {
+            "sha-256": "69a4ff3b7529fbf4150e122476ded9389ebb86be6222cda84fc970818cead8b4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cvariablestab.h"
+          },
+          "hashes": {
+            "sha-256": "e2157c6f960a19ce8a8d889dc99f4a6f8c623115643d19cfd83478b71957aa1c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/ccharsetstab.h"
+          },
+          "hashes": {
+            "sha-256": "2ad80e80a6d8679a29798c7e92c4d1fb6a80313b8616b78d7ad7a4f78a72ceec"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cdatabasestab.h"
+          },
+          "hashes": {
+            "sha-256": "295f6f8cc0a3441bb063eb8e38bd450f17ef08c96fc949f41fecf4301356ffc2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cmonitortab.h"
+          },
+          "hashes": {
+            "sha-256": "dea88f6bfb81750f3af158db2393eac3e86b5b6bbfef47c4ce26e18365a81fc7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/drawer.h"
+          },
+          "hashes": {
+            "sha-256": "b93d20fc8f6414fdd870ed5f95bb85e4c43cc04bd09f0076cdb17534e95dce64"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cenginestab.h"
+          },
+          "hashes": {
+            "sha-256": "fd7adb83490e12f2a3a3bfc5600db6114987aee0e124f29ad56c3dc651d1013b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cpluginstab.h"
+          },
+          "hashes": {
+            "sha-256": "9401246ffc171533d63f5efd1012a27f73758768026a59e84073426acafd3c27"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/mikhail/source/repos/pianoenjoyer/mysql-gui/mfcdatabaseinterface/cloadingdlg.h"
+          },
+          "hashes": {
+            "sha-256": "3b42ce4c899dc57960e0b2205c67efcc4218e27f96e352f83e847a40f65837d0"
           }
         }
       ]

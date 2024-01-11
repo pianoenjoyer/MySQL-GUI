@@ -258,7 +258,7 @@ void CQueryTab::ExecuteQueryMainDlg()
 
             if (m_resultSet)
             {
-                int rowsCount = m_resultSet->rowsCount();
+                size_t rowsCount = m_resultSet->rowsCount();
                 timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
                 SendMessageToConsole(timeTakenStr, GREEN);
@@ -305,7 +305,7 @@ void CQueryTab::ExecuteQueryMainDlg()
 
         if (m_resultSet)
         {
-            int rowsCount = m_resultSet->rowsCount();
+            size_t rowsCount = m_resultSet->rowsCount();
             timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
             SendMessageToConsole(timeTakenStr, GREEN);
@@ -367,7 +367,7 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
 
     if (m_resultSet)
     {
-        int rowsCount = m_resultSet->rowsCount();
+        size_t rowsCount = m_resultSet->rowsCount();
         timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
         SendMessageToConsole(timeTakenStr, GREEN);
@@ -475,7 +475,7 @@ void CQueryTab::OnBnClickedBtnSelectall()
 {
     
     CWnd* pTabCtrl = GetParent();
-    CComboBox* dbDropdown;
+    CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
         CWnd* pParentDialog = pTabCtrl->GetParent(); 
 
@@ -519,7 +519,7 @@ void CQueryTab::OnBnClickedBtnnSelect()
 {
     
     CWnd* pTabCtrl = GetParent();
-    CComboBox* dbDropdown;
+    CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
         CWnd* pParentDialog = pTabCtrl->GetParent();
 
@@ -560,7 +560,7 @@ void CQueryTab::OnBnClickedBtnnSelect()
 void CQueryTab::OnBnClickedBtnInsert()
 {
     CWnd* pTabCtrl = GetParent();
-    CComboBox* dbDropdown;
+    CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
         CWnd* pParentDialog = pTabCtrl->GetParent();
 
@@ -605,7 +605,7 @@ void CQueryTab::OnBnClickedBtnUpdaterecord()
 {
 
     CWnd* pTabCtrl = GetParent();
-    CComboBox* dbDropdown;
+    CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
         CWnd* pParentDialog = pTabCtrl->GetParent();
 
@@ -648,7 +648,7 @@ void CQueryTab::OnBnClickedBtnDeleterecord()
 {
 
     CWnd* pTabCtrl = GetParent();
-    CComboBox* dbDropdown;
+    CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
         CWnd* pParentDialog = pTabCtrl->GetParent();
 
@@ -894,6 +894,10 @@ void CQueryTab::ApplyFontSize(int nSize)
 {
     auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    if (!pRichEditSQL || !pRichEditString)
+    {
+        return;
+    }
     CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_SIZE;
@@ -911,6 +915,10 @@ void CQueryTab::ApplyFontType(const CString& strFontType)
 {
     auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    if (!pRichEditSQL || !pRichEditString)
+    {
+        return;
+    }
     CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_FACE;

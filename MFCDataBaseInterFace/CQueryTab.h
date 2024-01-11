@@ -7,12 +7,6 @@
 class CQueryTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CQueryTab)
-
-public:
-	CQueryTab(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CQueryTab();
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_QUERY };
 #endif
@@ -22,27 +16,29 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	BOOL CQueryTab::SetDefaultFontSize();
-	BOOL CQueryTab::SetDefaultFont();
-	void CQueryTab::PopulateFontSizesDropdown();
-	void CQueryTab::PopulateFontNamesDropdown();
+	CQueryTab(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~CQueryTab();
+	BOOL SetDefaultFontSize();
+	BOOL SetDefaultFont();
+	void PopulateFontSizesDropdown();
+	void PopulateFontNamesDropdown();
 	int CALLBACK EnumFontsProc(const LOGFONT* lpelf, const TEXTMETRIC* lpntm, DWORD FontType, LPARAM lParam);
 	CComboBox m_comboTables;
 	std::shared_ptr<CDBConnection> db;
 	CString errorString;
 	sql::ResultSet* m_resultSet;
-	inline void CQueryTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-	inline std::shared_ptr<CDBConnection> CQueryTab::GetDatabaseObject() { return db; };
-	void CQueryTab::ExecuteQueryMainDlg(CStringW sqlText);
-	void CQueryTab::SendMessageToConsole(CString msg, COLORREF color);
-	void CQueryTab::ExecuteQueryMainDlg();
-	void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
-	void CQueryTab::PopulateColumnsList();
-	void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText);
-	bool CQueryTab::FillTableDropdown();
-	BOOL CQueryTab::OnInitDialog();
+	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
+	void ExecuteQueryMainDlg(CStringW sqlText);
+	void SendMessageToConsole(CString msg, COLORREF color);
+	void ExecuteQueryMainDlg();
+	void PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
+	void PopulateColumnsList();
+	void ExecuteQueryMainDlg(sql::SQLString queryText);
+	bool FillTableDropdown();
+	BOOL OnInitDialog();
 	afx_msg void OnBnClickedBtnGo();
-	void CQueryTab::UpdateStringCounter();
+	void UpdateStringCounter();
 	afx_msg void OnBnClickedBtnSelectall();
 	afx_msg void OnBnClickedBtnnSelect();
 	afx_msg void OnBnClickedBtnInsert();
@@ -53,7 +49,7 @@ public:
 	afx_msg void OnBnClickedBtnClearmsg();
 	afx_msg void OnCbnSelchangeSelTable();
 	afx_msg void OnBnClickedBtnForward();
-	void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnBnClickedBtnSchema();
 	afx_msg void OnLbnDblclkListColumns();
 	afx_msg void OnEnChangeEditQuery();
@@ -64,7 +60,7 @@ public:
 	afx_msg void OnCbnSelchangeFontSize();
 	afx_msg void OnCbnSelchangeFontcombo();
 	afx_msg void OnBnClickedColorFont();
-	void CQueryTab::ApplyFontSize(int nSize);
-	void CQueryTab::ApplyFontType(const CString& strFontType);
-	void CQueryTab::ApplyFontColor(COLORREF color);
+	void ApplyFontSize(int nSize);
+	void ApplyFontType(const CString& strFontType);
+	void ApplyFontColor(COLORREF color);
 };

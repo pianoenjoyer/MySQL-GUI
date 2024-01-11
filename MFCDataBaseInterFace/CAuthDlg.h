@@ -23,16 +23,16 @@ protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 
-    BOOL CAuthDlg::PopulateLangCombo();
-    HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    BOOL PopulateLangCombo();
+    HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnPaint();
     afx_msg HCURSOR OnQueryDragIcon();
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 
-    void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
-    BOOL CAuthDlg::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
-    BOOL CAuthDlg::OnEraseBkgnd(CDC* pDC);
+    void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+    BOOL OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
+    BOOL OnEraseBkgnd(CDC* pDC);
     BOOL PreTranslateMessage(MSG* pMsg);
 
     DECLARE_MESSAGE_MAP()

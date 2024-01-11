@@ -18,14 +18,14 @@ public:
     bool ChangeCurrentDatabase(const sql::SQLString& databaseName);
     bool IsConnected() const;
     bool CheckConnection();
-    void CDBConnection::ChangeUserPassword(const std::string& user, const std::string& password);
+    void ChangeUserPassword(const std::string& user, const std::string& password);
     // Database Operations
     sql::ResultSet* ExecuteQuery(const sql::SQLString& query);
     sql::ResultSet* ExecuteQuery(const sql::SQLString& query, CString& error);
     std::vector<sql::SQLString> GetDatabases();
     std::vector<sql::SQLString> GetTables();
     std::vector<sql::SQLString> GetTableColumns(const sql::SQLString& tableName);
-    bool CDBConnection::ExecuteNonQuery(const sql::SQLString& query);
+    bool ExecuteNonQuery(const sql::SQLString& query);
     // Utility methods
     CString GetResultString(sql::ResultSet* resultSet);
 

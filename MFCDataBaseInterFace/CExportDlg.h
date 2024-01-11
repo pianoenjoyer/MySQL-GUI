@@ -26,8 +26,8 @@ protected:
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 public:
-	inline void CDBExportDlg::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-	inline std::shared_ptr<CDBConnection> CDBExportDlg::GetDatabaseObject() { return db; };
+	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
 	afx_msg void OnBnClickedBtnExport();
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnBnClickedRadCsv();

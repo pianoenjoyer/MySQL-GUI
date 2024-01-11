@@ -59,7 +59,6 @@ BOOL CChangeUserPasswordDlg::OnInitDialog()
 }
 
 
-
 void CChangeUserPasswordDlg::OnBnClickedBtnGenerate()
 {
     // Define characters for the password
@@ -79,7 +78,7 @@ void CChangeUserPasswordDlg::OnBnClickedBtnGenerate()
 
     // Shuffle the characters
     std::string shuffledChars = allChars;
-    std::random_shuffle(shuffledChars.begin(), shuffledChars.end());
+    std::shuffle(shuffledChars.begin(), shuffledChars.end(), std::default_random_engine());
 
     // Choose at least one character from each category
     char password[passwordLength];
@@ -95,7 +94,7 @@ void CChangeUserPasswordDlg::OnBnClickedBtnGenerate()
     }
 
     // Shuffle the entire password
-    std::random_shuffle(password, password + passwordLength);
+    std::shuffle(password, password + passwordLength, std::default_random_engine());
 
     // Set the generated password in the edit control
     CString generatedPassword(password);
@@ -104,7 +103,6 @@ void CChangeUserPasswordDlg::OnBnClickedBtnGenerate()
     GetDlgItem(IDC_EDIT_RETYPE)->SetWindowTextW(generatedPassword);
 }
 
-#include <algorithm>
 
 void CChangeUserPasswordDlg::CheckPasswordStrength(CString password)
 {

@@ -1,5 +1,3 @@
-// CLoadingDlg.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -8,12 +6,11 @@
 #include "Colors.h"
 #include "resource.h"
 #include "CMainDlg.h"
-// CLoadingDlg dialog
 
 IMPLEMENT_DYNAMIC(CLoadingDlg, CDialogEx)
 
 CLoadingDlg::CLoadingDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_LOADING, pParent)
+	: CDialogEx(IDD_LOADING, pParent) 
 {
 
 }
@@ -29,42 +26,51 @@ void CLoadingDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
-BOOL CLoadingDlg::OnInitDialog()
+bool CLoadingDlg::SetImage(CStatic* pPicture, const CString& path) const
 {
-	CDialogEx::OnInitDialog();
-    auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
-    pProgress->SetRange(0, 50);
-
 	CImage image;
-
-	if (SUCCEEDED(image.Load(L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png")))
+	if (SUCCEEDED(image.Load(path)))
 	{
 		CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
 		HBITMAP hBmp = image.Detach();
 		if (pPicCtrl)
 		{
 			pPicCtrl->SetBitmap(hBmp);
+			return true;
 		}
-
 	}
+	return false;
+}
+
+BOOL CLoadingDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	CProgressCtrl* pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
+	pProgress->SetRange(0, 50);
+
+	CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
+	SetImage(pPicCtrl, L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png");
 
 	return TRUE;
 }
 
-BOOL CLoadingDlg::SetLoadingState(int position, CString message)
-{
-    auto pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
-    auto pStatic = (CStatic*)GetDlgItem(IDC_STATIC_LOADING);
 
-    if (pProgress != nullptr && pStatic != nullptr)
+bool CLoadingDlg::SetLoadingState(const int position, const CString& message) const
+{
+	CProgressCtrl* pProgress = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS_INIT);
+	CStatic* pStatic = (CStatic*)GetDlgItem(IDC_STATIC_LOADING);
+
+    if (pProgress && pStatic)
     {
         pStatic->SetWindowText(message);
-
-        pProgress->SetPos(position); // Set the position directly
-        return TRUE;
+        pProgress->SetPos(position);
+        return true;
     }
-    return FALSE;
+
+    return false;
 }
+
 
 void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
@@ -135,7 +141,6 @@ void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 }
 
 
-
 BOOL CLoadingDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
@@ -161,11 +166,10 @@ HBRUSH CLoadingDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
+
 BEGIN_MESSAGE_MAP(CLoadingDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_WM_DRAWITEM()
 	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
-
-// CLoadingDlg message handlers

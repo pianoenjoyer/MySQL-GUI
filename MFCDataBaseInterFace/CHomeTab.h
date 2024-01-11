@@ -19,22 +19,22 @@ public:
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	bool CHomeTab::AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue);
-	void CHomeTab::PopulateGeneralInfo();
-	BOOL CHomeTab::OnInitDialog();
-	bool CHomeTab::SetConnectionCollation(const CString& collation);
-	void CHomeTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment);
-	void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license);
-	void CHomeTab::PopulatePluginsList();
-	bool CHomeTab::PopulateConnectionCollationDropdown();
-	void CHomeTab::PopulateEnginesList();
-	CString CHomeTab::GetCurrentConnectionCollation();
+	virtual void				DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	bool						AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue);
+	void						PopulateGeneralInfo();
+	BOOL						OnInitDialog();
+	bool						SetConnectionCollation(const CString& collation);
+	void						AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment);
+	void AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license);
+	void PopulatePluginsList();
+	bool PopulateConnectionCollationDropdown();
+	void PopulateEnginesList();
+	CString GetCurrentConnectionCollation();
 	DECLARE_MESSAGE_MAP()
 public:
 
-	inline void CHomeTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-	inline std::shared_ptr<CDBConnection> CHomeTab::GetDatabaseObject() { return db; };
+	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
 	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnCbnSelchangeConncoll();
 };

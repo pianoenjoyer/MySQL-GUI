@@ -10,8 +10,17 @@ class CDatabasesTab : public CDialogEx
 	DECLARE_DYNAMIC(CDatabasesTab)
 
 public:
-	CDatabasesTab(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CDatabasesTab();
+								CDatabasesTab(CWnd* pParent = nullptr);   // standard constructor
+
+	virtual						~CDatabasesTab();
+	inline void					SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
+	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
+	afx_msg void				OnBnClickedBtnCreatedb();
+	afx_msg void				OnBnClickedBtnDeletedb();
+	afx_msg void				OnEnChangeFilterDatabases();
+	afx_msg void				OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void				OnBnClickedBtnRefreshdbs();
+
 	std::shared_ptr<CDBConnection> db;
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -19,26 +28,17 @@ public:
 #endif
 
 protected:
-	bool CDatabasesTab::PopulateDatabaseDropdown();
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	BOOL CDatabasesTab::OnInitDialog();
-	void CDatabasesTab::PopulateDatabaseList();
-	void CDatabasesTab::UpdateListFilter();
-	CString CDatabasesTab::GetDatabaseCreatedDate(const CString& databaseName);
-	CString CDatabasesTab::GetDatabaseOwner(const CString& databaseName);
-	void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation);
-	CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName);
-	void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation,
-		const CString& size);
-	void CDatabasesTab::PopulateCharacterSetDropdown();
-	CString CDatabasesTab::GetDatabaseSize(const CString& databaseName);
+	bool						PopulateDatabaseDropdown();
+	virtual void				DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	BOOL						OnInitDialog();
+	void						PopulateDatabaseList();
+	void						UpdateListFilter();
+	CString						GetDatabaseCreatedDate(const CString& databaseName);
+	CString						GetDatabaseOwner(const CString& databaseName);
+	void						AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation);
+	CString						GetDatabaseCollation(const CString& databaseName);
+	void						AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& databaseName, const CString& collation,const CString& size);
+	void						PopulateCharacterSetDropdown();
+	CString						GetDatabaseSize(const CString& databaseName);
 	DECLARE_MESSAGE_MAP()
-public:
-	inline void CDatabasesTab::SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-	inline std::shared_ptr<CDBConnection> CDatabasesTab::GetDatabaseObject() { return db; };
-	afx_msg void OnBnClickedBtnCreatedb();
-	afx_msg void OnBnClickedBtnDeletedb();
-	afx_msg void OnEnChangeFilterDatabases();
-	afx_msg void OnLvnItemchangedListDatabases(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnBnClickedBtnRefreshdbs();
 };

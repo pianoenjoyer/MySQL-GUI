@@ -29,13 +29,17 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
 }
 
 
-inline CString BinaryDataToHexString(const CString& binaryData) 
+inline CString BinaryDataToHexString(const CString& binaryData)
 {
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0');
-    for (int i = 0; i < binaryData.GetLength(); i++) {
+    CString hexString;
+    const int length = binaryData.GetLength();
+
+    for (int i = 0; i < length; i++) {
         char c = binaryData[i];
-        oss << std::setw(2) << static_cast<int>(static_cast<unsigned char>(c));
+        CString hexByte;
+        hexByte.Format(_T("%02X"), static_cast<unsigned char>(c));
+        hexString += hexByte;
     }
-    return CString(oss.str().c_str());
+
+    return hexString;
 }

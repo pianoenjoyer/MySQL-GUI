@@ -50,7 +50,7 @@ public:
 	CVariablesTab m_varsTab;
 	CCharsetsTab m_charsetsTab;
 	CDatabasesTab m_databasesTab;
-	HBRUSH CMainDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CDBExportDlg m_exportTab;
 	CMonitorTab m_monitorTab;
 	CEnginesTab m_enginesTab;
@@ -65,25 +65,25 @@ public:
 	CString m_pathToFile;
 	CString m_SQLtextQuery;
 	CString m_titleDatabaseName;
-	void CMainDlg::OnSize(UINT nType, int cx, int cy);
+	void OnSize(UINT nType, int cx, int cy);
 	sql::ResultSet* m_resultSet;
-	void CMainDlg::SetProgressBarPosition(int position);
+	void SetProgressBarPosition(int position);
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
 	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
 
 	virtual BOOL OnInitDialog();
-	bool CMainDlg::FillTreeControl();
-	void CMainDlg::SwitchTabByName(const CString& tabName);
-	void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl);
-	void CMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
+	bool FillTreeControl();
+	void SwitchTabByName(const CString& tabName);
+	void BuildDatabaseTree(CTreeCtrl& treeCtrl);
+	void PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQLString>& values);
 	CString ReadFileContent();
-	void CMainDlg::SetCurDataBase();
+	void SetCurDataBase();
 	afx_msg void OnBnClickedBtnBrowse();
-	bool CMainDlg::FillDatabaseDropdown();
+	bool FillDatabaseDropdown();
 	afx_msg void OnBnClickedExport();
 	afx_msg void OnBnClickedBtnCollapse();
 	afx_msg void OnBnClickedBtnExpand();
-	void CMainDlg::SetDlgStyle(int style);
+	void SetDlgStyle(int style);
 	afx_msg void OnBnClickedBtnUpdate();
 	afx_msg void OnMenuOpen();
 	afx_msg void OnConnectionDisconnect();
