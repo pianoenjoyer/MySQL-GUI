@@ -1,6 +1,7 @@
 
 #pragma once
 #include "CPendulum.h"
+#include "Drawer.h"
 
 class CMFCPendulumDlg : public CDialogEx
 {
@@ -16,8 +17,10 @@ protected:
 	HICON m_hIcon;
 
 	virtual BOOL OnInitDialog();
-
-
+	void CMFCPendulumDlg::Update();
+	void CMFCPendulumDlg::DrawPendulum();
+	void CMFCPendulumDlg::UpdateGraph();
+	Drawer m_drawer;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg HCURSOR OnQueryDragIcon();
 	void UpdateEnergyInfo();

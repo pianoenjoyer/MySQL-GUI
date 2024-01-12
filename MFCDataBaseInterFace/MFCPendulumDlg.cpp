@@ -71,8 +71,8 @@ BOOL CMFCPendulumDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	CDialogEx::SetWindowTextW(L" PENDULUM MFC ");
-	m_progressPotentional.SetRange(0, 500);
-	m_progressKinetic.SetRange(0, 1000);
+	m_progressPotentional.SetRange(0, 80);
+	m_progressKinetic.SetRange(0, 80);
 
 	CString defaultText;
 	defaultText.Format(_T("%.2f"), defaultLength);
@@ -93,6 +93,8 @@ BOOL CMFCPendulumDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
+	m_drawer.Create(GetDlgItem(IDC_GRAPH)->GetSafeHwnd());
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -102,10 +104,10 @@ HCURSOR CMFCPendulumDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
 void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 {
 
-	//DRAW PENDULUM
 	GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
 	pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
 	m_pendulum.Update(); 
@@ -114,13 +116,21 @@ void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 	//DRAW GRAPH
 	GetDlgItem(IDC_GRAPH)->GetClientRect(rectGraph);
 	pDC = GetDlgItem(IDC_GRAPH)->GetDC();
-	m_pendulum.DrawGraph(*pDC, rectGraph);
 	ReleaseDC(pDC);
 	
 	UpdateEnergyInfo();
+
+
 	CDialogEx::OnTimer(nIDEvent);
 }
 
+void CMFCPendulumDlg::UpdateGraph() 
+{
+
+
+
+
+}
 
 void CMFCPendulumDlg::UpdateEnergyInfo()
 {
@@ -134,10 +144,16 @@ void CMFCPendulumDlg::UpdateEnergyInfo()
 	m_staticPotentional.SetWindowText(potentional);
 	m_staticKinetic.SetWindowText(kenetic);
 
-	m_progressPotentional.SetPos(potentional_value);
-	m_progressKinetic.SetPos(kenetic_value);
+	double totalEnergy = std::abs(kenetic_value) + std::abs(potentional_value);
 
+	// Calculate the percentages
+	int kineticPercentage = static_cast<int>((std::abs(kenetic_value) / totalEnergy) * 100);
+	int potentialPercentage = static_cast<int>((std::abs(potentional_value) / totalEnergy) * 100);
+
+	m_progressPotentional.SetPos(potentialPercentage);
+	m_progressKinetic.SetPos(kineticPercentage);
 }
+
 
 
 void CMFCPendulumDlg::OnEnChangeEditLength()

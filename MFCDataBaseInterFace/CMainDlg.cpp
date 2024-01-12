@@ -273,7 +273,7 @@ BOOL CMainDlg::OnInitDialog()
         m_charsetsTab.Create(IDD_CHARSETS, pTabCtrl);
         loadingDlg.SetLoadingState(60, L"Loading: IDD_DATABASES ");
         m_databasesTab.Create(IDD_DATABASES, pTabCtrl);
-        loadingDlg.SetLoadingState(70, L"Loading: IDD_VARIABLES ");
+        loadingDlg.SetLoadingState(80, L"Loading: IDD_VARIABLES ");
         m_varsTab.Create(IDD_VARIABLES, pTabCtrl);
         loadingDlg.SetLoadingState(80, L"Loading: IDD_STATUS_MONITOR ");
         m_monitorTab.Create(IDD_STATUS_MONITOR, pTabCtrl);

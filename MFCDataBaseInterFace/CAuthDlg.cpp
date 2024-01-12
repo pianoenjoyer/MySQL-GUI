@@ -26,16 +26,12 @@ CString GetAppCurrentDirectory()
 //set key enter to connect button
 BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 {
+
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
 	{
-		CWnd* pWnd = GetDlgItem(IDOK); // set your btn id
-		if (pWnd && pWnd->IsWindowEnabled())
-		{
-			pWnd->SetFocus();
-			pWnd->SendMessage(WM_LBUTTONDOWN);
-			pWnd->SendMessage(WM_LBUTTONUP);
-			return TRUE;
-		}
+		CWnd* pFocusWnd = GetFocus();
+		OnBnClickedBtnConnect();
+		return TRUE; 
 	}
 
 	if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_CONTROL) < 0 && GetKeyState(VK_SHIFT) < 0)
@@ -47,12 +43,14 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 			if (m_pendulumDlg.GetSafeHwnd()) 
 			{
 				m_pendulumDlg.DestroyWindow();
+
 			}
 
 			m_pendulumDlg.Create(IDD_PENDULUM,0);
 
 			return TRUE;
 		}
+
 		}
 	}
 

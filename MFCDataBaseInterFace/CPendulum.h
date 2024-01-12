@@ -22,7 +22,6 @@ public:
     virtual ~CPendulum() {}
     void Init(double length, double angle, double gravity, double mass, double resistance);
     void Update();
-    void DrawGraph(CDC& dc, const CRect& rect);
     void DrawPendulum(CDC& dc, const CRect& rect);
     void setAcceleration(double value);
     void addAcceleration(double value);
@@ -33,13 +32,21 @@ public:
     void SetGravity(double gravity);
     void SetMass(double mass);
     void SetResistance(double resistance);
-    double GetLength();
-    double GetAngle();
-    double GetGravity();
-    double GetMass();
-    double GetResistance();
-
+    double GetLength() const;
+    double GetAngle() const;
+    double GetGravity() const;
+    double GetMass() const;
+    double GetResistance() const;
+    inline double GetCordX() { return m_x; };
+    inline double GetCordY() { return m_y; };
+    void CalculateKineticEnergy();
+    void CalculatePotentialEnergy();
+    double CalculateAngularAcceleration();
+    double CalculateXCoordinate(const CRect& rect);
+    double CalculateYCoordinate(const CRect& rect);
 private:
+    double m_x;
+    double m_y;
     double m_length;
     double m_angle;
     double m_gravity;
@@ -51,11 +58,7 @@ private:
     double scale;
     double x;
     double y;
-    void CalculateKineticEnergy();
-    void CalculatePotentialEnergy();
-    double CalculateAngularAcceleration();
-    double CalculateXCoordinate(const CRect& rect);
-    double CalculateYCoordinate(const CRect& rect);
+
 
 
 };
