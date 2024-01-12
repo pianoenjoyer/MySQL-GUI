@@ -246,6 +246,7 @@
     <ClInclude Include="CMonitorTab.h" />
     <ClInclude Include="CNewDBDlg.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="CPendulum.h" />
     <ClInclude Include="CPluginsTab.h" />
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryTab.h" />
@@ -255,9 +256,11 @@
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="FlickerFreeDC.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CDBInterfaceApp.h" />
     <ClInclude Include="CAuthDlg.h" />
+    <ClInclude Include="MFCPendulumDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Convertions.h" />
@@ -279,6 +282,7 @@
     <ClCompile Include="CLoginDataSave.cpp" />
     <ClCompile Include="CMonitorTab.cpp" />
     <ClCompile Include="CNewDBDlg.cpp" />
+    <ClCompile Include="CPendulum.cpp" />
     <ClCompile Include="CPluginsTab.cpp" />
     <ClCompile Include="CProceduresDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
@@ -289,6 +293,7 @@
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CAuthDlg.cpp" />
     <ClCompile Include="CVariablesTab.cpp" />
+    <ClCompile Include="MFCPendulumDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

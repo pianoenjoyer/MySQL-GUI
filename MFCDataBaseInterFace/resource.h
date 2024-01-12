@@ -42,6 +42,7 @@
 #define IDD_ENGINES                     181
 #define IDD_LOADING                     185
 #define IDD_HOME_RUS                    189
+#define IDD_PENDULUM                    191
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -73,6 +74,7 @@
 #define IDC_BUTTON5                     1012
 #define IDC_DATABASE_NAME               1012
 #define IDC_BTN_CLROUTPUT               1012
+#define IDC_BTN_LENGTH_INCREASE         1012
 #define IDC_BTN_SELECT                  1013
 #define IDC_BTN_UNDO                    1013
 #define IDC_BTN_CLEAR2                  1013
@@ -131,6 +133,7 @@
 #define IDC_BTN_LASTPAGE                1042
 #define IDC_BUTTON6                     1043
 #define IDC_BTN_NEXTPAGE                1043
+#define IDC_BTN_LENGTH_DECREASE         1043
 #define IDC_CHECK1                      1044
 #define IDC_RAD_HTML                    1044
 #define IDC_AUTOSWITCH                  1044
@@ -141,7 +144,9 @@
 #define IDC_EXECPROGRESS                1049
 #define IDC_PROGRESS_STRENGTH           1049
 #define IDC_PROGRESS_INIT               1049
+#define IDC_KINETIC                     1049
 #define IDC_CMB_SEL_DB                  1050
+#define IDC_POTENTIONAL                 1050
 #define IDC_SYSLINK_SERVERINFO          1073
 #define IDC_PIC_INFO                    1074
 #define IDC_BUTTON2                     1078
@@ -157,11 +162,14 @@
 #define IDC_RICHEDIT22                  1094
 #define IDC_TABLENAME                   1094
 #define IDC_RICH_LINENUMBERER           1094
+#define IDC_EDIT_ANGLE                  1094
 #define IDC_RICHEDIT23                  1095
 #define IDC_COLUMNS                     1095
 #define IDC_RICH_SQL                    1095
+#define IDC_EDIT_GRAVITY                1095
 #define IDC_RICHEDIT24                  1096
 #define IDC_COMMENTS                    1096
+#define IDC_EDIT_MASS                   1096
 #define IDC_LIST_COLUMNS                1097
 #define IDC_RICHEDIT21                  1098
 #define IDC_RICH_QUERYINFO              1098
@@ -243,6 +251,18 @@
 #define IDC_MONTHCALENDAR1              1193
 #define IDC_RICH_GLOBALMESSAGES         1194
 #define IDC_HOTKEY1                     1195
+#define IDC_PENDULUM                    1196
+#define IDC_START                       1197
+#define IDC_RESTART                     1198
+#define IDC_ADD_FORCE                   1199
+#define IDC_DECREASE_FORCE              1200
+#define IDC_EDIT_RESIST                 1201
+#define IDC_BTN_MASS_INCREASE           1202
+#define IDC_BTN_MASS_DECREASE           1203
+#define IDC_EDIT_LENGTH                 1204
+#define IDC_GRAPH                       1205
+#define IDC_STATIC_POTENTIONAL          1206
+#define IDC_STATIC_KINETIC              1207
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -278,9 +298,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        191
+#define _APS_NEXT_RESOURCE_VALUE        193
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1196
+#define _APS_NEXT_CONTROL_VALUE         1208
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
