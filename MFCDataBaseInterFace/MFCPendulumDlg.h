@@ -16,8 +16,8 @@ protected:
 	HICON m_hIcon;
 
 	virtual BOOL OnInitDialog();
-	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
-	afx_msg void OnPaint();
+
+
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg HCURSOR OnQueryDragIcon();
 	void UpdateEnergyInfo();
@@ -62,5 +62,4 @@ public:
 	afx_msg void OnBnClickedBtnMassDecrease();
 	afx_msg void OnBnClickedBtnLengthIncrease();
 	afx_msg void OnBnClickedBtnLengthDecrease();
-	afx_msg void OnStnClickedGraph();
 };

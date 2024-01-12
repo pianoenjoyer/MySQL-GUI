@@ -2,7 +2,7 @@
 #include <memory>
 #include "CDBConnection.h"
 #include "CMainDlg.h"
-
+#include "MFCPendulumDlg.h"
 // CAuthDlg dialog
 class CAuthDlg : public CDialogEx
 {
@@ -22,7 +22,7 @@ protected:
     //CLoginDataSave dataSaver;
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
-
+    CMFCPendulumDlg m_pendulumDlg;
     BOOL PopulateLangCombo();
     HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);

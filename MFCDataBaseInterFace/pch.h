@@ -15,4 +15,5 @@
 #include <memory>
 #include <algorithm>
 #include <random>
+#include <cmath>
 #endif //PCH_H

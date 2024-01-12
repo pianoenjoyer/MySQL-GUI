@@ -4,13 +4,13 @@
 
 void CPendulum::CalculateKineticEnergy()
 {
-    double velocity = m_angularVelocity * m_length * scale;
+    double velocity = m_angularVelocity * m_length * 200;
     m_kineticEnergy = 0.5 * (m_mass * velocity * velocity);
 }
 
 void CPendulum::CalculatePotentialEnergy()
 {
-    double height = m_length * (1 - cos(m_angle * M_PI / 180.0)) * scale;
+    double height = m_length * (1 - cos(m_angle * M_PI / 180.0)) * 10000;
     m_potentialEnergy = m_mass * m_gravity * height;
 }
 
@@ -52,7 +52,6 @@ void CPendulum::Update()
     m_angularVelocity += angularAcceleration;
     m_angle += m_angularVelocity;
 
-    // Ограничение угла от -PI до PI
     while (m_angle > M_PI)
         m_angle -= 2 * M_PI;
     while (m_angle < -M_PI)
@@ -61,6 +60,7 @@ void CPendulum::Update()
     CalculateKineticEnergy();
     CalculatePotentialEnergy();
 }
+
 
 void CPendulum::DrawGraph(CDC& dc, const CRect& rect)
 {

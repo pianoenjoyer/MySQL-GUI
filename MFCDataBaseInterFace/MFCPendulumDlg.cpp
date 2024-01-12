@@ -14,7 +14,10 @@
 #define EARTH 9.8
 #define MOON 1.6
 
-// CMFCPendulumDlg dialog
+#define FPS60 (1.0/60.0)
+#define FPS30 (1.0/30.0)
+
+
 
 CMFCPendulumDlg::CMFCPendulumDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_PENDULUM, pParent), m_buttonState(0),
@@ -46,7 +49,6 @@ void CMFCPendulumDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CMFCPendulumDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
-	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_ADD_FORCE, &CMFCPendulumDlg::OnBnClickedAddForce)
@@ -62,8 +64,8 @@ BEGIN_MESSAGE_MAP(CMFCPendulumDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_MASS_DECREASE, &CMFCPendulumDlg::OnBnClickedBtnMassDecrease)
 	ON_BN_CLICKED(IDC_BTN_LENGTH_INCREASE, &CMFCPendulumDlg::OnBnClickedBtnLengthIncrease)
 	ON_BN_CLICKED(IDC_BTN_LENGTH_DECREASE, &CMFCPendulumDlg::OnBnClickedBtnLengthDecrease)
-	ON_STN_CLICKED(IDC_GRAPH, &CMFCPendulumDlg::OnStnClickedGraph)
 END_MESSAGE_MAP()
+
 
 BOOL CMFCPendulumDlg::OnInitDialog()
 {
@@ -88,87 +90,13 @@ BOOL CMFCPendulumDlg::OnInitDialog()
 	m_pendulum.Init(defaultLength, defaultAngle,
 	defaultGravity, defaultMass, defaultResistance);
 	
-	/*GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
-	pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
-	pDC->FillSolidRect(rectPendulum, RGB(255, 255, 255));
-	ReleaseDC(pDC);*/
-
-
-	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
-	ASSERT(IDM_ABOUTBOX < 0xF000);
-
-	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != nullptr)
-	{
-		BOOL bNameValid;
-		CString strAboutMenu;
-		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
-		ASSERT(bNameValid);
-		if (!strAboutMenu.IsEmpty())
-		{
-			pSysMenu->AppendMenu(MF_SEPARATOR);
-			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
-		}
-	}
-
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-
-	// TODO: Add extra initialization here
-
-	CEdit* pEdit = (CEdit*)GetDlgItem(IDC_EDIT_LENGTH);
-	if (pEdit)
-	{
-		pEdit->SetReadOnly(TRUE);
-	}
-
-	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_MASS);
-	if (pEdit)
-	{
-		pEdit->SetReadOnly(TRUE);
-	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-void CMFCPendulumDlg::OnSysCommand(UINT nID, LPARAM lParam)
-{
 
-}
-
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
-
-void CMFCPendulumDlg::OnPaint()
-{
-	if (IsIconic())
-	{
-		CPaintDC dc(this); // device context for painting
-
-		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
-		
-		// Center icon in client rectangle
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
-
-		// Draw the icon
-		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-		CDialogEx::OnPaint();
-	}
-}
-
-// The system calls this function to obtain the cursor to display while the user drags
-//  the minimized window.
 HCURSOR CMFCPendulumDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -180,10 +108,8 @@ void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 	//DRAW PENDULUM
 	GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
 	pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
-	//FFDC::CMemDC dc (pDC);
 	m_pendulum.Update(); 
 	m_pendulum.DrawPendulum(*pDC, rectPendulum);
-	ReleaseDC(pDC);
 
 	//DRAW GRAPH
 	GetDlgItem(IDC_GRAPH)->GetClientRect(rectGraph);
@@ -193,8 +119,8 @@ void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 	
 	UpdateEnergyInfo();
 	CDialogEx::OnTimer(nIDEvent);
-
 }
+
 
 void CMFCPendulumDlg::UpdateEnergyInfo()
 {
@@ -208,10 +134,11 @@ void CMFCPendulumDlg::UpdateEnergyInfo()
 	m_staticPotentional.SetWindowText(potentional);
 	m_staticKinetic.SetWindowText(kenetic);
 
-	m_progressPotentional.SetPos(potentional_value * 20000);
-	m_progressKinetic.SetPos(kenetic_value * 1000);
+	m_progressPotentional.SetPos(potentional_value);
+	m_progressKinetic.SetPos(kenetic_value);
 
 }
+
 
 void CMFCPendulumDlg::OnEnChangeEditLength()
 {
@@ -263,7 +190,7 @@ void CMFCPendulumDlg::OnBnClickedStart()
 	m_buttonState = !m_buttonState;
 	if (m_buttonState)
 	{
-		m_timerID = SetTimer(1, 0.01, nullptr);
+		m_timerID = SetTimer(1, FPS60, nullptr);
 		pButton->SetWindowText(_T("STOP")); 
 	}
 	else
@@ -369,8 +296,3 @@ void CMFCPendulumDlg::OnBnClickedBtnLengthDecrease()
 	m_pendulum.SetLength(newLength);
 }
 
-
-void CMFCPendulumDlg::OnStnClickedGraph()
-{
-	// TODO: Add your control notification handler code here
-}

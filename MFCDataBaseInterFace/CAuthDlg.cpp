@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
-
+#include "MFCPendulumDlg.h"
 #include "CAuthDlg.h"
 #include "CLoginDataSave.h"
 #include "CDBConnection.h"
@@ -37,6 +37,26 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 			return TRUE;
 		}
 	}
+
+	if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_CONTROL) < 0 && GetKeyState(VK_SHIFT) < 0)
+	{
+		switch (pMsg->wParam)
+		{
+		case 'P':
+		{
+			if (m_pendulumDlg.GetSafeHwnd()) 
+			{
+				m_pendulumDlg.DestroyWindow();
+			}
+
+			m_pendulumDlg.Create(IDD_PENDULUM,0);
+
+			return TRUE;
+		}
+		}
+	}
+
+
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
