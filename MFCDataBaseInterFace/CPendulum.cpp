@@ -2,17 +2,19 @@
 #include "pch.h"
 #include "CPendulum.h" 
 #include "FlickerFreeDC.h"
+
 void CPendulum::CalculateKineticEnergy()
 {
-    double velocity = m_angularVelocity * m_length;
+    double velocity = m_angularVelocity * m_length * scale;
     m_kineticEnergy = 0.5 * (m_mass * velocity * velocity);
 }
 
 void CPendulum::CalculatePotentialEnergy()
 {
-    double height = m_length * (1 - cos(m_angle * M_PI / 180.0));
-    m_potentialEnergy = m_mass * m_gravity * height;
+    double height = m_length * (1 - cos(m_angle));
+    m_potentialEnergy = m_mass * m_gravity * height * scale;
 }
+
 
 void CPendulum::setAcceleration(double value)
 {
@@ -52,13 +54,15 @@ void CPendulum::Update()
     m_angularVelocity += angularAcceleration;
     m_angle += m_angularVelocity;
 
+    CalculateKineticEnergy();
+    CalculatePotentialEnergy();
+
     while (m_angle > M_PI)
         m_angle -= 2 * M_PI;
     while (m_angle < -M_PI)
-        m_angle += 2 * M_PI;
+       m_angle += 2 * M_PI;
 
-    CalculateKineticEnergy();
-    CalculatePotentialEnergy();
+
 }
 
 
@@ -70,8 +74,8 @@ void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
 
     int basementLength = 40;
 
-    double x = CalculateXCoordinate(rect);
-    double y = CalculateYCoordinate(rect);
+    x = CalculateXCoordinate(rect);
+    y = CalculateYCoordinate(rect);
 
     int centerX = rect.Width() / 2;
     int centerY = rect.Height() / 2;
@@ -112,7 +116,6 @@ double CPendulum::CalculateXCoordinate(const CRect& rect)
 {
     int centerX = rect.Width() / 2;
     x = centerX + m_length * scale * sin(m_angle);
-    m_x = x;
     return x;
 }
 
@@ -120,6 +123,5 @@ double CPendulum::CalculateYCoordinate(const CRect& rect)
 {
     int centerY = rect.Height() / 2;
     y = centerY + m_length * scale * cos(m_angle);
-    m_y = y;
     return y;
 }

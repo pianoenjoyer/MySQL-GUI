@@ -37,16 +37,14 @@ public:
     double GetGravity() const;
     double GetMass() const;
     double GetResistance() const;
-    inline double GetCordX() { return m_x; };
-    inline double GetCordY() { return m_y; };
+    inline double GetCordX() { return x; };
+    inline double GetCordY() { return y; };
     void CalculateKineticEnergy();
     void CalculatePotentialEnergy();
     double CalculateAngularAcceleration();
     double CalculateXCoordinate(const CRect& rect);
     double CalculateYCoordinate(const CRect& rect);
 private:
-    double m_x;
-    double m_y;
     double m_length;
     double m_angle;
     double m_gravity;
