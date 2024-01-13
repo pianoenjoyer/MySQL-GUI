@@ -21,7 +21,8 @@ public:
     }
     virtual ~CPendulum() {}
     void Init(double length, double angle, double gravity, double mass, double resistance);
-    void Update();
+    void Update(double speedFactor);
+
     void DrawPendulum(CDC& dc, const CRect& rect);
     void setAcceleration(double value);
     void addAcceleration(double value);
