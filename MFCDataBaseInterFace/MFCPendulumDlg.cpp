@@ -109,7 +109,7 @@ void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 {
     GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
     pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
-    m_pendulum.Update(0.01);
+    m_pendulum.Update();
     m_pendulum.DrawPendulum(*pDC, rectPendulum);
 
     ReleaseDC(pDC);
