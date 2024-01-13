@@ -64,11 +64,12 @@ void CPendulum::Update()
 
 void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
 {
-    // Use CMemDC to create a memory device context
-    FFDC::CMemDC mDC(&dc, &rect);
 
-    // Rest of your drawing code remains unchanged
-    mDC.FillSolidRect(rect, RGB(255, 255, 255));
+    FFDC::CMemDC mDC(&dc, &rect);
+    mDC.FillSolidRect(rect, RGB(200, 220, 220));
+
+    int basementLength = 40;
+
     double x = CalculateXCoordinate(rect);
     double y = CalculateYCoordinate(rect);
 
@@ -78,21 +79,22 @@ void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
     mDC.MoveTo(centerX, centerY);
     mDC.LineTo(static_cast<int>(x), static_cast<int>(y));
 
-    int basementLength = 40;
     mDC.MoveTo(centerX, centerY);
     mDC.LineTo(centerX, rect.bottom);
     mDC.LineTo(centerX + basementLength, rect.bottom);
     mDC.LineTo(centerX - basementLength, rect.bottom);
 
+    mDC.LineTo(centerX, centerX + basementLength);
+    mDC.LineTo(centerX, centerX - basementLength);
+
     COLORREF ballColor = RGB(255, 0, 0);
     CBrush ballBrush(ballColor);
     CBrush* pOldBrush = mDC.SelectObject(&ballBrush);
 
-    int radius = 8 + m_mass * 1.25;
+    int radius =  8 + m_mass * 1.25;
     CRect ballRect(static_cast<int>(x) - radius, static_cast<int>(y) - radius,
         static_cast<int>(x) + radius, static_cast<int>(y) + radius);
     mDC.Ellipse(ballRect);
-  
     mDC.SelectObject(pOldBrush);
 }
 
