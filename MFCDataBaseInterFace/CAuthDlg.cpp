@@ -80,6 +80,7 @@ void CAuthDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_PASSWORD, m_serverPassword);
 }
 
+
 BEGIN_MESSAGE_MAP(CAuthDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
@@ -275,10 +276,12 @@ void CAuthDlg::OnPaint()
 	}
 }
 
+
 HCURSOR CAuthDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
+
 
 void CAuthDlg::OnBnClickedBtnConnect()
 {
@@ -317,7 +320,6 @@ void CAuthDlg::OnBnClickedBtnConnect()
 }
 
 
-
 void CAuthDlg::OnBnClickedBtnExit()
 {
 	this->EndDialog(IDCANCEL);
@@ -342,8 +344,6 @@ void CAuthDlg::OnBnClickedBtnShowPassword()
 	pEdit->Invalidate();
 	//pEdit->RedrawWindow();	// not required
 }
-
-
 
 
 void CAuthDlg::OnCbnSelchangeComboLanguage()

@@ -107,22 +107,16 @@ HCURSOR CMFCPendulumDlg::OnQueryDragIcon()
 
 void CMFCPendulumDlg::OnTimer(UINT_PTR nIDEvent)
 {
+    GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
+    pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
+    m_pendulum.Update();
+    m_pendulum.DrawPendulum(*pDC, rectPendulum);
 
-	GetDlgItem(IDC_PENDULUM)->GetClientRect(rectPendulum);
-	pDC = GetDlgItem(IDC_PENDULUM)->GetDC();
-	m_pendulum.Update(); 
-	m_pendulum.DrawPendulum(*pDC, rectPendulum);
-
-	//DRAW GRAPH
-	GetDlgItem(IDC_GRAPH)->GetClientRect(rectGraph);
-	pDC = GetDlgItem(IDC_GRAPH)->GetDC();
-	ReleaseDC(pDC);
-	
-	UpdateEnergyInfo();
-
-
-	CDialogEx::OnTimer(nIDEvent);
+    ReleaseDC(pDC);
+    UpdateEnergyInfo();
+    CDialogEx::OnTimer(nIDEvent);
 }
+
 
 void CMFCPendulumDlg::UpdateGraph() 
 {

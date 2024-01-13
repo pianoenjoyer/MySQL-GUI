@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "pch.h"
 #include "CPendulum.h" 
-
+#include "FlickerFreeDC.h"
 void CPendulum::CalculateKineticEnergy()
 {
     double velocity = m_angularVelocity * m_length;
@@ -64,35 +64,38 @@ void CPendulum::Update()
 
 void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
 {
-    dc.FillSolidRect(rect, RGB(255, 255, 255));
+    // Use CMemDC to create a memory device context
+    FFDC::CMemDC mDC(&dc, &rect);
+
+    // Rest of your drawing code remains unchanged
+    mDC.FillSolidRect(rect, RGB(255, 255, 255));
     double x = CalculateXCoordinate(rect);
     double y = CalculateYCoordinate(rect);
 
     int centerX = rect.Width() / 2;
     int centerY = rect.Height() / 2;
-    // Рисование нити
-    dc.MoveTo(centerX, centerY);
-    dc.LineTo(static_cast<int>(x), static_cast<int>(y));
 
-    // Рисование опоры маятника
-    int basementLenght = 40;
-    dc.MoveTo(centerX, centerY);
-    dc.LineTo(centerX, rect.bottom);
-    dc.LineTo(centerX + basementLenght, rect.bottom);
-    dc.LineTo(centerX - basementLenght, rect.bottom);
+    mDC.MoveTo(centerX, centerY);
+    mDC.LineTo(static_cast<int>(x), static_cast<int>(y));
+
+    int basementLength = 40;
+    mDC.MoveTo(centerX, centerY);
+    mDC.LineTo(centerX, rect.bottom);
+    mDC.LineTo(centerX + basementLength, rect.bottom);
+    mDC.LineTo(centerX - basementLength, rect.bottom);
 
     COLORREF ballColor = RGB(255, 0, 0);
     CBrush ballBrush(ballColor);
-    CBrush* pOldBrush = dc.SelectObject(&ballBrush);
+    CBrush* pOldBrush = mDC.SelectObject(&ballBrush);
 
-    // Рисование шарика на конце нитки
     int radius = 8 + m_mass * 1.25;
     CRect ballRect(static_cast<int>(x) - radius, static_cast<int>(y) - radius,
-        static_cast<int>(x) +
-        radius, static_cast<int>(y) + radius);
-    dc.Ellipse(ballRect);
-    dc.SelectObject(pOldBrush);
+        static_cast<int>(x) + radius, static_cast<int>(y) + radius);
+    mDC.Ellipse(ballRect);
+  
+    mDC.SelectObject(pOldBrush);
 }
+
 
 
 double CPendulum::CalculateAngularAcceleration()
