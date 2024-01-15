@@ -40,6 +40,9 @@
     <Filter Include="Header Files\InputDlgs">
       <UniqueIdentifier>{2e911385-898e-4b3f-9e3e-08e845f96746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EasterEggs">
+      <UniqueIdentifier>{cec4b890-45ec-4917-9e08-0d34bf990d24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CExportDlg.h">
@@ -138,14 +141,20 @@
     <ClInclude Include="CLoadingDlg.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="CPendulum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MFCPendulumDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FlickerFreeDC.h">
       <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="CTableRecordsTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CTableStructureTab.h">
+      <Filter>Header Files\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CPendulum.h">
+      <Filter>EasterEggs</Filter>
+    </ClInclude>
+    <ClInclude Include="MFCPendulumDlg.h">
+      <Filter>EasterEggs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +236,17 @@
     <ClCompile Include="CLoadingDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
+    <ClCompile Include="CTableRecordsTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CTableStructureTab.cpp">
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
     <ClCompile Include="CPendulum.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>EasterEggs</Filter>
     </ClCompile>
     <ClCompile Include="MFCPendulumDlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>EasterEggs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

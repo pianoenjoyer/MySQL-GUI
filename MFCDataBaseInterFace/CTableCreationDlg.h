@@ -1,7 +1,8 @@
 #pragma once
 #include "afxdialogex.h"
-#include <memory>
 #include "CDBConnection.h"
+#include "CTableRecordsTab.h"
+#include "CTableStructureTab.h"
 // CTableCreationDlg dialog
 
 class CTableCreationDlg : public CDialogEx
@@ -20,7 +21,8 @@ public:
 protected:
 	BOOL OnInitDialog();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	CTableRecordsTab m_recordsTab;
+	CTableStructureTab m_structureTab;
 	DECLARE_MESSAGE_MAP()
 public:void PopulateStorageEngineDropdown();
 	void PopulateCharacterSetDropdown();
@@ -34,4 +36,5 @@ public:void PopulateStorageEngineDropdown();
 	CRichEditCtrl m_editComments;
 	afx_msg void OnBnClickedGo();
 	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult);
 };

@@ -43,6 +43,8 @@
 #define IDD_LOADING                     185
 #define IDD_HOME_RUS                    189
 #define IDD_PENDULUM                    191
+#define IDD_TABLE_STRUCTURE             193
+#define IDD_TABLE_RECORDS               194
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -62,6 +64,7 @@
 #define IDC_TAB1                        1006
 #define IDC_PIC_LOGO                    1006
 #define IDC_MAINTAB                     1006
+#define IDC_TAB_TABLES                  1006
 #define IDC_EDT_FILENAME                1007
 #define IDC_PIC_LOGO2                   1007
 #define IDC_BTN_BROWSE                  1008
@@ -263,6 +266,7 @@
 #define IDC_GRAPH                       1205
 #define IDC_STATIC_POTENTIONAL          1206
 #define IDC_STATIC_KINETIC              1207
+#define IDC_LIST_STRUCTURE              1208
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -298,9 +302,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        193
+#define _APS_NEXT_RESOURCE_VALUE        197
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1208
+#define _APS_NEXT_CONTROL_VALUE         1209
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

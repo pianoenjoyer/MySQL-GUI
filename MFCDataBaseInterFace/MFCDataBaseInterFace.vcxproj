@@ -253,6 +253,8 @@
     <ClInclude Include="CResultTab.h" />
     <ClInclude Include="CLoadingDlg.h" />
     <ClInclude Include="CTableCreationDlg.h" />
+    <ClInclude Include="CTableRecordsTab.h" />
+    <ClInclude Include="CTableStructureTab.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
     <ClInclude Include="Drawer.h" />
@@ -289,6 +291,8 @@
     <ClCompile Include="CResultTab.cpp" />
     <ClCompile Include="CLoadingDlg.cpp" />
     <ClCompile Include="CTableCreationDlg.cpp" />
+    <ClCompile Include="CTableRecordsTab.cpp" />
+    <ClCompile Include="CTableStructureTab.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CAuthDlg.cpp" />

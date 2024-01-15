@@ -23,19 +23,30 @@ BOOL CTableCreationDlg::OnInitDialog()
     CDialog::OnInitDialog();
     PopulateCharacterSetDropdown();
     PopulateStorageEngineDropdown();
-    // Assuming m_ListCtrl is the CListCtrl variable associated with the control.
+    CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
-    // Setting up the columns
-    //m_ListCreateTable.InsertColumn(0, _T("Name"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(1, _T("Type"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(2, _T("Length/Values"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(3, _T("Collation"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(4, _T("Attributes"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(5, _T("Null"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(6, _T("Index"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(7, _T("A_I"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(8, _T("Comments"), LVCFMT_LEFT, 100);
-    //m_ListCreateTable.InsertColumn(9, _T("Virtuality"), LVCFMT_LEFT, 100);
+    m_structureTab.Create(IDD_TABLE_STRUCTURE, pTabCtrl);
+    m_recordsTab.Create(IDD_RESULT, pTabCtrl);
+
+    TCITEM structure, records;
+    structure.mask = TCIF_TEXT | TCIF_PARAM;
+    structure.lParam = (LPARAM)&m_structureTab;
+    structure.pszText = _T("Structure");
+    pTabCtrl->InsertItem(0, &structure);
+
+    records.mask = TCIF_TEXT | TCIF_PARAM;
+    records.lParam = (LPARAM)&m_recordsTab;
+    records.pszText = _T("Records");
+    pTabCtrl->InsertItem(1, &records);
+
+    CRect rcStructure;
+    pTabCtrl->GetItemRect(0, &rcStructure);
+    m_structureTab.SetWindowPos(NULL, rcStructure.left, rcStructure.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
+    CRect rcRecords;
+    pTabCtrl->GetItemRect(1, &rcRecords);
+    m_recordsTab.SetWindowPos(NULL, rcStructure.left, rcRecords.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+
 
     return TRUE;
 }
@@ -56,6 +67,7 @@ void CTableCreationDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CTableCreationDlg, CDialogEx)
     ON_BN_CLICKED(IDC_GO, &CTableCreationDlg::OnBnClickedGo)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CTableCreationDlg::OnNMClickSyslink1)
+    ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_TABLES, &CTableCreationDlg::OnTcnSelchangeTabTables)
 END_MESSAGE_MAP()
 
 void CTableCreationDlg::PopulateStorageEngineDropdown()
@@ -177,5 +189,30 @@ void CTableCreationDlg::OnBnClickedGo()
 void CTableCreationDlg::OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult)
 {
     ShellExecute(0, 0, L"https://dev.mysql.com/doc/refman/8.0/en/storage-engines.html", 0, 0, SW_SHOW);
+    *pResult = 0;
+}
+
+
+void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
+    int nSelectedTab = pTabCtrl->GetCurSel();
+    m_recordsTab.ShowWindow(FALSE);
+    m_structureTab.ShowWindow(FALSE);
+    switch (nSelectedTab)
+    {
+    case 0: 
+        m_structureTab.ShowWindow(TRUE);
+        break;
+
+    case 1: 
+        m_recordsTab.ShowWindow(TRUE);
+        break;
+
+    default:
+        
+        break;
+    }
+
     *pResult = 0;
 }
