@@ -3,6 +3,7 @@
 #include "CDBConnection.h"
 #include "CTableRecordsTab.h"
 #include "CTableStructureTab.h"
+#include "CResultTab.h"
 // CTableCreationDlg dialog
 
 class CTableCreationDlg : public CDialogEx
@@ -23,6 +24,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	CTableRecordsTab m_recordsTab;
 	CTableStructureTab m_structureTab;
+	CResultTab m_resultTab;
 	DECLARE_MESSAGE_MAP()
 public:void PopulateStorageEngineDropdown();
 	void PopulateCharacterSetDropdown();

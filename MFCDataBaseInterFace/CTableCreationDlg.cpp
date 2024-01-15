@@ -26,7 +26,8 @@ BOOL CTableCreationDlg::OnInitDialog()
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
     m_structureTab.Create(IDD_TABLE_STRUCTURE, pTabCtrl);
-    m_recordsTab.Create(IDD_RESULT, pTabCtrl);
+    m_resultTab.Create(IDD_RESULT, pTabCtrl);
+   // m_recordsTab.Create(IDD_RESULT, pTabCtrl);
 
     TCITEM structure, records;
     structure.mask = TCIF_TEXT | TCIF_PARAM;
@@ -35,7 +36,7 @@ BOOL CTableCreationDlg::OnInitDialog()
     pTabCtrl->InsertItem(0, &structure);
 
     records.mask = TCIF_TEXT | TCIF_PARAM;
-    records.lParam = (LPARAM)&m_recordsTab;
+    records.lParam = (LPARAM)&m_resultTab;
     records.pszText = _T("Records");
     pTabCtrl->InsertItem(1, &records);
 
@@ -45,8 +46,10 @@ BOOL CTableCreationDlg::OnInitDialog()
 
     CRect rcRecords;
     pTabCtrl->GetItemRect(1, &rcRecords);
-    m_recordsTab.SetWindowPos(NULL, rcStructure.left, rcRecords.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_resultTab.SetWindowPos(NULL, rcStructure.left, rcRecords.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
+    m_structureTab.ShowWindow(TRUE);
+    m_resultTab.ShowWindow(FALSE);
 
     return TRUE;
 }
@@ -199,6 +202,7 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
     int nSelectedTab = pTabCtrl->GetCurSel();
     m_recordsTab.ShowWindow(FALSE);
     m_structureTab.ShowWindow(FALSE);
+    m_resultTab.ShowWindow(FALSE);
     switch (nSelectedTab)
     {
     case 0: 
@@ -206,7 +210,7 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
         break;
 
     case 1: 
-        m_recordsTab.ShowWindow(TRUE);
+        m_resultTab.ShowWindow(TRUE);
         break;
 
     default:
