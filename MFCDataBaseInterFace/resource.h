@@ -45,6 +45,10 @@
 #define IDD_PENDULUM                    191
 #define IDD_TABLE_STRUCTURE             193
 #define IDD_TABLE_RECORDS               194
+#define IDD_RESULT1                     195
+#define IDD_RESULT_SHORT                195
+#define IDB_PNG6                        197
+#define IDB_PNG_LOADING                 197
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -302,7 +306,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        197
+#define _APS_NEXT_RESOURCE_VALUE        198
 #define _APS_NEXT_COMMAND_VALUE         32805
 #define _APS_NEXT_CONTROL_VALUE         1209
 #define _APS_NEXT_SYMED_VALUE           101

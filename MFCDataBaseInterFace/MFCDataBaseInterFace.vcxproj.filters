@@ -156,6 +156,9 @@
     <ClInclude Include="MFCPendulumDlg.h">
       <Filter>EasterEggs</Filter>
     </ClInclude>
+    <ClInclude Include="CTableTabRecords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -248,6 +251,9 @@
     <ClCompile Include="MFCPendulumDlg.cpp">
       <Filter>EasterEggs</Filter>
     </ClCompile>
+    <ClCompile Include="CTableTabRecords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCDataBaseInterFace.rc">
@@ -282,6 +288,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Pictures\Top-MYSQL-GUI-Tools-Edit2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

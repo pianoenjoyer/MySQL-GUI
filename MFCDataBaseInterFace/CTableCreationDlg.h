@@ -4,6 +4,7 @@
 #include "CTableRecordsTab.h"
 #include "CTableStructureTab.h"
 #include "CResultTab.h"
+#include "CTableTabRecords.h"
 // CTableCreationDlg dialog
 
 class CTableCreationDlg : public CDialogEx
@@ -22,7 +23,7 @@ public:
 protected:
 	BOOL OnInitDialog();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	CTableRecordsTab m_recordsTab;
+	CTableTabRecords m_recordsTab;
 	CTableStructureTab m_structureTab;
 	CResultTab m_resultTab;
 	DECLARE_MESSAGE_MAP()

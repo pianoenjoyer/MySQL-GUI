@@ -25,6 +25,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CResultTab(CWnd* pParent = nullptr);   // standard constructor
+	CResultTab(int DIALOG_ID, CWnd* pParent /*=nullptr*/);
 	virtual ~CResultTab();
 	std::vector<ListItem> m_AllItems;
 	std::shared_ptr<CDBConnection> db;

@@ -255,6 +255,7 @@
     <ClInclude Include="CTableCreationDlg.h" />
     <ClInclude Include="CTableRecordsTab.h" />
     <ClInclude Include="CTableStructureTab.h" />
+    <ClInclude Include="CTableTabRecords.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
     <ClInclude Include="Drawer.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="CTableCreationDlg.cpp" />
     <ClCompile Include="CTableRecordsTab.cpp" />
     <ClCompile Include="CTableStructureTab.cpp" />
+    <ClCompile Include="CTableTabRecords.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CAuthDlg.cpp" />
@@ -321,6 +323,7 @@
     <Image Include="Pictures\mysql_logo_white.png" />
     <Image Include="Pictures\serverIcon(22x22).png" />
     <Image Include="Pictures\serverIcon(45x45).png" />
+    <Image Include="Pictures\Top-MYSQL-GUI-Tools-Edit2.png" />
     <Image Include="res\bitmap1.bmp" />
     <Image Include="res\MFCDataBaseInterFace.ico" />
   </ItemGroup>

@@ -26,8 +26,9 @@ BOOL CTableCreationDlg::OnInitDialog()
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
     m_structureTab.Create(IDD_TABLE_STRUCTURE, pTabCtrl);
-    m_resultTab.Create(IDD_RESULT, pTabCtrl);
+    m_resultTab.Create(IDD_RESULT_SHORT, pTabCtrl);
    // m_recordsTab.Create(IDD_RESULT, pTabCtrl);
+
 
     TCITEM structure, records;
     structure.mask = TCIF_TEXT | TCIF_PARAM;

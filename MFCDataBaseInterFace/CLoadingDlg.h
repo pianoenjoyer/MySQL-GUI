@@ -5,6 +5,7 @@ class CLoadingDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CLoadingDlg)
 public:
+	bool				SetImage(CStatic* pPicture, const int nImageID) const;
 						CLoadingDlg(CWnd* pParent = nullptr);   // standard constructor
 	BOOL				OnInitDialog();
 	virtual				~CLoadingDlg();

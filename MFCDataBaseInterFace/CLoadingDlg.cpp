@@ -42,6 +42,27 @@ bool CLoadingDlg::SetImage(CStatic* pPicture, const CString& path) const
 	return false;
 }
 
+
+bool CLoadingDlg::SetImage(CStatic* pPicture, const int nImageID) const
+{
+	HBITMAP hBmp = static_cast<HBITMAP>(LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(nImageID), IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE));
+	if (hBmp)
+	{
+		if (pPicture)
+		{
+			pPicture->SetBitmap(hBmp);
+			return true;
+		}
+		else
+		{
+			DeleteObject(hBmp);
+		}
+	}
+	return false;
+}
+
+
+
 BOOL CLoadingDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -52,7 +73,7 @@ BOOL CLoadingDlg::OnInitDialog()
 
 	CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
 	SetImage(pPicCtrl, L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png");
-
+	//SetImage(pPicCtrl, IDB_PNG_LOADING);
 	return TRUE;
 }
 

@@ -16,7 +16,13 @@ CResultTab::CResultTab(CWnd* pParent /*=nullptr*/)
     m_pMainDlg = nullptr;
 }
 
-CResultTab::~CResultTab()
+CResultTab::CResultTab(int DIALOG_ID, CWnd* pParent /*=nullptr*/)
+    : CDialogEx(DIALOG_ID, pParent)
+{
+    m_pMainDlg = nullptr;
+}
+
+ CResultTab::~CResultTab()
 {
 
 }
