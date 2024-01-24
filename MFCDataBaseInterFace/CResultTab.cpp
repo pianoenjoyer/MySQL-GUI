@@ -76,9 +76,15 @@ END_MESSAGE_MAP()
 
 int CResultTab::BuildResultList(sql::ResultSet* resultSet, int offset) {
     // Ensure resultSet is valid
-    if (resultSet == nullptr) return 0;
-    
+    if (!resultSet) 
+    {
+        return false;
+    }
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
+    if (!dropdown)
+    {
+        return false;
+    }
     int selectedIndex = dropdown->GetCurSel();
     CString dropdownText;
     int limit;

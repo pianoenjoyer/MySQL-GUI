@@ -26,9 +26,14 @@ protected:
 	CTableTabRecords m_recordsTab;
 	CTableStructureTab m_structureTab;
 	CResultTab m_resultTab;
+	sql::ResultSet* m_pCurResultSet;
 	DECLARE_MESSAGE_MAP()
 public:void PopulateStorageEngineDropdown();
 	void PopulateCharacterSetDropdown();
+	bool UpdateStructureList();
+	bool UpdateRecorldsList();
+	bool PopulateDatabaseDropdown();
+	bool PopulateTableDropdown();
 	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
 	CListCtrl m_ListCreateTable;

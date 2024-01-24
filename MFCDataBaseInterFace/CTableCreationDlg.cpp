@@ -23,6 +23,11 @@ BOOL CTableCreationDlg::OnInitDialog()
     CDialog::OnInitDialog();
     PopulateCharacterSetDropdown();
     PopulateStorageEngineDropdown();
+    PopulateDatabaseDropdown();
+    PopulateTableDropdown();
+
+    UpdateStructureList();
+
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
     m_structureTab.Create(IDD_TABLE_STRUCTURE, pTabCtrl);
@@ -55,8 +60,121 @@ BOOL CTableCreationDlg::OnInitDialog()
     return TRUE;
 }
 
+
 CTableCreationDlg::~CTableCreationDlg()
 {
+
+}
+
+
+bool CTableCreationDlg::UpdateStructureList()
+{
+    CListCtrl* pListCtrl = (CListCtrl*)m_structureTab.GetDlgItem(IDC_LIST_STRUCTURE);
+    CComboBox* pDatabaseCombo = (CComboBox*)GetDlgItem(IDC_CMB_DBS);
+    CComboBox* pTableCombo = (CComboBox*)GetDlgItem(IDC_CMB_TBS);
+
+    if (!pListCtrl || !pTableCombo || !pDatabaseCombo || !db)
+    {
+        return false;
+    }
+
+    // Delete all items and columns
+    pListCtrl->DeleteAllItems();
+    int numCols = pListCtrl->GetHeaderCtrl()->GetItemCount();
+    for (int colIndex = numCols - 1; colIndex >= 0; --colIndex)
+    {
+        pListCtrl->DeleteColumn(colIndex);
+    }
+
+    CString selectedTable;
+    pTableCombo->GetLBText(pTableCombo->GetCurSel(), selectedTable);
+
+    CString selectedDatabase;
+    pDatabaseCombo->GetLBText(pDatabaseCombo->GetCurSel(), selectedDatabase);
+
+    CString query = L"DESCRIBE " + selectedDatabase + L"." + selectedTable;
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery(CStringToSQLString(query)));
+
+    if (!resultSet)
+    {
+        return false;
+    }
+
+    // Insert columns dynamically based on the query result
+    numCols = resultSet->getMetaData()->getColumnCount();
+    for (int colIndex = 0; colIndex < numCols; ++colIndex)
+    {
+        CString colName(resultSet->getMetaData()->getColumnName(colIndex + 1).c_str());
+        if (pListCtrl->InsertColumn(colIndex, colName, LVCFMT_LEFT, 150) == -1)
+        {
+            // Handle column insertion failure
+            // You might want to log an error message or take appropriate action
+            return false;
+        }
+    }
+
+    int index = 0;
+    while (resultSet->next())
+    {
+        // Insert a new item for each row
+        int itemIndex = pListCtrl->InsertItem(index, L"");  // Insert an empty item for each row
+        if (itemIndex == -1)
+        {
+            // Handle item insertion failure
+            // You might want to log an error message or take appropriate action
+            return false;
+        }
+
+        for (int colIndex = 0; colIndex < numCols; ++colIndex)
+        {
+            CString colValue(resultSet->getString(colIndex + 1).c_str());
+            if (pListCtrl->SetItemText(itemIndex, colIndex, colValue) == FALSE)
+            {
+                // Handle text insertion failure
+                // You might want to log an error message or take appropriate action
+                return false;
+            }
+        }
+
+        ++index;
+    }
+
+    return true;
+}
+
+
+
+bool CTableCreationDlg::UpdateRecorldsList()
+{
+    CComboBox* pDatabaseCombo = (CComboBox*)GetDlgItem(IDC_CMB_DBS);
+    CComboBox* pTableCombo = (CComboBox*)GetDlgItem(IDC_CMB_TBS);
+    if (m_pCurResultSet)
+    {
+        delete m_pCurResultSet;
+        m_pCurResultSet = nullptr;
+    }
+    if (!pTableCombo || !pDatabaseCombo || !db)
+    {
+        return false;
+    }
+
+    CString selectedTable;
+    pTableCombo->GetLBText(pTableCombo->GetCurSel(), selectedTable);
+
+    CString selectedDatabase;
+    pDatabaseCombo->GetLBText(pDatabaseCombo->GetCurSel(), selectedDatabase);
+
+    CString query = L"SELECT * FROM " + selectedDatabase + L"." + selectedTable;
+    m_pCurResultSet = db->ExecuteQuery(CStringToSQLString(query));
+
+    if (!m_pCurResultSet)
+    {
+        return false;
+    }
+
+    m_resultTab.BuildResultList(m_pCurResultSet, 0);
+
+    return false;
 }
 
 void CTableCreationDlg::DoDataExchange(CDataExchange* pDX)
@@ -104,7 +222,68 @@ void CTableCreationDlg::PopulateStorageEngineDropdown()
         // Handle the case where the query fails
         AfxMessageBox(L"Error retrieving storage engines from the database");
     }
+    pComboBox->SetCurSel(0);
 }
+
+
+bool CTableCreationDlg::PopulateDatabaseDropdown()
+{
+    CComboBox* pCombo = (CComboBox*)GetDlgItem(IDC_CMB_DBS);
+    if (!pCombo || !db)
+    {
+        return false;
+    }
+    pCombo->ResetContent();
+
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
+    if (!resultSet)
+    {
+        return false;
+    }
+
+    while (resultSet->next())
+    {
+        std::string dbName = resultSet->getString(1);
+        CString strDbName(dbName.c_str());
+        pCombo->AddString(strDbName);
+    }
+    pCombo->SetCurSel(0);
+
+    return true;
+}
+
+bool CTableCreationDlg::PopulateTableDropdown()
+{
+    CComboBox* pComboTable = (CComboBox*)GetDlgItem(IDC_CMB_TBS);
+    CComboBox* pComboDatabase = (CComboBox*)GetDlgItem(IDC_CMB_DBS);
+    if (!pComboTable || !pComboDatabase || !db)
+    {
+        return false;
+    }
+    pComboTable->ResetContent();
+
+    CString selectedDatabase;
+    pComboDatabase->GetLBText(pComboDatabase->GetCurSel(), selectedDatabase);
+
+    CString query = L"SHOW TABLES FROM " + selectedDatabase;
+
+    std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery(CStringToSQLString(query)));
+    if (!resultSet)
+    {
+        return false;
+    }
+
+    while (resultSet->next())
+    {
+        std::string tableName = resultSet->getString(1);
+        CString strTableName(tableName.c_str());
+        pComboTable->AddString(strTableName);
+    }
+    pComboTable->SetCurSel(0);
+
+    return true;
+}
+
 
 
 void CTableCreationDlg::PopulateCharacterSetDropdown()
@@ -137,6 +316,7 @@ void CTableCreationDlg::PopulateCharacterSetDropdown()
         // Handle the case where the query fails
         AfxMessageBox(L"Error retrieving character sets from the database");
     }
+    pComboBox->SetCurSel(0);
 }
 
 
@@ -227,11 +407,13 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CTableCreationDlg::OnCbnSelchangeCmbDbs()
 {
-    // TODO: Add your control notification handler code here
+    PopulateTableDropdown();
 }
 
 
 void CTableCreationDlg::OnCbnSelchangeCmbTbs()
 {
-    // TODO: Add your control notification handler code here
+    UpdateStructureList();
+    UpdateRecorldsList();
+
 }

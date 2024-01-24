@@ -31,7 +31,15 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 
 BOOL CQueryTab::PreTranslateMessage(MSG* pMsg)
 {
-
+    if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_CONTROL) < 0)
+    {
+        switch (pMsg->wParam)
+        case 'G':
+        {
+            OnBnClickedBtnGo();
+            return TRUE;
+        }
+    }
     if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
     {
         CTabCtrl* pParentTab = (CTabCtrl*)this->GetParent();
@@ -39,6 +47,7 @@ BOOL CQueryTab::PreTranslateMessage(MSG* pMsg)
         {
             return FALSE;
         }
+
         CMainDlg* pParentMain = (CMainDlg*)pParentTab->GetParent();
         if (!pParentMain)
         {
