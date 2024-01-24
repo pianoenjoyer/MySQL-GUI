@@ -47,4 +47,6 @@ public:void PopulateStorageEngineDropdown();
 	afx_msg void OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnCbnSelchangeCmbDbs();
 	afx_msg void OnCbnSelchangeCmbTbs();
+	afx_msg void OnBnClickedBtnRefdb();
+	afx_msg void OnBnClickedBtnReftbl();
 };

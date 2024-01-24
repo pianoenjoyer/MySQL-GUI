@@ -49,7 +49,6 @@
 #define IDD_RESULT_SHORT                195
 #define IDB_PNG6                        197
 #define IDB_PNG_LOADING                 197
-#define IDD_DIALOG4                     198
 #define IDD_HOTKEYS_HINTS               198
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
@@ -275,6 +274,9 @@
 #define IDC_STATIC_KINETIC              1207
 #define IDC_LIST_STRUCTURE              1208
 #define IDC_CMB_TBS                     1209
+#define IDC_BTN_REFDB                   1210
+#define IDC_BTN_REFDB2                  1211
+#define IDC_BTN_REFTBL                  1211
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -312,7 +314,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        200
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1210
+#define _APS_NEXT_CONTROL_VALUE         1211
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

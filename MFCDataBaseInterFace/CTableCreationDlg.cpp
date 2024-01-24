@@ -21,12 +21,7 @@ BOOL CTableCreationDlg::OnInitDialog()
 {
 
     CDialog::OnInitDialog();
-    PopulateCharacterSetDropdown();
-    PopulateStorageEngineDropdown();
-    PopulateDatabaseDropdown();
-    PopulateTableDropdown();
 
-    UpdateStructureList();
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
@@ -56,6 +51,13 @@ BOOL CTableCreationDlg::OnInitDialog()
 
     m_structureTab.ShowWindow(TRUE);
     m_resultTab.ShowWindow(FALSE);
+
+    PopulateCharacterSetDropdown();
+    PopulateStorageEngineDropdown();
+    PopulateDatabaseDropdown();
+    PopulateTableDropdown();
+    UpdateStructureList();
+    UpdateRecorldsList();
 
     return TRUE;
 }
@@ -192,6 +194,8 @@ BEGIN_MESSAGE_MAP(CTableCreationDlg, CDialogEx)
     ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_TABLES, &CTableCreationDlg::OnTcnSelchangeTabTables)
     ON_CBN_SELCHANGE(IDC_CMB_DBS, &CTableCreationDlg::OnCbnSelchangeCmbDbs)
     ON_CBN_SELCHANGE(IDC_CMB_TBS, &CTableCreationDlg::OnCbnSelchangeCmbTbs)
+    ON_BN_CLICKED(IDC_BTN_REFDB, &CTableCreationDlg::OnBnClickedBtnRefdb)
+    ON_BN_CLICKED(IDC_BTN_REFTBL, &CTableCreationDlg::OnBnClickedBtnReftbl)
 END_MESSAGE_MAP()
 
 void CTableCreationDlg::PopulateStorageEngineDropdown()
@@ -416,4 +420,16 @@ void CTableCreationDlg::OnCbnSelchangeCmbTbs()
     UpdateStructureList();
     UpdateRecorldsList();
 
+}
+
+
+void CTableCreationDlg::OnBnClickedBtnRefdb()
+{
+    PopulateDatabaseDropdown();
+}
+
+
+void CTableCreationDlg::OnBnClickedBtnReftbl()
+{
+    PopulateTableDropdown();
 }
