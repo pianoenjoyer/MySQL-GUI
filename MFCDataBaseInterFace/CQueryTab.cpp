@@ -29,6 +29,87 @@ void CQueryTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SEL_TABLE, m_comboTables);
 }
 
+BOOL CQueryTab::PreTranslateMessage(MSG* pMsg)
+{
+
+    if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
+    {
+        CTabCtrl* pParentTab = (CTabCtrl*)this->GetParent();
+        if (!pParentTab)
+        {
+            return FALSE;
+        }
+        CMainDlg* pParentMain = (CMainDlg*)pParentTab->GetParent();
+        if (!pParentMain)
+        {
+            return FALSE;
+        }
+
+        switch (pMsg->wParam)
+        {
+        case 'H':
+        {
+            pParentMain->SetCurActiveTab(0);
+            return TRUE;
+        }
+        case 'Q':
+        {
+            pParentMain->SetCurActiveTab(1);
+            return TRUE;
+        }
+        case 'R':
+        {
+            pParentMain->SetCurActiveTab(2);
+            return TRUE;
+        }
+
+        case 'X':
+        {
+            pParentMain->SetCurActiveTab(3);
+            return TRUE;
+        }
+        case 'T':
+        {
+            pParentMain->SetCurActiveTab(4);
+            return TRUE;
+        }
+        case 'D':
+        {
+            pParentMain->SetCurActiveTab(5);
+            return TRUE;
+        }
+        case 'V':
+        {
+            pParentMain->SetCurActiveTab(6);
+            return TRUE;
+        }
+        case 'C':
+        {
+            pParentMain->SetCurActiveTab(7);
+            return TRUE;
+        }
+        case 'S':
+        {
+            pParentMain->SetCurActiveTab(8);
+            return TRUE;
+        }
+        case 'P':
+        {
+            pParentMain->SetCurActiveTab(9);
+            return TRUE;
+        }
+        case 'E':
+        {
+            pParentMain->SetCurActiveTab(10);
+            return TRUE;
+        }
+        default:
+            return FALSE;
+        }
+    }
+
+    return CDialog::PreTranslateMessage(pMsg);
+}
 
 BOOL CQueryTab::SetDefaultFontSize() 
 {

@@ -72,6 +72,8 @@ BEGIN_MESSAGE_MAP(CTableCreationDlg, CDialogEx)
     ON_BN_CLICKED(IDC_GO, &CTableCreationDlg::OnBnClickedGo)
     ON_NOTIFY(NM_CLICK, IDC_SYSLINK1, &CTableCreationDlg::OnNMClickSyslink1)
     ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_TABLES, &CTableCreationDlg::OnTcnSelchangeTabTables)
+    ON_CBN_SELCHANGE(IDC_CMB_DBS, &CTableCreationDlg::OnCbnSelchangeCmbDbs)
+    ON_CBN_SELCHANGE(IDC_CMB_TBS, &CTableCreationDlg::OnCbnSelchangeCmbTbs)
 END_MESSAGE_MAP()
 
 void CTableCreationDlg::PopulateStorageEngineDropdown()
@@ -220,4 +222,16 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     *pResult = 0;
+}
+
+
+void CTableCreationDlg::OnCbnSelchangeCmbDbs()
+{
+    // TODO: Add your control notification handler code here
+}
+
+
+void CTableCreationDlg::OnCbnSelchangeCmbTbs()
+{
+    // TODO: Add your control notification handler code here
 }

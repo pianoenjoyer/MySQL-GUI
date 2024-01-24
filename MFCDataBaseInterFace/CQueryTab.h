@@ -37,6 +37,7 @@ public:
 	void ExecuteQueryMainDlg(sql::SQLString queryText);
 	bool FillTableDropdown();
 	BOOL OnInitDialog();
+	BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnBnClickedBtnGo();
 	void UpdateStringCounter();
 	afx_msg void OnBnClickedBtnSelectall();

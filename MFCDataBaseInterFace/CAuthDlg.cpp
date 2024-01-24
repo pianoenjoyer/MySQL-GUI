@@ -50,7 +50,12 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 
 			return TRUE;
 		}
-
+		case 'D':
+		{
+			// TODO add demostation mode to check ui without actual server connection
+			MessageBox(L"Demo mode is not available for now ");
+			return TRUE;
+		}
 		}
 	}
 

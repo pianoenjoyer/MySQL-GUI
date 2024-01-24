@@ -40,4 +40,6 @@ public:void PopulateStorageEngineDropdown();
 	afx_msg void OnBnClickedGo();
 	afx_msg void OnNMClickSyslink1(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnCbnSelchangeCmbDbs();
+	afx_msg void OnCbnSelchangeCmbTbs();
 };

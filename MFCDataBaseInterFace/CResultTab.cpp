@@ -34,6 +34,8 @@ void CResultTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_NMB_OF_ROWS, m_comboLimit);
 }
 
+
+
 void CResultTab::SaveOriginalListState()
 {
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);

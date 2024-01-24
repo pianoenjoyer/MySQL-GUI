@@ -22,6 +22,77 @@ IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 
+//hotkeys handler
+BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
+{
+
+    if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
+    {
+        switch (pMsg->wParam)
+        {
+        case 'H':
+        {
+            SetCurActiveTab(0);
+            return TRUE;
+        }
+        case 'Q':
+        {
+            SetCurActiveTab(1);
+            return TRUE;
+        }
+        case 'R':
+        {
+            SetCurActiveTab(2);
+            return TRUE;
+        }
+
+        case 'X':
+        {
+            SetCurActiveTab(3);
+            return TRUE;
+        }
+        case 'T':
+        {
+            SetCurActiveTab(4);
+            return TRUE;
+        }
+        case 'D':
+        {
+            SetCurActiveTab(5);
+            return TRUE;
+        }
+        case 'V':
+        {
+            SetCurActiveTab(6);
+            return TRUE;
+        }
+        case 'C':
+        {
+            SetCurActiveTab(7);
+            return TRUE;
+        }
+        case 'S':
+        {
+            SetCurActiveTab(8);
+            return TRUE;
+        }
+        case 'P':
+        {
+            SetCurActiveTab(9);
+            return TRUE;
+        }
+        case 'E':
+        {
+            SetCurActiveTab(10);
+            return TRUE;
+        }
+
+        }
+    }
+
+    return CDialog::PreTranslateMessage(pMsg);
+}
+
 CMainDlg::CMainDlg(CWnd* pParent /*= nullptr*/)
     : CDialogEx(IDD_MAIN, pParent)
 {
@@ -225,6 +296,7 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+
     //SetBackgroundColor(TABWHITE);
     CString app_language = ((CDBInterfaceApp*)AfxGetApp())->m_language;
     if (!db)
@@ -878,7 +950,60 @@ void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-//main tab control switch logic
+bool CMainDlg::SetCurActiveTab(const int tabNumber)
+{
+    CTabCtrl* pTabCntrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
+    if (!pTabCntrl)
+    {
+        return false;
+    }
+    if (tabNumber == pTabCntrl->GetCurSel())
+    {
+        return false;
+    }
+    pTabCntrl->SetCurSel(tabNumber);
+    m_homeTab.ShowWindow(SW_HIDE);
+    m_queryTab.ShowWindow(SW_HIDE);
+    m_resultTab.ShowWindow(SW_HIDE);
+    m_exportTab.ShowWindow(SW_HIDE);
+    m_proceduresTab.ShowWindow(SW_HIDE);
+    m_tableTab.ShowWindow(SW_HIDE);
+    m_databasesTab.ShowWindow(SW_HIDE);
+    m_varsTab.ShowWindow(SW_HIDE);
+    m_charsetsTab.ShowWindow(SW_HIDE);
+    m_monitorTab.ShowWindow(SW_HIDE);
+    m_pluginsTab.ShowWindow(SW_HIDE);
+    m_enginesTab.ShowWindow(SW_HIDE);
+    switch (tabNumber)
+    {
+    case 0:
+        return (m_homeTab.ShowWindow(SW_SHOW) == TRUE);
+    case 1:
+        return (m_queryTab.ShowWindow(SW_SHOW) == TRUE);
+    case 2:
+        return (m_resultTab.ShowWindow(SW_SHOW) == TRUE);
+    case 3:
+        return (m_exportTab.ShowWindow(SW_SHOW) == TRUE);
+    case 4:
+        return (m_tableTab.ShowWindow(SW_SHOW) == TRUE);
+    case 5:
+        return (m_databasesTab.ShowWindow(SW_SHOW) == TRUE);
+    case 6:
+        return (m_varsTab.ShowWindow(SW_SHOW) == TRUE);
+    case 7:
+        return (m_charsetsTab.ShowWindow(SW_SHOW) == TRUE);
+    case 8:
+        return (m_monitorTab.ShowWindow(SW_SHOW) == TRUE);
+    case 9:
+        return (m_pluginsTab.ShowWindow(SW_SHOW) == TRUE);
+    case 10:
+        return (m_enginesTab.ShowWindow(SW_SHOW) == TRUE);
+    default:
+        return false;
+    }
+}
+
+
 void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //*pResult = 0;

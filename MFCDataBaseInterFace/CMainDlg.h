@@ -35,7 +35,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-
+	BOOL PreTranslateMessage(MSG* pMsg);
 	CMainDlg(CWnd* pParent = nullptr);  // Standard constructor
 	CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
 
@@ -70,7 +70,7 @@ public:
 	void SetProgressBarPosition(int position);
 	inline sql::ResultSet* GetResultSet() { return m_resultSet; }
 	inline void SetResultSet(sql::ResultSet* ptr) { m_resultSet = ptr; }
-
+	bool SetCurActiveTab(const int tabNumber);
 	virtual BOOL OnInitDialog();
 	bool FillTreeControl();
 	void SwitchTabByName(const CString& tabName);
