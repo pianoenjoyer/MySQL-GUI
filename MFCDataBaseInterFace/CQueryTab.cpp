@@ -9,6 +9,9 @@
 #include "Colors.h"
 #include <chrono>
 #include "Convertions.h"
+#include "CQueryHistoryDlg.h"
+
+#include <fstream>
 
 IMPLEMENT_DYNAMIC(CQueryTab, CDialogEx)
 
@@ -246,6 +249,7 @@ BEGIN_MESSAGE_MAP(CQueryTab, CDialogEx)
     ON_CBN_SELCHANGE(IDC_FONT_SIZE, &CQueryTab::OnCbnSelchangeFontSize)
     ON_CBN_SELCHANGE(IDC_FONTCOMBO, &CQueryTab::OnCbnSelchangeFontcombo)
     ON_BN_CLICKED(IDC_COLOR_FONT, &CQueryTab::OnBnClickedColorFont)
+    ON_BN_CLICKED(IDC_BTN_HISTORY, &CQueryTab::OnBnClickedBtnHistory)
 END_MESSAGE_MAP()
 
 
@@ -301,34 +305,47 @@ CStringW RemoveSQLComments(const CStringW& sqlText)
 }
 
 
-void AddQueryToHistoryFile(const CStringW& query)
+#include <fstream>
+
+void CQueryTab::AddQueryToHistoryFile(const CStringW& query)
 {
-    // Get the current timestamp
-    std::time_t currentTime = std::time(nullptr);
-    std::tm* localTime = std::localtime(&currentTime);
+    CStringW fileName = L"QueryHistory.txt";
+    CStringW delimDateStart = L"|;Q|";
+    CStringW delimDateEnd = L"|Q;|";
+    CStringW delimQueryStart = L"|;D|";
+    CStringW delimQueryEnd = L"|D;|";
 
-    // Format the timestamp
-    char timestamp[20];
-    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", localTime);
+    // Get the current date
+    CTime currentTime = CTime::GetCurrentTime();
+    CStringW currentDate = currentTime.Format(L"%d.%m.%Y");
 
-    // Combine timestamp and query text
-    CStringW entry;
-    entry.Format(L"%s - %s", CString(timestamp), query);
+    // Open the file in append mode
+    std::ofstream historyFile(fileName, std::ios::app);
 
-    // Open the history file in append mode
-    std::wofstream historyFile(L"QueryHistory", std::ios::app);
-
-    // Check if the file is open
     if (historyFile.is_open())
     {
-        historyFile << entry.GetString() << std::endl;
+        // Convert wide strings to UTF-8-encoded narrow strings
+        std::string utf8DelimDateStart = CW2A(delimDateStart.GetString(), CP_UTF8);
+        std::string utf8CurrentDate = CW2A(currentDate.GetString(), CP_UTF8);
+        std::string utf8DelimDateEnd = CW2A(delimDateEnd.GetString(), CP_UTF8);
+        std::string utf8DelimQueryStart = CW2A(delimQueryStart.GetString(), CP_UTF8);
+        std::string utf8Query = CW2A(query.GetString(), CP_UTF8);
+        std::string utf8DelimQueryEnd = CW2A(delimQueryEnd.GetString(), CP_UTF8);
+
+        // Write the entry to the file
+        historyFile << utf8DelimDateStart << utf8CurrentDate << utf8DelimDateEnd
+            << " " << utf8DelimQueryStart << utf8Query << utf8DelimQueryEnd << std::endl;
+
+        // Close the file
         historyFile.close();
     }
     else
     {
-
+        // Handle the case where the file couldn't be opened
+        // For example, you can log an error message or take appropriate action.
     }
 }
+
 
 //if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
@@ -347,7 +364,7 @@ void CQueryTab::ExecuteQueryMainDlg()
         delete m_resultSet;
         m_resultSet = nullptr;
     }
-
+    
     CStringW sqlText;
     GetDlgItem(IDC_RICH_SQL)->GetWindowTextW(sqlText);
     sqlText = RemoveSQLComments(sqlText);
@@ -366,7 +383,6 @@ void CQueryTab::ExecuteQueryMainDlg()
 
             statement = RemoveSQLComments(statement);
 
-            // Ensure CStringToSQLString works correctly
             sql::SQLString query = CStringToSQLString(statement);
 
             auto start = std::chrono::high_resolution_clock::now();
@@ -378,6 +394,7 @@ void CQueryTab::ExecuteQueryMainDlg()
 
             if (m_resultSet)
             {
+                AddQueryToHistoryFile(statement);
                 size_t rowsCount = m_resultSet->rowsCount();
                 timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
@@ -425,6 +442,7 @@ void CQueryTab::ExecuteQueryMainDlg()
 
         if (m_resultSet)
         {
+            AddQueryToHistoryFile(statement);
             size_t rowsCount = m_resultSet->rowsCount();
             timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
@@ -904,6 +922,7 @@ void CQueryTab::OnEnChangeEditQuery()
 {
     UpdateStringCounter();
     OnEnVscrollEditQuery();
+
 }
 
 
@@ -913,6 +932,7 @@ void CQueryTab::OnEnVscrollEditQuery()
     CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringCounter->LineScroll(nPos - pStringCounter->GetFirstVisibleLine());
+
 }
 
 void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
@@ -1028,7 +1048,7 @@ void CQueryTab::ApplyFontSize(int nSize)
 
     pRichEditString->SetSel(0, -1);  // Set the selection to the entire text
     pRichEditString->SetSelectionCharFormat(cf);
-
+    
 }
 
 void CQueryTab::ApplyFontType(const CString& strFontType)
@@ -1064,3 +1084,12 @@ void CQueryTab::ApplyFontColor(COLORREF color)
     pRichEdit->SetSelectionCharFormat(cf);
 }
 
+
+
+void CQueryTab::OnBnClickedBtnHistory()
+{
+    CQueryHistoryDlg historyDlg;
+    auto status = historyDlg.DoModal();
+    
+
+}

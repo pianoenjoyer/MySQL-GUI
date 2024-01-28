@@ -11,7 +11,7 @@ class CQueryHistoryDlg : public CDialogEx
 public:
 	CQueryHistoryDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CQueryHistoryDlg();
-
+	BOOL OnInitDialog();
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_HYSTORY };
@@ -19,6 +19,6 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	void LoadHistoryToListCtrl(CListCtrl* listCtrl);
 	DECLARE_MESSAGE_MAP()
 };

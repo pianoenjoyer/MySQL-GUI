@@ -50,7 +50,6 @@
 #define IDB_PNG6                        197
 #define IDB_PNG_LOADING                 197
 #define IDD_HOTKEYS_HINTS               198
-#define IDD_DIALOG4                     200
 #define IDD_HYSTORY                     200
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000

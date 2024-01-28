@@ -213,19 +213,19 @@ std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString&
         delete resultSet;
         delete statement;
     }
-    catch (const sql::SQLException& e) {
+    catch (const sql::SQLException& e) 
+    {
         // Handle the database exception and display an error message using AfxMessageBox.
         CString errorMessage = CString(e.what());
         AfxMessageBox(errorMessage);
 
         // Optionally, re-throw the exception or return an empty vector if needed.
     }
-    catch (const std::exception& e) {
+    catch (const std::exception& e) 
+    {
         // Handle other standard exceptions if necessary.
         CString errorMessage = CString(e.what());
         AfxMessageBox(errorMessage);
-
-        // Optionally, re-throw the exception or return an empty vector if needed.
     }
 
     return columns;

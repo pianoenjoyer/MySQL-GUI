@@ -22,6 +22,7 @@ public:
 	BOOL SetDefaultFont();
 	void PopulateFontSizesDropdown();
 	void PopulateFontNamesDropdown();
+	void CQueryTab::AddQueryToHistoryFile(const CStringW& query);
 	int CALLBACK EnumFontsProc(const LOGFONT* lpelf, const TEXTMETRIC* lpntm, DWORD FontType, LPARAM lParam);
 	CComboBox m_comboTables;
 	std::shared_ptr<CDBConnection> db;
@@ -64,4 +65,5 @@ public:
 	void ApplyFontSize(int nSize);
 	void ApplyFontType(const CString& strFontType);
 	void ApplyFontColor(COLORREF color);
+	afx_msg void OnBnClickedBtnHistory();
 };

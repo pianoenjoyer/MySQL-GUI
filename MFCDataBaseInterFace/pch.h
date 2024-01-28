@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <fstream>
 #include <random>
 #include <cmath>
 #endif //PCH_H
