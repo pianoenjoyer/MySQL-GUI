@@ -249,6 +249,7 @@
     <ClInclude Include="CPendulum.h" />
     <ClInclude Include="CPluginsTab.h" />
     <ClInclude Include="CProceduresDlg.h" />
+    <ClInclude Include="CQueryHistoryDlg.h" />
     <ClInclude Include="CQueryTab.h" />
     <ClInclude Include="CResultTab.h" />
     <ClInclude Include="CLoadingDlg.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="CPendulum.cpp" />
     <ClCompile Include="CPluginsTab.cpp" />
     <ClCompile Include="CProceduresDlg.cpp" />
+    <ClCompile Include="CQueryHistoryDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
     <ClCompile Include="CResultTab.cpp" />
     <ClCompile Include="CLoadingDlg.cpp" />

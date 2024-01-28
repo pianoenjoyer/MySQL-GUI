@@ -168,7 +168,7 @@ void CMonitorTab::UpdateGraph()
     double traffReceivedGraphMax = 1;
     double traffReceivedGraphMin = 0;
 
-    double traffSentGraphMax = 1;
+    double traffSentGraphMax = 2;
     double traffSentGraphMin = 0;
 
     int connXGraphMax = 10;

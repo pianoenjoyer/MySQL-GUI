@@ -156,8 +156,11 @@
     <ClInclude Include="MFCPendulumDlg.h">
       <Filter>EasterEggs</Filter>
     </ClInclude>
+    <ClInclude Include="CQueryHistoryDlg.h">
+      <Filter>Header Files\Dlgs</Filter>
+    </ClInclude>
     <ClInclude Include="CTableTabRecords.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -252,7 +255,10 @@
       <Filter>EasterEggs</Filter>
     </ClCompile>
     <ClCompile Include="CTableTabRecords.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CQueryHistoryDlg.cpp">
+      <Filter>Source Files\Dlgs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

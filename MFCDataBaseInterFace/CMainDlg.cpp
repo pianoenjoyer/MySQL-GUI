@@ -25,7 +25,7 @@ void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
 //hotkeys handler
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
-
+    //Universal hot keys for every dlg
     if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
     {
         switch (pMsg->wParam)
@@ -89,6 +89,7 @@ BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 
         }
     }
+    //dlg specific hotkeys
 
     return CDialog::PreTranslateMessage(pMsg);
 }
@@ -426,7 +427,7 @@ BOOL CMainDlg::OnInitDialog()
 
     itemMonitor.mask = TCIF_TEXT | TCIF_PARAM;
     itemMonitor.lParam = (LPARAM)&m_monitorTab;//
-    itemMonitor.pszText = _T("Status");
+    itemMonitor.pszText = _T("Monitor");
     pTabCtrl->InsertItem(8, &itemMonitor);
 
     itemPlugins.mask = TCIF_TEXT | TCIF_PARAM;

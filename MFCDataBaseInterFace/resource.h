@@ -50,6 +50,8 @@
 #define IDB_PNG6                        197
 #define IDB_PNG_LOADING                 197
 #define IDD_HOTKEYS_HINTS               198
+#define IDD_DIALOG4                     200
+#define IDD_HYSTORY                     200
 #define IDC_EDIT1                       1000
 #define IDC_EDT_OUTQTEXT                1000
 #define IDC_EDIT_DESCRIPTION            1000
@@ -124,6 +126,7 @@
 #define IDC_BTN_DELETEDB                1031
 #define IDC_BTN_MONSTART2               1031
 #define IDC_BTN_MONCLEAR                1031
+#define IDC_BTN_CLR_HIST                1031
 #define IDC_STATIC_FILTER               1032
 #define IDC_BTN_MONSTART3               1032
 #define IDC_EDIT3                       1033
@@ -277,6 +280,10 @@
 #define IDC_BTN_REFDB                   1210
 #define IDC_BTN_REFDB2                  1211
 #define IDC_BTN_REFTBL                  1211
+#define IDC_BTN_HISTORY                 1211
+#define IDC_LIST_HYSTORY                1212
+#define IDC_BTN_SEL_HIST_REC            1213
+#define IDC_BTN_OPN_HIST_FILE           1214
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -312,9 +319,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        200
+#define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1211
+#define _APS_NEXT_CONTROL_VALUE         1215
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

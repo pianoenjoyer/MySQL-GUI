@@ -300,6 +300,36 @@ CStringW RemoveSQLComments(const CStringW& sqlText)
     return result;
 }
 
+
+void AddQueryToHistoryFile(const CStringW& query)
+{
+    // Get the current timestamp
+    std::time_t currentTime = std::time(nullptr);
+    std::tm* localTime = std::localtime(&currentTime);
+
+    // Format the timestamp
+    char timestamp[20];
+    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", localTime);
+
+    // Combine timestamp and query text
+    CStringW entry;
+    entry.Format(L"%s - %s", CString(timestamp), query);
+
+    // Open the history file in append mode
+    std::wofstream historyFile(L"QueryHistory", std::ios::app);
+
+    // Check if the file is open
+    if (historyFile.is_open())
+    {
+        historyFile << entry.GetString() << std::endl;
+        historyFile.close();
+    }
+    else
+    {
+
+    }
+}
+
 //if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
 {
