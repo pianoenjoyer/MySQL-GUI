@@ -922,17 +922,26 @@ void CQueryTab::OnEnChangeEditQuery()
 {
     UpdateStringCounter();
     OnEnVscrollEditQuery();
-
+    //SynchronizeFontProperties();
 }
 
 
 void CQueryTab::OnEnVscrollEditQuery()
 {
-    CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_RICH_LINENUMBERER);
-    CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
+    CRichEditCtrl* pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringCounter->LineScroll(nPos - pStringCounter->GetFirstVisibleLine());
 
+    // Get the character format of the SQL edit control
+    CHARFORMAT2 sqlCharFormat;
+    sqlCharFormat.cbSize = sizeof(CHARFORMAT2);
+    pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    pQueryText->GetDefaultCharFormat(sqlCharFormat);
+
+    // Apply the character format to the line numberer control
+    pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    pStringCounter->SetDefaultCharFormat(sqlCharFormat);
 }
 
 void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
@@ -966,6 +975,7 @@ void CQueryTab::OnEnChangeRichSql()
 {
     UpdateStringCounter();
     OnEnVscrollRichSql();
+    //SynchronizeFontProperties();
 }
 
 
@@ -991,32 +1001,73 @@ void CQueryTab::PopulateFontSizesDropdown()
     }
 }
 
+void CQueryTab::SynchronizeFontProperties()
+{
+    // Get the font size, font type, and color from one of the controls
+    auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
+    if (!pRichEditSQL)
+    {
+        return;
+    }
+
+    // Store information about the current selection
+    long start, end;
+    pRichEditSQL->GetSel(start, end);
+
+    CHARFORMAT2 cf;
+    cf.cbSize = sizeof(cf);
+    pRichEditSQL->GetSelectionCharFormat(cf);
+
+    // Apply the font properties to the other control (line numberer)
+    auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
+    if (!pRichEditString)
+    {
+        return;
+    }
+
+    // Set font size, font type, and color for both controls
+    pRichEditSQL->SetSel(0, -1);
+    pRichEditSQL->SetSelectionCharFormat(cf);
+    pRichEditSQL->SetSel(start, end);  // Restore the previous selection
+
+    pRichEditString->SetSel(0, -1);
+    pRichEditString->SetSelectionCharFormat(cf);
+    pRichEditString->SetSel(start, end);  // Restore the previous selection
+}
+
 
 
 void CQueryTab::OnCbnSelchangeFontSize()
 {
-    // Get the selected font size from the combo box
     auto pComboFontSize = GetDlgItem(IDC_FONT_SIZE);
+    auto pComboFontCombo = GetDlgItem(IDC_FONTCOMBO);
+    CString strFontType;
     CString strSize;
+
     pComboFontSize->GetWindowTextW(strSize);
+    pComboFontCombo->GetWindowTextW(strFontType);
     int nSize = _ttoi(strSize);
 
-    // Apply the font size to the selected text in the rich edit control
     ApplyFontSize(nSize);
+    ApplyFontType(strFontType);
+    SynchronizeFontProperties();
 }
 
 
 void CQueryTab::OnCbnSelchangeFontcombo()
 {
+    auto pComboFontSize = GetDlgItem(IDC_FONT_SIZE);
     auto pComboFontCombo = GetDlgItem(IDC_FONTCOMBO);
-
-    // Get the selected font type from the font combo box
     CString strFontType;
-    pComboFontCombo->GetWindowTextW(strFontType);
+    CString strSize;
 
-    // Apply the font type to the selected text in the rich edit control
+    pComboFontSize->GetWindowTextW(strSize);
+    pComboFontCombo->GetWindowTextW(strFontType);
+    int nSize = _ttoi(strSize);
+
+    ApplyFontSize(nSize);
     ApplyFontType(strFontType);
-    OnCbnSelchangeFontSize();
+    SynchronizeFontProperties();
 }
 
 void CQueryTab::OnBnClickedColorFont()

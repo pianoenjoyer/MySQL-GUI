@@ -162,6 +162,9 @@
     <ClInclude Include="CTableTabRecords.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
+    <ClInclude Include="CResultPlus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="CQueryHistoryDlg.cpp">
       <Filter>Source Files\Dlgs</Filter>
+    </ClCompile>
+    <ClCompile Include="CResultPlus.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@ protected:
 public:
 	CQueryTab(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CQueryTab();
+	void SynchronizeFontProperties();
 	BOOL SetDefaultFontSize();
 	BOOL SetDefaultFont();
 	void PopulateFontSizesDropdown();

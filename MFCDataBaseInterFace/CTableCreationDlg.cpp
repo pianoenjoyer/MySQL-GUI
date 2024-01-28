@@ -412,6 +412,7 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
 void CTableCreationDlg::OnCbnSelchangeCmbDbs()
 {
     PopulateTableDropdown();
+    OnCbnSelchangeCmbTbs();
 }
 
 

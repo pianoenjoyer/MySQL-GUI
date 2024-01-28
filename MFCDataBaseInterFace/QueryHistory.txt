@@ -4,3 +4,4 @@
 |;Q|28.01.2024|Q;| |;D|SELECT * FROM mysql.func WHERE 1|D;|
 |;Q|28.01.2024|Q;| |;D| 
 SELECT * FROM mysql.func WHERE 1|D;|
+|;Q|28.01.2024|Q;| |;D|SELECT * FROM safelighting.base_type WHERE 1|D;|

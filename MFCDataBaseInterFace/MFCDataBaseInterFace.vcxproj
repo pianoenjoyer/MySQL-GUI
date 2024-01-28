@@ -251,6 +251,7 @@
     <ClInclude Include="CProceduresDlg.h" />
     <ClInclude Include="CQueryHistoryDlg.h" />
     <ClInclude Include="CQueryTab.h" />
+    <ClInclude Include="CResultPlus.h" />
     <ClInclude Include="CResultTab.h" />
     <ClInclude Include="CLoadingDlg.h" />
     <ClInclude Include="CTableCreationDlg.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="CProceduresDlg.cpp" />
     <ClCompile Include="CQueryHistoryDlg.cpp" />
     <ClCompile Include="CQueryTab.cpp" />
+    <ClCompile Include="CResultPlus.cpp" />
     <ClCompile Include="CResultTab.cpp" />
     <ClCompile Include="CLoadingDlg.cpp" />
     <ClCompile Include="CTableCreationDlg.cpp" />
