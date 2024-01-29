@@ -19,6 +19,13 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	void LoadHistoryToListCtrl(CListCtrl* listCtrl);
+	CString m_selectedQueryFromHistory;
+	void LoadHistoryToListCtrl();
+	CString m_filename;
 	DECLARE_MESSAGE_MAP()
+public:
+	CString GetSelectedQueryFromHistory() { return m_selectedQueryFromHistory; }
+	afx_msg void OnBnClickedBtnSelHistRec();
+	afx_msg void OnBnClickedBtnOpnHistFile();
+	afx_msg void OnBnClickedBtnClrHist();
 };

@@ -356,6 +356,7 @@ void CChangeUserPasswordDlg::OnBnClickedChangepwd()
         // Update the password in the database
         if (UpdatePassword(username, new_password)) {
             AfxMessageBox(_T("Password changed."));
+            this->EndDialog(IDOK);
         }
         else {
             AfxMessageBox(_T("Failed to update password. Check your input and try again."));

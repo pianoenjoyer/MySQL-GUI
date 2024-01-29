@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CDBConnection.h"
-
+#include "CQueryHistoryDlg.h"
 // CQueryTab dialog
 
 class CQueryTab : public CDialogEx
@@ -18,8 +18,10 @@ protected:
 public:
 	CQueryTab(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CQueryTab();
+	CQueryHistoryDlg m_historyDlg;
+	void SetSQLEditText(const CString& text);
 	void SynchronizeFontProperties();
-	BOOL SetDefaultFontSize();
+	BOOL SetDefaultFontSize(); 
 	BOOL SetDefaultFont();
 	void PopulateFontSizesDropdown();
 	void PopulateFontNamesDropdown();

@@ -145,6 +145,17 @@ BOOL CQueryTab::SetDefaultFont()
     return false;
 }
 
+void CQueryTab::SetSQLEditText(const CString& text)  
+{
+    auto pRichSql = GetDlgItem(IDC_RICH_SQL);
+    if (!pRichSql)
+    {
+        return;
+    }
+    pRichSql->SetWindowText(text);
+
+}
+
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
@@ -611,7 +622,6 @@ void CQueryTab::OnBnClickedBtnRefactor()
 
 void CQueryTab::OnBnClickedBtnSelectall()
 {
-    
     CWnd* pTabCtrl = GetParent();
     CComboBox* dbDropdown = nullptr;
     if (pTabCtrl) {
@@ -1140,7 +1150,8 @@ void CQueryTab::ApplyFontColor(COLORREF color)
 void CQueryTab::OnBnClickedBtnHistory()
 {
     CQueryHistoryDlg historyDlg;
-    auto status = historyDlg.DoModal();
-    
+    historyDlg.DoModal();
+    CString value = historyDlg.GetSelectedQueryFromHistory();
+    SetSQLEditText(value);
 
 }
