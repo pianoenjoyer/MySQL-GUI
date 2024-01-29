@@ -5,7 +5,7 @@
 #include "afxdialogex.h"
 #include "CMonitorTab.h"
 #include "resource.h"
-
+#include "Convertions.h"
 // CMonitorTab dialog
 #define TIMER_ID 1
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
@@ -158,6 +158,7 @@ void CMonitorTab::UpdateGraph()
     m_ProcessesDataToDraw.push_back(curProcesses);
     m_ConnectionDataToDraw.push_back(curConnections);
 
+
     std::vector<double> timeStamps;
     for (int i = 1; i <= 60; ++i)
     {
@@ -191,6 +192,7 @@ void CMonitorTab::UpdateGraph()
         traffSentGraphMax = curTrafficReceivedUsage * 2;
         traffSentGraphMin = curTrafficReceivedUsage / 2;
     }
+
 
     std::thread thTrafReceived([&]()
         {
@@ -337,19 +339,33 @@ void CMonitorTab::UpdateTrafficList()
 
     int nIndex = pList->GetItemCount();
 
-    pList->InsertItem(nIndex, _T("Received"));
-    pList->SetItemText(nIndex, 1, L"200");
-    pList->SetItemText(nIndex, 2, L"220");
+    // Execute your SQL query to fetch traffic data from the database
+    sql::ResultSet* resultSet = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_sent';");
+    nIndex = 0;
+    while (resultSet->next())
+    {
+        CString trafficType = SQLStringToCString(resultSet->getString("Variable_name"));
+        CString number = SQLStringToCString(resultSet->getString("Value"));
 
-    nIndex++;
-    pList->InsertItem(nIndex, _T("Sent"));
-    pList->SetItemText(nIndex, 1, L"300");
-    pList->SetItemText(nIndex, 2, L"330");
+        pList->InsertItem(nIndex, trafficType);
+        pList->SetItemText(nIndex, 1, number);
 
-    nIndex++;
-    pList->InsertItem(nIndex, _T("Total"));
-    pList->SetItemText(nIndex, 1, L"400");
-    pList->SetItemText(nIndex, 2, L"440");
+        nIndex++;
+    }
+    delete resultSet;
+
+    resultSet = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_received';");
+    nIndex = 1;
+    while (resultSet->next())
+    {
+        CString trafficType = SQLStringToCString(resultSet->getString("Variable_name"));
+        CString number = SQLStringToCString(resultSet->getString("Value"));
+
+        pList->InsertItem(nIndex, trafficType);
+        pList->SetItemText(nIndex, 1, number);
+
+        nIndex++;
+    }
 
 }
 

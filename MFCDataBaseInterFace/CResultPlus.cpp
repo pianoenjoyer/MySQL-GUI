@@ -105,6 +105,7 @@ END_MESSAGE_MAP()
 
 int CResultPlus::BuildResultList(const int offset) {
     // Ensure resultSet is valid
+
     if (!m_curResSet)
     {
         return false;
@@ -331,6 +332,12 @@ void CResultPlus::OnEnChangeEditCurrentpage()
     CStringW pageNumberStr;
     pEdit->GetWindowTextW(pageNumberStr);
 
+    if (MaxPage == L"0")
+    {
+        pageNumberStr == L"0";
+        return;
+    }
+
     if (pageNumberStr == L"0" && MaxPage == L"0")
     {
         return;
@@ -338,7 +345,7 @@ void CResultPlus::OnEnChangeEditCurrentpage()
     else if (pageNumberStr == L"")
     {
         pEdit->SetWindowTextW(L"1");
-        return; // Return here after setting the page to 1 to avoid further calculations in this call.
+        return; 
     }
     else if (pageNumberStr != L"0" && MaxPage == L"0")
     {
