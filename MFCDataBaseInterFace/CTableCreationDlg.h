@@ -3,8 +3,9 @@
 #include "CDBConnection.h"
 #include "CTableRecordsTab.h"
 #include "CTableStructureTab.h"
-#include "CResultTab.h"
 #include "CTableTabRecords.h"
+#include "CResultPlus.h"
+
 // CTableCreationDlg dialog
 
 class CTableCreationDlg : public CDialogEx
@@ -26,6 +27,7 @@ protected:
 	CTableTabRecords m_recordsTab;
 	CTableStructureTab m_structureTab;
 	CResultTab m_resultTab;
+	CResultPlus m_resultPlus;
 	sql::ResultSet* m_pCurResultSet;
 	DECLARE_MESSAGE_MAP()
 public:void PopulateStorageEngineDropdown();

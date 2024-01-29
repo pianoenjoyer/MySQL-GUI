@@ -26,8 +26,8 @@ BOOL CTableCreationDlg::OnInitDialog()
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
 
     m_structureTab.Create(IDD_TABLE_STRUCTURE, pTabCtrl);
-    //m_resultTab.Create(IDD_RESULT_SHORT, pTabCtrl);
-   // m_recordsTab.Create(IDD_RESULT, pTabCtrl);
+    m_resultPlus.Create(IDD_RESULT_SHORT, pTabCtrl);
+
 
 
     TCITEM structure, records;
@@ -47,10 +47,10 @@ BOOL CTableCreationDlg::OnInitDialog()
 
     CRect rcRecords;
     pTabCtrl->GetItemRect(1, &rcRecords);
-    m_resultTab.SetWindowPos(NULL, rcStructure.left, rcRecords.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    m_resultPlus.SetWindowPos(NULL, rcStructure.left, rcRecords.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
     m_structureTab.ShowWindow(TRUE);
-    m_resultTab.ShowWindow(FALSE);
+    m_resultPlus.ShowWindow(FALSE);
 
     PopulateCharacterSetDropdown();
     PopulateStorageEngineDropdown();
@@ -174,8 +174,8 @@ bool CTableCreationDlg::UpdateRecorldsList()
         return false;
     }
 
-    m_resultTab.BuildResultList(m_pCurResultSet, 0);
-
+    m_resultPlus.SetCurrentResultSet(m_pCurResultSet);
+    m_resultPlus.BuildResultList(0);
     return false;
 }
 
@@ -387,9 +387,8 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
 {
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_TAB_TABLES);
     int nSelectedTab = pTabCtrl->GetCurSel();
-    m_recordsTab.ShowWindow(FALSE);
     m_structureTab.ShowWindow(FALSE);
-    m_resultTab.ShowWindow(FALSE);
+    m_resultPlus.ShowWindow(FALSE);
     switch (nSelectedTab)
     {
     case 0: 
@@ -397,7 +396,7 @@ void CTableCreationDlg::OnTcnSelchangeTabTables(NMHDR* pNMHDR, LRESULT* pResult)
         break;
 
     case 1: 
-        m_resultTab.ShowWindow(TRUE);
+        m_resultPlus.ShowWindow(TRUE);
         break;
 
     default:
