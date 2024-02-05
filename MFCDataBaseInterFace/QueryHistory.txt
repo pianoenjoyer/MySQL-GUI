@@ -1,1 +1,6 @@
 |;Q|29.01.2024|Q;| |;D|SELECT * FROM performance_schema.events_errors_summary_by_host_by_error WHERE 1|D;|
+|;Q|30.01.2024|Q;| |;D|SELECT * FROM performance_schema.events_errors_summary_by_account_by_error WHERE 1|D;|
+|;Q|06.02.2024|Q;| |;D|SELECT * FROM performance_schema.events_errors_summary_by_host_by_error WHERE 1|D;|
+|;Q|06.02.2024|Q;| |;D|SELECT * FROM safelighting.lightbase WHERE 1|D;|
+|;Q|06.02.2024|Q;| |;D|SELECT * FROM safelighting.district WHERE 1|D;|
+|;Q|06.02.2024|Q;| |;D|SELECT * FROM TestTable|D;|

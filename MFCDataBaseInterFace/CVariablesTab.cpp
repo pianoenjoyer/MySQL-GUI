@@ -44,7 +44,7 @@ BOOL CVariablesTab::OnInitDialog()
     return TRUE;
 }
 
-bool CVariablesTab::PopulateVariablesCombo() const
+bool CVariablesTab::PopulateVariablesCombo() 
 {
     auto pCombo = (CComboBox*)GetDlgItem(IDC_CMB_VARS);
     if (!pCombo)
@@ -62,6 +62,8 @@ bool CVariablesTab::PopulateVariablesCombo() const
         CString Value = SQLStringToCString(resultSet->getString("Value"));
         pCombo->AddString(Variable);
     }
+    pCombo->SetCurSel(0);
+    OnCbnSelchangeCmbVars();
     return true;
 
 }
@@ -164,8 +166,6 @@ void CVariablesTab::OnCbnSelchangeCmbVars()
         pCombo->GetLBText(currentIndex, curVarName);
     }
 
-
-
     std::shared_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW VARIABLES"));
     while (resultSet->next())
     {
@@ -185,8 +185,6 @@ bool IsNumeric(const CString& str)
     std::wistringstream iss(str.GetString());
     double d;
     iss >> d;
-
-    // Check if the conversion was successful and the whole string was consumed
     return !iss.fail() && iss.eof();
 }
 

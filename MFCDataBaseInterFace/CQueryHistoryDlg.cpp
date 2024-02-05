@@ -60,11 +60,9 @@ void CQueryHistoryDlg::LoadHistoryToListCtrl()
                 CStringW date = line.substr(dateStart + delimDateStart.GetLength(), dateEnd - (dateStart + delimDateStart.GetLength())).c_str();
                 CStringW query = line.substr(queryStart + delimQueryStart.GetLength(), queryEnd - (queryStart + delimQueryStart.GetLength())).c_str();
 
-                // Insert into the list control
                 pListHistory->InsertItem(itemIndex, date);
                 pListHistory->SetItemText(itemIndex, 1, query);
 
-                // Move to the next row
                 itemIndex++;
             }
         }
@@ -84,7 +82,7 @@ void CQueryHistoryDlg::LoadHistoryToListCtrl()
 BOOL CQueryHistoryDlg::OnInitDialog() 
 {
     CListCtrl* pListHistory = (CListCtrl*)GetDlgItem(IDC_LIST_HYSTORY);
-    pListHistory->InsertColumn(0, _T("Date"), LVCFMT_LEFT, 200);
+    pListHistory->InsertColumn(0, _T("Date"), LVCFMT_LEFT, 100);
     pListHistory->InsertColumn(1, _T("Query"), LVCFMT_LEFT, 1000);
     LoadHistoryToListCtrl();
 	return TRUE;

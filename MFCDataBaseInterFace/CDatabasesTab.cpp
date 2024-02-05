@@ -215,12 +215,12 @@ void CDatabasesTab::OnBnClickedBtnDeletedb()
         pComboBox->GetLBText(selectedIndex, dbName);
 
         CString message;
-        message.Format(_T("Are you sure you want to delete the database '%s'?"), dbName);
+        message.Format(L"Are you sure you want to delete the database '%s'?", dbName);
 
         if (MessageBox(message, _T("Confirmation"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
             CString query;
             CString errorString;
-            query.Format(_T("DROP DATABASE IF EXISTS `%s`"), dbName);
+            query.Format(L"DROP DATABASE IF EXISTS `%s`", dbName);
             int result = db->ExecuteNonQuery(CStringToSQLString(query));
 
             if (result) {
@@ -237,7 +237,6 @@ void CDatabasesTab::OnBnClickedBtnDeletedb()
         MessageBox(_T("Please select a database to delete."), _T("Information"), MB_OK | MB_ICONINFORMATION);
     }
 }
-
 
 
 void CDatabasesTab::UpdateListFilter()

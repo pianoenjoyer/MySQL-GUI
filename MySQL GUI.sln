@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySQL GUI", "MFCDataBaseInterFace\MFCDataBaseInterFace.vcxproj", "{C25AF803-EB40-4081-AFB0-27BF2C478842}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTest", "GoogleTest\GoogleTest.vcxproj", "{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Custom|x64 = Custom|x64
@@ -27,6 +29,18 @@ Global
 		{C25AF803-EB40-4081-AFB0-27BF2C478842}.Release|x64.Build.0 = Release|x64
 		{C25AF803-EB40-4081-AFB0-27BF2C478842}.Release|x86.ActiveCfg = Release|Win32
 		{C25AF803-EB40-4081-AFB0-27BF2C478842}.Release|x86.Build.0 = Release|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Custom|x64.ActiveCfg = Debug|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Custom|x64.Build.0 = Debug|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Custom|x86.ActiveCfg = Debug|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Custom|x86.Build.0 = Debug|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Debug|x64.ActiveCfg = Debug|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Debug|x64.Build.0 = Debug|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Debug|x86.ActiveCfg = Debug|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Debug|x86.Build.0 = Debug|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Release|x64.ActiveCfg = Release|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Release|x64.Build.0 = Release|x64
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Release|x86.ActiveCfg = Release|Win32
+		{DAC5A7FB-C6F3-4C90-87C1-3D965A03A510}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

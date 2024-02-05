@@ -19,7 +19,7 @@ protected:
 	bool PopulateVariablesList();
 	void UpdateListFilter();
 	void AddVariableToList(CListCtrl* pListCtrl, const CString& variable, const CString& value);
-	bool PopulateVariablesCombo() const;
+	bool PopulateVariablesCombo();
 	DECLARE_MESSAGE_MAP()
 public:
 	CVariablesTab(CWnd* pParent = nullptr);   // standard constructor

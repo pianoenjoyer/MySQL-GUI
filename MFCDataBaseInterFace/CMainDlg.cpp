@@ -15,7 +15,6 @@
 #include "CLoadingDlg.h"
 #include "Convertions.h"
 #include "SendMessagesUtils.h"
-
 #include <fstream>
 
 IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
@@ -293,6 +292,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 
     ON_BN_CLICKED(IDC_BTN_UNSEL, &CMainDlg::OnBnClickedBtnUnsel)
 END_MESSAGE_MAP()
+
 
 BOOL CMainDlg::OnInitDialog()
 {
@@ -672,7 +672,7 @@ void CMainDlg::OnBnClickedBtnUpdate()
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     pTree->DeleteAllItems();
     BuildDatabaseTree(*pTree);
-    
+    OnBnClickedBtnUnsel();
     //OnCbnSelchangeCmbSelDb();
 }
 
