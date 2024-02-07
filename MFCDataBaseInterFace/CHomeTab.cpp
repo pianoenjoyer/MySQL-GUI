@@ -259,18 +259,12 @@ CString CHomeTab::GetCurrentConnectionCollation()
 BOOL CHomeTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_MySQLGUI);
-    SetImage(pPicCtrl, L".\\Pictures\\MySQLHOME.png");
 
-
-    SetBackgroundColor(SQLBLUE);
-
+    SetBackgroundColor(TABWHITE);
     PopulateGeneralInfo();
     PopulatePluginsList();
     PopulateEnginesList();
     PopulateConnectionCollationDropdown();
-
-
 
     CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_PIC_MySQLGUI);
     SetImage(pPicCtrl, L".\\Pictures\\MySQLHOME.png");
