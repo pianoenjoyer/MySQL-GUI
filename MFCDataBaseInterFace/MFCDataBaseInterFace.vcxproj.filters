@@ -281,28 +281,19 @@
     <Image Include="res\MFCDataBaseInterFace.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico">
+    <Image Include="Pictures\BMP\mysql_logo.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Pictures\MySQLHOME.png">
+    <Image Include="Pictures\BMP\mysql_logo_white.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Pictures\mysql_logo.png">
+    <Image Include="Pictures\BMP\MySQLHOME.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Pictures\mysql_logo_white.png">
+    <Image Include="Pictures\BMP\powered_by_mysql.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Pictures\serverIcon(22x22).png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Pictures\serverIcon(45x45).png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Pictures\Top-MYSQL-GUI-Tools-Edit2.png">
+    <Image Include="Pictures\BMP\Top-MYSQL-GUI-Tools-Edit2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
