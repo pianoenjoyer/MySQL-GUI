@@ -6,3 +6,6 @@
 |;Q|06.02.2024|Q;| |;D|SELECT * FROM TestTable|D;|
 |;Q|06.02.2024|Q;| |;D|SELECT * FROM safelighting.dawd WHERE 1|D;|
 |;Q|06.02.2024|Q;| |;D|SELECT * FROM safelighting.lightbase WHERE 1|D;|
+|;Q|16.02.2024|Q;| |;D|SELECT * FROM world.country WHERE 1|D;|
+|;Q|16.02.2024|Q;| |;D|SELECT * FROM world.country WHERE 1|D;|
+|;Q|16.02.2024|Q;| |;D|SELECT * FROM world.country WHERE 1|D;|

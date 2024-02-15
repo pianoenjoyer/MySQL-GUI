@@ -260,7 +260,7 @@ BOOL CHomeTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
-    SetBackgroundColor(TABWHITE);
+    //SetBackgroundColor(TABWHITE);
     PopulateGeneralInfo();
     PopulatePluginsList();
     PopulateEnginesList();

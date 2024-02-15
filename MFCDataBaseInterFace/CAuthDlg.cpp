@@ -174,7 +174,7 @@ BOOL CAuthDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
 	GetClientRect(&rectClient);
-	pDC->FillSolidRect(&rectClient, RGB(29, 48, 82));
+	pDC->FillSolidRect(&rectClient, RGB(60, 67, 98)); //bg
 	return TRUE;
 }
 
@@ -191,13 +191,14 @@ HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkMode(TRANSPARENT);
-	hbr = CreateSolidBrush(SQLDARKBLUE);
+	hbr = CreateSolidBrush(RGB(60, 67, 98)); //bg
 	return hbr;
 }
 
 
 BOOL CAuthDlg::OnInitDialog()
 {
+
 	CDialogEx::OnInitDialog();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon

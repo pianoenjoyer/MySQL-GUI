@@ -6,3 +6,7 @@
 #define WHITE RGB(255, 255, 255)
 
 #define TABWHITE RGB(249, 249, 249)
+
+#define SQLYELLOW RGB(245, 190, 27)
+
+#define SQLLIGHTVIOLET RGB(83, 93, 136)

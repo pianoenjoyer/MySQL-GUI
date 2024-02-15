@@ -159,7 +159,7 @@ void CQueryTab::SetSQLEditText(const CString& text)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
-    SetBackgroundColor(TABWHITE);
+    //SetBackgroundColor(TABWHITE);
     auto pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     DWORD dwMask = pRichEdit->GetEventMask();
     dwMask |= (ENM_CHANGE | ENM_SCROLL);

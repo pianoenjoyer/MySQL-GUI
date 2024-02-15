@@ -72,7 +72,7 @@ BOOL CLoadingDlg::OnInitDialog()
 	pProgress->SetRange(0, 50);
 
 	CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
-	SetImage(pPicCtrl, L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png");
+	//SetImage(pPicCtrl, L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png");
 	//SetImage(pPicCtrl, IDB_PNG_LOADING);
 	return TRUE;
 }
@@ -167,7 +167,7 @@ BOOL CLoadingDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
 	GetClientRect(&rectClient);
-	pDC->FillSolidRect(&rectClient, RGB(29, 48, 82));
+	pDC->FillSolidRect(&rectClient, RGB(19, 100, 148)); //bg
 	return TRUE;
 }
 
@@ -184,7 +184,7 @@ HBRUSH CLoadingDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkMode(TRANSPARENT);
-	hbr = CreateSolidBrush(SQLBLUE);
+	hbr = CreateSolidBrush(RGB(19, 100, 148)); //bg
 	return hbr;
 }
 

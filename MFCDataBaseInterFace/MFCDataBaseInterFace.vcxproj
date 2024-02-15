@@ -326,14 +326,13 @@
     <None Include="res\MFCDataBaseInterFace.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\mikhail\Desktop\MFCDataBaseInterFace\db_icon.ico" />
-    <Image Include="Pictures\MySQLHOME.png" />
-    <Image Include="Pictures\mysql_logo.png" />
-    <Image Include="Pictures\mysql_logo_white.png" />
-    <Image Include="Pictures\serverIcon(22x22).png" />
-    <Image Include="Pictures\serverIcon(45x45).png" />
-    <Image Include="Pictures\Top-MYSQL-GUI-Tools-Edit2.png" />
-    <Image Include="res\bitmap1.bmp" />
+    <Image Include="pictures\bmp\bitmap7.bmp" />
+    <Image Include="Pictures\BMP\MySQLHOME.bmp" />
+    <Image Include="Pictures\BMP\mysql_logo.bmp" />
+    <Image Include="Pictures\BMP\mysql_logo_white.bmp" />
+    <Image Include="Pictures\BMP\powered_by_mysql.bmp" />
+    <Image Include="Pictures\BMP\sql_loading.bmp" />
+    <Image Include="Pictures\BMP\Top-MYSQL-GUI-Tools-Edit2.bmp" />
     <Image Include="res\MFCDataBaseInterFace.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
