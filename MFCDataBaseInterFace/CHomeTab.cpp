@@ -27,7 +27,8 @@ CHomeTab::~CHomeTab()
 void CHomeTab::PopulateGeneralInfo()
 {
     CListCtrl* pListCtrl = (CListCtrl*)GetDlgItem(IDC_LIST_SERVER_INFO);
-    if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
+    if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) 
+    {
         pListCtrl->InsertColumn(0, _T("Property"), LVCFMT_LEFT, 120);
         pListCtrl->InsertColumn(1, _T("Value"), LVCFMT_LEFT, 2000);
     }
