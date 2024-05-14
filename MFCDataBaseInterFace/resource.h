@@ -292,7 +292,6 @@
 #define IDC_BTN_SEL_HIST_REC            1213
 #define IDC_BTN_OPN_HIST_FILE           1214
 #define IDC_STATIC_SAVELOGINTITLE       1215
-#define IDC_STATIC_REMEMBERDATA2        1216
 #define IDC_STATIC_SHOWPASSWORDTITLE    1216
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
