@@ -1125,24 +1125,43 @@ void CMainDlg::OnSize(UINT nType, int cx, int cy)
 {
     CDialogEx::OnSize(nType, cx, cy);
 
-    // Only proceed if the child dialogs have been created
     if (m_queryTab.GetSafeHwnd() && m_resultTab.GetSafeHwnd()) {
         CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
         CRect mainRect;
         GetClientRect(&mainRect);
 
-        // Adjust the size and position of the child dialogs based on the new size of the main dialog
+
         CRect rcTab;
         pTabCtrl->GetClientRect(&rcTab);
 
-        CRect rcItem1, rcItem2, rcItem3;
+        CRect rcItem1, rcItem2, rcItem3, rcItem4, rcItem5, rcItem6, rcItem7, rcItem8, rcItem9, rcItem10 ,rcItem11;
         pTabCtrl->GetItemRect(0, &rcItem1);
         pTabCtrl->GetItemRect(1, &rcItem2);
-        pTabCtrl->GetItemRect(1, &rcItem3);
-        // Adjust the position and size of the child dialogs
+        pTabCtrl->GetItemRect(2, &rcItem3);
+
+        pTabCtrl->GetItemRect(3, &rcItem4); //export
+        pTabCtrl->GetItemRect(4, &rcItem5); //tables
+        pTabCtrl->GetItemRect(5, &rcItem6); //Databases
+        pTabCtrl->GetItemRect(6, &rcItem7); //Variables
+        pTabCtrl->GetItemRect(6, &rcItem8); //Charsets
+        pTabCtrl->GetItemRect(6, &rcItem9); //Monitor
+
+        pTabCtrl->GetItemRect(6, &rcItem10); //Plugins
+        pTabCtrl->GetItemRect(6, &rcItem11); //Engines
+
         m_queryTab.MoveWindow(rcTab.left, rcTab.top + rcItem1.Height(), rcTab.Width(), rcTab.Height() - rcItem1.Height());
         m_resultTab.MoveWindow(rcTab.left, rcTab.top + rcItem2.Height(), rcTab.Width(), rcTab.Height() - rcItem2.Height());
         m_homeTab.MoveWindow(rcTab.left, rcTab.top + rcItem3.Height(), rcTab.Width(), rcTab.Height() - rcItem3.Height());
+
+        m_exportTab.MoveWindow(rcTab.left, rcTab.top + rcItem4.Height(), rcTab.Width(), rcTab.Height() - rcItem4.Height());
+        m_tableTab.MoveWindow(rcTab.left, rcTab.top + rcItem5.Height(), rcTab.Width(), rcTab.Height() - rcItem5.Height());
+        m_databasesTab.MoveWindow(rcTab.left, rcTab.top + rcItem6.Height(), rcTab.Width(), rcTab.Height() - rcItem6.Height());
+        m_varsTab.MoveWindow(rcTab.left, rcTab.top + rcItem7.Height(), rcTab.Width(), rcTab.Height() - rcItem7.Height());
+        m_charsetsTab.MoveWindow(rcTab.left, rcTab.top + rcItem8.Height(), rcTab.Width(), rcTab.Height() - rcItem8.Height());
+        m_monitorTab.MoveWindow(rcTab.left, rcTab.top + rcItem9.Height(), rcTab.Width(), rcTab.Height() - rcItem9.Height());
+
+        m_pluginsTab.MoveWindow(rcTab.left, rcTab.top + rcItem10.Height(), rcTab.Width(), rcTab.Height() - rcItem10.Height());
+        m_enginesTab.MoveWindow(rcTab.left, rcTab.top + rcItem11.Height(), rcTab.Width(), rcTab.Height() - rcItem11.Height());  
     }
 }
 

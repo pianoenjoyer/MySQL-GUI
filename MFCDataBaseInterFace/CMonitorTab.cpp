@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CMonitorTab, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_MONSTART, &CMonitorTab::OnBnClickedBtnMonstart)
     ON_BN_CLICKED(IDC_BTN_TRAFFIC_UPDATE, &CMonitorTab::OnBnClickedBtnTrafficUpdate)
     ON_WM_TIMER()
+    ON_WM_SIZE()
     ON_BN_CLICKED(IDC_BTN_MONCLEAR, &CMonitorTab::OnBnClickedBtnMonclear)
 END_MESSAGE_MAP()
 
@@ -109,7 +110,13 @@ void CMonitorTab::OnTimer(UINT_PTR nIDEvent) {
 
 void CMonitorTab::InitGraph() 
 {
-    drwCpuUsage.Create(GetDlgItem(IDC_PIC_CPU)->GetSafeHwnd());
+    auto picCpu = GetDlgItem(IDC_PIC_CPU)->GetSafeHwnd();
+    if (!picCpu)
+    {
+        return;
+    }
+
+    drwCpuUsage.Create(picCpu);
     drwConnections.Create(GetDlgItem(IDC_PIC_CONNECTIONS)->GetSafeHwnd());
     drwTraffic.Create(GetDlgItem(IDC_PIC_TRAFFIC)->GetSafeHwnd());
     drwProcesses.Create(GetDlgItem(IDC_PIC_PROCESSES)->GetSafeHwnd());
@@ -484,4 +491,9 @@ void CMonitorTab::OnBnClickedBtnMonclear()
     m_ConnectionDataHystory.clear();
     m_ProcessesDataHystory.clear();
     UpdateGraph();
+}
+
+void CMonitorTab::OnSize(UINT nType, int cx, int cy)
+{
+    InitGraph();
 }

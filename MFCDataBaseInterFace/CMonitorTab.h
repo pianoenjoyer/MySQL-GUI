@@ -58,4 +58,5 @@ public:
 	void				OnTimer(UINT_PTR nIDEvent);
 	afx_msg void		OnBnClickedBtnTrafficUpdate();
 	afx_msg void		OnBnClickedBtnMonclear();
+	void				OnSize(UINT nType, int cx, int cy);
 };
