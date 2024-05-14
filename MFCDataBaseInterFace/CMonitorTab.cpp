@@ -36,7 +36,6 @@ BOOL CMonitorTab::OnInitDialog()
 	CDialogEx::OnInitDialog();
     InitGraph();
     UpdateTrafficList();
-    UpdateConnectionsList();
     UpdateNetworkTrafficTitle();
     UpdateServerRunningTime();
 
@@ -334,8 +333,6 @@ void CMonitorTab::UpdateTrafficList()
 
     pList->InsertColumn(0, _T("Traffic type"), LVCFMT_LEFT, 200);
     pList->InsertColumn(1, _T("#"), LVCFMT_LEFT, 200);
-    pList->InsertColumn(2, _T("ø per hour"), LVCFMT_LEFT, 200);  
-
 
     int nIndex = pList->GetItemCount();
 

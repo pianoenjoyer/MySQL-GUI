@@ -291,6 +291,9 @@
 #define IDC_LIST_HYSTORY                1212
 #define IDC_BTN_SEL_HIST_REC            1213
 #define IDC_BTN_OPN_HIST_FILE           1214
+#define IDC_STATIC_SAVELOGINTITLE       1215
+#define IDC_STATIC_REMEMBERDATA2        1216
+#define IDC_STATIC_SHOWPASSWORDTITLE    1216
 #define ID_FILE_OPEN32771               32771
 #define ID_EDIT_UNDO32772               32772
 #define ID_EDIT_REDO32773               32773
@@ -328,7 +331,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        210
 #define _APS_NEXT_COMMAND_VALUE         32805
-#define _APS_NEXT_CONTROL_VALUE         1215
+#define _APS_NEXT_CONTROL_VALUE         1216
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
