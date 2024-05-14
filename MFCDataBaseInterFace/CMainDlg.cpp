@@ -241,7 +241,6 @@ void CMainDlg::SetDlgStyle(int style)
     default:
         break;
     }
-    
 }
 
 
