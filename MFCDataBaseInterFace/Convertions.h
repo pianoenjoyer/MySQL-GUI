@@ -22,7 +22,6 @@ inline CString SQLStringToCString(const sql::SQLString& sqlStr)
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), -1, NULL, 0);
     CString utf16CString;
     utf16CString.GetBufferSetLength(size_needed);
-    // Convert the UTF-8 string to UTF-16
     MultiByteToWideChar(CP_UTF8, 0, sqlStr.c_str(), -1, utf16CString.GetBuffer(), size_needed);
     utf16CString.ReleaseBuffer();
     return utf16CString;

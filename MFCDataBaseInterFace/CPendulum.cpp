@@ -61,8 +61,6 @@ void CPendulum::Update()
         m_angle -= 2 * M_PI;
     while (m_angle < -M_PI)
        m_angle += 2 * M_PI;
-
-
 }
 
 
@@ -88,8 +86,9 @@ void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
     mDC.LineTo(centerX + basementLength, rect.bottom);
     mDC.LineTo(centerX - basementLength, rect.bottom);
 
+    // draw decorative base
     mDC.LineTo(centerX, centerX + basementLength);
-    mDC.LineTo(centerX, centerX - basementLength);
+
 
     COLORREF ballColor = RGB(255, 0, 0);
     CBrush ballBrush(ballColor);

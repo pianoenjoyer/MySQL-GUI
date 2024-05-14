@@ -17,8 +17,6 @@ protected:
 	HICON m_hIcon;
 
 	virtual BOOL OnInitDialog();
-	void CMFCPendulumDlg::Update();
-	void CMFCPendulumDlg::DrawPendulum();
 	void CMFCPendulumDlg::UpdateGraph();
 	Drawer m_drawer;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
