@@ -117,7 +117,13 @@ void CMonitorTab::InitGraph()
 
 void CMonitorTab::UpdateGraph() 
 {
-    if (m_TrafficSentDataToDraw.size() > 60) 
+    constexpr int GRAPH_DATA_MAX_SIZE = 60;
+    static double curTrafficSentUsage;
+    static double curTrafficReceivedUsage;
+    static double curConnections;
+    static int curProcesses;
+
+    if (m_TrafficSentDataToDraw.size() > GRAPH_DATA_MAX_SIZE) 
     {
         m_TrafficSentDataToDraw.erase(m_TrafficSentDataToDraw.begin());
         m_ProcessesDataToDraw.erase(m_ProcessesDataToDraw.begin());
@@ -130,10 +136,16 @@ void CMonitorTab::UpdateGraph()
         m_ProcessesDataHystory.erase(m_ProcessesDataHystory.begin());
     }
 
-    double curTrafficSentUsage = GetCurrentNetworkTrafficSent();
-    double curTrafficReceivedUsage = GetCurrentNetworkTrafficReceived();
-    double curConnections = GetConnectionCount();
-    int curProcesses = GetProcessCount();
+    if (m_TrafficReceivedDataHystory.size() == 1)
+    {
+        m_TrafficReceivedDataToDraw.erase(m_TrafficReceivedDataToDraw.begin());
+        m_TrafficSentDataToDraw.erase(m_TrafficSentDataToDraw.begin());
+    }
+
+    curTrafficSentUsage = GetCurrentNetworkTrafficSent();
+    curTrafficReceivedUsage = GetCurrentNetworkTrafficReceived();
+    curConnections = GetConnectionCount();
+    curProcesses = GetProcessCount();
 
     m_TrafficSentDataHystory.push_back(curTrafficSentUsage);
     m_ProcessesDataHystory.push_back(curProcesses);
@@ -159,7 +171,7 @@ void CMonitorTab::UpdateGraph()
 
 
     std::vector<double> timeStamps;
-    for (int i = 1; i <= 60; ++i)
+    for (int i = 1; i <= GRAPH_DATA_MAX_SIZE; ++i)
     {
         timeStamps.push_back(i);
     }
@@ -220,11 +232,9 @@ void CMonitorTab::UpdateGraph()
 
 void CMonitorTab::UpdateNetworkTrafficTitle()
 {
-    // Assuming m_groupControl is the ID of your group control
     CStatic* pStaticControl = (CStatic*)GetDlgItem(IDC_STATIC_TRAFFIC_TITLE);
     if (pStaticControl)
     {
-        // Retrieve and set the current network traffic since startup
         double currentTraffic = GetCurrentNetworkTraffic();
         CString title;
         title.Format(_T("Network traffic since startup: %.2f MiB"), currentTraffic);
@@ -234,11 +244,9 @@ void CMonitorTab::UpdateNetworkTrafficTitle()
 
 void CMonitorTab::UpdateServerRunningTime()
 {
-    // Assuming m_editControl is the ID of your edit control
     CEdit* pEditControl = (CEdit*)GetDlgItem(IDC_EDIT_SERVER_RUNNING_TIME);
     if (pEditControl)
     {
-        // Retrieve and set the running time information
         CString runningTimeInfo = GetServerRunningTime();
         CString startupTimeInfo = GetServerStartupTime();
         pEditControl->SetWindowTextW(L"This MySQL server has been running for " + runningTimeInfo + L"." + startupTimeInfo + L".");
@@ -336,7 +344,6 @@ void CMonitorTab::UpdateTrafficList()
 
     int nIndex = pList->GetItemCount();
 
-    // Execute your SQL query to fetch traffic data from the database
     sql::ResultSet* resultSet = db->ExecuteQuery("SHOW STATUS LIKE 'Bytes_sent';");
     nIndex = 0;
     while (resultSet->next())
@@ -413,7 +420,6 @@ void CMonitorTab::OnBnClickedBtnTrafficUpdate()
 
 double CMonitorTab::GetTrafficUsage()
 {
-    // Assuming Bytes_received and Bytes_sent are in bytes
     double bytesReceived = 0.0;
     double bytesSent = 0.0;
 
@@ -431,7 +437,6 @@ double CMonitorTab::GetTrafficUsage()
     }
     delete res;
 
-    // Convert bytes to MiB
     bytesReceived /= (1024 * 1024);
     bytesSent /= (1024 * 1024);
 
