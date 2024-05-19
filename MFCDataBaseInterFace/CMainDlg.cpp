@@ -905,16 +905,13 @@ void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     CPoint point;
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
 
-    // Get the current mouse position and convert it to client coordinates
     GetCursorPos(&point);
     pTree->ScreenToClient(&point);
 
-    // Get the tree item at the point
     HTREEITEM hItem = pTree->HitTest(point, &flags);
 
     if (hItem)
     {
-            // Check if we clicked on an item (and not on the state icon)
         if (pTree->GetItemText(hItem) == _T("New") && hItem == pTree->GetNextItem(NULL, TVGN_ROOT))
         {
             CNewDBDlg dlg;
