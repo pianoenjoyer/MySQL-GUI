@@ -191,7 +191,7 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
     // Iterate over the columns (header) and write column names to the CSV
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header->GetItemCount();
-
+    CString delimeter = L",";
     for (int col = 0; col < columnCount; ++col)
     {
         CString headerText;
@@ -208,7 +208,7 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
 
         if (col < columnCount - 1)
         {
-            outFile.Write(L",", sizeof(WCHAR));
+            outFile.Write(delimeter, sizeof(WCHAR));
         }
     }
     outFile.Write(L"\r\n", 2 * sizeof(WCHAR));
@@ -227,7 +227,7 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
 
             if (subItem < columnCount - 1)
             {
-                outFile.Write(L",", sizeof(WCHAR));
+                outFile.Write(delimeter, sizeof(WCHAR));
             }
         }
         outFile.Write(L"\r\n", 2 * sizeof(WCHAR));

@@ -36,11 +36,23 @@ BOOL CQueryTab::PreTranslateMessage(MSG* pMsg)
 {
     if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_CONTROL) < 0)
     {
-        switch (pMsg->wParam)
-        case 'G':
-        {
-            OnBnClickedBtnGo();
-            return TRUE;
+        switch (pMsg->wParam) {
+            case 'G':
+            {
+                OnBnClickedBtnGo();
+                return TRUE;
+            }
+            case 'R':
+            {
+                OnBnClickedBtnRefactor();
+                return TRUE;
+            }
+            case 'H':
+            {
+                OnBnClickedBtnHistory();
+                return TRUE;
+            }
+
         }
     }
     if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
