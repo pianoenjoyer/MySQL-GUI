@@ -1,5 +1,4 @@
 // CAboutDlg.cpp : implementation file
-//
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
@@ -14,11 +13,9 @@
 
 #include <atlimage.h>
 
-// CAboutDlg dialog
-
 IMPLEMENT_DYNAMIC(CAboutDlg, CDialogEx)
 
-CAboutDlg::CAboutDlg(CWnd* pParent /*=nullptr*/)
+CAboutDlg::CAboutDlg(CWnd* pParent)
 	: CDialogEx(IDD_ABOUT, pParent)
 {
 
@@ -36,6 +33,3 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
-
-
-// CAboutDlg message handlers

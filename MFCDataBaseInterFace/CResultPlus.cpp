@@ -6,11 +6,10 @@
 #include "Convertions.h"
 #include "CMainDlg.h"
 #include "SharedFunctions.h"
-// CResultPlus dialog
 
 IMPLEMENT_DYNAMIC(CResultPlus, CDialogEx)
 
-CResultPlus::CResultPlus(CWnd* pParent /*=nullptr*/)
+CResultPlus::CResultPlus(CWnd* pParent)
     : CDialogEx(IDD_RESULT_SHORT, pParent)
 {
     auto pTab = (CTabCtrl*)this->GetParent();
@@ -30,7 +29,7 @@ CResultPlus::CResultPlus(CWnd* pParent /*=nullptr*/)
 }
 
 
-CResultPlus::CResultPlus(int DIALOG_ID, CWnd* pParent /*=nullptr*/)
+CResultPlus::CResultPlus(int DIALOG_ID, CWnd* pParent)
     : CDialogEx(DIALOG_ID, pParent)
 {
     auto pTab = (CTabCtrl*)this->GetParent();
@@ -69,16 +68,12 @@ void CResultPlus::SaveOriginalListState()
 {
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
 
-    m_AllItems.clear();  // Clear the existing state
+    m_AllItems.clear();
 
     int columnCount = pList->GetHeaderCtrl()->GetItemCount();
-
-    // Loop through all items in the CListCtrl
     for (int i = 0; i < pList->GetItemCount(); ++i) {
         ListItem item;
         item.mainItem = pList->GetItemText(i, 0);
-
-        // Save subitems (columns) for the current item
         for (int j = 1; j < columnCount; ++j) {
             item.subItems.push_back(pList->GetItemText(i, j));
         }
@@ -100,11 +95,7 @@ BEGIN_MESSAGE_MAP(CResultPlus, CDialogEx)
     ON_BN_CLICKED(IDC_CHECK_SHOWBINARY, &CResultPlus::OnBnClickedCheckShowbinary)
 END_MESSAGE_MAP()
 
-
-// CResultPlus message handlers
-
 int CResultPlus::BuildResultList(const int offset) {
-    // Ensure resultSet is valid
 
     if (!m_curResSet)
     {
@@ -134,18 +125,14 @@ int CResultPlus::BuildResultList(const int offset) {
     sql::ResultSetMetaData* metaData = m_curResSet->getMetaData();
     int columnCount = metaData->getColumnCount();
     CStringW columnName;
-
-    // Insert columns
     for (int i = 1; i <= columnCount; i++) {
         columnName = metaData->getColumnName(i).c_str();
         pList->InsertColumn(i - 1, columnName, LVCFMT_LEFT, 100);
     }
-
-    // Populate rows
     int populatedRows = 0;
     m_curResSet->absolute(offset);
 
-    pList->SetRedraw(FALSE);  // Prevent redraw during data insertion
+    pList->SetRedraw(FALSE);
 
     while (m_curResSet->next() && (limit == 0 || populatedRows < limit)) {
 
@@ -176,22 +163,18 @@ int CResultPlus::BuildResultList(const int offset) {
         populatedRows++;
     }
     SaveOriginalListState();
-    // Adjust column widths
     for (int i = 0; i < pList->GetHeaderCtrl()->GetItemCount(); i++) {
         pList->SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
     }
 
-    pList->SetRedraw(TRUE);  // Re-enable drawing
-
-
-    // Handle pagination
+    pList->SetRedraw(TRUE);
     CString strMaxPages;
     auto rowsCount = m_curResSet->rowsCount();
     if (limit == 0) {
         strMaxPages.Format(_T("%d"), 1);
     }
     else {
-        auto maxPages = (rowsCount + limit - 1) / limit;  // Efficient way to compute ceiling of rowsCount/limit
+        auto maxPages = (rowsCount + limit - 1) / limit;
         strMaxPages.Format(_T("%d"), maxPages);
     }
     GetDlgItem(IDC_STAT_MAXPAGE)->SetWindowTextW(strMaxPages);
@@ -271,12 +254,9 @@ void CResultPlus::OnBnClickedCheckShowall()
 
 void CResultPlus::OnEnChangeListSearch()
 {
-    // Retrieve the text from the edit control
     CString searchText;
     GetDlgItem(IDC_LIST_SEARCH)->GetWindowText(searchText);
     CListCtrl* pList = (CListCtrl*)GetDlgItem(IDC_LIST_QUERY);
-
-    // First, restore the list from m_AllItems
     pList->DeleteAllItems();
     for (auto it = m_AllItems.rbegin(); it != m_AllItems.rend(); ++it) {
         const auto& listItem = *it;
@@ -285,27 +265,17 @@ void CResultPlus::OnEnChangeListSearch()
             pList->SetItemText(index, i + 1, listItem.subItems[i]);
         }
     }
-
-    // Now, apply the search on the restored list
     int columnCount = pList->GetHeaderCtrl()->GetItemCount();
-
-    // Loop through the items in the list control
     for (int i = pList->GetItemCount() - 1; i >= 0; --i) {
 
         bool matchFound = false;
-
-        // Iterate through each column for the current row
         for (int j = 0; j < columnCount; ++j) {
             CString itemText = pList->GetItemText(i, j);
-
-            // If the item contains the search text, flag it as a match and break the loop
             if (itemText.Find(searchText) != -1) {
                 matchFound = true;
                 break;
             }
         }
-
-        // If no match is found in any column for the current item, remove it
         if (!matchFound) {
             pList->DeleteItem(i);
         }
@@ -356,15 +326,11 @@ void CResultPlus::OnEnChangeEditCurrentpage()
 
     std::wstring wstr(pageNumberStr);
     int pageNumber = std::stoi(wstr);
-
-    // Ensure pageNumber is at least 1
     if (pageNumber < 1)
     {
         pageNumber = 1;
         pEdit->SetWindowTextW(L"1");
     }
-
-    // Get limit from dropdown
     CComboBox* dropdown = (CComboBox*)GetDlgItem(IDC_COMBO_NMB_OF_ROWS);
     int selectedIndex = dropdown->GetCurSel();
     CString dropdownText;
@@ -381,7 +347,7 @@ void CResultPlus::OnEnChangeEditCurrentpage()
         limit = std::stoi(wstr);
     }
 
-    int offset = (pageNumber - 1) * limit; // Fixed offset calculation
+    int offset = (pageNumber - 1) * limit;
     BuildResultList(offset);
 }
 
@@ -423,49 +389,38 @@ void CResultPlus::OnBnClickedBtnPrevpage()
     if (pageNumberStr == L"")
     {
         pEdit->SetWindowTextW(L"1");
-        return; // If it's already the first page, just return.
+        return;
     }
     std::wstring wstr(pageNumberStr);
     int pageNumber = std::stoi(wstr);
-    if (pageNumber > 1)  // Ensure we don't go to negative or zero page numbers
+    if (pageNumber > 1)
     {
         pageNumber--;
         pageNumberStr.Format(_T("%d"), pageNumber);
-        pEdit->SetWindowTextW(pageNumberStr);  // Set updated page number
+        pEdit->SetWindowTextW(pageNumberStr);
     }
 }
 
 void CResultPlus::OnBnClickedBtnNextpage()
 {
-    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE); // Cast to CEdit* for clarity
+    auto pEdit = (CEdit*)GetDlgItem(IDC_EDIT_CURRENTPAGE);
 
     CStringW pageNumberStr;
     pEdit->GetWindowTextW(pageNumberStr);
-
-    // If the current page number string is empty, default it to "1" and return.
-    if (pageNumberStr.IsEmpty())  // Use IsEmpty() method instead of == L""
+    if (pageNumberStr.IsEmpty())
     {
         pEdit->SetWindowTextW(L"1");
         return;
     }
-
-    // Get the maximum page number from the IDC_STAT_MAXPAGE control
     CStringW maxPageCStr;
-    auto pMaxPageCtrl = (CStatic*)GetDlgItem(IDC_STAT_MAXPAGE); // Cast to CStatic* for clarity
+    auto pMaxPageCtrl = (CStatic*)GetDlgItem(IDC_STAT_MAXPAGE);
     pMaxPageCtrl->GetWindowTextW(maxPageCStr);
-
-    // Convert page numbers from CStringW to integers
-    int currentPage = _wtoi(pageNumberStr);  // Use _wtoi for a simpler string to int conversion
+    int currentPage = _wtoi(pageNumberStr);
     int maxPage = _wtoi(maxPageCStr);
-
-    // Check if we're already on the last page
     if (currentPage >= maxPage)
     {
-        // Optionally: notify the user or handle this case differently
         return;
     }
-
-    // Increment the page number and update the control
     currentPage++;
     pageNumberStr.Format(_T("%d"), currentPage);
     pEdit->SetWindowTextW(pageNumberStr);
@@ -481,11 +436,8 @@ void CResultPlus::SendMessageToQueryInfo(CString msg, COLORREF color)
     }
     p_richEdit->SetWindowTextW(L"");
     CTime currentTime = CTime::GetCurrentTime();
-    // Format 
     CString timeStr = currentTime.Format(_T("%H:%M:%S"));
-    // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
-    // Append the text with a specific color
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 

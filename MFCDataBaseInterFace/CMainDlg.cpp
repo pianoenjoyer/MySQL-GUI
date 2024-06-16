@@ -20,11 +20,8 @@
 IMPLEMENT_DYNAMIC(CMainDlg, CDialogEx)
 
 void ExpandAllItems(CTreeCtrl* pTree, HTREEITEM hItem, UINT nCode);
-
-//hotkeys handler
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
-    //Universal hot keys for every dlg
     if (pMsg->message == WM_KEYDOWN && GetKeyState(VK_SHIFT) < 0)
     {
         switch (pMsg->wParam)
@@ -88,19 +85,18 @@ BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 
         }
     }
-    //dlg specific hotkeys
 
     return CDialog::PreTranslateMessage(pMsg);
 }
 
-CMainDlg::CMainDlg(CWnd* pParent /*= nullptr*/)
+CMainDlg::CMainDlg(CWnd* pParent)
     : CDialogEx(IDD_MAIN, pParent)
 {
     m_resultSet = nullptr;
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*= nullptr*/)
+CMainDlg::CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent)
     : CDialogEx(IDD_MAIN, pParent), db(db)
 {
     m_resultSet = nullptr;
@@ -120,10 +116,7 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
     {
         treeCtrl.DeleteAllItems();
     }
-
-    //add new node 
     HTREEITEM tablesRoot = treeCtrl.InsertItem(_T("New"), treeCtrl.GetRootItem());
-    // Fetch databases
     sql::ResultSet* databaseResultSet = db->ExecuteQuery("SHOW DATABASES");
     if (databaseResultSet)
     {
@@ -131,10 +124,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
         {
             std::string databaseName = databaseResultSet->getString(1);
             HTREEITEM databaseItem = treeCtrl.InsertItem(CA2T(databaseName.c_str()));
-            //insert create new db element
-
-
-            // Fetch tables for the current database
             sql::ResultSet* tableResultSet = db->ExecuteQuery("SHOW TABLES IN " + databaseName);
             if (tableResultSet && tableResultSet->rowsCount() > 0)
             {
@@ -143,8 +132,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
                 {
                     std::string tableName = tableResultSet->getString(1);
                     HTREEITEM tableItem = treeCtrl.InsertItem(CA2T(tableName.c_str()), tablesRoot);
-
-                    // Fetch columns for the current table
                     sql::ResultSet* columnResultSet = db->ExecuteQuery("SHOW COLUMNS FROM " + databaseName + "." + tableName);
                     if (columnResultSet)
                     {
@@ -158,8 +145,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
                 }
                 delete tableResultSet;
             }
-
-            // Fetch procedures
             CString query;
             CString database(CA2T(databaseName.c_str()));
             query.Format(CStringW(L"SHOW PROCEDURE STATUS WHERE Db = '%s'"), database);
@@ -174,8 +159,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
                 }
                 delete procResultSet;
             }
-
-            // Fetch functions
             query.Format(CStringW(L"SHOW FUNCTION STATUS WHERE Db = '%s'"), database);
             sql::ResultSet* funcResultSet = db->ExecuteQuery(CStringToSQLString(query));
             if (funcResultSet && funcResultSet->rowsCount() > 0)
@@ -188,8 +171,6 @@ void CMainDlg::BuildDatabaseTree(CTreeCtrl& treeCtrl)
                 }
                 delete funcResultSet;
             }
-
-            // Fetch views
             sql::ResultSet* viewsResultSet = db->ExecuteQuery("SHOW FULL TABLES IN " + databaseName + " WHERE TABLE_TYPE LIKE 'VIEW'");
             if (viewsResultSet && viewsResultSet->rowsCount() > 0)
             {
@@ -219,7 +200,7 @@ void SetRichControlTextSize(CRichEditCtrl* pRichEdit, int size)
     CHARFORMAT2 cf;
     ZeroMemory(&cf, sizeof(CHARFORMAT2));
     cf.cbSize = sizeof(CHARFORMAT2);
-    cf.dwMask = CFM_SIZE; //change only size
+    cf.dwMask = CFM_SIZE;
     pRichEdit->GetSelectionCharFormat(cf);
     cf.yHeight = size;
     pRichEdit->SetSelectionCharFormat(cf);
@@ -230,11 +211,11 @@ void CMainDlg::SetDlgStyle(int style)
 {
     switch (style)
     {
-    case 0: //light theme
+    case 0:
         ModifyStyle(0, BS_OWNERDRAW, 0);
         SetBackgroundColor(RGB(0, 0, 0));
         RedrawWindow();
-    case 1: //dark theme
+    case 1:
         ModifyStyle(0, BS_OWNERDRAW, 0);
         SetBackgroundColor(RGB(200, 200, 200));
         RedrawWindow();
@@ -285,7 +266,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
     ON_COMMAND(ID_EDIT_CUT32787, &CMainDlg::OnEditCut)
     ON_COMMAND(ID_EDIT_COPY32788, &CMainDlg::OnEditCopy)            
     ON_WM_SIZE()
-    ON_COMMAND(ID_EDIT_PASTE32794, &CMainDlg::OnEditPaste)
+    ON_COMMAND(ID_EDIT_PASTE32794, &CMainDlg::OnEditPaste) 
     ON_CBN_SELCHANGE(IDC_CMB_SEL_DB, &CMainDlg::OnCbnSelchangeCmbSelDb)
     ON_WM_CTLCOLOR()
 
@@ -296,8 +277,6 @@ END_MESSAGE_MAP()
 BOOL CMainDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-
-    //SetBackgroundColor(TABWHITE);
     CString app_language = ((CDBInterfaceApp*)AfxGetApp())->m_language;
     if (!db)
     {
@@ -309,13 +288,11 @@ BOOL CMainDlg::OnInitDialog()
     CLoadingDlg loadingDlg;
     loadingDlg.Create(IDD_LOADING, 0);
 
-    SetIcon(m_hIcon, TRUE);			// Set big icon
-    SetIcon(m_hIcon, FALSE);		// Set small icon
+    SetIcon(m_hIcon, TRUE);
+    SetIcon(m_hIcon, FALSE);
     ModifyStyleEx(0, WS_EX_APPWINDOW);
 
     CTabCtrl* pTabCtrl = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
-
-    //give pointer to db object
     m_homeTab.db = this->db;
     m_queryTab.db = this->db;
     m_resultTab.db = this->db;
@@ -328,7 +305,6 @@ BOOL CMainDlg::OnInitDialog()
     m_enginesTab.SetDatabaseObject(db);
 
     FillDatabaseDropdown();
-    //init dlgs
     if (app_language == L"en")
     {
         loadingDlg.SetLoadingState(10, L"Loading: IDD_HOME ");
@@ -381,7 +357,6 @@ BOOL CMainDlg::OnInitDialog()
         m_enginesTab.Create(IDD_ENGINES, pTabCtrl);
         loadingDlg.SetLoadingState(100, L"Завершение... ");
     }
-    //insert into tab control
     TCITEM item0, item1, item2, item3, item4, item5, item6, item7, itemMonitor, itemPlugins, itemEngines;
 
     item0.mask = TCIF_TEXT | TCIF_PARAM;
@@ -438,8 +413,6 @@ BOOL CMainDlg::OnInitDialog()
     itemEngines.lParam = (LPARAM)&m_enginesTab;//
     itemEngines.pszText = _T("Engines");
     pTabCtrl->InsertItem(10, &itemEngines);
-
-    //set pos
     CRect rcItem0;
     pTabCtrl->GetItemRect(0, &rcItem0);
     m_homeTab.SetWindowPos(NULL, rcItem0.left, rcItem0.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
@@ -483,8 +456,6 @@ BOOL CMainDlg::OnInitDialog()
     CRect rcItemEngine;
     pTabCtrl->GetItemRect(10, &rcItemEngine);
     m_enginesTab.SetWindowPos(NULL, rcItem0.left, rcItemEngine.bottom + 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-
-    //initial show and hide
     m_homeTab.ShowWindow(SW_SHOW);
     m_queryTab.ShowWindow(SW_HIDE);
     m_resultTab.ShowWindow(SW_HIDE);
@@ -504,15 +475,13 @@ BOOL CMainDlg::OnInitDialog()
 
 CString GetComboBoxSelectedValue(CComboBox* pComboBox)
 {
-    int index = pComboBox->GetCurSel(); // Get the index of the selected item.
+    int index = pComboBox->GetCurSel();
 
     if (index != CB_ERR) {
         CString selectedValue;
-        pComboBox->GetLBText(index, selectedValue); // Get the text of the selected item.
+        pComboBox->GetLBText(index, selectedValue);
         return selectedValue;
     }
-
-    // Return an empty string or handle the case where no item is selected.
     return L"";
 }
 
@@ -523,38 +492,28 @@ void CMainDlg::SetCurDataBase()
     CString database = GetComboBoxSelectedValue(pComboBox);
     db->ChangeCurrentDatabase(CStringToSQLString(database));
 }
-
-// fill drop down with table names of db
 bool CMainDlg::FillDatabaseDropdown() 
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_CMB_SEL_DB));
     std::vector<sql::SQLString> databases;
     databases = db->GetDatabases();
     PopulateDropdown(pComboBox, databases);
-    //pComboBox->SetCurSel(0);
     return true;
 }
 
 bool CMainDlg::FillTreeControl() 
 {
-    //Fill tree with db tables structure
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     BuildDatabaseTree(*pTree);
-    //ExpandAllItems(pTree, TVI_ROOT, TVE_EXPAND);
     return true;
 }
-
-
-
-
-//open .sql file
 void CMainDlg::OnBnClickedBtnBrowse()
 {
     CFileDialog fileOpenDialog(TRUE,
-        L"SQL files|sql",  // .sql
+        L"SQL files|sql",
         NULL,
         OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-        L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",  // filter
+        L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",
         nullptr);
 
     if (fileOpenDialog.DoModal() == IDOK)
@@ -599,8 +558,6 @@ void CMainDlg::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQL
     pComboBox->ResetContent();
     if (values.empty())
     {
-        //pComboBox->AddString(L"No elements found");
-        //m_queryTab.SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
     {
@@ -672,7 +629,6 @@ void CMainDlg::OnBnClickedBtnUpdate()
     pTree->DeleteAllItems();
     BuildDatabaseTree(*pTree);
     OnBnClickedBtnUnsel();
-    //OnCbnSelchangeCmbSelDb();
 }
 
 
@@ -681,23 +637,18 @@ void CMainDlg::OnBnClickedBtnUpdate()
 
 void CMainDlg::OnBnClickedButtonSave()
 {
-    // Open a file save dialog to select where to save the SQL file
-    CFileDialog fileSaveDialog(FALSE,  // FALSE means this is a "Save" dialog
-        L".sql",                 // Default extension
+    CFileDialog fileSaveDialog(FALSE,
+        L".sql",
         nullptr,
         OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
         L"SQL files (*.sql)|*.sql|All files (*.*)|*.*||",
-        this);  // parent window
+        this);
 
     if (fileSaveDialog.DoModal() == IDOK)
     {
         m_pathToFile = fileSaveDialog.GetPathName();
-
-        // Get the text from the IDC_RICH_SQL control
         CString content;
         m_queryTab.GetDlgItem(IDC_RICH_SQL)->GetWindowTextW(content);
-
-        // Save the content to the file
         CFile file;
         if (file.Open(m_pathToFile, CFile::modeCreate | CFile::modeWrite))
         {
@@ -731,9 +682,6 @@ void CMainDlg::OnNMClickSyslinkServerinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 
 }
-
-
-// <--------------------------- MENU HANDLERS -------------------------------->
 void CMainDlg::OnFileSaveas()
 {
     OnBnClickedButtonSave();
@@ -801,7 +749,7 @@ void CMainDlg::OnHelpServerinfo()
 
 void CMainDlg::OnBnClickedBtnForward()
 {
-    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);  // replace with your tree control's ID
+    CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     HTREEITEM hSelectedItem = pTree->GetSelectedItem();
 
@@ -819,7 +767,6 @@ void CMainDlg::OnBnClickedBtnForward()
 
 void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    //single click exa
     LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
     CTreeCtrl* pTree = (CTreeCtrl*)GetDlgItem(IDC_TREE_STRUCTURE);
     CComboBox* pComboDatabases = (CComboBox*)GetDlgItem(IDC_CMB_SEL_DB);
@@ -827,21 +774,9 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
     HTREEITEM hItem = pNMTreeView->itemNew.hItem;
     if (!hItem) return;
-
-    // Handle expanding or collapsing the node on single click
-   /* if (pTree->ItemHasChildren(hItem))
-    {
-        UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
-        if (state & TVIS_EXPANDED)
-            pTree->Expand(hItem, TVE_COLLAPSE);
-        else
-            pTree->Expand(hItem, TVE_EXPAND);
-    }*/
-
-    // Check if the selected item is a database or a table
     HTREEITEM parentItem = pTree->GetParentItem(hItem);
 
-    if (!parentItem) // Top level, possibly a database
+    if (!parentItem)
     {
         CString databaseName = pTree->GetItemText(hItem);
         int index = pComboDatabases->FindStringExact(0, databaseName);
@@ -853,7 +788,7 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
     }
     else if (pTree->GetItemText(parentItem) == _T("[TABLES]"))
     {
-        HTREEITEM grandParentItem = pTree->GetParentItem(parentItem); // This item should be a database
+        HTREEITEM grandParentItem = pTree->GetParentItem(parentItem);
         if (grandParentItem)
         {
             CString databaseName = pTree->GetItemText(grandParentItem);
@@ -869,8 +804,8 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
         CString tableName = pTree->GetItemText(hItem);
         int index =  m_queryTab.m_comboTables.FindStringExact(0, tableName);
         
-        if (m_mainTabCtrl.GetCurSel() == 2) //if result tab is active 
-        {   //see table content on tree element click
+        if (m_mainTabCtrl.GetCurSel() == 2)
+        {
             if (m_queryTab.m_resultSet)
             {
                 delete m_queryTab.m_resultSet;
@@ -897,8 +832,6 @@ void CMainDlg::OnTvnSelchangedTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = 0;
 }
-
-// single click expand selected element
 void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 {
     UINT flags = 0;
@@ -934,7 +867,6 @@ void CMainDlg::OnNMClickTreeStructure(NMHDR* pNMHDR, LRESULT* pResult)
 
             if (pTree->ItemHasChildren(hItem))
             {
-                // Expand or collapse the item
                 UINT state = pTree->GetItemState(hItem, TVIS_EXPANDED);
                 if (state & TVIS_EXPANDED)
                     pTree->Expand(hItem, TVE_COLLAPSE);
@@ -1003,12 +935,9 @@ bool CMainDlg::SetCurActiveTab(const int tabNumber)
 
 void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    //*pResult = 0;
     auto p = (CTabCtrl*)GetDlgItem(IDC_MAINTAB);
 
     int iSel = p->GetCurSel();
-
-    // Hide all tabs
     m_homeTab.ShowWindow(SW_HIDE);
     m_queryTab.ShowWindow(SW_HIDE);
     m_resultTab.ShowWindow(SW_HIDE);
@@ -1021,7 +950,6 @@ void CMainDlg::OnTcnSelchangeMaintab(NMHDR* pNMHDR, LRESULT* pResult)
     m_monitorTab.ShowWindow(SW_HIDE);
     m_pluginsTab.ShowWindow(SW_HIDE);
     m_enginesTab.ShowWindow(SW_HIDE);
-    // Show the appropriate tabbed dialog based on the selected tab
     switch (iSel)
     {
 
@@ -1136,15 +1064,15 @@ void CMainDlg::OnSize(UINT nType, int cx, int cy)
         pTabCtrl->GetItemRect(1, &rcItem2);
         pTabCtrl->GetItemRect(2, &rcItem3);
 
-        pTabCtrl->GetItemRect(3, &rcItem4); //export
-        pTabCtrl->GetItemRect(4, &rcItem5); //tables
-        pTabCtrl->GetItemRect(5, &rcItem6); //Databases
-        pTabCtrl->GetItemRect(6, &rcItem7); //Variables
-        pTabCtrl->GetItemRect(6, &rcItem8); //Charsets
-        pTabCtrl->GetItemRect(6, &rcItem9); //Monitor
+        pTabCtrl->GetItemRect(3, &rcItem4);
+        pTabCtrl->GetItemRect(4, &rcItem5);
+        pTabCtrl->GetItemRect(5, &rcItem6);
+        pTabCtrl->GetItemRect(6, &rcItem7);
+        pTabCtrl->GetItemRect(6, &rcItem8);
+        pTabCtrl->GetItemRect(6, &rcItem9);
 
-        pTabCtrl->GetItemRect(6, &rcItem10); //Plugins
-        pTabCtrl->GetItemRect(6, &rcItem11); //Engines
+        pTabCtrl->GetItemRect(6, &rcItem10);
+        pTabCtrl->GetItemRect(6, &rcItem11);
 
         m_queryTab.MoveWindow(rcTab.left, rcTab.top + rcItem1.Height(), rcTab.Width(), rcTab.Height() - rcItem1.Height());
         m_resultTab.MoveWindow(rcTab.left, rcTab.top + rcItem2.Height(), rcTab.Width(), rcTab.Height() - rcItem2.Height());
@@ -1183,7 +1111,7 @@ void CMainDlg::SwitchTabByName(const CString& tabName) {
         if (pTabCtrl->GetItem(i, &tabItem)) {
             currentTabName.ReleaseBuffer();
             if (currentTabName == tabName) {
-                pTabCtrl->SetCurSel(i); // Activate the tab with the matching name
+                pTabCtrl->SetCurSel(i);
                 break;
             }
         }

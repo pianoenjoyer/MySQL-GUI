@@ -1,5 +1,4 @@
 // CDBExportDlg.cpp : implementation file
-//
 
 #include "pch.h"
 #include "CDBInterfaceApp.h"
@@ -8,7 +7,6 @@
 #include <fstream>
 #include <atlstr.h>
 #include "CMainDlg.h"
-// CDBExportDlg dialog
 
 IMPLEMENT_DYNAMIC(CDBExportDlg, CDialogEx)
 
@@ -35,7 +33,7 @@ CString strTextdescription("A plain text file contains only readable content wit
 
 
 
-CDBExportDlg::CDBExportDlg(CWnd* pParent /*=nullptr*/)
+CDBExportDlg::CDBExportDlg(CWnd* pParent)
 	: CDialogEx(IDD_EXPORT, pParent)
 {
 
@@ -60,34 +58,24 @@ BEGIN_MESSAGE_MAP(CDBExportDlg, CDialogEx)
     ON_BN_CLICKED(IDC_RAD_TEXT, &CDBExportDlg::OnBnClickedRadText)
     ON_BN_CLICKED(IDC_RAD_HTML, &CDBExportDlg::OnBnClickedRadHtml)
 END_MESSAGE_MAP()
-
-
-// CDBExportDlg message handlers
 BOOL CDBExportDlg::OnInitDialog()
 {
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-    SetIcon(m_hIcon, TRUE);			// Set big icon
-    SetIcon(m_hIcon, FALSE);		// Set small icon
-
-    //set default rad btn state
+    SetIcon(m_hIcon, TRUE);
+    SetIcon(m_hIcon, FALSE);
     CButton* pRadio = (CButton*)GetDlgItem(IDC_RAD_CSV);
     pRadio->SetCheck(BST_CHECKED);
     OnBnClickedRadCsv();
-
-    //set title
     this->SetWindowTextW(_T("Export as..."));
     return TRUE;
 }
 
 bool ExportListCtrlToText(CListCtrl& listCtrl, const CString& filePath)
 {
-    // Open the file for writing
     CStdioFile file;
     if (!file.Open(filePath, CFile::modeCreate | CFile::modeWrite | CFile::typeText)) {
-        return false;  // Failed to open the file
+        return false;
     }
-
-    // Iterate over the columns (header) and write column names to the text file
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header->GetItemCount();
 
@@ -96,24 +84,22 @@ bool ExportListCtrlToText(CListCtrl& listCtrl, const CString& filePath)
         CString headerText;
         HDITEM hdi = { 0 };
         hdi.mask = HDI_TEXT;
-        hdi.pszText = headerText.GetBuffer(100);  // assuming column name won't exceed 100 characters
+        hdi.pszText = headerText.GetBuffer(100);
         hdi.cchTextMax = 100;
         header->GetItem(col, &hdi);
         headerText.ReleaseBuffer();
 
         headerLine += headerText;
-        if (col < columnCount - 1) headerLine += L"\t";  // Use tab to separate columns for clarity
+        if (col < columnCount - 1) headerLine += L"\t";
     }
     file.WriteString(headerLine + L"\n");
-
-    // Iterate over the items (rows) and subitems (cells) to write data to the text file
     int itemCount = listCtrl.GetItemCount();
     for (int item = 0; item < itemCount; ++item) {
         CString line = L"";
         for (int subItem = 0; subItem < columnCount; ++subItem) {
             CString cellText = listCtrl.GetItemText(item, subItem);
             line += cellText;
-            if (subItem < columnCount - 1) line += L"\t";  // Use tab to separate columns for clarity
+            if (subItem < columnCount - 1) line += L"\t";
         }
         file.WriteString(line + L"\n");
     }
@@ -125,24 +111,17 @@ bool ExportListCtrlToText(CListCtrl& listCtrl, const CString& filePath)
 
 bool ExportListCtrlToXML(CListCtrl& listCtrl, const CString& filePath)
 {
-    // Convert filePath to std::string in UTF-8 encoding
     CW2A utf8FilePath(filePath, CP_UTF8);
-
-    // Open the file for writing in UTF-8 mode
     std::ofstream outFile(utf8FilePath.m_psz);
     if (!outFile.is_open())
     {
-        return false; // Failed to open the file
+        return false;
     }
 
     outFile << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     outFile << "<ListData>\n";
-
-    // Extract column headers (assuming they exist)
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header ? header->GetItemCount() : 0;
-
-    // Iterate over the items (rows)
     int itemCount = listCtrl.GetItemCount();
     for (int item = 0; item < itemCount; ++item)
     {
@@ -157,8 +136,6 @@ bool ExportListCtrlToXML(CListCtrl& listCtrl, const CString& filePath)
             hdi.cchTextMax = 100;
             header->GetItem(subItem, &hdi);
             headerText.ReleaseBuffer();
-
-            // Convert CString to UTF-8 std::string
             CW2A utf8HeaderText(headerText, CP_UTF8);
             CW2A utf8CellText(cellText, CP_UTF8);
 
@@ -181,14 +158,10 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
     CFile outFile;
     if (!outFile.Open(filePath, CFile::modeCreate | CFile::modeWrite))
     {
-        return false; // Failed to open the file
+        return false;
     }
-
-    // Write a Byte Order Mark (BOM) for UTF-16 Little Endian
     WORD bom = 0xFEFF;
     outFile.Write(&bom, sizeof(bom));
-
-    // Iterate over the columns (header) and write column names to the CSV
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header->GetItemCount();
     CString delimeter = L",";
@@ -212,8 +185,6 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
         }
     }
     outFile.Write(L"\r\n", 2 * sizeof(WCHAR));
-
-    // Iterate over the items (rows) and subitems (cells) to write data to the CSV
     int itemCount = listCtrl.GetItemCount();
     for (int item = 0; item < itemCount; ++item)
     {
@@ -239,13 +210,10 @@ bool ExportListCtrlToCSV(CListCtrl& listCtrl, const CString& filePath)
 
 
 bool ExportListCtrlToHTML(CListCtrl& listCtrl, const CString& filePath) {
-    // Open the file for writing
     std::ofstream outFile(CT2A(filePath).m_psz);
     if (!outFile.is_open()) {
-        return false; // Failed to open the file
+        return false;
     }
-
-    // Begin HTML document
     outFile << "<!DOCTYPE html>\n";
     outFile << "<html>\n";
     outFile << "<head>\n";
@@ -254,18 +222,14 @@ bool ExportListCtrlToHTML(CListCtrl& listCtrl, const CString& filePath) {
     outFile << "<body>\n";
 
     outFile << "<table border=\"1\">\n";
-
-    // Extract column headers (assuming they exist)
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header ? header->GetItemCount() : 0;
-
-    // Write headers to the HTML table
     outFile << "  <tr>\n";
     for (int col = 0; col < columnCount; ++col) {
         CString headerText;
         HDITEM hdi = { 0 };
         hdi.mask = HDI_TEXT;
-        hdi.pszText = headerText.GetBuffer(100); // assuming column name won't exceed 100 characters
+        hdi.pszText = headerText.GetBuffer(100);
         hdi.cchTextMax = 100;
         header->GetItem(col, &hdi);
         headerText.ReleaseBuffer();
@@ -273,8 +237,6 @@ bool ExportListCtrlToHTML(CListCtrl& listCtrl, const CString& filePath) {
         outFile << "    <th>" << CT2A(headerText.GetString()).m_psz << "</th>\n";
     }
     outFile << "  </tr>\n";
-
-    // Write data to the HTML table
     int itemCount = listCtrl.GetItemCount();
     for (int item = 0; item < itemCount; ++item) {
         outFile << "  <tr>\n";
@@ -286,8 +248,6 @@ bool ExportListCtrlToHTML(CListCtrl& listCtrl, const CString& filePath) {
     }
 
     outFile << "</table>\n";
-
-    // End HTML document
     outFile << "</body>\n";
     outFile << "</html>\n";
 
@@ -297,38 +257,31 @@ bool ExportListCtrlToHTML(CListCtrl& listCtrl, const CString& filePath) {
 
 
 bool ExportListCtrlToTSV(CListCtrl& listCtrl, const CString& filePath) {
-    // Open the file for writing
     std::ofstream outFile(CT2A(filePath).m_psz);
     if (!outFile.is_open()) {
-        return false; // Failed to open the file
+        return false;
     }
-
-    // Extract column headers (assuming they exist)
     CHeaderCtrl* header = listCtrl.GetHeaderCtrl();
     int columnCount = header ? header->GetItemCount() : 0;
-
-    // Write headers to the TSV file
     for (int col = 0; col < columnCount; ++col) {
         CString headerText;
         HDITEM hdi = { 0 };
         hdi.mask = HDI_TEXT;
-        hdi.pszText = headerText.GetBuffer(100); // assuming column name won't exceed 100 characters
+        hdi.pszText = headerText.GetBuffer(100);
         hdi.cchTextMax = 100;
         header->GetItem(col, &hdi);
         headerText.ReleaseBuffer();
 
         outFile << CT2A(headerText.GetString()).m_psz;
-        if (col < columnCount - 1) outFile << "\t";  // Use tab as a delimiter
+        if (col < columnCount - 1) outFile << "\t";
     }
     outFile << "\n";
-
-    // Write data to the TSV file
     int itemCount = listCtrl.GetItemCount();
     for (int item = 0; item < itemCount; ++item) {
         for (int subItem = 0; subItem < columnCount; ++subItem) {
             CString cellText = listCtrl.GetItemText(item, subItem);
             outFile << CT2A(cellText.GetString()).m_psz;
-            if (subItem < columnCount - 1) outFile << "\t";  // Use tab as a delimiter
+            if (subItem < columnCount - 1) outFile << "\t";
         }
         outFile << "\n";
     }
@@ -343,16 +296,15 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
     typedef bool (*ExportFunc)(CListCtrl&, const CString&);
 
     CString filter;
-    CString defaultExt;  // Store the default extension for the file dialog
+    CString defaultExt;
     ExportFunc exportFunc = nullptr;
-    //new list link
     auto pTab = this->GetParent();
     CMainDlg* mainDlg = (CMainDlg*)pTab->GetParent();
     m_pList = (CListCtrl*)mainDlg->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
     if (((CButton*)GetDlgItem(IDC_RAD_CSV))->GetCheck() == BST_CHECKED)
     {
         filter = L"CSV files (*.csv)|*.csv|All files (*.*)|*.*||";
-        defaultExt = L"csv";  // Set the default extension
+        defaultExt = L"csv";
         exportFunc = &ExportListCtrlToCSV;
     }
     else if (((CButton*)GetDlgItem(IDC_RAD_XML))->GetCheck() == BST_CHECKED)
@@ -380,19 +332,14 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
         exportFunc = &ExportListCtrlToText;
     }
 
-    if (!exportFunc) return;  // No radio button was checked
-
-    // Common save dialog part
+    if (!exportFunc) return;
     CFileDialog fileSaveDialog(FALSE, defaultExt, L"exported", OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, filter, this);
 
     if (fileSaveDialog.DoModal() == IDOK)
     {
         CString exportFilePath = fileSaveDialog.GetPathName();
-
-        // Append the correct extension if not already present
         if (!exportFilePath.Right(defaultExt.GetLength()).CompareNoCase(defaultExt))
         {
-            //exportFilePath += L"." + defaultExt;
         }
 
         if (m_pList && (*exportFunc)(*m_pList, exportFilePath))

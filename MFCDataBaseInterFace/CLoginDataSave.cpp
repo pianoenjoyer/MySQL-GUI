@@ -4,12 +4,10 @@
 
 CLoginDataSave::CLoginDataSave()
 {
-    // Constructor logic, if needed
 }
 
 CLoginDataSave::~CLoginDataSave()
 {
-    // Destructor logic, if needed
 }
 
 void CLoginDataSave::SaveData(const CString& serverIP, const CString& username, const CString& password, bool rememberMe)
@@ -31,49 +29,32 @@ bool CLoginDataSave::LoadData(CString& serverIP, CString& username, CString& pas
     {
         TCHAR* buffer = nullptr;
         ULONG size = 0;
-
-        // Get the size of the ServerIP value
         if (ERROR_SUCCESS == key.QueryStringValue(_T("ServerIP"), nullptr, &size))
         {
-            // Allocate a buffer of the required size
             buffer = new TCHAR[size];
-
-            // Read the ServerIP value
             if (ERROR_SUCCESS == key.QueryStringValue(_T("ServerIP"), buffer, &size))
             {
                 serverIP = DecryptData(buffer);
             }
         }
-
-        // Get the size of the Username value
         size = 0;
         if (ERROR_SUCCESS == key.QueryStringValue(_T("Username"), nullptr, &size))
         {
-            // Allocate a buffer of the required size
             buffer = new TCHAR[size];
-
-            // Read the Username value
             if (ERROR_SUCCESS == key.QueryStringValue(_T("Username"), buffer, &size))
             {
                 username = DecryptData(buffer);
             }
         }
-
-        // Get the size of the Password value
         size = 0;
         if (ERROR_SUCCESS == key.QueryStringValue(_T("Password"), nullptr, &size))
         {
-            // Allocate a buffer of the required size
             buffer = new TCHAR[size];
-
-            // Read the Password value
             if (ERROR_SUCCESS == key.QueryStringValue(_T("Password"), buffer, &size))
             {
                 password = DecryptData(buffer);
             }
         }
-
-        // Clean up the dynamically allocated buffer
         delete[] buffer;
 
         DWORD remMe;
@@ -114,7 +95,7 @@ CString CLoginDataSave::EncryptData(const CString& data)
 
     if (!CryptProtectData(&DataIn, NULL, NULL, NULL, NULL, 0, &DataOut))
     {
-        return _T("");  // Handle encryption error
+        return _T("");
     }
 
     CString encrypted;
@@ -138,7 +119,6 @@ CString CLoginDataSave::DecryptData(const CString& encrypted)
 
     if (len % 2 != 0)
     {
-        // Handle invalid input length (not a pair of hexadecimal digits)
         return _T("");
     }
 
@@ -153,7 +133,6 @@ CString CLoginDataSave::DecryptData(const CString& encrypted)
 
     if (!CryptUnprotectData(&DataIn, NULL, NULL, NULL, NULL, 0, &DataOut))
     {
-        // Handle decryption error (e.g., log the error)
         delete[] DataIn.pbData;
         return _T("");
     }

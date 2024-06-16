@@ -9,7 +9,7 @@
 
 IMPLEMENT_DYNAMIC(CLoadingDlg, CDialogEx)
 
-CLoadingDlg::CLoadingDlg(CWnd* pParent /*=nullptr*/)
+CLoadingDlg::CLoadingDlg(CWnd* pParent)
 	: CDialogEx(IDD_LOADING, pParent) 
 {
 
@@ -72,8 +72,6 @@ BOOL CLoadingDlg::OnInitDialog()
 	pProgress->SetRange(0, 50);
 
 	CStatic* pPicCtrl = (CStatic*)GetDlgItem(IDC_LOADING_PIC);
-	//SetImage(pPicCtrl, L".\\Pictures\\Top-MYSQL-GUI-Tools-Edit2.png");
-	//SetImage(pPicCtrl, IDB_PNG_LOADING);
 	return TRUE;
 }
 
@@ -100,25 +98,19 @@ void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 	{
 		CDC dc;
 		dc.Attach(lpDrawItemStruct->hDC);
-		// Check the button state
 		UINT state = lpDrawItemStruct->itemState;
-
-		// Customize the appearance based on the button ID
 		if (nIDCtl == IDC_BTN_CONNECT)
 		{
 			if (state & ODS_SELECTED)
 			{
-				// Button is pressed
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(100, 100, 100));
 			}
 			else if (state & ODS_HOTLIGHT)
 			{
-				// Mouse is over the button
-				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(255, 0, 0)); // Change color when hovered
+				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(255, 0, 0));
 			}
 			else
 			{
-				// Normal state
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(216, 120, 29));
 			}
 
@@ -128,24 +120,18 @@ void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		{
 			if (state & ODS_SELECTED)
 			{
-				// Button is pressed
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(50, 50, 50));
 			}
 			else if (state & ODS_HOTLIGHT)
 			{
-				// Mouse is over the button
-				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(0, 255, 0)); // Change color when hovered
+				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(0, 255, 0));
 			}
 			else
 			{
-				// Normal state
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(66, 101, 173));
 			}
 			dc.SetTextColor(RGB(255, 255, 255));
 		}
-
-
-		// Set a custom font for buttons
 		CFont font;
 		font.CreateFontW(22, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 			OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
@@ -153,7 +139,6 @@ void CLoadingDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		dc.SelectObject(&font);
 		auto pCheckbox = (CCheckListBox*)GetDlgItem(IDC_SAVE_LOGIN);
 		pCheckbox->SetFont(&font);
-		// Draw the text based on the button type
 		CString buttonText;
 		GetDlgItemText(nIDCtl, buttonText);
 		dc.DrawText(buttonText, &lpDrawItemStruct->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -167,7 +152,7 @@ BOOL CLoadingDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
 	GetClientRect(&rectClient);
-	pDC->FillSolidRect(&rectClient, RGB(19, 100, 148)); //bg
+	pDC->FillSolidRect(&rectClient, RGB(19, 100, 148));
 	return TRUE;
 }
 
@@ -184,7 +169,7 @@ HBRUSH CLoadingDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkMode(TRANSPARENT);
-	hbr = CreateSolidBrush(RGB(19, 100, 148)); //bg
+	hbr = CreateSolidBrush(RGB(19, 100, 148));
 	return hbr;
 }
 

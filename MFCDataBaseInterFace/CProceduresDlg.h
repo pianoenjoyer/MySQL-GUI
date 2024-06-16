@@ -1,24 +1,19 @@
 #pragma once
 #include "afxdialogex.h"
 
-
-// CProceduresDlg dialog
-
 class CProceduresDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CProceduresDlg)
 
 public:
-	CProceduresDlg(CWnd* pParent = nullptr);   // standard constructor
+	CProceduresDlg(CWnd* pParent = nullptr);
 	virtual ~CProceduresDlg();
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_PROCEDURES };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 };

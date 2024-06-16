@@ -1,5 +1,4 @@
 // CHomeTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -9,11 +8,10 @@
 #include "CChangeUserPasswordDlg.h"
 #include "SharedFunctions.h"
 #include "Colors.h"
-// CHomeTab dialog
 
 IMPLEMENT_DYNAMIC(CHomeTab, CDialogEx)
 
-CHomeTab::CHomeTab(CWnd* pParent /*=nullptr*/)
+CHomeTab::CHomeTab(CWnd* pParent)
 	: CDialogEx(IDD_HOME, pParent)
 {
 
@@ -95,8 +93,6 @@ void CHomeTab::PopulateGeneralInfo()
         AddGeneralInfoItem(pListCtrl, _T("InnoDB Version"), SQLStringToCString(resultSet->getString("Value")));
     }
 
-    //USER INFO
-
 
 
     resultSet = db->ExecuteQuery("SELECT USER() AS UserHost");
@@ -160,7 +156,7 @@ void CHomeTab::PopulateEnginesList()
 
     if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
         pListCtrl->InsertColumn(0, _T("Engine"), LVCFMT_LEFT, 200);
-        pListCtrl->InsertColumn(1, _T("Comment"), LVCFMT_LEFT, 2000);  // Corrected column index
+        pListCtrl->InsertColumn(1, _T("Comment"), LVCFMT_LEFT, 2000);
     }
     pListCtrl->DeleteAllItems();
 
@@ -178,9 +174,8 @@ void CHomeTab::PopulateEnginesList()
 void CHomeTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment)
 {
     int nIndex = pListCtrl->GetItemCount();
-    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, engine);
-    pListCtrl->SetItemText(nIndex, 1, comment);  // Corrected column index
+    pListCtrl->SetItemText(nIndex, 1, comment);
     pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE);
     pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
@@ -216,12 +211,7 @@ void CHomeTab::PopulatePluginsList()
 void CHomeTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license)
 {
     int nIndex = pListCtrl->GetItemCount();
-
-
-    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, name);
-
-    // Set text for the remaining columns
     pListCtrl->SetItemText(nIndex, 1, status);
     pListCtrl->SetItemText(nIndex, 2, type);
     pListCtrl->SetItemText(nIndex, 3, license);
@@ -260,8 +250,6 @@ CString CHomeTab::GetCurrentConnectionCollation()
 BOOL CHomeTab::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-
-    //SetBackgroundColor(TABWHITE);
     PopulateGeneralInfo();
     PopulatePluginsList();
     PopulateEnginesList();

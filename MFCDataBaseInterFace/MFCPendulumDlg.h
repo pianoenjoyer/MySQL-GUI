@@ -6,12 +6,12 @@
 class CMFCPendulumDlg : public CDialogEx
 {
 public:
-	CMFCPendulumDlg(CWnd* pParent = nullptr);	// standard constructor
+	CMFCPendulumDlg(CWnd* pParent = nullptr);
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MFCPENDULUM_DIALOG };
 #endif
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 protected:
 	HICON m_hIcon;
@@ -29,7 +29,6 @@ public:
 	CRect rectGraph;
 
 	CPendulum m_pendulum;
-	//CProgressCtrl m_progress;
 	UINT_PTR m_timerID;
 	CStatic m_graphStatic;
 	CStatic m_pendulumStatic;

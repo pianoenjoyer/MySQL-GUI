@@ -19,7 +19,7 @@
 
 
 
-CMFCPendulumDlg::CMFCPendulumDlg(CWnd* pParent /*=nullptr*/)
+CMFCPendulumDlg::CMFCPendulumDlg(CWnd* pParent)
 	: CDialogEx(IDD_PENDULUM, pParent), m_buttonState(0),
 	m_pendulum(0, 0, 0, 0, 0), m_timerID(0), pDC(nullptr)
 {
@@ -90,12 +90,12 @@ BOOL CMFCPendulumDlg::OnInitDialog()
 	m_pendulum.Init(defaultLength, defaultAngle,
 	defaultGravity, defaultMass, defaultResistance);
 	
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
+	SetIcon(m_hIcon, TRUE);
+	SetIcon(m_hIcon, FALSE);
 
 	m_drawer.Create(GetDlgItem(IDC_GRAPH)->GetSafeHwnd());
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;
 }
 
 
@@ -139,8 +139,6 @@ void CMFCPendulumDlg::UpdateEnergyInfo()
 	m_staticKinetic.SetWindowText(kenetic);
 
 	double totalEnergy = std::abs(kenetic_value) + std::abs(potentional_value);
-
-	// Calculate the percentages
 	int kineticPercentage = static_cast<int>((std::abs(kenetic_value) / totalEnergy) * 100);
 	int potentialPercentage = static_cast<int>((std::abs(potentional_value) / totalEnergy) * 100);
 

@@ -3,11 +3,10 @@
 #include "CDBConnection.h"
 #include "CMainDlg.h"
 #include "MFCPendulumDlg.h"
-// CAuthDlg dialog
 class CAuthDlg : public CDialogEx
 {
 public:
-    CAuthDlg(CWnd* pParent = nullptr);    // standard constructor
+    CAuthDlg(CWnd* pParent = nullptr);
     CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
 
     afx_msg void OnBnClickedBtnConnect();
@@ -19,8 +18,7 @@ public:
 #endif
 
 protected:
-    //CLoginDataSave dataSaver;
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     CMFCPendulumDlg m_pendulumDlg;
     BOOL PopulateLangCombo();

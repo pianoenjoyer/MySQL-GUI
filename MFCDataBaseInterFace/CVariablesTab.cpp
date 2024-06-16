@@ -1,5 +1,4 @@
 // CVariablesTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "CVariablesTab.h"
@@ -10,7 +9,7 @@
 
 IMPLEMENT_DYNAMIC(CVariablesTab, CDialogEx)
 
-CVariablesTab::CVariablesTab(CWnd* pParent /*=nullptr*/)
+CVariablesTab::CVariablesTab(CWnd* pParent)
 	: CDialogEx(IDD_VARIABLES, pParent)
 {
 
@@ -101,10 +100,7 @@ bool CVariablesTab::PopulateVariablesList()
 void CVariablesTab::AddVariableToList(CListCtrl* pListCtrl, const CString& variable, const CString& value)
 {
     int nIndex = pListCtrl->GetItemCount();
-
-    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, variable);
-    // Set text for the second column
     pListCtrl->SetItemText(nIndex, 1, value);
 }
 

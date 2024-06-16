@@ -1,23 +1,18 @@
 #pragma once
 
-
-// CAboutDlg dialog
-
 class CAboutDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CAboutDlg)
 
 public:
-	CAboutDlg(CWnd* pParent = nullptr);   // standard constructor
+	CAboutDlg(CWnd* pParent = nullptr);
 	virtual ~CAboutDlg();
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUT };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 };

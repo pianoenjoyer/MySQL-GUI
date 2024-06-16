@@ -22,8 +22,6 @@ CString GetAppCurrentDirectory()
 	return CString(buffer);
 	
 }
-
-//set key enter to connect button
 BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 {
 
@@ -52,7 +50,6 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 		}
 		case 'D':
 		{
-			// TODO add demostation mode to check ui without actual server connection
 			MessageBox(L"Demo mode is not available for now ");
 			return TRUE;
 		}
@@ -65,13 +62,13 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 
 
 
-CAuthDlg::CAuthDlg(CWnd* pParent /*=nullptr*/)
+CAuthDlg::CAuthDlg(CWnd* pParent)
 	: CDialogEx(IDD_AUTH, pParent), db(std::make_shared<CDBConnection>())
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-CAuthDlg::CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent /*=nullptr*/)
+CAuthDlg::CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent)
 	: CDialogEx(IDD_AUTH, pParent), db(db)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -106,25 +103,19 @@ void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 	{
 		CDC dc;
 		dc.Attach(lpDrawItemStruct->hDC);
-		// Check the button state
 		UINT state = lpDrawItemStruct->itemState;
-
-		// Customize the appearance based on the button ID
 		if (nIDCtl == IDC_BTN_CONNECT)
 		{
 			if (state & ODS_SELECTED)
 			{
-				// Button is pressed
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(100, 100, 100));
 			}
 			else if (state & ODS_HOTLIGHT)
 			{
-				// Mouse is over the button
-				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(255, 0, 0)); // Change color when hovered
+				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(255, 0, 0));
 			}
 			else
 			{
-				// Normal state
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(216, 120, 29));
 			}
 
@@ -134,24 +125,18 @@ void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		{
 			if (state & ODS_SELECTED)
 			{
-				// Button is pressed
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(50, 50, 50));
 			}
 			else if (state & ODS_HOTLIGHT)
 			{
-				// Mouse is over the button
-				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(0, 255, 0)); // Change color when hovered
+				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(0, 255, 0));
 			}
 			else
 			{
-				// Normal state
 				dc.FillSolidRect(&lpDrawItemStruct->rcItem, RGB(66, 101, 173));
 			}
 			dc.SetTextColor(RGB(255, 255, 255));
 		}
-
-
-		// Set a custom font for buttons
 		CFont font;
 		font.CreateFontW(22, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 			OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
@@ -159,7 +144,6 @@ void CAuthDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		dc.SelectObject(&font);
 		auto pCheckbox = (CCheckListBox*)GetDlgItem(IDC_SAVE_LOGIN);
 		pCheckbox->SetFont(&font);
-		// Draw the text based on the button type
 		CString buttonText;
 		GetDlgItemText(nIDCtl, buttonText);
 		dc.DrawText(buttonText, &lpDrawItemStruct->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -174,7 +158,7 @@ BOOL CAuthDlg::OnEraseBkgnd(CDC* pDC)
 {
 	CRect rectClient;
 	GetClientRect(&rectClient);
-	pDC->FillSolidRect(&rectClient, RGB(60, 67, 98)); //bg
+	pDC->FillSolidRect(&rectClient, RGB(60, 67, 98));
 	return TRUE;
 }
 
@@ -191,7 +175,7 @@ HBRUSH CAuthDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkMode(TRANSPARENT);
-	hbr = CreateSolidBrush(RGB(60, 67, 98)); //bg
+	hbr = CreateSolidBrush(RGB(60, 67, 98));
 	return hbr;
 }
 
@@ -200,11 +184,9 @@ BOOL CAuthDlg::OnInitDialog()
 {
 
 	CDialogEx::OnInitDialog();
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
-	//set title
-	this->SetWindowTextW(_T("Authentication")); 
-	//set image
+	SetIcon(m_hIcon, TRUE);
+	SetIcon(m_hIcon, FALSE);
+	this->SetWindowTextW(_T("Authentication"));
 	CImage image;
 	if (SUCCEEDED(image.Load(L".\\Pictures\\mysql_logo_white.png")))
 	{
@@ -298,14 +280,12 @@ void CAuthDlg::OnBnClickedBtnConnect()
 	GetDlgItem(IDC_USER_NAME2)->GetWindowTextW(user);
 	GetDlgItem(IDC_PASSWORD)->GetWindowTextW(password);
 	bool rememberMe = (((CButton*)GetDlgItem(IDC_SAVE_LOGIN))->GetCheck() == BST_CHECKED);
-
-	// If "Remember Me" is checked, save the data
 	if (rememberMe)
 	{
 		dataSaver.SaveData(server, user, password, true);
 	}
 	else
-	{	//if not clear data from regisry
+	{
 		dataSaver.ClearData();
 	}
 
@@ -348,7 +328,6 @@ void CAuthDlg::OnBnClickedBtnShowPassword()
 		pEdit->SetPasswordChar(0x2022);
 	}
 	pEdit->Invalidate();
-	//pEdit->RedrawWindow();	// not required
 }
 
 

@@ -1,17 +1,15 @@
 // CQueryHistoryDlg.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CQueryHistoryDlg.h"
 #include "resource.h"
 #include "CQueryTab.h"
-// CQueryHistoryDlg dialog
 
 
 IMPLEMENT_DYNAMIC(CQueryHistoryDlg, CDialogEx)
 
-CQueryHistoryDlg::CQueryHistoryDlg(CWnd* pParent /*=nullptr*/)
+CQueryHistoryDlg::CQueryHistoryDlg(CWnd* pParent)
 	: CDialogEx(IDD_HYSTORY, pParent)
 {
     m_filename = L"QueryHistory.txt";
@@ -71,8 +69,6 @@ void CQueryHistoryDlg::LoadHistoryToListCtrl()
     }
     else
     {
-        // Handle the case where the file couldn't be opened
-        // For example, you can log an error message or take appropriate action.
     }
 }
 
@@ -93,9 +89,6 @@ BEGIN_MESSAGE_MAP(CQueryHistoryDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BTN_OPN_HIST_FILE, &CQueryHistoryDlg::OnBnClickedBtnOpnHistFile)
     ON_BN_CLICKED(IDC_BTN_CLR_HIST, &CQueryHistoryDlg::OnBnClickedBtnClrHist)
 END_MESSAGE_MAP()
-
-
-// CQueryHistoryDlg message handlers
 
 void CQueryHistoryDlg::OnBnClickedBtnSelHistRec()
 {

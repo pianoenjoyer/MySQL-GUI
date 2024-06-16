@@ -15,7 +15,7 @@
 
 IMPLEMENT_DYNAMIC(CQueryTab, CDialogEx)
 
-CQueryTab::CQueryTab(CWnd* pParent /*=nullptr*/)
+CQueryTab::CQueryTab(CWnd* pParent)
 	: CDialogEx(IDD_QUERY, pParent)
 {
     m_resultSet = nullptr;
@@ -171,7 +171,6 @@ void CQueryTab::SetSQLEditText(const CString& text)
 BOOL CQueryTab::OnInitDialog() 
 {
     CDialogEx::OnInitDialog();
-    //SetBackgroundColor(TABWHITE);
     auto pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     DWORD dwMask = pRichEdit->GetEventMask();
     dwMask |= (ENM_CHANGE | ENM_SCROLL);
@@ -179,10 +178,7 @@ BOOL CQueryTab::OnInitDialog()
     PopulateFontSizesDropdown();
     SetDefaultFontSize();
     SetDefaultFont();
-    //SetBackgroundColor(RGB(200, 200, 200));
     UpdateStringCounter();
-    //FillTableDropdown();
-    //PopulateColumnsList();
     return TRUE;
 }
 
@@ -213,10 +209,10 @@ void CQueryTab::PopulateColumnsList()
         return;
     }
 
-    pListBox->ResetContent(); // Clear the existing items
+    pListBox->ResetContent();
 
     for (const auto& value : columns) {
-        pListBox->AddString(SQLStringToCString(value)); // Add items to the list box
+        pListBox->AddString(SQLStringToCString(value));
     }
 }
 
@@ -227,8 +223,6 @@ void CQueryTab::PopulateDropdown(CComboBox* pComboBox, const std::vector<sql::SQ
     pComboBox->ResetContent();
     if (values.empty())
     {
-        //pComboBox->AddString(L"No elements found");
-        //SendMessageToConsole(L"No elements found", RED);
     }
     for (const std::string& value : values)
     {
@@ -280,17 +274,13 @@ void CQueryTab::SendMessageToConsole(CString msg, COLORREF color)
 {
     CRichEditCtrl* p_richEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICHEDIT_MSGS);
     CTime currentTime = CTime::GetCurrentTime();
-    // Format 
     CString timeStr = currentTime.Format(_T("%H:%M:%S"));
-    // Adding timestamp
     CString fullMsg = timeStr + _T(" - ") + msg + _T("\r\n");
-    // Append the text with a specific color
     AppendTextToRichEdit(*p_richEdit, fullMsg, color);
 }
 
 CStringW RemoveSQLComments(const CStringW& sqlText)
 {
-    // Simple implementation to remove SQL comments
     CStringW result;
     bool inComment = false;
 
@@ -298,25 +288,21 @@ CStringW RemoveSQLComments(const CStringW& sqlText)
     {
         if (sqlText[i] == L'-' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'-')
         {
-            // Start of single-line comment
             inComment = true;
         }
         else if (sqlText[i] == L'\n' && inComment)
         {
-            // End of single-line comment
             inComment = false;
         }
         else if (sqlText[i] == L'/' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'*')
         {
-            // Start of multi-line comment
             inComment = true;
-            ++i;  // Skip the next character as well
+            ++i;
         }
         else if (sqlText[i] == L'*' && i + 1 < sqlText.GetLength() && sqlText[i + 1] == L'/' && inComment)
         {
-            // End of multi-line comment
             inComment = false;
-            ++i;  // Skip the next character as well
+            ++i;
         }
         else if (!inComment)
         {
@@ -337,40 +323,26 @@ void CQueryTab::AddQueryToHistoryFile(const CStringW& query)
     CStringW delimDateEnd = L"|Q;|";
     CStringW delimQueryStart = L"|;D|";
     CStringW delimQueryEnd = L"|D;|";
-
-    // Get the current date
     CTime currentTime = CTime::GetCurrentTime();
     CStringW currentDate = currentTime.Format(L"%d.%m.%Y");
-
-    // Open the file in append mode
     std::ofstream historyFile(fileName, std::ios::app);
 
     if (historyFile.is_open())
     {
-        // Convert wide strings to UTF-8-encoded narrow strings
         std::string utf8DelimDateStart = CW2A(delimDateStart.GetString(), CP_UTF8);
         std::string utf8CurrentDate = CW2A(currentDate.GetString(), CP_UTF8);
         std::string utf8DelimDateEnd = CW2A(delimDateEnd.GetString(), CP_UTF8);
         std::string utf8DelimQueryStart = CW2A(delimQueryStart.GetString(), CP_UTF8);
         std::string utf8Query = CW2A(query.GetString(), CP_UTF8);
         std::string utf8DelimQueryEnd = CW2A(delimQueryEnd.GetString(), CP_UTF8);
-
-        // Write the entry to the file
         historyFile << utf8DelimDateStart << utf8CurrentDate << utf8DelimDateEnd
             << " " << utf8DelimQueryStart << utf8Query << utf8DelimQueryEnd << std::endl;
-
-        // Close the file
         historyFile.close();
     }
     else
     {
-        // Handle the case where the file couldn't be opened
-        // For example, you can log an error message or take appropriate action.
     }
 }
-
-
-//if query text from rich edit
 void CQueryTab::ExecuteQueryMainDlg()
 {
     CMainDlg* pParentDialog = nullptr;
@@ -395,8 +367,6 @@ void CQueryTab::ExecuteQueryMainDlg()
     CStringW delimiter = L";";
     int pos = 0;
     CStringW statement;
-
-    // Check if there is a delimiter in the SQL text
     if ((pos = sqlText.Find(delimiter)) != -1)
     {
         do
@@ -422,7 +392,6 @@ void CQueryTab::ExecuteQueryMainDlg()
                 timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
                 SendMessageToConsole(timeTakenStr, GREEN);
-                // Send the exact same message to resultTab edit
                 ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
                 start = std::chrono::high_resolution_clock::now();
                 pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
@@ -445,14 +414,11 @@ void CQueryTab::ExecuteQueryMainDlg()
             {
                 SendMessageToConsole(errorString, RED);
             }
-
-            // Check if there is another delimiter in the remaining SQL text
             pos = sqlText.Find(delimiter);
         } while (pos != -1);
     }
     else
     {
-        // If no delimiter is found, treat the entire input as a single query
         statement = RemoveSQLComments(sqlText);
         sql::SQLString query = CStringToSQLString(statement);
 
@@ -470,7 +436,6 @@ void CQueryTab::ExecuteQueryMainDlg()
             timeTakenStr.Format(_T("%d total, Query took: %.4f seconds"), rowsCount, timeTaken);
 
             SendMessageToConsole(timeTakenStr, GREEN);
-            // Send the exact same message to resultTab edit
             ((CMainDlg*)(this->GetParent()->GetParent()))->m_resultTab.SendMessageToQueryInfo(timeTakenStr, GREEN);
             start = std::chrono::high_resolution_clock::now();
             pParentDialog->m_resultTab.BuildResultList(m_resultSet, 0);
@@ -495,10 +460,6 @@ void CQueryTab::ExecuteQueryMainDlg()
         }
     }
 }
-
-
-
-//if query from string
 void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
 {
     CMainDlg* pParentDialog = nullptr;
@@ -538,8 +499,6 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
         end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration<double>(end - start);
         timeTaken = duration.count();
-        //timeTakenStr.Format(_T("Built list took: %.2f seconds"), timeTaken);
-        //SendMessageToConsole(timeTakenStr, BLACK);
         if (rowsCount == 0)
         {
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"0");
@@ -548,7 +507,6 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
         {
             pParentDialog->m_resultTab.GetDlgItem(IDC_EDIT_CURRENTPAGE)->SetWindowTextW(L"1");
         }
-        //pParentDialog->SetResultSet(resultSet);
         ((CMainDlg*)(this->GetParent()->GetParent()))->SwitchTabByName(L"Result");
         ((CMainDlg*)(this->GetParent()->GetParent()))->OnTcnSelchangeMaintab(nullptr, nullptr);
     }
@@ -556,16 +514,12 @@ void CQueryTab::ExecuteQueryMainDlg(sql::SQLString queryText)
     {
         SendMessageToConsole(errorString, RED);
     }
-    //delete resultSet;
 }
 
 
 void CQueryTab::OnBnClickedBtnGo()
 {
-    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(75);
     ExecuteQueryMainDlg();
-    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(100);
-    //((CMainDlg*)(this->GetParent()->GetParent()))->SetProgressBarPosition(0);
 }
 
 
@@ -580,15 +534,11 @@ void CQueryTab::OnBnClickedBtnClear()
 CString FormatSQLQuery(const CString& query)
 {
     CString formattedQuery;
-
-    // Splitting by space for simplicity.
     int startPos = 0;
     while (startPos >= 0)
     {
         CString token = query.Tokenize(L" ", startPos);
         if (token.IsEmpty()) break;
-
-        // Add a newline and indent for specific keywords.
         if (token.CompareNoCase(L"SELECT") == 0)
         {
             formattedQuery += token + L"\r\n";
@@ -604,7 +554,7 @@ CString FormatSQLQuery(const CString& query)
                 token.CompareNoCase(L"DELETE FROM") == 0 ||
                 token.CompareNoCase(L"VALUES") == 0)
         {
-            formattedQuery.TrimRight();  // Trim any trailing spaces or commas
+            formattedQuery.TrimRight();
             formattedQuery += L"\r\n" + token + L"\r\n";
         }
         else
@@ -612,8 +562,6 @@ CString FormatSQLQuery(const CString& query)
             formattedQuery += L"\t" + token + L"\r\n";
         }
     }
-
-    // Trim any extra newlines or whitespace at the end
     formattedQuery.TrimRight();
 
     return formattedQuery;
@@ -856,7 +804,7 @@ void CQueryTab::OnCbnSelchangeSelTable()
 
 void CQueryTab::OnBnClickedBtnForward()
 {
-    CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST_COLUMNS);  // Replace with your ListBox's ID
+    CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST_COLUMNS);
     CRichEditCtrl* pRichEdit = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
 
     int nSelectedItem = pListBox->GetCurSel();
@@ -910,31 +858,19 @@ void CQueryTab::OnLbnDblclkListColumns()
 
 void CQueryTab::UpdateStringCounter()
 {
-    // Get pointers to the string counter and query text controls
     CRichEditCtrl* pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
     CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
-
-    // Get the number of lines in the query text
     int lineCount = pQueryText->GetLineCount();
-
-    // Calculate the maximum line number length
     int maxLineNumberLength = static_cast<int>(log10(lineCount) + 1);
-
-    // Prepare the formatted line numbers
     CString strLineCount;
     CString margin = L" ";
     CString newContent;
 
     for (int i = 1; i <= lineCount; ++i)
     {
-        // Format the line number with padding
         strLineCount.Format(L"%*d%s\r\n", maxLineNumberLength, i, margin);
-
-        // Append the formatted line number to the new content
         newContent += strLineCount;
     }
-
-    // Set the updated content to the string counter
     pStringCounter->SetWindowTextW(newContent);
 }
 
@@ -944,7 +880,6 @@ void CQueryTab::OnEnChangeEditQuery()
 {
     UpdateStringCounter();
     OnEnVscrollEditQuery();
-    //SynchronizeFontProperties();
 }
 
 
@@ -954,14 +889,10 @@ void CQueryTab::OnEnVscrollEditQuery()
     CRichEditCtrl* pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     int nPos = pQueryText->GetFirstVisibleLine();
     pStringCounter->LineScroll(nPos - pStringCounter->GetFirstVisibleLine());
-
-    // Get the character format of the SQL edit control
     CHARFORMAT2 sqlCharFormat;
     sqlCharFormat.cbSize = sizeof(CHARFORMAT2);
     pQueryText = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     pQueryText->GetDefaultCharFormat(sqlCharFormat);
-
-    // Apply the character format to the line numberer control
     pStringCounter = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
     pStringCounter->SetDefaultCharFormat(sqlCharFormat);
 }
@@ -970,14 +901,9 @@ void CQueryTab::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
     CEdit* pStringCounter = (CEdit*)GetDlgItem(IDC_RICH_LINENUMBERER);
     CEdit* pQueryText = (CEdit*)GetDlgItem(IDC_RICH_SQL);
-
-    // Check if the event is from the scrollbar of the QueryText control
     if (pScrollBar->GetDlgCtrlID() == IDC_RICH_SQL)
     {
-        // Get the current scroll position of the QueryText control
         int nPosQueryText = pQueryText->GetFirstVisibleLine();
-
-        // Scroll the StringCounter to match the QueryText
         pStringCounter->LineScroll(nPosQueryText - pStringCounter->GetFirstVisibleLine());
     }
 
@@ -997,7 +923,6 @@ void CQueryTab::OnEnChangeRichSql()
 {
     UpdateStringCounter();
     OnEnVscrollRichSql();
-    //SynchronizeFontProperties();
 }
 
 
@@ -1025,36 +950,29 @@ void CQueryTab::PopulateFontSizesDropdown()
 
 void CQueryTab::SynchronizeFontProperties()
 {
-    // Get the font size, font type, and color from one of the controls
     auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
     if (!pRichEditSQL)
     {
         return;
     }
-
-    // Store information about the current selection
     long start, end;
     pRichEditSQL->GetSel(start, end);
 
     CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
     pRichEditSQL->GetSelectionCharFormat(cf);
-
-    // Apply the font properties to the other control (line numberer)
     auto pRichEditString = (CRichEditCtrl*)GetDlgItem(IDC_RICH_LINENUMBERER);
     if (!pRichEditString)
     {
         return;
     }
-
-    // Set font size, font type, and color for both controls
     pRichEditSQL->SetSel(0, -1);
     pRichEditSQL->SetSelectionCharFormat(cf);
-    pRichEditSQL->SetSel(start, end);  // Restore the previous selection
+    pRichEditSQL->SetSel(start, end);
 
     pRichEditString->SetSel(0, -1);
     pRichEditString->SetSelectionCharFormat(cf);
-    pRichEditString->SetSel(start, end);  // Restore the previous selection
+    pRichEditString->SetSel(start, end);
 }
 
 
@@ -1101,8 +1019,6 @@ void CQueryTab::OnBnClickedColorFont()
         ApplyFontColor(color);
     }
 }
-
-// Functions to apply font properties to the rich edit control
 void CQueryTab::ApplyFontSize(int nSize)
 {
     auto pRichEditSQL = (CRichEditCtrl*)GetDlgItem(IDC_RICH_SQL);
@@ -1114,12 +1030,12 @@ void CQueryTab::ApplyFontSize(int nSize)
     CHARFORMAT2 cf;
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_SIZE;
-    cf.yHeight = nSize * 20;  // Convert to twips (1/1440 inch)
+    cf.yHeight = nSize * 20;
 
-    pRichEditSQL->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditSQL->SetSel(0, -1);
     pRichEditSQL->SetSelectionCharFormat(cf);
 
-    pRichEditString->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditString->SetSel(0, -1);
     pRichEditString->SetSelectionCharFormat(cf);
     
 }
@@ -1137,10 +1053,10 @@ void CQueryTab::ApplyFontType(const CString& strFontType)
     cf.dwMask = CFM_FACE;
     _tcscpy_s(cf.szFaceName, LF_FACESIZE, strFontType);
 
-    pRichEditSQL->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditSQL->SetSel(0, -1);
     pRichEditSQL->SetSelectionCharFormat(cf);
 
-    pRichEditString->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEditString->SetSel(0, -1);
     pRichEditString->SetSelectionCharFormat(cf);
 
 }
@@ -1153,7 +1069,7 @@ void CQueryTab::ApplyFontColor(COLORREF color)
     cf.dwMask = CFM_COLOR;
     cf.crTextColor = RGB(GetBValue(color), GetGValue(color), GetRValue(color));
 
-    pRichEdit->SetSel(0, -1);  // Set the selection to the entire text
+    pRichEdit->SetSel(0, -1);
     pRichEdit->SetSelectionCharFormat(cf);
 }
 

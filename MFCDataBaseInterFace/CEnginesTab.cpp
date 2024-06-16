@@ -1,5 +1,4 @@
 // CEnginesTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -7,11 +6,10 @@
 #include "resource.h"
 #include "SharedFunctions.h"
 #include "Convertions.h"
-// CEnginesTab dialog
 
 IMPLEMENT_DYNAMIC(CEnginesTab, CDialogEx)
 
-CEnginesTab::CEnginesTab(CWnd* pParent /*=nullptr*/)
+CEnginesTab::CEnginesTab(CWnd* pParent)
 	: CDialogEx(IDD_ENGINES, pParent)
 {
 
@@ -46,7 +44,7 @@ void CEnginesTab::PopulateEnginesList()
 
     if (pListCtrl->GetItemCount() == 0 && pListCtrl->GetHeaderCtrl()->GetItemCount() == 0) {
         pListCtrl->InsertColumn(0, _T("Engine"), LVCFMT_LEFT, 200);
-        pListCtrl->InsertColumn(1, _T("Comment"), LVCFMT_LEFT, 2000);  // Corrected column index
+        pListCtrl->InsertColumn(1, _T("Comment"), LVCFMT_LEFT, 2000);
     }
     pListCtrl->DeleteAllItems();
 
@@ -64,9 +62,8 @@ void CEnginesTab::PopulateEnginesList()
 void CEnginesTab::AddEngineInfoToList(CListCtrl* pListCtrl, const CString& engine, const CString& comment)
 {
     int nIndex = pListCtrl->GetItemCount();
-    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, engine);
-    pListCtrl->SetItemText(nIndex, 1, comment);  // Corrected column index
+    pListCtrl->SetItemText(nIndex, 1, comment);
     pListCtrl->SetColumnWidth(0, LVSCW_AUTOSIZE);
     pListCtrl->SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
@@ -85,8 +82,6 @@ void CEnginesTab::UpdateListFilter()
     while (resultSet->next()) {
         CString engine = SQLStringToCString(resultSet->getString("Engine"));
         CString comment = SQLStringToCString(resultSet->getString("Comment"));
-
-        // Check if the filter text is empty or matches the engine or comment
         if (filterText.IsEmpty() || engine.Find(filterText) != -1 || comment.Find(filterText) != -1) {
             AddEngineInfoToList(pListCtrl, engine, comment);
         }

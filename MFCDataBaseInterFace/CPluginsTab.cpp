@@ -1,5 +1,4 @@
 // CPluginsTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -11,7 +10,7 @@
 
 IMPLEMENT_DYNAMIC(CPluginsTab, CDialogEx)
 
-CPluginsTab::CPluginsTab(CWnd* pParent /*=nullptr*/)
+CPluginsTab::CPluginsTab(CWnd* pParent)
 	: CDialogEx(IDD_PLUGINS, pParent)
 {
 
@@ -70,12 +69,7 @@ void CPluginsTab::PopulatePluginsList()
 void CPluginsTab::AddPluginInfoToList(CListCtrl* pListCtrl, const CString& name, const CString& status, const CString& type, const CString& license)
 {
     int nIndex = pListCtrl->GetItemCount();
-
-
-    // InsertItem for the first column and set its text
     pListCtrl->InsertItem(nIndex, name);
-
-    // Set text for the remaining columns
     pListCtrl->SetItemText(nIndex, 1, status);
     pListCtrl->SetItemText(nIndex, 2, type);
     pListCtrl->SetItemText(nIndex, 3, license);
@@ -103,8 +97,6 @@ void CPluginsTab::UpdateListFilter()
         CString status = SQLStringToCString(resultSet->getString("Status"));
         CString type = SQLStringToCString(resultSet->getString("Type"));
         CString license = SQLStringToCString(resultSet->getString("License"));
-
-        // Check if the filter text is empty or matches the name
         if (filterText.IsEmpty() || name.Find(filterText) != -1)
         {
             AddPluginInfoToList(pListCtrl, name, status, type, license);

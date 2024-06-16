@@ -6,24 +6,20 @@
 #include "CTableTabRecords.h"
 #include "CResultPlus.h"
 
-// CTableCreationDlg dialog
-
 class CTableCreationDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CTableCreationDlg)
 
 public:
-	CTableCreationDlg(CWnd* pParent = nullptr);   // standard constructor
+	CTableCreationDlg(CWnd* pParent = nullptr);
 	virtual ~CTableCreationDlg();
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_TABLES };
 #endif
 
 protected:
 	BOOL OnInitDialog();
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	CTableTabRecords m_recordsTab;
 	CTableStructureTab m_structureTab;
 	CResultTab m_resultTab;
@@ -40,7 +36,6 @@ public:void PopulateStorageEngineDropdown();
 	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
 	CListCtrl m_ListCreateTable;
 	CRichEditCtrl m_editTableName;
-	// m_comboCollation
 	CComboBox m_cmbCollation;
 	std::shared_ptr<CDBConnection> db;
 	CRichEditCtrl m_editComments;

@@ -2,25 +2,21 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 
-// CPluginsTab dialog
-
 class CPluginsTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CPluginsTab)
 
 public:
-	CPluginsTab(CWnd* pParent = nullptr);   // standard constructor
+	CPluginsTab(CWnd* pParent = nullptr);
 	virtual ~CPluginsTab();
 	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_PLUGINS };
 #endif
 
 protected:
 	std::shared_ptr<CDBConnection> db;
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	BOOL OnInitDialog();
 	void UpdateListFilter();
 	void PopulatePluginsList();

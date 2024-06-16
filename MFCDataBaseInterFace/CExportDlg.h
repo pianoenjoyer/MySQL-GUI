@@ -2,27 +2,22 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 
-
-// CDBExportDlg dialog
-
 class CDBExportDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CDBExportDlg)
 
 public:
 	virtual BOOL OnInitDialog();
-	CDBExportDlg(CWnd* pParent = nullptr);   // standard constructor
+	CDBExportDlg(CWnd* pParent = nullptr);
 	virtual ~CDBExportDlg();
 	HICON m_hIcon;
 	CListCtrl* m_pList;
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_EXPORT };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 public:

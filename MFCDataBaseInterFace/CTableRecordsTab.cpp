@@ -1,16 +1,13 @@
 // CTableRecordsTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CTableRecordsTab.h"
 #include "resource.h"
 
-// CTableRecordsTab dialog
-
 IMPLEMENT_DYNAMIC(CTableRecordsTab, CDialogEx)
 
-CTableRecordsTab::CTableRecordsTab(CWnd* pParent /*=nullptr*/)
+CTableRecordsTab::CTableRecordsTab(CWnd* pParent)
 	: CDialogEx(IDD_TABLE_RECORDS, pParent)
 {
 
@@ -28,6 +25,3 @@ void CTableRecordsTab::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CTableRecordsTab, CDialogEx)
 END_MESSAGE_MAP()
-
-
-// CTableRecordsTab message handlers

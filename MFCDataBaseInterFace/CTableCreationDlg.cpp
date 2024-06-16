@@ -1,5 +1,4 @@
 // CTableCreationDlg.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -7,11 +6,10 @@
 #include "resource.h"
 #include "SharedFunctions.h"
 #include "Convertions.h"
-// CTableCreationDlg dialog
 
 IMPLEMENT_DYNAMIC(CTableCreationDlg, CDialogEx)
 
-CTableCreationDlg::CTableCreationDlg(CWnd* pParent /*=nullptr*/)
+CTableCreationDlg::CTableCreationDlg(CWnd* pParent)
 	: CDialogEx(IDD_TABLES, pParent)
 {
 
@@ -79,8 +77,6 @@ bool CTableCreationDlg::UpdateStructureList()
     {
         return false;
     }
-
-    // Delete all items and columns
     pListCtrl->DeleteAllItems();
     int numCols = pListCtrl->GetHeaderCtrl()->GetItemCount();
     for (int colIndex = numCols - 1; colIndex >= 0; --colIndex)
@@ -101,16 +97,12 @@ bool CTableCreationDlg::UpdateStructureList()
     {
         return false;
     }
-
-    // Insert columns dynamically based on the query result
     numCols = resultSet->getMetaData()->getColumnCount();
     for (int colIndex = 0; colIndex < numCols; ++colIndex)
     {
         CString colName(resultSet->getMetaData()->getColumnName(colIndex + 1).c_str());
         if (pListCtrl->InsertColumn(colIndex, colName, LVCFMT_LEFT, 150) == -1)
         {
-            // Handle column insertion failure
-            // You might want to log an error message or take appropriate action
             return false;
         }
     }
@@ -118,12 +110,9 @@ bool CTableCreationDlg::UpdateStructureList()
     int index = 0;
     while (resultSet->next())
     {
-        // Insert a new item for each row
-        int itemIndex = pListCtrl->InsertItem(index, L"");  // Insert an empty item for each row
+        int itemIndex = pListCtrl->InsertItem(index, L"");
         if (itemIndex == -1)
         {
-            // Handle item insertion failure
-            // You might want to log an error message or take appropriate action
             return false;
         }
 
@@ -132,8 +121,6 @@ bool CTableCreationDlg::UpdateStructureList()
             CString colValue(resultSet->getString(colIndex + 1).c_str());
             if (pListCtrl->SetItemText(itemIndex, colIndex, colValue) == FALSE)
             {
-                // Handle text insertion failure
-                // You might want to log an error message or take appropriate action
                 return false;
             }
         }
@@ -203,27 +190,20 @@ void CTableCreationDlg::PopulateStorageEngineDropdown()
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_STORAGE_ENGINE));
     if (!pComboBox || !db)
         return;
-
-    // Execute the query to retrieve available storage engines
     std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW ENGINES;"));
 
     if (resultSet)
     {
-        // Clear existing items in the combo box
         pComboBox->ResetContent();
 
         while (resultSet->next())
         {
-            // Get the storage engine name
             std::string engineName = resultSet->getString("Engine");
-
-            // Add the storage engine to the combo box
             pComboBox->AddString(CString(engineName.c_str()));
         }
     }
     else
     {
-        // Handle the case where the query fails
         AfxMessageBox(L"Error retrieving storage engines from the database");
     }
     pComboBox->SetCurSel(0);
@@ -293,31 +273,22 @@ bool CTableCreationDlg::PopulateTableDropdown()
 void CTableCreationDlg::PopulateCharacterSetDropdown()
 {
     CComboBox* pComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_CHARSET));
-
-    // Ensure the combo box and database connection are valid
     if (!pComboBox || !db)
         return;
-
-    // Execute the query to retrieve available character sets
     std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW CHARACTER SET;"));
 
     if (resultSet)
     {
-        // Clear existing items in the combo box
         pComboBox->ResetContent();
 
         while (resultSet->next())
         {
-            // Get the character set name
             std::string charsetName = resultSet->getString("Charset");
-
-            // Add the character set to the combo box
             pComboBox->AddString(CString(charsetName.c_str()));
         }
     }
     else
     {
-        // Handle the case where the query fails
         AfxMessageBox(L"Error retrieving character sets from the database");
     }
     pComboBox->SetCurSel(0);
@@ -332,13 +303,9 @@ void CTableCreationDlg::OnBnClickedGo()
 
     m_editTableName.GetWindowTextW(tableNameString);
     m_editComments.GetWindowTextW(tableCommentsString);
-
-    // Get selected character set from combo box
     CComboBox* pCharsetComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COLLATION));
     CStringW selectedCharset;
     pCharsetComboBox->GetWindowTextW(selectedCharset);
-
-    // Get selected storage engine from combo box
     CComboBox* pEngineComboBox = static_cast<CComboBox*>(GetDlgItem(IDC_COMBO_STORAGE_ENGINE));
     CStringW selectedEngine;
     pEngineComboBox->GetWindowTextW(selectedEngine);
@@ -347,15 +314,11 @@ void CTableCreationDlg::OnBnClickedGo()
     {
         CStringW sqlQuery;
         sqlQuery.Format(L"CREATE TABLE %s (", tableNameString);
-
-        // Add a placeholder column for demonstration purposes
         CStringW columnName = L"example_column";
         CStringW columnType = L"INT";
         sqlQuery.AppendFormat(L"%s %s", columnName, columnType);
 
         sqlQuery.Append(L")");
-
-        // Include selected character set and storage engine in the query
         sqlQuery.AppendFormat(L" CHARACTER SET %s ENGINE = %s", selectedCharset, selectedEngine);
 
         if (db->ExecuteNonQuery(CStringToSQLString(sqlQuery)))

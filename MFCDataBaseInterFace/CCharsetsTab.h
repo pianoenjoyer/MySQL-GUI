@@ -2,23 +2,20 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 
-// CCharsetsTab dialog
-
 class CCharsetsTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CCharsetsTab)
 
 public:
-	CCharsetsTab(CWnd* pParent = nullptr);   // standard constructor
+	CCharsetsTab(CWnd* pParent = nullptr);
 	virtual ~CCharsetsTab();
 	std::shared_ptr<CDBConnection> db;
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_CHARSETS };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	BOOL OnInitDialog();
 	void PopulateCharacterSetsList();
 	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };

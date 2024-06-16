@@ -3,24 +3,21 @@
 #include "CDBConnection.h"
 #include <memory>
 
-// CChangeUserPasswordDlg dialog
-
 class CChangeUserPasswordDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CChangeUserPasswordDlg)
 
 public:
-	CChangeUserPasswordDlg(CWnd* pParent = nullptr);   // standard constructor
-	CChangeUserPasswordDlg(CWnd* pParent /*=nullptr*/, std::shared_ptr<CDBConnection> db);
+	CChangeUserPasswordDlg(CWnd* pParent = nullptr);
+	CChangeUserPasswordDlg(CWnd* pParent, std::shared_ptr<CDBConnection> db);
 	virtual ~CChangeUserPasswordDlg();
 	BOOL OnInitDialog();
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_CHANGEUSRPWD };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	std::shared_ptr<CDBConnection> db;
 	DECLARE_MESSAGE_MAP()
 	CString GetCurrentUsername();

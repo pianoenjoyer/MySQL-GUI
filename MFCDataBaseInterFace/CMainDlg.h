@@ -25,23 +25,21 @@ class CMainDlg : public CDialogEx
 	};
 
 	DECLARE_DYNAMIC(CMainDlg)
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MAIN };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
 	BOOL PreTranslateMessage(MSG* pMsg);
-	CMainDlg(CWnd* pParent = nullptr);  // Standard constructor
+	CMainDlg(CWnd* pParent = nullptr);
 	CMainDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent = nullptr);
 
 
 	virtual ~CMainDlg();
-	//tabs
 	CResultTab m_resultTab;
 	CQueryTab m_queryTab;
 	CTableCreationDlg m_tableTab;

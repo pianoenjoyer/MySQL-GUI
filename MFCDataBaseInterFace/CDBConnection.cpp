@@ -129,7 +129,7 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query)
             delete statement;
         }
 
-        return nullptr;  // Return nullptr indicating failure
+        return nullptr;
     }
 }
 
@@ -147,12 +147,6 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString
         return resultSet;
     }
     catch (sql::SQLException& e) {
-        /*CStringW wideErrorMessage(e.what());
-        int bufferSize = WideCharToMultiByte(CP_UTF8, 0, wideErrorMessage,
-            -1, nullptr, 0, nullptr, nullptr);
-        std::string errorMessage(bufferSize, '\0');
-        WideCharToMultiByte(CP_UTF8, 0, wideErrorMessage, -1,
-            &errorMessage[0], bufferSize, nullptr, nullptr);*/
         error = CStringW(e.what());
 
         if (resultSet) {
@@ -163,7 +157,7 @@ sql::ResultSet* CDBConnection::ExecuteQuery(const sql::SQLString& query, CString
             delete statement;
         }
 
-        return nullptr;  // Return nullptr indicating failure
+        return nullptr;
     }
 }
 
@@ -215,15 +209,11 @@ std::vector<sql::SQLString> CDBConnection::GetTableColumns(const sql::SQLString&
     }
     catch (const sql::SQLException& e) 
     {
-        // Handle the database exception and display an error message using AfxMessageBox.
         CString errorMessage = CString(e.what());
         AfxMessageBox(errorMessage);
-
-        // Optionally, re-throw the exception or return an empty vector if needed.
     }
     catch (const std::exception& e) 
     {
-        // Handle other standard exceptions if necessary.
         CString errorMessage = CString(e.what());
         AfxMessageBox(errorMessage);
     }
@@ -296,7 +286,7 @@ bool CDBConnection::ExecuteNonQuery(const sql::SQLString& query)
             delete statement;
         }
 
-        return false;  // Return false indicating failure
+        return false;
     }
 }
 

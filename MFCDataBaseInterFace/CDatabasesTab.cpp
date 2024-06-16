@@ -1,5 +1,4 @@
 // CDatabasesTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
@@ -8,11 +7,10 @@
 #include "Convertions.h"
 #include "SharedFunctions.h"
 #include "Theme.h"
-// CDatabasesTab dialog
 
 IMPLEMENT_DYNAMIC(CDatabasesTab, CDialogEx)
 
-CDatabasesTab::CDatabasesTab(CWnd* pParent /*=nullptr*/)
+CDatabasesTab::CDatabasesTab(CWnd* pParent)
 	: CDialogEx(IDD_DATABASES, pParent)
 {
 
@@ -69,22 +67,13 @@ void CDatabasesTab::PopulateDatabaseList()
     }
 
     std::unique_ptr<sql::ResultSet> resultSet(db->ExecuteQuery("SHOW DATABASES"));
-
-    // Clear existing items
     pListCtrl->DeleteAllItems();
 
     while (resultSet->next())
     {
-        // Get the database name
         CString databaseName = SQLStringToCString(resultSet->getString(1));
-
-        // Get the collation for the current database
         CString collation = GetDatabaseCollation(databaseName);
-
-        // Placeholder values for additional information (replace with actual logic)
         CString size = GetDatabaseSize(databaseName);
-
-        // Add the database and collation to the list
         AddDatabaseInfoToList(pListCtrl, databaseName, collation, size);
 
     }
@@ -119,7 +108,6 @@ void CDatabasesTab::AddDatabaseInfoToList(CListCtrl* pListCtrl, const CString& d
 
 CString CDatabasesTab::GetDatabaseCollation(const CString& databaseName)
 {
-    // Query to get the collation for a specific database
     CString query = L"SELECT DEFAULT_COLLATION_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '";
     query += databaseName;
     query += "'";
@@ -146,9 +134,6 @@ BEGIN_MESSAGE_MAP(CDatabasesTab, CDialogEx)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_DATABASES, &CDatabasesTab::OnLvnItemchangedListDatabases)
     ON_BN_CLICKED(IDC_BTN_REFRESHDBS, &CDatabasesTab::OnBnClickedBtnRefreshdbs)
 END_MESSAGE_MAP()
-
-
-// CDatabasesTab message handlers
 
 
 void CDatabasesTab::OnBnClickedBtnCreatedb()
@@ -241,7 +226,6 @@ void CDatabasesTab::OnBnClickedBtnDeletedb()
 
 void CDatabasesTab::UpdateListFilter()
 {
-    // Get the filter text from the edit control
     CEdit* pEditFilter = (CEdit*)GetDlgItem(IDC_FILTER_DATABASES);
     CString filterText;
     pEditFilter->GetWindowText(filterText);
@@ -256,7 +240,6 @@ void CDatabasesTab::UpdateListFilter()
 
         if (databaseName.Find(filterText) != -1)
         {
-            // Get the collation for the current database
             CString collation = GetDatabaseCollation(databaseName);
             CString size = GetDatabaseSize(databaseName);
 

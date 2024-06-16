@@ -85,8 +85,6 @@ void CPendulum::DrawPendulum(CDC& dc, const CRect& rect)
     mDC.LineTo(centerX, rect.bottom);
     mDC.LineTo(centerX + basementLength, rect.bottom);
     mDC.LineTo(centerX - basementLength, rect.bottom);
-
-    // draw decorative base
     mDC.LineTo(centerX, centerX + basementLength);
 
 

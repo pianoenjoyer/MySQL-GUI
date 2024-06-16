@@ -1,18 +1,16 @@
 ﻿// CMonitorTab.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CMonitorTab.h"
 #include "resource.h"
 #include "Convertions.h"
-// CMonitorTab dialog
 #define TIMER_ID 1
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
 
 static bool TimerStatus = 0;
 
-CMonitorTab::CMonitorTab(CWnd* pParent /*=nullptr*/)
+CMonitorTab::CMonitorTab(CWnd* pParent)
 	: CDialogEx(IDD_STATUS_MONITOR, pParent)
 {
 
@@ -182,7 +180,6 @@ void CMonitorTab::UpdateGraph()
     {
         timeStamps.push_back(i);
     }
-    //TODO adjust min and max based on vector values
 
     double traffReceivedGraphMax = 1;
     double traffReceivedGraphMin = 0;

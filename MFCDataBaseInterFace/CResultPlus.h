@@ -2,8 +2,6 @@
 #include "pch.h"
 #include "CDBConnection.h"
 #include "Convertions.h"
-
-// CResultPlus dialog
 class CMainDlg;
 
 class CResultPlus : public CDialogEx
@@ -20,12 +18,12 @@ class CResultPlus : public CDialogEx
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
-								CResultPlus(CWnd* pParent = nullptr);   // standard constructor
-								CResultPlus(int DIALOG_ID, CWnd* pParent /*=nullptr*/);
+								CResultPlus(CWnd* pParent = nullptr);
+								CResultPlus(int DIALOG_ID, CWnd* pParent);
 	virtual						~CResultPlus();
 	void						SetCurrentResultSet(sql::ResultSet* NewResultSet);
 	sql::ResultSet*				m_curResSet;

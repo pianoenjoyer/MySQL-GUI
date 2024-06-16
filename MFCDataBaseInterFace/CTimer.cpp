@@ -2,7 +2,7 @@
 #include "CTimer.h"
 
 CTimer::CTimer()
-	: start(std::chrono::high_resolution_clock::now())  // Initialize start with the current time
+	: start(std::chrono::high_resolution_clock::now())
 {
 
 }

@@ -2,9 +2,6 @@
 #include "pch.h"
 #include "CDBConnection.h"
 #include "Convertions.h"
-
-
-// CResultTab dialog
 class CMainDlg;
 
 class CResultTab : public CDialogEx
@@ -20,12 +17,12 @@ class CResultTab : public CDialogEx
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CResultTab(CWnd* pParent = nullptr);   // standard constructor
-	CResultTab(int DIALOG_ID, CWnd* pParent /*=nullptr*/);
+	CResultTab(CWnd* pParent = nullptr);
+	CResultTab(int DIALOG_ID, CWnd* pParent);
 	virtual ~CResultTab();
 	std::vector<ListItem> m_AllItems;
 	std::shared_ptr<CDBConnection> db;

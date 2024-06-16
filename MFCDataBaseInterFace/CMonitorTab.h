@@ -8,18 +8,17 @@ class CMonitorTab : public CDialogEx
 	DECLARE_DYNAMIC(CMonitorTab)
 
 public:
-						CMonitorTab(CWnd* pParent = nullptr);   // standard constructor
+						CMonitorTab(CWnd* pParent = nullptr);
 	virtual				~CMonitorTab();
 	BOOL				OnInitDialog();
 	inline void			SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
 	inline std::shared_ptr<CDBConnection> GetDatabaseObject() { return db; };
-	// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_STATUS_MONITOR };
 #endif
 
 protected:
-	virtual void		DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void		DoDataExchange(CDataExchange* pDX);
 	Drawer drwCpuUsage;
 	Drawer drwConnections;
 	Drawer drwTraffic;

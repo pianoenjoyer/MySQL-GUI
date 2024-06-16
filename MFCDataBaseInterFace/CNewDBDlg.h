@@ -2,8 +2,6 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 
-// CNewDBDlg dialog
-
 class CNewDBDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CNewDBDlg)
@@ -15,11 +13,11 @@ class CNewDBDlg : public CDialogEx
 protected:
 	BOOL OnInitDialog();
 	void PopulateCharacterSetDropdown();
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CNewDBDlg(CWnd* pParent = nullptr);   // standard constructor
+	CNewDBDlg(CWnd* pParent = nullptr);
 	virtual ~CNewDBDlg();
 	std::shared_ptr<CDBConnection> db;
 	afx_msg void OnBnClickedBtnCreatedb();

@@ -2,23 +2,19 @@
 #include "afxdialogex.h"
 #include "CResultTab.h"
 
-// CTableTabRecords dialog
-
 class CTableTabRecords : public CResultTab
 {
 	DECLARE_DYNAMIC(CTableTabRecords)
 
 public:
-	CTableTabRecords(CWnd* pParent = nullptr);   // standard constructor
+	CTableTabRecords(CWnd* pParent = nullptr);
 	virtual ~CTableTabRecords();
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_RESULT_SHORT };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 };

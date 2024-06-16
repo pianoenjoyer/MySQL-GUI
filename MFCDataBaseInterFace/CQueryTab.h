@@ -2,7 +2,6 @@
 
 #include "CDBConnection.h"
 #include "CQueryHistoryDlg.h"
-// CQueryTab dialog
 
 class CQueryTab : public CDialogEx
 {
@@ -12,11 +11,11 @@ class CQueryTab : public CDialogEx
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CQueryTab(CWnd* pParent = nullptr);   // standard constructor
+	CQueryTab(CWnd* pParent = nullptr);
 	virtual ~CQueryTab();
 	CQueryHistoryDlg m_historyDlg;
 	void SetSQLEditText(const CString& text);

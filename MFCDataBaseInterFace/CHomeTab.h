@@ -2,24 +2,21 @@
 #include "afxdialogex.h"
 #include "CDBConnection.h"
 #include <memory>
-// CHomeTab dialog
 
 class CHomeTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CHomeTab)
 
 public:
-	CHomeTab(CWnd* pParent = nullptr);   // standard constructor
+	CHomeTab(CWnd* pParent = nullptr);
 	virtual ~CHomeTab();
 	std::shared_ptr<CDBConnection> db;
-
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_HOME };
 #endif
 
 protected:
-	virtual void				DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void				DoDataExchange(CDataExchange* pDX);
 	bool						AddGeneralInfoItem(CListCtrl* pListCtrl, LPCTSTR lpszProperty, LPCTSTR lpszValue);
 	void						PopulateGeneralInfo();
 	BOOL						OnInitDialog();

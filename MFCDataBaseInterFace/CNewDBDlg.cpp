@@ -1,16 +1,14 @@
 // CNewDBDlg.cpp : implementation file
-//
 
 #include "pch.h"
 #include "afxdialogex.h"
 #include "CNewDBDlg.h"
 #include "resource.h"
 #include "CMainDlg.h"
-// CNewDBDlg dialog
 
 IMPLEMENT_DYNAMIC(CNewDBDlg, CDialogEx)
 
-CNewDBDlg::CNewDBDlg(CWnd* pParent /*=nullptr*/)
+CNewDBDlg::CNewDBDlg(CWnd* pParent)
 	: CDialogEx(IDD_NEWDB, pParent)
 {
 
@@ -48,17 +46,12 @@ void CNewDBDlg::PopulateCharacterSetDropdown()
     {
         while (resultSet->next())
         {
-            std::string charsetName = resultSet->getString("Charset"); // Get the character set name
-            pComboBox->AddString(CString(charsetName.c_str())); // Add the character set to the combo box
+            std::string charsetName = resultSet->getString("Charset");
+            pComboBox->AddString(CString(charsetName.c_str()));
         }
-        delete resultSet;  // Clean up
+        delete resultSet;
     }
 }
-
-
-
-
-// if ok i need to end dlg with IDOK
 void CNewDBDlg::OnBnClickedBtnCreatedb()
 {
     CString databaseName, charsetName;

@@ -3,14 +3,12 @@
 #include "CDBConnection.h"
 #include <memory>
 
-// CDatabasesTab dialog
-
 class CDatabasesTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CDatabasesTab)
 
 public:
-								CDatabasesTab(CWnd* pParent = nullptr);   // standard constructor
+								CDatabasesTab(CWnd* pParent = nullptr);
 
 	virtual						~CDatabasesTab();
 	inline void					SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
@@ -22,14 +20,13 @@ public:
 	afx_msg void				OnBnClickedBtnRefreshdbs();
 
 	std::shared_ptr<CDBConnection> db;
-// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DATABASES };
 #endif
 
 protected:
 	bool						PopulateDatabaseDropdown();
-	virtual void				DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void				DoDataExchange(CDataExchange* pDX);
 	BOOL						OnInitDialog();
 	void						PopulateDatabaseList();
 	void						UpdateListFilter();

@@ -3,8 +3,6 @@
 #include <memory>
 #include "CDBConnection.h"
 
-// CVariablesTab dialog
-
 class CVariablesTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CVariablesTab)
@@ -14,7 +12,7 @@ class CVariablesTab : public CDialogEx
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	BOOL OnInitDialog();
 	bool PopulateVariablesList();
 	void UpdateListFilter();
@@ -22,7 +20,7 @@ protected:
 	bool PopulateVariablesCombo();
 	DECLARE_MESSAGE_MAP()
 public:
-	CVariablesTab(CWnd* pParent = nullptr);   // standard constructor
+	CVariablesTab(CWnd* pParent = nullptr);
 	virtual ~CVariablesTab();
 	std::shared_ptr<CDBConnection> db;
 	inline void SetDatabaseObject(std::shared_ptr<CDBConnection> obj) { db = obj; };
