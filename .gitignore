@@ -437,3 +437,5 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio
 /MFCDataBaseInterFace/QueryHistory.txt
 /MFCDataBaseInterFace/x64/Custom/MySQL GUI.tlog/CL.command.1.tlog
+/MFCDataBaseInterFace/x64/Custom/MySQL GUI.tlog/MySQL GUI.lastbuildstate
+/MFCDataBaseInterFace/x64/Custom/MySQL GUI.exe.recipe

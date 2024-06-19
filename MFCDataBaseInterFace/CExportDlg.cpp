@@ -301,6 +301,11 @@ void CDBExportDlg::OnBnClickedBtnBrowse()
     auto pTab = this->GetParent();
     CMainDlg* mainDlg = (CMainDlg*)pTab->GetParent();
     m_pList = (CListCtrl*)mainDlg->m_resultTab.GetDlgItem(IDC_LIST_QUERY);
+    if (m_pList->GetItemCount() == 0)
+    {
+        AfxMessageBox(L"Result list is empty");
+        return;
+    }
     if (((CButton*)GetDlgItem(IDC_RAD_CSV))->GetCheck() == BST_CHECKED)
     {
         filter = L"CSV files (*.csv)|*.csv|All files (*.*)|*.*||";
