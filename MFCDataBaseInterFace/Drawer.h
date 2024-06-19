@@ -51,7 +51,7 @@ public:
 
 		CPen subgrid_pen(PS_DOT, 1, RGB(200, 200, 200));
 		CPen grid_pen(PS_SOLID, 1, RGB(0, 0, 0));
-		CPen data_pen(PS_SOLID, 2, RGB(216, 120, 29));
+		CPen data_pen(PS_SOLID, 2, RGB(255, 0, 0));
 		CPen data_pen2(PS_SOLID, 2, RGB(0, 255, 0));
 		CPen data_pen3(PS_SOLID, 2, RGB(0, 0, 255));
 		
