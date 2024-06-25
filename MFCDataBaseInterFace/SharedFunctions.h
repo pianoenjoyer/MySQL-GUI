@@ -1,6 +1,9 @@
 #pragma once
-#include "pch.h"
-#include "CDBConnection.h"
+
+#include "framework.h"
+
+class CDBConnection;
+
 void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color);
 
 void AdjustColumnWidths(CListCtrl* pListCtrl);

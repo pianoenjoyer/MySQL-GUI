@@ -1,6 +1,8 @@
-#include "pch.h"
+
 #include "SharedFunctions.h"
 #include "CDBConnection.h"
+#include "framework.h"
+
 
 void AppendTextToRichEdit(CRichEditCtrl& ctrl, const CString& text, COLORREF color)
 {

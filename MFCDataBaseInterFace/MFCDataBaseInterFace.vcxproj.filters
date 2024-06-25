@@ -96,9 +96,6 @@
     <ClInclude Include="CResultTab.h">
       <Filter>Header Files\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="CTimer.h">
-      <Filter>Header Files\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Header Files\MFC</Filter>
     </ClInclude>
@@ -116,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files\MFC</Filter>
-    </ClInclude>
-    <ClInclude Include="Theme.h">
-      <Filter>Header Files\Misc</Filter>
     </ClInclude>
     <ClInclude Include="CChangeUserPasswordDlg.h">
       <Filter>Header Files\InputDlgs</Filter>
@@ -191,13 +185,7 @@
     <ClCompile Include="CQueryTab.cpp">
       <Filter>Source Files\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="CTimer.cpp">
-      <Filter>Source Files\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="SharedFunctions.cpp">
-      <Filter>Source Files\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Convertions.cpp">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -217,9 +205,6 @@
     </ClCompile>
     <ClCompile Include="CDatabasesTab.cpp">
       <Filter>Source Files\Tabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Theme.cpp">
-      <Filter>Source Files\Misc</Filter>
     </ClCompile>
     <ClCompile Include="CDBInterfaceApp.cpp">
       <Filter>Source Files\Misc</Filter>

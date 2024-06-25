@@ -298,7 +298,7 @@ BOOL CMainDlg::OnInitDialog()
     m_resultTab.db = this->db;
     m_tableTab.db = this->db;
     m_databasesTab.db = this->db;
-    m_varsTab.db = this->db;
+    m_varsTab.SetDatabaseObject(this->db);
     m_charsetsTab.db = this->db;
     m_monitorTab.SetDatabaseObject(db);
     m_pluginsTab.SetDatabaseObject(db);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "pch.h"
 #include "jdbc.h"
 #include <vector>
+#include <CString>
 
 class CDBConnection
 {
