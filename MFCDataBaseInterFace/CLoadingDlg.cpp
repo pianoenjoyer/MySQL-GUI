@@ -10,7 +10,7 @@
 IMPLEMENT_DYNAMIC(CLoadingDlg, CDialogEx)
 
 CLoadingDlg::CLoadingDlg(CWnd* pParent)
-	: CDialogEx(IDD_LOADING, pParent) 
+	: CDialogEx(IDD_LOADING, pParent)
 {
 
 }

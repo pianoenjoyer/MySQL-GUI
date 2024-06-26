@@ -1,12 +1,7 @@
 #pragma once
+
 #pragma comment(lib, "Crypt32.lib")
-#include "afxdialogex.h"
 #include <afx.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <Windows.h>
-#include <Wincrypt.h>
 
 class CLoginDataSave
 {

@@ -5,6 +5,7 @@
 #define DEBUG
 #define DEBUG_AFXMESSAGE
 #include "framework.h"
+#include "resource.h"
 #include <thread>
 #include <vector>
 #include <memory>

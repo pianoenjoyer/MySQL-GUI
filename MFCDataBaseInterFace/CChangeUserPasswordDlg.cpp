@@ -1,11 +1,9 @@
 // CChangeUserPasswordDlg.cpp : implementation file
 
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CChangeUserPasswordDlg.h"
-#include "resource.h"
-#include "algorithm"
 #include "Convertions.h"
+#include "CDBConnection.h"
 
 IMPLEMENT_DYNAMIC(CChangeUserPasswordDlg, CDialogEx)
 
