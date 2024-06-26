@@ -5,6 +5,7 @@
 #include "CMonitorTab.h"
 #include "resource.h"
 #include "Convertions.h"
+#include <thread>
 #define TIMER_ID 1
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
 

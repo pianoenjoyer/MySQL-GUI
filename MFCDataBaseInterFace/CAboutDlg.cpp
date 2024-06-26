@@ -1,17 +1,7 @@
 // CAboutDlg.cpp : implementation file
 #include "pch.h"
-#include "afxdialogex.h"
-#include "CDBInterfaceApp.h"
+
 #include "CAboutDlg.h"
-
-#include "CAuthDlg.h"
-#include "CLoginDataSave.h"
-#include "afxdialogex.h"
-#include "CDBConnection.h"
-#include "CMainDlg.h"
-#include "resource.h"
-
-#include <atlimage.h>
 
 IMPLEMENT_DYNAMIC(CAboutDlg, CDialogEx)
 

@@ -1,7 +1,8 @@
 #pragma once
-#include "afxdialogex.h"
-#include "CDBConnection.h"
+
 #include <memory>
+
+class CDBConnection;
 
 class CDatabasesTab : public CDialogEx
 {

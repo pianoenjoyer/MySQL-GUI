@@ -4,6 +4,7 @@
 #include "CChangeUserPasswordDlg.h"
 #include "Convertions.h"
 #include "CDBConnection.h"
+#include <random>
 
 IMPLEMENT_DYNAMIC(CChangeUserPasswordDlg, CDialogEx)
 
