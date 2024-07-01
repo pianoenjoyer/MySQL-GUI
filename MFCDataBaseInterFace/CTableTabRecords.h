@@ -1,5 +1,5 @@
 #pragma once
-#include "afxdialogex.h"
+
 #include "CResultTab.h"
 
 class CTableTabRecords : public CResultTab

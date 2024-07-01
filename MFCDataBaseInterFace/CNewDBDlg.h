@@ -1,6 +1,6 @@
 #pragma once
-#include "afxdialogex.h"
-#include "CDBConnection.h"
+
+class CDBConnection;
 
 class CNewDBDlg : public CDialogEx
 {

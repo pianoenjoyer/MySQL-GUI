@@ -1,6 +1,5 @@
 // CTableRecordsTab.cpp : implementation file
 
-#include "pch.h"
 #include "afxdialogex.h"
 #include "CTableRecordsTab.h"
 #include "resource.h"

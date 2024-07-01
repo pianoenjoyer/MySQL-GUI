@@ -1,10 +1,9 @@
 // CCharsetsTab.cpp : implementation file
 
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CCharsetsTab.h"
-#include "resource.h"
 #include "Convertions.h"
+#include "CDBConnection.h"
 
 IMPLEMENT_DYNAMIC(CCharsetsTab, CDialogEx)
 

@@ -1,15 +1,12 @@
 ﻿
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CDBInterfaceApp.h"
 #include "MFCPendulumDlg.h"
 #include "CAuthDlg.h"
 #include "CLoginDataSave.h"
 #include "CDBConnection.h"
-#include "CMainDlg.h"
-#include "CAboutDlg.h"
 #include "Colors.h"
-#include <memory>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -38,14 +35,7 @@ BOOL CAuthDlg::PreTranslateMessage(MSG* pMsg)
 		{
 		case 'P':
 		{
-			if (m_pendulumDlg.GetSafeHwnd()) 
-			{
-				m_pendulumDlg.DestroyWindow();
-
-			}
-
-			m_pendulumDlg.Create(IDD_PENDULUM,0);
-
+			m_pendulumDlg->Create(IDD_PENDULUM,0);
 			return TRUE;
 		}
 		case 'D':
@@ -69,9 +59,11 @@ CAuthDlg::CAuthDlg(CWnd* pParent)
 }
 
 CAuthDlg::CAuthDlg(std::shared_ptr<CDBConnection> db, CWnd* pParent)
-	: CDialogEx(IDD_AUTH, pParent), db(db)
+	: CDialogEx(IDD_AUTH, pParent), db(db),
+	m_pendulumDlg(new CMFCPendulumDlg()),
+	m_hIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME))
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
 }
 
 
@@ -274,12 +266,13 @@ HCURSOR CAuthDlg::OnQueryDragIcon()
 void CAuthDlg::OnBnClickedBtnConnect()
 {
 	CLoginDataSave dataSaver;
-
 	CString server, user, password;
+
 	GetDlgItem(IDC_SERVER_NAME)->GetWindowTextW(server);
 	GetDlgItem(IDC_USER_NAME2)->GetWindowTextW(user);
 	GetDlgItem(IDC_PASSWORD)->GetWindowTextW(password);
 	bool rememberMe = (((CButton*)GetDlgItem(IDC_SAVE_LOGIN))->GetCheck() == BST_CHECKED);
+
 	if (rememberMe)
 	{
 		dataSaver.SaveData(server, user, password, true);

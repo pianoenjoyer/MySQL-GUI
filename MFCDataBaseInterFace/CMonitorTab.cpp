@@ -5,6 +5,7 @@
 #include "CMonitorTab.h"
 #include "resource.h"
 #include "Convertions.h"
+#include <thread>
 #define TIMER_ID 1
 IMPLEMENT_DYNAMIC(CMonitorTab, CDialogEx)
 
@@ -208,29 +209,11 @@ void CMonitorTab::UpdateGraph()
         traffSentGraphMin = curTrafficReceivedUsage / 2;
     }
 
+    drwCpuUsage.Draw(traffReceivedGraphMax, traffReceivedGraphMin, timeAxisMax, timeAxisMin, m_TrafficReceivedDataToDraw, timeStamps);
+    drwConnections.Draw(connXGraphMax, connXGraphMin, timeAxisMax, timeAxisMin, m_ConnectionDataToDraw, timeStamps);
+    drwTraffic.Draw(traffSentGraphMax, traffSentGraphMin, timeAxisMax, timeAxisMin, m_TrafficSentDataToDraw, timeStamps);
+    drwProcesses.Draw(procGraphMax, procGraphMin, timeAxisMax, timeAxisMin, m_ProcessesDataToDraw, timeStamps);
 
-    std::thread thTrafReceived([&]()
-        {
-            drwCpuUsage.Draw(traffReceivedGraphMax, traffReceivedGraphMin, timeAxisMax, timeAxisMin, m_TrafficReceivedDataToDraw, timeStamps);
-        });
-
-    std::thread thCon([&]()
-        {
-            drwConnections.Draw(connXGraphMax, connXGraphMin, timeAxisMax, timeAxisMin, m_ConnectionDataToDraw, timeStamps);
-        });
-    std::thread thTrafSent([&]()
-        {
-            drwTraffic.Draw(traffSentGraphMax, traffSentGraphMin, timeAxisMax, timeAxisMin, m_TrafficSentDataToDraw, timeStamps);
-        });
-    std::thread thProc([&]()
-        {
-            drwProcesses.Draw(procGraphMax, procGraphMin, timeAxisMax, timeAxisMin, m_ProcessesDataToDraw, timeStamps);
-        });
-
-    thTrafReceived.join();
-    thTrafSent.join();
-    thCon.join();
-    thProc.join();
 
 }
 

@@ -6,7 +6,7 @@
 #include "resource.h"
 #include "Convertions.h"
 #include "SharedFunctions.h"
-#include "Theme.h"
+#include "CDBConnection.h"
 
 IMPLEMENT_DYNAMIC(CDatabasesTab, CDialogEx)
 

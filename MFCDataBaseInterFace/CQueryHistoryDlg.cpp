@@ -1,11 +1,7 @@
-// CQueryHistoryDlg.cpp : implementation file
 
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CQueryHistoryDlg.h"
-#include "resource.h"
 #include "CQueryTab.h"
-
 
 IMPLEMENT_DYNAMIC(CQueryHistoryDlg, CDialogEx)
 

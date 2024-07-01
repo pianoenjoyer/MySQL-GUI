@@ -263,7 +263,6 @@
     <ClInclude Include="CTableRecordsTab.h" />
     <ClInclude Include="CTableStructureTab.h" />
     <ClInclude Include="CTableTabRecords.h" />
-    <ClInclude Include="CTimer.h" />
     <ClInclude Include="CVariablesTab.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="FlickerFreeDC.h" />
@@ -277,7 +276,6 @@
     <ClInclude Include="SendMessagesUtils.h" />
     <ClInclude Include="SharedFunctions.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Theme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
@@ -304,7 +302,6 @@
     <ClCompile Include="CTableRecordsTab.cpp" />
     <ClCompile Include="CTableStructureTab.cpp" />
     <ClCompile Include="CTableTabRecords.cpp" />
-    <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="CDBInterfaceApp.cpp" />
     <ClCompile Include="CAuthDlg.cpp" />
     <ClCompile Include="CVariablesTab.cpp" />
@@ -315,9 +312,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Convertions.cpp" />
     <ClCompile Include="SharedFunctions.cpp" />
-    <ClCompile Include="Theme.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCDataBaseInterFace.rc" />

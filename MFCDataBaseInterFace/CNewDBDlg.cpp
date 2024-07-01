@@ -1,9 +1,8 @@
 // CNewDBDlg.cpp : implementation file
 
 #include "pch.h"
-#include "afxdialogex.h"
+#include "CDBConnection.h"
 #include "CNewDBDlg.h"
-#include "resource.h"
 #include "CMainDlg.h"
 
 IMPLEMENT_DYNAMIC(CNewDBDlg, CDialogEx)

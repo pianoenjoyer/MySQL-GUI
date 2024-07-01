@@ -1,9 +1,7 @@
 // CProceduresDlg.cpp : implementation file
 
 #include "pch.h"
-#include "afxdialogex.h"
 #include "CProceduresDlg.h"
-#include "resource.h"
 
 IMPLEMENT_DYNAMIC(CProceduresDlg, CDialogEx)
 
