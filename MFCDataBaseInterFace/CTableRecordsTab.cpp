@@ -1,4 +1,5 @@
 // CTableRecordsTab.cpp : implementation file
+#include "pch.h"
 
 #include "afxdialogex.h"
 #include "CTableRecordsTab.h"
@@ -7,7 +8,7 @@
 IMPLEMENT_DYNAMIC(CTableRecordsTab, CDialogEx)
 
 CTableRecordsTab::CTableRecordsTab(CWnd* pParent)
-	: CDialogEx(IDD_TABLE_RECORDS, pParent)
+  : CDialogEx(IDD_TABLE_RECORDS, pParent)
 {
 
 }
@@ -18,7 +19,7 @@ CTableRecordsTab::~CTableRecordsTab()
 
 void CTableRecordsTab::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+  CDialogEx::DoDataExchange(pDX);
 }
 
 
